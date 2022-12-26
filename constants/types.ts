@@ -5,7 +5,7 @@ type Profile = {
     summary: string;
 
     jobType: string;
-    preLocation: string;
+    prefLocation: string;
     salary: string;
     yearsOfExp: string;
 
