@@ -12,45 +12,57 @@ const ProfileForm = ({
     const [selectTab, setSelectTab] = useState("bio");
 
     const updateSkill = (e: {
-        target: { name: string | number; value: string };
+        target: {
+            id: string;
+            name: string | number;
+            value: string;
+        };
     }) => {
         const skills = userProfile.skills;
 
-        skills[Number(e.target.name)] = e.target.value;
+        skills[Number(e.target.id)] = e.target.value;
         handleChange({ target: { name: "skills", value: [...skills] } });
     };
 
     const updateEducation = (
         e: {
-            target: { name: string | number; value: string };
+            target: {
+                id: string;
+                name: string | number;
+                value: string;
+            };
         },
         i: number
     ) => {
         const education = userProfile.education;
 
-        if (e.target.name == "institution")
+        if (e.target.id == "institution")
             education[i].institution = e.target.value;
-        if (e.target.name == "title") education[i].title = e.target.value;
-        if (e.target.name == "year") education[i].year = e.target.value;
-        handleChange({ target: { name: "education", value: [...education] } });
+        if (e.target.id == "title") education[i].title = e.target.value;
+        if (e.target.id == "year") education[i].year = e.target.value;
+        handleChange({ target: { id: "education", value: [...education] } });
     };
 
     const updateExperience = (
         e: {
-            target: { name: string | number; value: string };
+            target: {
+                id: string;
+                name: string | number;
+                value: string;
+            };
         },
         i: number
     ) => {
         const experience = userProfile.experience;
 
-        if (e.target.name == "title") experience[i].title = e.target.value;
-        if (e.target.name == "organization")
+        if (e.target.id == "title") experience[i].title = e.target.value;
+        if (e.target.id == "organization")
             experience[i].organization = e.target.value;
-        if (e.target.name == "startYear")
+        if (e.target.id == "startYear")
             experience[i].startYear = e.target.value;
-        if (e.target.name == "endYear") experience[i].endYear = e.target.value;
+        if (e.target.id == "endYear") experience[i].endYear = e.target.value;
         handleChange({
-            target: { name: "experience", value: [...experience] },
+            target: { id: "experience", value: [...experience] },
         });
     };
 
@@ -356,7 +368,7 @@ const ProfileForm = ({
                                 <select
                                     id="preLocation"
                                     className="w-full rounded-full border-slate-300 formInputs"
-                                    value={userProfile.preLocation}
+                                    value={userProfile.prefLocation}
                                     onChange={handleChange}
                                 >
                                     <option value="">Select Location</option>
