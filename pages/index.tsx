@@ -1,221 +1,50 @@
-import { useEffect, useState } from "react";
-import "@rainbow-me/rainbowkit/styles.css";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount } from "wagmi";
-import "ethers";
-// import { axiosInstance } from "../api/axiosApi";
-import axios from "axios";
-import Logo from "../components/Logo";
-import ProfileForm from "../components/ProfileForm";
-import { Profile } from "../constants/types";
-
-import { axiosContractInstance } from "../constants/axiosInstances";
+import { useRouter } from "next/router";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { useEffect } from "react";
 
-export default function MintPage() {
-    const { address, isConnected } = useAccount();
-
-    const [isMinting, setIsMinting] = useState(false);
-    const [mintSuccessful, setMintSuccessful] = useState(false);
-    const [tokenId, setTokenId] = useState<number | null>(null);
-
-    const [userProfile, setUserProfile] = useState<Profile>({
-        handle: "",
-        title: "",
-        summary: "",
-        jobType: "",
-        preLocation: "",
-        salary: "",
-        yearsOfExp: "",
-        link: "",
-        skills: [" "],
-        education: [{ institution: " ", year: " ", title: " " }],
-        experience: [
-            { organization: " ", startYear: " ", endYear: " ", title: " " },
-        ],
-    });
-
+const Home = () => {
+    const router = useRouter();
     const { data: session } = useSession();
 
-    console.log(session);
-
-    async function mint(profile: Profile) {
-        const { handle } = profile;
-
-        const response = await axiosContractInstance.post("/contract", {
-            data: { handle, owner: address, id: "test" },
-        });
-
-        return response.data;
-    }
-
-    async function saveProfile(profile: Profile) {
-        const { handle } = profile;
-
-        const response = await axiosContractInstance.post("/profile", {
-            data: profile,
-        });
-
-        return response.data;
-    }
-
-    const handleChange = (e: {
-        target: {
-            id: any;
-            name: any;
-            value: any;
-        };
-    }) => {
-        setUserProfile({ ...userProfile, [e.target.id]: e.target.value });
-    };
-
-    async function handleSubmit(e: any) {
-        e.preventDefault();
-        console.log(userProfile);
-
-        // Make an API call to check if the handle already exists
-        const handleExistsResponse = await axiosContractInstance.get(
-            `/handle/${userProfile.handle}`
-        );
-        if (handleExistsResponse.data.exists) {
-            // If the handle already exists, show an error message
-            alert("Handle already exists");
-            return;
-        }
-
-        setIsMinting(true);
-
-        console.log(userProfile);
-        const response = await mint(userProfile);
-        setIsMinting(false);
-
-        if (response.success) {
-            const id = parseInt(response.tokenId.hex);
-            setTokenId(id);
-            setMintSuccessful(true);
-        }
-        await saveProfile(userProfile);
-    }
-
     useEffect(() => {
-        if (isConnected) {
-            setUserProfile((prevData) => ({
-                ...prevData,
-                owner: address,
-                id: "test",
-            }));
-        }
-    }, [isConnected, address]);
-
+        if (session) router.push("/app");
+    }, [session, router]);
     return (
-        <main className="py-8 bg-white">
-            <section className="w-full flex flex-wrap px-4 items-center justify-center">
-                <div className="w-full lg:max-w-80 ">
-                    <div className="bg-white shadow-normal border border-blue-400 rounded-[50px] p-6 center flex-col justify-center  items-center">
-                        <div className="flex justify-between items-center ">
-                            <div className="font-semibold text-lg mb-4 ">
-                                <Logo />
-                            </div>
-
-                            <div className="font-semibold text-lg mb-4 ">
-                                <ConnectButton />
-                            </div>
-                        </div>
-                    </div>
+        <div className="container py-24 flex-col justify-center items-center">
+            <h1 className="text-5xl font-bold text-center mb-6">Welcome!</h1>
+            {!session && (
+                <div className="flex flex-col items-center">
+                    <p className="text-xl mb-4">
+                        Please sign in or sign up to continue:
+                    </p>
+                    <button
+                        className="w-full max-w-sm rounded-full bg-blue-500 text-white font-bold py-2 px-4 hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+                        onClick={() => signIn()}
+                    >
+                        Sign in with Google
+                    </button>
+                    <button
+                        className="w-full max-w-sm mt-4 rounded-full bg-gray-300 text-black font-bold py-2 px-4 hover:bg-gray-400 focus:outline-none focus:shadow-outline"
+                        onClick={() => signIn()}
+                    >
+                        Sign in with GitHub
+                    </button>
+                    <button
+                        className="w-full max-w-sm mt-4 rounded-full bg-blue-100 text-blue-500 font-bold py-2 px-4 hover:bg-blue-200 focus:outline-none focus:shadow-outline"
+                        onClick={() => signIn()}
+                    >
+                        Sign in with LinkedIn
+                    </button>
                 </div>
-            </section>
-            <section className="w-full flex flex-wrap ">
-                <div className="container h-full">
-                    <div className="w-full max-w-[800px] mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
-                        {isConnected && !isMinting && !mintSuccessful ? (
-                            <>
-                                <h1 className="font-bold text-2xl mb-4"></h1>
-                                <form
-                                    className="flex flex-col justify-center items-center"
-                                    onSubmit={handleSubmit}
-                                >
-                                    <div className="my-6">
-                                        {session && session.user ? (
-                                            <button
-                                                className="font-semibold text-lg mb-4 tabs"
-                                                onClick={() => signOut()}
-                                            >
-                                                session.user
-                                            </button>
-                                        ) : (
-                                            <button
-                                                className="w-auto mx-4 rounded-full border border-blue-400 p-5"
-                                                onClick={() => signIn()}
-                                            >
-                                                Sign in with google to save your
-                                                profile
-                                            </button>
-                                        )}
-                                    </div>
-                                    <div className="my-6">
-                                        <label
-                                            htmlFor="handleInput"
-                                            className="font-medium mb-2 leading-none inline-block"
-                                        >
-                                            Handle
-                                        </label>
-                                        <input
-                                            required
-                                            id="handle"
-                                            name="handle"
-                                            type="text"
-                                            className="w-auto mx-4 rounded-full border border-black"
-                                            onChange={handleChange}
-                                            value={userProfile.handle}
-                                        />
-                                    </div>
-                                    <div className="my-6">
-                                        <label
-                                            htmlFor="address"
-                                            className="font-medium mb-2 leading-none inline-block"
-                                        >
-                                            Address
-                                        </label>
-                                        <label
-                                            id="address"
-                                            className="w-auto mx-4 rounded-full border-slate-300"
-                                        >
-                                            {address &&
-                                                address.slice(0, 10) +
-                                                    "..." +
-                                                    address.slice(
-                                                        address.length - 8
-                                                    )}
-                                        </label>
-                                    </div>
-                                    <ProfileForm
-                                        handleChange={handleChange}
-                                        userProfile={userProfile}
-                                    />
-                                    <div className="text-left">
-                                        <button
-                                            type="submit"
-                                            className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
-                                        >
-                                            MINT
-                                        </button>
-                                    </div>
-                                </form>
-                            </>
-                        ) : mintSuccessful ? (
-                            <h1 className={" font-bold text-2xl mb-4"}>
-                                Minting Complete! Your token id is{" "}
-                                {`'${tokenId}'`} with your handler{" "}
-                                {userProfile.handle}.
-                            </h1>
-                        ) : (
-                            <h1 className={"loading font-bold text-2xl mb-4"}>
-                                Loading...
-                            </h1>
-                        )}
-                    </div>
+            )}
+            {session && (
+                <div className="flex flex-col items-center">
+                    <p className="text-xl mb-4">You are signed in as:</p>
+                    <p className="text-2xl font-bold">{session?.user?.name}</p>
                 </div>
-            </section>
-        </main>
+            )}
+        </div>
     );
-}
+};
+
+export default Home;
