@@ -23,14 +23,11 @@ export default function ProfileSummary({
             <div className="my-2" key={key}>
                 <label
                     htmlFor={key}
-                    className="font-medium mb-2 leading-none inline-block"
+                    className="font-medium text-base mb-2 leading-none inline-block"
                 >
                     {label}
                 </label>
-                <label
-                    id={key}
-                    className="w-auto mx-4 rounded-full border-slate-300"
-                >
+                <label id={key} className="font-medium text-base w-auto mx-4 ">
                     {value}
                 </label>
             </div>

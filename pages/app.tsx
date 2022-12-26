@@ -152,7 +152,6 @@ export default function MintPage() {
             </section>
             <section className="w-full flex flex-wrap ">
                 <div className="container h-full">
-                    <ProfileSummary userProfile={userProfile} />
                     <div className="w-full max-w-[800px] mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
                         {isConnected && !isMinting && !mintSuccessful ? (
                             <div className="flex-col items-center">
@@ -216,7 +215,7 @@ export default function MintPage() {
                                 <h1 className={" font-bold text-2xl mb-4"}>
                                     Minting Complete! Your token id is{" "}
                                     {`'${tokenId}'`} with your handler{" "}
-                                    {userProfile.handle}.
+                                    <ProfileSummary userProfile={userProfile} />
                                 </h1>
                             </>
                         ) : (

@@ -360,13 +360,13 @@ const ProfileForm = ({
                         <div className="flex flex-wrap justify-between">
                             <div className="w-full lg:w-[47%] mb-6">
                                 <label
-                                    htmlFor="preLocation"
+                                    htmlFor="prefLocation"
                                     className="font-medium mb-4 leading-none inline-block"
                                 >
                                     Preferred Location
                                 </label>
                                 <select
-                                    id="preLocation"
+                                    id="prefLocation"
                                     className="w-full rounded-full border-slate-300 formInputs"
                                     value={userProfile.prefLocation}
                                     onChange={handleChange}
