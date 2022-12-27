@@ -10,6 +10,10 @@ export const authOptions = {
         }),
         // ...add more providers here
     ],
+    session: {
+        jwt: true,
+        maxAge: 30 * 24 * 60 * 60, // the session will last 30 days
+    },
 };
 
 export default NextAuth(authOptions);
