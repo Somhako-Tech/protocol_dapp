@@ -33,4 +33,12 @@ type Experience = {
     title: string;
 };
 
-export type { Profile };
+type MintStore = {
+    minted: boolean;
+    tokenId: number;
+    handle: string;
+    setMintedSuccessful: () => void;
+    setTokenId: (id: number) => void;
+    setHandle: (handle: string) => void;
+};
+export type { Profile, MintStore };
