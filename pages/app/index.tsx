@@ -5,30 +5,38 @@ import { useAccount } from "wagmi";
 import "ethers";
 // import { axiosInstance } from "../api/axiosApi";
 import axios from "axios";
-import Logo from "../components/Logo";
-import ProfileForm from "../components/ProfileForm";
-import SignInPopup from "../components/SignInPopup";
-import { Profile } from "../constants/types";
+import Logo from "../../components/Logo";
+import ProfileForm from "../../components/ProfileForm";
+import SignInPopup from "../../components/SignInPopup";
+import { Profile } from "../../constants/types";
 
-import { axiosContractInstance } from "../constants/axiosInstances";
+import { axiosContractInstance } from "../../constants/axiosInstances";
 import { useSession, signIn, signOut } from "next-auth/react";
-import InputBox from "../components/InputBox";
-import SignInWith from "../components/SignInWith";
+import InputBox from "../../components/InputBox";
+import SignInWith from "../../components/SignInWith";
 import { useRouter } from "next/router";
-import ProfileSummary from "../components/ProfileSummary";
+import ProfileSummary from "../../components/ProfileSummary";
+import { useMintStore } from "../../store";
+import Header from "../../components/Header";
 
 export default function MintPage() {
+    const router = useRouter();
     const { address, isConnected } = useAccount();
     const { data: session } = useSession();
-    const router = useRouter();
-
-    useEffect(() => {
-        if (!session) router.push("/");
-    }, [session, router]);
 
     const [isMinting, setIsMinting] = useState(false);
-    const [mintSuccessful, setMintSuccessful] = useState(false);
-    const [tokenId, setTokenId] = useState<number | null>(null);
+
+    const [mintSuccessful, setMintSuccessful] = useMintStore((state) => [
+        state.minted,
+        state.setMintedSuccessful,
+    ]);
+
+    const [tokenId, setTokenId, handle, setHandle] = useMintStore((state) => [
+        state.tokenId,
+        state.setTokenId,
+        state.handle,
+        state.setHandle,
+    ]);
 
     const [userProfile, setUserProfile] = useState<Profile>({
         handle: "",
@@ -58,7 +66,7 @@ export default function MintPage() {
 
     async function saveProfile(profile: Profile) {
         const response = await axiosContractInstance.post("/profile", {
-            data: profile,
+            data: { ...profile },
         });
 
         return response.data;
@@ -107,14 +115,21 @@ export default function MintPage() {
         const response = await mint(userProfile);
         setIsMinting(false);
 
+        console.log(response);
         if (response.success) {
             const id = parseInt(response.tokenId.hex);
-            setTokenId(id);
-            setMintSuccessful(true);
-            await saveProfile(userProfile);
+            await saveProfile(userProfile)
+                .then(() => {
+                    setTokenId(id);
+                    setHandle(userProfile.handle);
+                    setMintSuccessful();
+                })
+                .catch((err) => console.log(err));
         }
     }
 
+    //TODO update id
+    //Updates address on connection
     useEffect(() => {
         if (isConnected) {
             setUserProfile((prevData) => ({
@@ -125,31 +140,19 @@ export default function MintPage() {
         }
     }, [isConnected, address]);
 
+    //Accounts not signed in should go to root
+    useEffect(() => {
+        if (!session) router.push("/");
+    }, [session, router]);
+
+    //Accounts not signed in should go to root
+    useEffect(() => {
+        if (mintSuccessful) router.push(`/u/${handle}`);
+    }, [mintSuccessful, handle, router]);
+
     return (
         <main className="py-8 bg-white">
-            <section className="w-full flex flex-wrap px-4 items-center justify-center">
-                <div className="w-full lg:max-w-80 ">
-                    <div className="bg-white shadow-normal border-4 border-somhakohr2 rounded-[50px] p-6 center flex-col justify-center items-center">
-                        <div className="flex justify-between items-center ">
-                            <div className="font-semibold text-lg">
-                                <Logo />
-                            </div>
-
-                            <div className="flex items-center justify-center">
-                                <button
-                                    className="text-lg  mr-4 text-white bg-somhakohr font-medium rounded-full px-5 py-1.5 text-center  dark:bg-somhakohr"
-                                    onClick={() => signOut()}
-                                >
-                                    Sign out
-                                </button>
-                                <div className="font-semibold text-lg">
-                                    <ConnectButton />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <Header />
             <section className="w-full flex flex-wrap ">
                 <div className="container h-full">
                     <div className="w-full max-w-[800px] mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
@@ -211,13 +214,23 @@ export default function MintPage() {
                                 </form>
                             </div>
                         ) : mintSuccessful ? (
-                            <>
-                                <h1 className={" font-bold text-2xl mb-4"}>
+                            <div className="flex-col items-center justify-center">
+                                <h1
+                                    className={
+                                        " font-bold text-2xl mb-4 text-center"
+                                    }
+                                >
                                     Minting Complete! Your token id is{" "}
-                                    {`'${tokenId}'`} with your handler{" "}
-                                    <ProfileSummary userProfile={userProfile} />
+                                    {`'${tokenId}'`}!
+                                    <ProfileSummary handle={handle} />
+                                    <button
+                                        onClick={() => router.push("/home")}
+                                        className=" bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
+                                    >
+                                        Home
+                                    </button>
                                 </h1>
-                            </>
+                            </div>
                         ) : (
                             <h1 className={"loading font-bold text-2xl mb-4"}>
                                 Loading...
