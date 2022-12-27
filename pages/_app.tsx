@@ -7,7 +7,13 @@ import { mainnet, polygon, optimism, arbitrum } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import { SessionProvider } from "next-auth/react";
+import {
+    QueryClient,
+    QueryClientProvider,
+    useQuery,
+} from "@tanstack/react-query";
 
+const queryClient = new QueryClient();
 export default function App({ Component, pageProps }: AppProps) {
     const { chains, provider } = configureChains(
         [mainnet, polygon],
@@ -31,7 +37,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <WagmiConfig client={wagmiClient}>
             <RainbowKitProvider chains={chains}>
                 <SessionProvider session={pageProps.session}>
-                    <Component {...pageProps} />
+                    <QueryClientProvider client={queryClient}>
+                        <Component {...pageProps} />
+                    </QueryClientProvider>
                 </SessionProvider>
             </RainbowKitProvider>
         </WagmiConfig>
