@@ -8,7 +8,6 @@ import React from "react";
 import { Profile } from "../../constants/types";
 
 import { axiosContractInstance } from "../../constants/axiosInstances";
-import { useSession, signIn, signOut } from "next-auth/react";
 import InputBox from "../../components/InputBox";
 import SignInWith from "../../components/SignInWith";
 import { useRouter } from "next/router";
@@ -20,7 +19,10 @@ export default function UserPage() {
     const router = useRouter();
     const { handle } = router.query;
 
-    if (!handle || typeof handle !== "string") router.push("/app");
+    useEffect(() => {
+        if (!handle || typeof handle !== "string") router.push("/app");
+    }, [handle, router]);
+
     const [tokenId] = useMintStore((state) => [state.tokenId]);
 
     return (
