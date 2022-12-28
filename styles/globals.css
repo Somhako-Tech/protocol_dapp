@@ -12,6 +12,9 @@
     .signInButtons {
         @apply inline-block p-3 bg-somhakohr text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out mx-1;
     }
+    .headerButton {
+        @apply text-lg mr-4 text-white bg-somhakohr font-medium rounded-full px-5 py-1.5 text-center dark:bg-somhakohr;
+    }
 }
 :root {
     --max-width: 1100px;
