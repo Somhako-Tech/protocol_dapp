@@ -1,19 +1,14 @@
 import { useEffect, useState } from "react";
 import "@rainbow-me/rainbowkit/styles.css";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
-import "ethers";
-// import { axiosInstance } from "../api/axiosApi";
-import axios from "axios";
-import Logo from "../../components/Logo";
 import ProfileForm from "../../components/ProfileForm";
-import SignInPopup from "../../components/SignInPopup";
 import { Profile } from "../../constants/types";
+import * as React from "react";
+import Alert from "@mui/material/Alert";
+import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
 
 import { axiosContractInstance } from "../../constants/axiosInstances";
-import { useSession, signIn, signOut } from "next-auth/react";
-import InputBox from "../../components/InputBox";
-import SignInWith from "../../components/SignInWith";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import ProfileSummary from "../../components/ProfileSummary";
 import { useMintStore } from "../../store";
@@ -21,7 +16,9 @@ import Header from "../../components/Header";
 
 export default function MintPage() {
     const router = useRouter();
+
     const { address, isConnected } = useAccount();
+
     const { data: session } = useSession();
 
     const [isMinting, setIsMinting] = useState(false);
@@ -47,12 +44,32 @@ export default function MintPage() {
         salary: "",
         yearsOfExp: "",
         link: "",
-        skills: [" "],
-        education: [{ institution: " ", year: " ", title: " " }],
+        skills: [""],
+        education: [{ institution: "", year: "", title: "" }],
         experience: [
-            { organization: " ", startYear: " ", endYear: " ", title: " " },
+            { organization: "", startYear: "", endYear: "", title: "" },
         ],
     });
+
+    const [snackBarState, setSnackBarState] = React.useState({
+        open: false,
+        vertical: "top",
+        horizontal: "center",
+    });
+
+    const {
+        vertical: snackBarVertical,
+        horizontal: snackBarHorizontal,
+        open: snackBarOpen,
+    } = snackBarState;
+
+    const handleAlert = (newState: SnackbarOrigin) => () => {
+        setSnackBarState({ open: true, ...newState });
+    };
+
+    const handleClose = () => {
+        setSnackBarState({ ...snackBarState, open: false });
+    };
 
     async function mint(profile: Profile) {
         const { handle } = profile;
@@ -81,6 +98,10 @@ export default function MintPage() {
         );
         if (handleExistsResponse.data.exists) {
             // If the handle already exists, show an error message
+            handleAlert({
+                vertical: "top",
+                horizontal: "right",
+            });
             alert("Handle already exists");
             return;
         }
@@ -104,8 +125,10 @@ export default function MintPage() {
         const handleExistsResponse = await axiosContractInstance.get(
             `/handle/${userProfile.handle}`
         );
+
         if (handleExistsResponse.data.exists) {
             // If the handle already exists, show an error message
+            // TODO update to support better UI
             alert("Handle already exists");
             return;
         }
@@ -162,6 +185,23 @@ export default function MintPage() {
                                     className="flex flex-col justify-center items-center"
                                     onSubmit={handleSubmit}
                                 >
+                                    {/* 
+                                    * TODO Finish snackbar
+                                    <div>
+                                        <Snackbar
+                                            anchorOrigin={{
+                                                vertical: snackBarVertical,
+                                                horizontal: snackBarHorizontal,
+                                            }}
+                                            open={snackBarOpen}
+                                            onClose={handleClose}
+                                            message="I love snacks"
+                                            key={
+                                                snackBarVertical +
+                                                snackBarHorizontal
+                                            }
+                                        />
+                                    </div> */}
                                     <div className="my-6">
                                         <label
                                             htmlFor="handle"
