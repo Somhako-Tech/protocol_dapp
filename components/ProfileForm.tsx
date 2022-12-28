@@ -324,6 +324,7 @@ const ProfileForm = ({
                                 Summary
                             </label>
                             <textarea
+                                required
                                 id="summary"
                                 placeholder="Something about yourself..."
                                 className="w-full rounded-[25px] h-[120px] border-slate-300 resize-none pb-6 formInputs"
@@ -366,6 +367,7 @@ const ProfileForm = ({
                                     Preferred Location
                                 </label>
                                 <select
+                                    required
                                     id="prefLocation"
                                     className="w-full rounded-full border-slate-300 formInputs"
                                     value={userProfile.prefLocation}
@@ -405,6 +407,7 @@ const ProfileForm = ({
                                     Years of Experience
                                 </label>
                                 <select
+                                    required
                                     id="yearsOfExp"
                                     className="w-full rounded-full border-slate-300 formInputs"
                                     value={userProfile.yearsOfExp}
