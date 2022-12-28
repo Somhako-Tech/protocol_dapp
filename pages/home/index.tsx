@@ -24,9 +24,16 @@ export default function Home() {
     const router = useRouter();
     const { data: session } = useSession();
 
-    // useEffect(() => {
-    //     if (!session) router.push("/");
-    // }, [session, router]);
+    const [mintSuccessful] = useMintStore((state) => [state.minted]);
+
+    //TODO turn this into a middleware
+    useEffect(() => {
+        if (!mintSuccessful) router.push("/app");
+    }, [mintSuccessful, router]);
+
+    useEffect(() => {
+        if (!session) router.push("/");
+    }, [session, router]);
 
     const { isLoading, error, data } = useQuery({
         queryKey: ["profiles"],
@@ -36,7 +43,11 @@ export default function Home() {
 
     let profileList = "Loading";
 
-    if (!isLoading) {
+    if (error) {
+        profileList = "Failed to load";
+    }
+
+    if (!isLoading && !error) {
         profileList = data.profiles.map((profile: Profile) => (
             <ProfilePreview profile={profile} key={profile.handle} />
         ));
