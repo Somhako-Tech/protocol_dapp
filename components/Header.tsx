@@ -1,8 +1,16 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Logo from "./Logo";
 import { useSession, signIn, signOut } from "next-auth/react";
+import UserDropdownButton from "./UserDropdownButton";
+import Link from "next/link";
+import { useMintStore } from "../store";
 
 export default function Header() {
+    const [handle, minted] = useMintStore((state) => [
+        state.handle,
+        state.minted,
+    ]);
+
     return (
         <section className="w-full flex flex-wrap px-4 items-center justify-center">
             <div className="w-full lg:max-w-80 ">
@@ -11,14 +19,29 @@ export default function Header() {
                         <div className="font-semibold text-lg">
                             <Logo />
                         </div>
+                        {minted && (
+                            <div>
+                                <Link
+                                    className="text-lg  mr-4 text-somhakohr font-medium rounded-full px-5 py-1.5 text-center "
+                                    href={"/home"}
+                                >
+                                    Explore
+                                </Link>
 
+                                <Link
+                                    className="text-lg  mr-4 text-somhakohr font-medium rounded-full px-5 py-1.5 text-center "
+                                    href={`/u/${handle}`}
+                                >
+                                    My Profile
+                                </Link>
+                            </div>
+                        )}
                         <div className="flex items-center justify-center">
-                            <button
-                                className="text-lg  mr-4 text-white bg-somhakohr font-medium rounded-full px-5 py-1.5 text-center  dark:bg-somhakohr"
-                                onClick={() => signOut()}
-                            >
-                                Sign out
-                            </button>
+                            <UserDropdownButton
+                                handle={handle}
+                                signOut={signOut}
+                            />
+
                             <div className="font-semibold text-lg">
                                 <ConnectButton />
                             </div>
