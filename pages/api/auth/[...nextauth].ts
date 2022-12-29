@@ -25,8 +25,14 @@ export const authOptions = {
         maxAge: 15 * 24 * 60 * 60, // the session will last 15 days
     },
     adapter: PostgresAdapter(pool),
+    pages: {
+        signIn: "/auth/signin",
+    },
     callbacks: {
-        async signIn({ user, account, profile, email, credentials }) {
+        async redirect({ baseUrl }: { baseUrl: string }) {
+            return baseUrl;
+        },
+        async signIn({ user }: { user }) {
             const isAllowedToSignIn = true;
             await PostgresAdapter(pool)
                 .getUser(user.id)
