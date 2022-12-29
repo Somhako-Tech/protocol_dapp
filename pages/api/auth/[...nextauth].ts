@@ -1,5 +1,15 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import PostgresAdapter from "../../../lib/PostgresAdapter";
+import { Pool } from "pg";
+
+const pool = new Pool({
+    user: "postgres",
+    host: "localhost",
+    database: "test_somakohr",
+    password: "K!sgPL&CASntu3kB",
+    port: 5432,
+});
 
 export const authOptions = {
     // Configure one or more authentication providers
@@ -12,7 +22,32 @@ export const authOptions = {
     ],
     session: {
         jwt: true,
-        maxAge: 30 * 24 * 60 * 60, // the session will last 30 days
+        maxAge: 15 * 24 * 60 * 60, // the session will last 15 days
+    },
+    adapter: PostgresAdapter(pool),
+    callbacks: {
+        async signIn({ user, account, profile, email, credentials }) {
+            const isAllowedToSignIn = true;
+            await PostgresAdapter(pool)
+                .getUser(user.id)
+                .then(async (user) => {
+                    if (!user) {
+                        await PostgresAdapter(pool).createUser(user);
+                    }
+                })
+                .catch(async (err) => {
+                    await PostgresAdapter(pool).createUser(user);
+                    console.log(err);
+                });
+            if (isAllowedToSignIn) {
+                return true;
+            } else {
+                // Return false to display a default error message
+                return false;
+                // Or you can return a URL to redirect to:
+                // return '/unauthorized'
+            }
+        },
     },
 };
 
