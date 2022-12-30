@@ -67,6 +67,15 @@ type User = {
     updated_at: Date;
 };
 
+type UserStore = {
+    user_id: number;
+    setUserID: (id: number) => void;
+};
+
+type ReferralStore = {
+    referredFrom: string;
+    setReferredFrom: (handle: string) => void;
+};
 type MintStore = {
     minted: boolean;
     tokenId: number;
@@ -75,4 +84,12 @@ type MintStore = {
     setTokenId: (id: number) => void;
     setHandle: (handle: string) => void;
 };
-export type { Profile, MintStore, User, Session, Account };
+export type {
+    Profile,
+    MintStore,
+    User,
+    Session,
+    Account,
+    UserStore,
+    ReferralStore,
+};
