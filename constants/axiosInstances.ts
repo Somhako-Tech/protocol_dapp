@@ -13,4 +13,14 @@ const axiosAPIInstance = axios.create({
     },
 });
 
-export { axiosAPIInstance };
+const getReferralCount = async (userId: number) => {
+    const { data } = await axiosAPIInstance.get(`/referrals?user_id=${userId}`);
+    return data;
+};
+
+const getProfile = async (handle: string) => {
+    const { data } = await axiosAPIInstance.get(`/profile/${handle}`);
+    return data;
+};
+
+export { axiosAPIInstance, getReferralCount, getProfile };
