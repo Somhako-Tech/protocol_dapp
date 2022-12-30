@@ -1,7 +1,35 @@
 import create from "zustand";
 import { persist } from "zustand/middleware";
 
-import { MintStore } from "../constants/types";
+import { MintStore, ReferralStore, UserStore } from "../constants/types";
+
+const useReferralStore = create<ReferralStore>()(
+    persist(
+        (set) => ({
+            referredFrom: "",
+            setReferredFrom: (handle: string) =>
+                set(() => ({ referredFrom: handle })),
+        }),
+        {
+            name: "referralStore",
+            getStorage: () => localStorage,
+        }
+    )
+);
+const useUserStore = create<UserStore>()(
+    persist(
+        (set) => ({
+            user_id: 0,
+            setUserID: (id: number) => set(() => ({ user_id: id })),
+        }),
+        {
+            name: "userStore", // name of item in the storage (must be unique)
+            getStorage: () => localStorage, // (optional) by default the 'localStorage' is used
+        }
+    )
+);
+
+//TODO get rid of this, state should be pulled from server
 const useMintStore = create<MintStore>()(
     persist(
         (set) => ({
@@ -19,4 +47,4 @@ const useMintStore = create<MintStore>()(
     )
 );
 
-export { useMintStore };
+export { useMintStore, useUserStore, useReferralStore };
