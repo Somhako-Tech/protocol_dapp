@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Profile } from "../constants/types";
 import * as changeCase from "change-case";
-import { axiosContractInstance } from "../constants/axiosInstances";
+import { axiosAPIInstance } from "../constants/axiosInstances";
 
 export default function ProfileSummary({
     handle,
@@ -12,11 +12,9 @@ export default function ProfileSummary({
     useEffect(() => {
         if (handle === "" || !handle) return;
         const getProfile = async () =>
-            await axiosContractInstance
-                .get(`/profile/${handle}`)
-                .then((res) => {
-                    setUserProfile(res.data.profile);
-                });
+            await axiosAPIInstance.get(`/profile/${handle}`).then((res) => {
+                setUserProfile(res.data.profile);
+            });
         getProfile();
     }, [handle]);
 
