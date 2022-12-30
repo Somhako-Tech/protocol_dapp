@@ -23,4 +23,9 @@ const getProfile = async (handle: string) => {
     return data;
 };
 
-export { axiosAPIInstance, getReferralCount, getProfile };
+const getProfileWithId = async (id: number) => {
+    const { data } = await axiosAPIInstance.get(`/profile/id/${id}`);
+    return data;
+};
+
+export { axiosAPIInstance, getReferralCount, getProfile, getProfileWithId };
