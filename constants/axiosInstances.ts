@@ -3,7 +3,7 @@ import axios from "axios";
 
 const contractEndpoint = "http://localhost:3030/";
 
-const axiosContractInstance = axios.create({
+const axiosAPIInstance = axios.create({
     baseURL: contractEndpoint,
     timeout: 5000,
     headers: {
@@ -13,4 +13,4 @@ const axiosContractInstance = axios.create({
     },
 });
 
-export { axiosContractInstance };
+export { axiosAPIInstance };
