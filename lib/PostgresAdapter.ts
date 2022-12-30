@@ -19,7 +19,7 @@ export default function PostgresAdapter(client: any, options = {}) {
                 return result.rows[0];
             } catch (err) {
                 console.log(err);
-                return;
+                return false;
             }
         },
         async getUser(id: any) {
@@ -70,7 +70,7 @@ export default function PostgresAdapter(client: any, options = {}) {
             try {
             } catch (err) {
                 console.log(err);
-                return;
+                return false;
             }
         },
         async linkAccount(account: {
