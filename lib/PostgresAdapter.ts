@@ -1,16 +1,8 @@
 import { User } from "../constants/types";
 
-export default function PostgresAdapter(
-    client: { query: (arg0: string, arg1: any[]) => any },
-    options = {}
-) {
+export default function PostgresAdapter(client: any, options = {}) {
     return {
-        async createUser(user: {
-            name: any;
-            email: any;
-            email_verified: any;
-            image: any;
-        }) {
+        async createUser(user: any) {
             try {
                 console.log(user);
                 const sql = `
@@ -50,7 +42,13 @@ export default function PostgresAdapter(
                 return;
             }
         },
-        async getUserByAccount({ providerAccountId, provider }) {
+        async getUserByAccount({
+            providerAccountId,
+            provider,
+        }: {
+            providerAccountId: string;
+            provider: any;
+        }) {
             try {
                 const sql = `
           select u.* from users u join accounts a on u.id = a.user_id 
@@ -112,7 +110,15 @@ export default function PostgresAdapter(
                 return;
             }
         },
-        async createSession({ sessionToken, userId, expires }) {
+        async createSession({
+            sessionToken,
+            userId,
+            expires,
+        }: {
+            sessionToken: string;
+            userId: string;
+            expires: string;
+        }) {
             try {
                 const sql = `insert into sessions (user_id, expires, session_token) values ($1, $2, $3)`;
                 await client.query(sql, [userId, expires, sessionToken]);
@@ -147,7 +153,7 @@ export default function PostgresAdapter(
                 return;
             }
         },
-        async updateSession({ sessionToken }) {
+        async updateSession({ sessionToken }: { sessionToken: string }) {
             console.log("updateSession", sessionToken);
             return;
         },
