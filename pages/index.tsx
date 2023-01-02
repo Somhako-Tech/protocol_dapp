@@ -7,11 +7,9 @@ const Home = () => {
     const router = useRouter();
     const { data: session } = useSession();
 
-    const [mintSuccessful] = useMintStore((state) => [state.minted]);
-
     useEffect(() => {
-        if (session) router.push("/app");
-        else router.push("/auth/signin");
+        if (session) router.push("/home");
+        else router.push("/join");
     }, [session, router]);
 };
 
