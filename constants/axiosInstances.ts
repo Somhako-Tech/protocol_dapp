@@ -23,9 +23,20 @@ const getProfile = async (handle: string) => {
     return data;
 };
 
-const getProfileWithId = async (id: number) => {
+const getProfileById = async (id: number) => {
     const { data } = await axiosAPIInstance.get(`/profile/id/${id}`);
     return data;
 };
 
-export { axiosAPIInstance, getReferralCount, getProfile, getProfileWithId };
+const getUserById = async (id: number) => {
+    const { data } = await axiosAPIInstance.get(`/user/${id}`);
+    return data;
+};
+
+export {
+    axiosAPIInstance,
+    getReferralCount,
+    getProfile,
+    getProfileById,
+    getUserById,
+};
