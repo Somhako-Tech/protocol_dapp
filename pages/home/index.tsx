@@ -1,20 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "@rainbow-me/rainbowkit/styles.css";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import "ethers";
 // import { axiosInstance } from "../api/axiosApi";
-import axios from "axios";
-import Logo from "../../components/Logo";
-import ProfileForm from "../../components/ProfileForm";
-import SignInPopup from "../../components/SignInPopup";
 import { Profile } from "../../constants/types";
 
-import { axiosContractInstance } from "../../constants/axiosInstances";
-import { useSession, signIn, signOut } from "next-auth/react";
-import InputBox from "../../components/InputBox";
-import SignInWith from "../../components/SignInWith";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import ProfileSummary from "../../components/ProfileSummary";
 import { useMintStore } from "../../store";
 import Header from "../../components/Header";
 import { useQuery } from "@tanstack/react-query";

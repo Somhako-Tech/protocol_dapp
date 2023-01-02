@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import PostgresAdapter from "../../../lib/PostgresAdapter";
 import { Pool } from "pg";
+import { Session } from "next-auth/core/types";
 
 const pool = new Pool({
     user: "postgres",
@@ -26,13 +27,19 @@ export const authOptions = {
     },
     adapter: PostgresAdapter(pool),
     pages: {
-        signIn: "/auth/signin",
+        signIn: "/join",
     },
     callbacks: {
+        session: async ({ session, user }: { session: Session; user: any }) => {
+            if (session?.user) {
+                session.user.id = user.id;
+            }
+            return session;
+        },
         async redirect({ baseUrl }: { baseUrl: string }) {
             return baseUrl;
         },
-        async signIn({ user }: { user }) {
+        async signIn({ user }: { user: any }) {
             const isAllowedToSignIn = true;
             await PostgresAdapter(pool)
                 .getUser(user.id)

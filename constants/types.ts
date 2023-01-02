@@ -67,9 +67,9 @@ type User = {
     updated_at: Date;
 };
 
-type UserStore = {
-    user_id: number;
-    setUserID: (id: number) => void;
+type ProfileStore = {
+    handle: string;
+    setHandle: (handle: string) => void;
 };
 
 type ReferralStore = {
@@ -90,6 +90,6 @@ export type {
     User,
     Session,
     Account,
-    UserStore,
+    ProfileStore,
     ReferralStore,
 };
