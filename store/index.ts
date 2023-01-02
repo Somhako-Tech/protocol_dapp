@@ -1,7 +1,7 @@
 import create from "zustand";
 import { persist } from "zustand/middleware";
 
-import { MintStore, ReferralStore, UserStore } from "../constants/types";
+import { MintStore, ProfileStore, ReferralStore } from "../constants/types";
 
 const useReferralStore = create<ReferralStore>()(
     persist(
@@ -16,11 +16,11 @@ const useReferralStore = create<ReferralStore>()(
         }
     )
 );
-const useUserStore = create<UserStore>()(
+const useProfileStore = create<ProfileStore>()(
     persist(
         (set) => ({
-            user_id: 0,
-            setUserID: (id: number) => set(() => ({ user_id: id })),
+            handle: "",
+            setHandle: (handle: string) => set(() => ({ handle: handle })),
         }),
         {
             name: "userStore", // name of item in the storage (must be unique)
@@ -47,4 +47,4 @@ const useMintStore = create<MintStore>()(
     )
 );
 
-export { useMintStore, useUserStore, useReferralStore };
+export { useMintStore, useProfileStore, useReferralStore };
