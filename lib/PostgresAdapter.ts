@@ -6,14 +6,15 @@ export default function PostgresAdapter(client: any, options = {}) {
             try {
                 console.log(user);
                 const sql = `
-        INSERT INTO users (name, email, email_verified, image) 
-        VALUES ($1, $2, $3, $4) 
+        INSERT INTO users (name, email, email_verified, image, is_admin) 
+        VALUES ($1, $2, $3, $4, $5) 
         RETURNING id, name, email, email_verified, image`;
                 let result = await client.query(sql, [
                     user.name,
                     user.email,
                     user.email_verified,
                     user.image,
+                    false,
                 ]);
                 console.log(result);
                 return result.rows[0];
