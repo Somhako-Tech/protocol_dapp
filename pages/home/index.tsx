@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "@rainbow-me/rainbowkit/styles.css";
 import "ethers";
 // import { axiosInstance } from "../api/axiosApi";
@@ -6,47 +6,103 @@ import { Profile } from "../../constants/types";
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useMintStore } from "../../store";
 import Header from "../../components/Header";
 import { useQuery } from "@tanstack/react-query";
 import ProfilePreview from "../../components/ProfilePreview";
+import { ProfileFormSkeleton } from "../../components/skeletons";
+import { getProfileById, getUserById } from "../../constants/axiosInstances";
 
 export default function Home() {
     const router = useRouter();
     const { data: session } = useSession();
 
-    const [mintSuccessful] = useMintStore((state) => [state.minted]);
-
-    //TODO turn this into a middleware
-    useEffect(() => {
-        if (!mintSuccessful) router.push("/app");
-    }, [mintSuccessful, router]);
-
-    useEffect(() => {
-        if (!session) router.push("/");
-    }, [session, router]);
-
-    const { isLoading, error, data } = useQuery({
+    const {
+        isLoading: isProfileListLoading,
+        isError: profileListError,
+        data: ProfileList,
+    } = useQuery({
         queryKey: ["profiles"],
         queryFn: () =>
             fetch("http://localhost:3030/profile").then((res) => res.json()),
     });
 
-    let profileList = "Loading";
+    const {
+        isLoading: isProfileQueryLoading,
+        isError: isProfileQueryError,
+        data: Profile,
+    } = useQuery(["profileById", session?.user?.id], () =>
+        getProfileById(session?.user?.id ? session.user.id : 0)
+    );
 
-    if (error) {
-        profileList = "Failed to load";
+    const {
+        isLoading: isUserQueryLoading,
+        isError: isUserQueryError,
+        data: User,
+    } = useQuery(["userById", session?.user?.id], () =>
+        getUserById(session?.user?.id ? session.user.id : 0)
+    );
+
+    const [inMintQueue] = useState(false);
+
+    //TODO turn this into a middleware
+    useEffect(() => {
+        if (!isProfileQueryLoading && !isUserQueryLoading) {
+            if (User.data.is_admin) router.push("/admin");
+            if (Profile.error && !User.data.is_admin) {
+                router.push("/app");
+            }
+        }
+        // if (!inMintQueue)
+    }, [
+        Profile,
+        User,
+        inMintQueue,
+        isProfileQueryLoading,
+        isUserQueryLoading,
+        router,
+    ]);
+
+    useEffect(() => {
+        if (!session) router.push("/");
+    }, [session, router]);
+
+    if (isProfileListLoading) {
+        return (
+            <main className="py-8 bg-white">
+                <Header inMintQueue={false} />
+                <section className="w-full flex flex-wrap ">
+                    <div className="container h-full">
+                        <div className="w-full mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
+                            <ProfileFormSkeleton />
+                        </div>
+                    </div>
+                </section>
+            </main>
+        );
     }
+    let queuedProfileList = <></>;
+    let mintedProfileList = <></>;
 
-    if (!isLoading && !error) {
-        profileList = data.profiles.map((profile: Profile) => (
-            <ProfilePreview profile={profile} key={profile.handle} />
-        ));
+    if (!isProfileListLoading && !profileListError) {
+        queuedProfileList = ProfileList.profiles.map((profile: any) =>
+            profile.minted ? (
+                <></>
+            ) : (
+                <ProfilePreview profile={profile} key={profile.handle} />
+            )
+        );
+        mintedProfileList = ProfileList.profiles.map((profile: any) =>
+            profile.minted ? (
+                <ProfilePreview profile={profile} key={profile.handle} />
+            ) : (
+                <></>
+            )
+        );
     }
 
     return (
         <main className="py-8 bg-white">
-            <Header />
+            <Header inMintQueue={inMintQueue} />
             <section className="w-full flex flex-wrap ">
                 <div className="container h-full">
                     <div className="w-full mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
@@ -55,10 +111,22 @@ export default function Home() {
                                 " font-bold text-4xl mb-4 text-center py-5"
                             }
                         >
+                            Profiles In Queue
+                        </h1>
+                        <div className="grid grid-cols-3 grid-flow-row gap-4">
+                            {queuedProfileList}
+                        </div>
+                    </div>
+                    <div className="w-full mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
+                        <h1
+                            className={
+                                " font-bold text-4xl mb-4 text-center py-5"
+                            }
+                        >
                             Minted Profiles
                         </h1>
-                        <div className="grid grid-cols-4 grid-flow-row gap-4">
-                            {profileList}
+                        <div className="grid grid-cols-3 grid-flow-row gap-4">
+                            {mintedProfileList}
                         </div>
                     </div>
                 </div>
