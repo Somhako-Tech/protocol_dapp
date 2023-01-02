@@ -4,36 +4,67 @@ import { useAccount } from "wagmi";
 import ProfileForm from "../../components/ProfileForm";
 import { Profile } from "../../constants/types";
 import * as React from "react";
-import Alert from "@mui/material/Alert";
-import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
 
-import { axiosContractInstance } from "../../constants/axiosInstances";
+import { SnackbarOrigin } from "@mui/material/Snackbar";
+
+import { useQuery } from "@tanstack/react-query";
+
+import {
+    axiosAPIInstance,
+    getProfileById,
+} from "../../constants/axiosInstances";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import ProfileSummary from "../../components/ProfileSummary";
-import { useMintStore } from "../../store";
+import { useMintStore, useProfileStore, useReferralStore } from "../../store";
 import Header from "../../components/Header";
+import { ProfileFormSkeleton } from "../../components/skeletons";
 
-export default function MintPage() {
+export default function AppPage() {
     const router = useRouter();
 
     const { address, isConnected } = useAccount();
 
     const { data: session } = useSession();
 
-    const [isMinting, setIsMinting] = useState(false);
+    const [referredFrom] = useReferralStore((state) => [state.referredFrom]);
 
-    const [mintSuccessful, setMintSuccessful] = useMintStore((state) => [
-        state.minted,
-        state.setMintedSuccessful,
-    ]);
+    const {
+        data: ProfileData,
+        isLoading: isQueryLoading,
+        isError: isQueryError,
+    } = useQuery(["profileById", session?.user?.id], () =>
+        getProfileById(session?.user?.id ? session.user.id : 0)
+    );
 
-    const [tokenId, setTokenId, handle, setHandle] = useMintStore((state) => [
-        state.tokenId,
-        state.setTokenId,
-        state.handle,
-        state.setHandle,
-    ]);
+    const [queryInMintQueue, setQueryInMintQueue] = useState(false);
+
+    const [setHandle] = useProfileStore((state) => [state.setHandle]);
+
+    //TODO update id
+    //Updates address on connection
+    useEffect(() => {
+        if (isConnected) {
+            setUserProfile((prevData) => ({
+                ...prevData,
+                address: address || "",
+                id: "test",
+            }));
+        }
+    }, [isConnected, address]);
+
+    //Accounts not signed in should go to root
+    useEffect(() => {
+        if (!session) router.push("/");
+    }, [session, router]);
+
+    //Minted accounts should go to profile page
+    useEffect(() => {
+        if (!isQueryLoading && !isQueryError && !ProfileData.error)
+            if (ProfileData.minted) router.push(`/u/${ProfileData.handle}`);
+            else setQueryInMintQueue(true);
+        // if (mintSuccessful) router.push(`/u/${handle}`);
+    }, [ProfileData, isQueryError, isQueryLoading, router]);
 
     const [userProfile, setUserProfile] = useState<Profile>({
         handle: "",
@@ -49,6 +80,8 @@ export default function MintPage() {
         experience: [
             { organization: "", startYear: "", endYear: "", title: "" },
         ],
+        address: "",
+        user_id: 0,
     });
 
     const [snackBarState, setSnackBarState] = React.useState({
@@ -71,21 +104,23 @@ export default function MintPage() {
         setSnackBarState({ ...snackBarState, open: false });
     };
 
-    async function mint(profile: Profile) {
-        const { handle } = profile;
-
-        const response = await axiosContractInstance.post("/contract", {
-            data: { handle, owner: address, id: "test" },
-        });
-
-        return response.data;
-    }
-
     async function saveProfile(profile: Profile) {
-        const response = await axiosContractInstance.post("/profile", {
-            data: { ...profile },
+        const id = session?.user?.id || 0;
+
+        const response = await axiosAPIInstance.post("/profile", {
+            data: { ...profile, user_id: id },
         });
 
+        if (referredFrom !== "" && referredFrom !== undefined) {
+            await axiosAPIInstance
+                .post("/referral", {
+                    user_id: id,
+                    email: session?.user?.email,
+                })
+                .catch((err) => console.error(err));
+        }
+
+        setHandle(profile.handle);
         return response.data;
     }
 
@@ -93,7 +128,7 @@ export default function MintPage() {
         e.preventDefault();
 
         // Make an API call to check if the handle already exists
-        const handleExistsResponse = await axiosContractInstance.get(
+        const handleExistsResponse = await axiosAPIInstance.get(
             `/handle/${userProfile.handle}`
         );
         if (handleExistsResponse.data.exists) {
@@ -102,6 +137,7 @@ export default function MintPage() {
                 vertical: "top",
                 horizontal: "right",
             });
+            //TODO Switch to a snackbar
             alert("Handle already exists");
             return;
         }
@@ -119,10 +155,9 @@ export default function MintPage() {
 
     async function handleSubmit(e: any) {
         e.preventDefault();
-        console.log(userProfile);
 
         // Make an API call to check if the handle already exists
-        const handleExistsResponse = await axiosContractInstance.get(
+        const handleExistsResponse = await axiosAPIInstance.get(
             `/handle/${userProfile.handle}`
         );
 
@@ -133,53 +168,33 @@ export default function MintPage() {
             return;
         }
 
-        setIsMinting(true);
-
-        const response = await mint(userProfile);
-        setIsMinting(false);
-
-        console.log(response);
-        if (response.success) {
-            const id = parseInt(response.tokenId.hex);
-            await saveProfile(userProfile)
-                .then(() => {
-                    setTokenId(id);
-                    setHandle(userProfile.handle);
-                    setMintSuccessful();
-                })
-                .catch((err) => console.log(err));
-        }
+        await saveProfile(userProfile)
+            .then(() => {
+                setQueryInMintQueue(true);
+            })
+            .catch((err) => console.log(err));
     }
 
-    //TODO update id
-    //Updates address on connection
-    useEffect(() => {
-        if (isConnected) {
-            setUserProfile((prevData) => ({
-                ...prevData,
-                owner: address,
-                id: "test",
-            }));
-        }
-    }, [isConnected, address]);
-
-    //Accounts not signed in should go to root
-    useEffect(() => {
-        if (!session) router.push("/");
-    }, [session, router]);
-
-    //Accounts not signed in should go to root
-    useEffect(() => {
-        if (mintSuccessful) router.push(`/u/${handle}`);
-    }, [mintSuccessful, handle, router]);
-
+    if (isQueryLoading)
+        return (
+            <main className="py-8 bg-white">
+                <Header inMintQueue={false} />
+                <section className="w-full flex flex-wrap ">
+                    <div className="container h-full">
+                        <div className="text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
+                            <ProfileFormSkeleton />
+                        </div>
+                    </div>
+                </section>
+            </main>
+        );
     return (
         <main className="py-8 bg-white">
-            <Header />
+            <Header inMintQueue={queryInMintQueue} />
             <section className="w-full flex flex-wrap ">
                 <div className="container h-full">
-                    <div className="w-full max-w-[800px] mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
-                        {isConnected && !isMinting && !mintSuccessful ? (
+                    <div className="text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
+                        {isConnected && ProfileData.error ? (
                             <div className="flex-col items-center">
                                 <form
                                     className="flex flex-col justify-center items-center"
@@ -253,28 +268,30 @@ export default function MintPage() {
                                     </div>
                                 </form>
                             </div>
-                        ) : mintSuccessful ? (
+                        ) : queryInMintQueue ? (
                             <div className="flex-col items-center justify-center">
-                                <h1
-                                    className={
-                                        " font-bold text-2xl mb-4 text-center"
-                                    }
-                                >
-                                    Minting Complete! Your token id is{" "}
-                                    {`'${tokenId}'`}!
-                                    <ProfileSummary handle={handle} />
+                                <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 flex flex-col justify-center items-center">
+                                    <h1
+                                        className={
+                                            " font-bold text-2xl mb-4 text-center"
+                                        }
+                                    >
+                                        You are in the mint queue! We let you
+                                        know as soon as your profile is minted!{" "}
+                                    </h1>
+
                                     <button
                                         onClick={() => router.push("/home")}
                                         className=" bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
                                     >
                                         Home
                                     </button>
-                                </h1>
+                                </div>
                             </div>
                         ) : (
-                            <h1 className={"loading font-bold text-2xl mb-4"}>
-                                Loading...
-                            </h1>
+                            <div>
+                                <ProfileFormSkeleton />
+                            </div>
                         )}
                     </div>
                 </div>
