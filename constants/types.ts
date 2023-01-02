@@ -16,6 +16,9 @@ type Profile = {
     education: Education[];
 
     experience: Experience[];
+
+    address: string;
+    user_id: number | 0;
 };
 
 type Education = {
