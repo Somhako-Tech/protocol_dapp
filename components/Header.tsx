@@ -3,14 +3,10 @@ import Logo from "./Logo";
 import { useSession, signIn, signOut } from "next-auth/react";
 import UserDropdownButton from "./UserDropdownButton";
 import Link from "next/link";
-import { useMintStore } from "../store";
+import { useProfileStore } from "../store";
 
-export default function Header() {
-    const [handle, minted] = useMintStore((state) => [
-        state.handle,
-        state.minted,
-    ]);
-
+export default function Header({ inMintQueue }: { inMintQueue: boolean }) {
+    const handle = useProfileStore((state) => state.handle);
     return (
         <section className="w-full flex flex-wrap px-4 items-center justify-center">
             <div className="w-full lg:max-w-80 ">
@@ -19,7 +15,7 @@ export default function Header() {
                         <div className="font-semibold text-lg">
                             <Logo />
                         </div>
-                        {minted && (
+                        {inMintQueue && (
                             <div>
                                 <Link
                                     className="text-lg  mr-4 text-somhakohr font-medium rounded-full px-5 py-1.5 text-center "
