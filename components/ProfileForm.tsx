@@ -342,18 +342,18 @@ const ProfileForm = ({
                             <div className="flex flex-wrap justify-between">
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label
-                                        htmlFor="jobType"
+                                        htmlFor="job_type"
                                         className="font-medium mb-4 leading-none inline-block"
                                     >
                                         Preferred Job Type
                                     </label>
                                     <input
                                         required
-                                        id="jobType"
+                                        id="job_type"
                                         type="text"
                                         placeholder="Ex: Fulltime"
                                         className="formInputs"
-                                        value={userProfile.jobType}
+                                        value={userProfile.job_type}
                                         onChange={handleChange}
                                         onBlur={handleChange}
                                     />
@@ -362,16 +362,16 @@ const ProfileForm = ({
                             <div className="flex flex-wrap justify-between">
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label
-                                        htmlFor="prefLocation"
+                                        htmlFor="pref_location"
                                         className="font-medium mb-4 leading-none inline-block"
                                     >
                                         Preferred Location
                                     </label>
                                     <select
                                         required
-                                        id="prefLocation"
+                                        id="pref_location"
                                         className="w-full rounded-full border-slate-300 formInputs"
-                                        value={userProfile.prefLocation}
+                                        value={userProfile.pref_location}
                                         onChange={handleChange}
                                     >
                                         <option value="">
@@ -404,16 +404,16 @@ const ProfileForm = ({
                             <div className="flex flex-wrap justify-between">
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label
-                                        htmlFor="yearsOfExp"
+                                        htmlFor="years_of_exp"
                                         className="font-medium mb-4 leading-none inline-block"
                                     >
                                         Years of Experience
                                     </label>
                                     <select
                                         required
-                                        id="yearsOfExp"
+                                        id="years_of_exp"
                                         className="w-full rounded-full border-slate-300 formInputs"
-                                        value={userProfile.yearsOfExp}
+                                        value={userProfile.years_of_exp}
                                         onChange={handleChange}
                                     >
                                         <option value="">
