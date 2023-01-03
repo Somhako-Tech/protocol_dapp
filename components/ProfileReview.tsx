@@ -179,7 +179,7 @@ export default function ProfileSummary({
 
             let label: string = changeCase.sentenceCase(key);
             const value: string = profile[key as keyof Profile].toString();
-            if (key === "prefLocation") label = "Preferred Location";
+            if (key === "pref_location") label = "Preferred Location";
 
             return (
                 <div className="my-2" key={key}>

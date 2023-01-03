@@ -4,10 +4,10 @@ type Profile = {
     title: string;
     summary: string;
 
-    jobType: string;
-    prefLocation: string;
+    job_type: string;
+    pref_location: string;
     salary: string;
-    yearsOfExp: string;
+    years_of_exp: string;
 
     link: string;
 

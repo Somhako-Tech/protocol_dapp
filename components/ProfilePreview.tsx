@@ -23,32 +23,32 @@ const ProfilePreview = ({ profile }: { profile: Profile }) => {
                     {profile.summary}
                 </label>
             </div>
-            <div className="my-2" key="jobType">
+            <div className="my-2" key="job_type">
                 <label
-                    htmlFor="jobType"
+                    htmlFor="job_type"
                     className="font-medium text-base mb-2 leading-none inline-block"
                 >
                     Job Type :
                 </label>
                 <label
-                    id={"jobType"}
+                    id={"job_type"}
                     className="font-medium text-base w-auto mx-4 "
                 >
-                    {profile.jobType}
+                    {profile.job_type}
                 </label>
             </div>
-            <div className="my-2" key="prefLocation">
+            <div className="my-2" key="pref_location">
                 <label
-                    htmlFor="prefLocation"
+                    htmlFor="pref_location"
                     className="font-medium text-base mb-2 leading-none inline-block"
                 >
                     Preferred Location :
                 </label>
                 <label
-                    id={"prefLocation"}
+                    id={"pref_location"}
                     className="font-medium text-base w-auto mx-4 "
                 >
-                    {profile.prefLocation}
+                    {profile.pref_location}
                 </label>
             </div>
             <div className="my-2" key="salary">
@@ -65,18 +65,18 @@ const ProfilePreview = ({ profile }: { profile: Profile }) => {
                     {profile.salary}
                 </label>
             </div>
-            <div className="my-2" key="yearsOfExp">
+            <div className="my-2" key="years_of_exp">
                 <label
-                    htmlFor="yearsOfExp"
+                    htmlFor="years_of_exp"
                     className="font-medium text-base mb-2 leading-none inline-block"
                 >
                     Years of Experience :
                 </label>
                 <label
-                    id={"yearsOfExp"}
+                    id={"years_of_exp"}
                     className="font-medium text-base w-auto mx-4 "
                 >
-                    {profile.yearsOfExp}
+                    {profile.years_of_exp}
                 </label>
             </div>
 
