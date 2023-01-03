@@ -88,17 +88,20 @@ const ProfilePreview = ({ profile }: { profile: Profile }) => {
             </ul>
             <h3>Education:</h3>
             <ul>
-                {profile.education.map((education) => (
-                    <li key={education.institution}>
-                        {education.institution}: {education.title} (
-                        {education.year})
-                    </li>
-                ))}
+                {profile.education.map(
+                    (education, i) =>
+                        education && (
+                            <li key={i}>
+                                {education.institution}: {education.title} (
+                                {education.year})
+                            </li>
+                        )
+                )}
             </ul>
             <h3>Experience:</h3>
             <ul>
-                {profile.experience.map((experience) => (
-                    <li key={experience.organization}>
+                {profile.experience.map((experience, i) => (
+                    <li key={i}>
                         {experience.organization}: {experience.title} (
                         {experience.startYear} - {experience.endYear})
                     </li>
