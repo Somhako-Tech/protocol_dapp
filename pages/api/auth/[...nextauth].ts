@@ -3,17 +3,11 @@ import GoogleProvider from "next-auth/providers/google";
 import PostgresAdapter from "../../../lib/PostgresAdapter";
 import { Pool } from "pg";
 import { Session } from "next-auth/core/types";
-
-const pool = new Pool({
-    user: "postgres",
-    host: "localhost",
-    database: "test_somakohr",
-    password: "K!sgPL&CASntu3kB",
-    port: 5432,
-});
+import prisma from "../../../lib/prismadb";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 export const authOptions = {
-    // Configure one or more authentication providers
+    adapter: PrismaAdapter(prisma),
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -25,7 +19,6 @@ export const authOptions = {
         jwt: true,
         maxAge: 15 * 24 * 60 * 60, // the session will last 15 days
     },
-    adapter: PostgresAdapter(pool),
     pages: {
         signIn: "/join",
     },
@@ -41,17 +34,8 @@ export const authOptions = {
         },
         async signIn({ user }: { user: any }) {
             const isAllowedToSignIn = true;
-            await PostgresAdapter(pool)
-                .getUser(user.id)
-                .then(async (user) => {
-                    if (!user) {
-                        await PostgresAdapter(pool).createUser(user);
-                    }
-                })
-                .catch(async (err) => {
-                    await PostgresAdapter(pool).createUser(user);
-                    console.log(err);
-                });
+
+            console.log("siginng in");
             if (isAllowedToSignIn) {
                 return true;
             } else {
