@@ -26,11 +26,7 @@ export default function Home() {
             fetch("http://localhost:3030/profile").then((res) => res.json()),
     });
 
-    const {
-        isLoading: isProfileQueryLoading,
-        isError: isProfileQueryError,
-        data: Profile,
-    } = useQuery(
+    const { isLoading: isProfileQueryLoading, data: Profile } = useQuery(
         ["profileById", session?.user?.id],
         () => getProfileById(session?.user?.id ? session.user.id : 0),
         { enabled: !!session }
@@ -38,7 +34,8 @@ export default function Home() {
 
     const { isLoading: isUserQueryLoading, data: User } = useQuery(
         ["userById", session?.user?.id],
-        () => getUserById(session?.user?.id ? session.user.id : 0)
+        () => getUserById(session?.user?.id ? session.user.id : 0),
+        { enabled: !!session }
     );
 
     const [inMintQueue, setInMintQueue] = useState(false);
