@@ -9,7 +9,24 @@ const ProfileForm = ({
     handleChange: (e: any) => void;
     userProfile: Profile;
 }) => {
-    const [selectTab, setSelectTab] = useState("bio");
+    // TODO Switch to next and previous buttons
+    const [selectTab, setSelectTab] = useState<"bio" | "background" | "resume">(
+        "bio"
+    );
+
+    const FormButton =
+        selectTab === "bio" ? (
+            <div className="text-center self-center">
+                <button
+                    type="submit"
+                    className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
+                >
+                    MINT
+                </button>
+            </div>
+        ) : (
+            <></>
+        );
 
     const updateSkill = (e: {
         target: {
@@ -262,7 +279,7 @@ const ProfileForm = ({
     ));
 
     return (
-        <div>
+        <div className="flex-col items-center">
             <Tab.Group>
                 <Tab.List className="flex justify-center tabs w-full px-52 py-0 my-0">
                     <Tab
@@ -298,7 +315,7 @@ const ProfileForm = ({
                 </Tab.List>
                 <Tab.Panels className="flex justify-between">
                     <Tab.Panel>
-                        <div className="bg-white shadow-normal border shadow-md shadow-slate-200 rounded-[30px] p-8 mb-6">
+                        <div className="formInputSection">
                             <div className="mb-6">
                                 <label
                                     htmlFor="title"
@@ -338,7 +355,7 @@ const ProfileForm = ({
                                 </span>
                             </div>
                         </div>
-                        <div className="bg-white shadow-normal border shadow-md shadow-slate-200 rounded-[30px] p-8 mb-6">
+                        <div className="formInputSection">
                             <div className="flex flex-wrap justify-between">
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label
@@ -438,7 +455,7 @@ const ProfileForm = ({
                     </Tab.Panel>
                     {/*Resume page*/}
                     <Tab.Panel>
-                        <div className="bg-white shadow-normal border shadow-md shadow-slate-200 rounded-[30px] p-8 px-48 mb-6">
+                        <div className="formInputSection px-48">
                             <div className="mb-6 flex justify-between items-center">
                                 <label className="text-lg font-medium mb-2 leading-none inline-block">
                                     Education
@@ -462,7 +479,7 @@ const ProfileForm = ({
                                 )}
                             </div>
                         </div>
-                        <div className="bg-white shadow-normal border shadow-md shadow-slate-200 rounded-[30px] p-8 px-48 mb-6">
+                        <div className="formInputSection px-48">
                             <div className="mb-6 flex justify-between items-center">
                                 <label className=" text-lg font-medium mb-2 leading-none inline-block">
                                     Key Skills
@@ -488,7 +505,7 @@ const ProfileForm = ({
                         </div>
                     </Tab.Panel>
                     <Tab.Panel>
-                        <div className="bg-white shadow-normal border shadow-md shadow-slate-200 rounded-[30px] p-8 px-48 mb-6">
+                        <div className="formInputSection px-48">
                             <div className="mb-6 flex justify-between items-center">
                                 <label className="text-lg font-medium mb-2 leading-none inline-block">
                                     Experience
@@ -515,6 +532,7 @@ const ProfileForm = ({
                     </Tab.Panel>
                 </Tab.Panels>
             </Tab.Group>
+            {FormButton}
         </div>
     );
 };
