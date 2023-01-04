@@ -15,6 +15,9 @@
     .headerButton {
         @apply text-lg mr-4 text-white bg-somhakohr font-medium rounded-full px-5 py-1.5 text-center dark:bg-somhakohr;
     }
+    .formInputSection {
+        @apply bg-white border shadow-md shadow-slate-200 rounded-[30px] p-8 mb-6 max-w-2xl w-full;
+    }
 }
 :root {
     --max-width: 1100px;

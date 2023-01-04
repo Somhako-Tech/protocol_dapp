@@ -68,69 +68,55 @@ export default function Home() {
 
     if (isProfileListLoading) {
         return (
-            <main className="py-8 bg-white">
-                <Header inMintQueue={false} />
-                <section className="w-full flex flex-wrap ">
-                    <div className="container h-full">
-                        <div className="w-full mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
-                            <ProfileFormSkeleton />
-                        </div>
+            <section className="w-full flex flex-wrap ">
+                <div className="container h-full">
+                    <div className="w-full mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
+                        <ProfileFormSkeleton />
                     </div>
-                </section>
-            </main>
+                </div>
+            </section>
         );
     }
     let queuedProfileList = <></>;
     let mintedProfileList = <></>;
 
     if (!isProfileListLoading && !profileListError) {
-        queuedProfileList = ProfileList.profiles.map((profile: any) =>
-            profile.minted ? (
-                <></>
-            ) : (
-                <ProfilePreview profile={profile} key={profile.handle} />
-            )
-        );
-        mintedProfileList = ProfileList.profiles.map((profile: any) =>
-            profile.minted ? (
-                <ProfilePreview profile={profile} key={profile.handle} />
-            ) : (
-                <></>
-            )
-        );
+        mintedProfileList = ProfileList.profiles.map((profile: any) => {
+            if (profile.minted)
+                return (
+                    <ProfilePreview profile={profile} key={profile.handle} />
+                );
+            else return;
+        });
+        queuedProfileList = ProfileList.profiles.map((profile: any) => {
+            if (profile.minted) return;
+            else
+                return (
+                    <ProfilePreview profile={profile} key={profile.handle} />
+                );
+        });
     }
 
     return (
-        <main className="py-8 bg-white">
-            <Header inMintQueue={inMintQueue} />
-            <section className="w-full flex flex-wrap ">
-                <div className="container h-full">
-                    <div className="w-full mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
-                        <h1
-                            className={
-                                " font-bold text-4xl mb-4 text-center py-5"
-                            }
-                        >
-                            Profiles In Queue
-                        </h1>
-                        <div className="grid grid-cols-3 grid-flow-row gap-4">
-                            {queuedProfileList}
-                        </div>
-                    </div>
-                    <div className="w-full mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
-                        <h1
-                            className={
-                                " font-bold text-4xl mb-4 text-center py-5"
-                            }
-                        >
-                            Minted Profiles
-                        </h1>
-                        <div className="grid grid-cols-3 grid-flow-row gap-4">
-                            {mintedProfileList}
-                        </div>
+        <section className="w-full flex flex-wrap ">
+            <div className="container h-full">
+                <div className="w-full mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
+                    <h1 className={" font-bold text-4xl mb-4 text-center py-5"}>
+                        Profiles In Queue
+                    </h1>
+                    <div className="grid grid-cols-3 grid-flow-row gap-4">
+                        {queuedProfileList}
                     </div>
                 </div>
-            </section>
-        </main>
+                <div className="w-full mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
+                    <h1 className={" font-bold text-4xl mb-4 text-center py-5"}>
+                        Minted Profiles
+                    </h1>
+                    <div className="grid grid-cols-3 grid-flow-row gap-4">
+                        {mintedProfileList}
+                    </div>
+                </div>
+            </div>
+        </section>
     );
 }

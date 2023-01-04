@@ -6,13 +6,13 @@ import Link from "next/link";
 import PersonIcon from "@mui/icons-material/Person";
 
 export default function UserDropdownButton({
-    handle,
+    handleLink,
     signOut,
 }: {
-    handle: string;
+    handleLink: string;
     signOut: () => void;
 }) {
-    const profileLink = handle && handle !== "" ? `/u/${handle}` : "/app";
+    const profileLink = handleLink && handleLink !== "" ? handleLink : "/app";
     return (
         <div className="top-16 w-56 text-right">
             <Menu as="div" className="relative inline-block text-left">

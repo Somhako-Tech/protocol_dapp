@@ -15,8 +15,7 @@ import {
 } from "../../constants/axiosInstances";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import ProfileSummary from "../../components/ProfileSummary";
-import { useMintStore, useProfileStore, useReferralStore } from "../../store";
+import { useProfileStore, useReferralStore } from "../../store";
 import Header from "../../components/Header";
 import { ProfileFormSkeleton } from "../../components/skeletons";
 
@@ -48,20 +47,22 @@ export default function AppPage() {
             setUserProfile((prevData) => ({
                 ...prevData,
                 address: address || "",
-                id: "test",
             }));
         }
     }, [isConnected, address]);
 
     //Accounts not signed in should go to root
     useEffect(() => {
-        if (!session) router.push("/");
+        if (!session) {
+            // router.push("/");
+        }
     }, [session, router]);
 
     //Minted accounts should go to profile page
     useEffect(() => {
         if (!isQueryLoading && !isQueryError && !ProfileData.error)
-            if (ProfileData.minted) router.push(`/u/${ProfileData.handle}`);
+            if (ProfileData.profile.minted)
+                router.push(`/u/${ProfileData.profile.handle}`);
             else setQueryInMintQueue(true);
         // if (mintSuccessful) router.push(`/u/${handle}`);
     }, [ProfileData, isQueryError, isQueryLoading, router]);
@@ -175,32 +176,30 @@ export default function AppPage() {
             .catch((err) => console.log(err));
     }
 
-    if (isQueryLoading)
+    if (!isConnected || isQueryLoading)
         return (
-            <main className="py-8 bg-white">
-                <Header inMintQueue={false} />
-                <section className="w-full flex flex-wrap ">
-                    <div className="container h-full">
-                        <div className="text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
+            <section className="w-full flex flex-wrap ">
+                <div className="container h-full">
+                    <div className="flex-col items-center justify-center">
+                        <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 ">
                             <ProfileFormSkeleton />
                         </div>
                     </div>
-                </section>
-            </main>
+                </div>
+            </section>
         );
+
     return (
-        <main className="py-8 bg-white">
-            <Header inMintQueue={queryInMintQueue} />
-            <section className="w-full flex flex-wrap ">
-                <div className="container h-full">
-                    <div className="text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
-                        {isConnected && ProfileData.error ? (
-                            <div className="flex-col items-center">
-                                <form
-                                    className="flex flex-col justify-center items-center"
-                                    onSubmit={handleSubmit}
-                                >
-                                    {/* 
+        <section className="w-full flex flex-wrap ">
+            <div className="container h-full">
+                <div className="text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
+                    {ProfileData.error ? (
+                        <div className="flex-col items-center">
+                            <form
+                                className="flex flex-col justify-center items-center"
+                                onSubmit={handleSubmit}
+                            >
+                                {/* 
                                     * TODO Finish snackbar
                                     <div>
                                         <Snackbar
@@ -217,85 +216,78 @@ export default function AppPage() {
                                             }
                                         />
                                     </div> */}
-                                    <div className="my-6">
-                                        <label
-                                            htmlFor="handle"
-                                            className="font-medium mb-2 leading-none inline-block"
-                                        >
-                                            Handle
-                                        </label>
-                                        <input
-                                            required
-                                            type="text"
-                                            id="handle"
-                                            name="handle"
-                                            className="w-auto mx-4 rounded-full border border-black"
-                                            value={userProfile.handle}
-                                            onChange={handleChange}
-                                            onBlur={checkHandle}
-                                        />
-                                    </div>
-                                    <div className="my-6">
-                                        <label
-                                            htmlFor="address"
-                                            className="font-medium mb-2 leading-none inline-block"
-                                        >
-                                            Address
-                                        </label>
-                                        <label
-                                            id="address"
-                                            className="w-auto mx-4 rounded-full border-slate-300"
-                                        >
-                                            {address &&
-                                                address.slice(0, 10) +
-                                                    "..." +
-                                                    address.slice(
-                                                        address.length - 8
-                                                    )}
-                                        </label>
-                                    </div>
-                                    <ProfileForm
-                                        handleChange={handleChange}
-                                        userProfile={userProfile}
+                                <div className="my-6">
+                                    <label
+                                        htmlFor="handle"
+                                        className="font-medium mb-2 leading-none inline-block"
+                                    >
+                                        Handle
+                                    </label>
+                                    <input
+                                        required
+                                        type="text"
+                                        id="handle"
+                                        name="handle"
+                                        className="w-auto mx-4 rounded-full border border-black"
+                                        value={userProfile.handle}
+                                        onChange={handleChange}
+                                        onBlur={checkHandle}
                                     />
-                                    <div className="text-left">
-                                        <button
-                                            type="submit"
-                                            className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
-                                        >
-                                            MINT
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        ) : queryInMintQueue ? (
-                            <div className="flex-col items-center justify-center">
-                                <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 flex flex-col justify-center items-center">
-                                    <h1
-                                        className={
-                                            " font-bold text-2xl mb-4 text-center"
-                                        }
-                                    >
-                                        You are in the mint queue! We let you
-                                        know as soon as your profile is minted!{" "}
-                                    </h1>
-
-                                    <button
-                                        onClick={() => router.push("/home")}
-                                        className=" bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
-                                    >
-                                        Home
-                                    </button>
                                 </div>
+                                <div className="my-6">
+                                    <label
+                                        htmlFor="address"
+                                        className="font-medium mb-2 leading-none inline-block"
+                                    >
+                                        Address
+                                    </label>
+                                    <label
+                                        id="address"
+                                        className="w-auto mx-4 rounded-full border-slate-300"
+                                    >
+                                        {address &&
+                                            address.slice(0, 10) +
+                                                "..." +
+                                                address.slice(
+                                                    address.length - 8
+                                                )}
+                                    </label>
+                                </div>
+                                <ProfileForm
+                                    handleChange={handleChange}
+                                    userProfile={userProfile}
+                                />
+                            </form>
+                        </div>
+                    ) : queryInMintQueue ? (
+                        <div className="flex-col items-center justify-center">
+                            <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 flex flex-col justify-center items-center">
+                                <h1
+                                    className={
+                                        " font-bold text-2xl mb-4 text-center"
+                                    }
+                                >
+                                    You are in the mint queue! We let you know
+                                    as soon as your profile is minted!{" "}
+                                </h1>
+
+                                <button
+                                    onClick={() => router.push("/home")}
+                                    className=" bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
+                                >
+                                    Home
+                                </button>
                             </div>
-                        ) : (
-                            <div>
+                        </div>
+                    ) : (
+                        <div className="flex-col items-center justify-center">
+                            <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 ">
                                 <ProfileFormSkeleton />
                             </div>
-                        )}
-                    </div>
+                        </div>
+                    )}
                 </div>
-            </section>
-        </main>
+            </div>
+        </section>
     );
 }
