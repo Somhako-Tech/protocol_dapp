@@ -30,29 +30,28 @@ export default function Home() {
         isLoading: isProfileQueryLoading,
         isError: isProfileQueryError,
         data: Profile,
-    } = useQuery(["profileById", session?.user?.id], () =>
-        getProfileById(session?.user?.id ? session.user.id : 0)
+    } = useQuery(
+        ["profileById", session?.user?.id],
+        () => getProfileById(session?.user?.id ? session.user.id : 0),
+        { enabled: !!session }
     );
 
-    const {
-        isLoading: isUserQueryLoading,
-        isError: isUserQueryError,
-        data: User,
-    } = useQuery(["userById", session?.user?.id], () =>
-        getUserById(session?.user?.id ? session.user.id : 0)
+    const { isLoading: isUserQueryLoading, data: User } = useQuery(
+        ["userById", session?.user?.id],
+        () => getUserById(session?.user?.id ? session.user.id : 0)
     );
 
-    const [inMintQueue] = useState(false);
+    const [inMintQueue, setInMintQueue] = useState(false);
 
     //TODO turn this into a middleware
     useEffect(() => {
         if (!isProfileQueryLoading && !isUserQueryLoading) {
+            console.log(User);
             if (User.data.is_admin) router.push("/admin");
             if (Profile.error && !User.data.is_admin) {
                 router.push("/app");
-            }
+            } else setInMintQueue(true);
         }
-        // if (!inMintQueue)
     }, [
         Profile,
         User,
