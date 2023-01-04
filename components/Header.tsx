@@ -5,8 +5,8 @@ import UserDropdownButton from "./UserDropdownButton";
 import Link from "next/link";
 import { useProfileStore } from "../store";
 
-export default function Header({ inMintQueue }: { inMintQueue: boolean }) {
-    const handle = useProfileStore((state) => state.handle);
+export default function Header({ handle }: { handle: string | null }) {
+    const handleLink = `/u/${handle}`;
     return (
         <section className="w-full flex flex-wrap px-4 items-center justify-center">
             <div className="w-full lg:max-w-80 ">
@@ -15,7 +15,7 @@ export default function Header({ inMintQueue }: { inMintQueue: boolean }) {
                         <div className="font-semibold text-lg">
                             <Logo />
                         </div>
-                        {inMintQueue && (
+                        {handle && (
                             <div>
                                 <Link
                                     className="text-lg  mr-4 text-somhakohr font-medium rounded-full px-5 py-1.5 text-center "
@@ -26,7 +26,7 @@ export default function Header({ inMintQueue }: { inMintQueue: boolean }) {
 
                                 <Link
                                     className="text-lg  mr-4 text-somhakohr font-medium rounded-full px-5 py-1.5 text-center "
-                                    href={`/u/${handle}`}
+                                    href={handleLink}
                                 >
                                     My Profile
                                 </Link>
@@ -34,7 +34,7 @@ export default function Header({ inMintQueue }: { inMintQueue: boolean }) {
                         )}
                         <div className="flex items-center justify-center">
                             <UserDropdownButton
-                                handle={handle}
+                                handleLink={handleLink}
                                 signOut={signOut}
                             />
 
