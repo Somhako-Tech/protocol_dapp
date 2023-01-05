@@ -1,7 +1,5 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import PostgresAdapter from "../../../lib/PostgresAdapter";
-import { Pool } from "pg";
 import { Session } from "next-auth/core/types";
 import prisma from "../../../lib/prismadb";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";

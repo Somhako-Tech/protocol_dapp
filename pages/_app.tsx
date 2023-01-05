@@ -13,6 +13,7 @@ import {
     useQuery,
 } from "@tanstack/react-query";
 import Layout from "../components/Layout/Layout";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient();
 export default function App({ Component, pageProps }: AppProps) {
@@ -42,6 +43,7 @@ export default function App({ Component, pageProps }: AppProps) {
                         <Layout>
                             <Component {...pageProps} />
                         </Layout>
+                        <ReactQueryDevtools initialIsOpen={true} />
                     </QueryClientProvider>
                 </SessionProvider>
             </RainbowKitProvider>
