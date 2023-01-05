@@ -3,6 +3,12 @@ import Header from "../Header";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { getProfileById } from "../../constants/axiosInstances";
+import {
+    getProfileByUserIdQuery,
+    getProfileByUserIdQueryDocument,
+    getUserQueryDocument,
+} from "../../graphql/graphqlQueries";
+import { request } from "graphql-request";
 
 export default function Layout({ children }: { children: any }) {
     const { data: session } = useSession();
@@ -11,11 +17,13 @@ export default function Layout({ children }: { children: any }) {
         data: ProfileData,
         isLoading: isQueryLoading,
         isError: isQueryError,
-    } = useQuery(["profileById", session?.user?.id], () =>
-        getProfileById(session?.user?.id ? session.user.id : 0)
+    } = useQuery(
+        ["getProfile", session?.user.id],
+        () => getProfileByUserIdQuery(session?.user.id || "default"),
+        { enabled: !!session }
     );
 
-    if (isQueryLoading || isQueryError || ProfileData.error) {
+    if (isQueryLoading || isQueryError || !ProfileData) {
         return (
             <main className="py-8 bg-white">
                 <Head>
@@ -27,13 +35,21 @@ export default function Layout({ children }: { children: any }) {
         );
     }
 
-    console.log(ProfileData);
+    if (!session)
+        return (
+            <main className="">
+                <Head>
+                    <title> Somhakohr Dapp </title>
+                </Head>
+                {children}
+            </main>
+        );
     return (
         <main className="py-8 bg-white">
             <Head>
                 <title> Somhakohr Dapp </title>
             </Head>
-            <Header handle={ProfileData.profile.handle}></Header>
+            <Header handle={ProfileData?.handle}></Header>
             {children}
         </main>
     );
