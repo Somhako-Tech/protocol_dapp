@@ -77,9 +77,6 @@ export const getUserQuery = async (id: string) => {
 
     return getUser;
 };
-declare global {
-    type JsonObject = Prisma.JsonObject;
-}
 
 export const createProfileQueryDocument = graphql(`
     mutation CreateProfileMutation(
@@ -92,8 +89,8 @@ export const createProfileQueryDocument = graphql(`
         $years_of_exp: String!
         $link: String!
         $address: String!
-        $education: [JsonObject]!
-        $experience: [JsonObject]!
+        $education: [JSON!]!
+        $experience: [JSON!]!
         $user_id: String!
     ) {
         createOneProfile(
@@ -107,8 +104,8 @@ export const createProfileQueryDocument = graphql(`
                 years_of_exp: $years_of_exp
                 link: $link
                 address: $address
-                education: $education
-                experience: $experience
+                education: { set: $education }
+                experience: { set: $experience }
                 minted: false
                 user: { connect: { id: $user_id } }
             }
@@ -144,12 +141,23 @@ export const createReferralQuery = async (user_id: string, email: string) => {
 
     return createOneReferral;
 };
+
 export const createProfileQuery = async (user_id: string, profile: Profile) => {
     const { createOneProfile } = await request(
         API_URL,
         createProfileQueryDocument,
         {
-            ...profile,
+            handle: profile.handle,
+            title: profile.handle,
+            summary: profile.summary,
+            job_type: profile.job_type,
+            pref_location: profile.pref_location,
+            salary: profile.salary,
+            years_of_exp: profile.years_of_exp,
+            link: profile.link,
+            address: profile.address,
+            education: profile.education,
+            experience: profile.experience,
             user_id: user_id,
         }
     ).catch((err) => {
