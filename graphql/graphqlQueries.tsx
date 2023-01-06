@@ -77,3 +77,36 @@ export const getUserQuery = async (id: string) => {
 
     return getUser;
 };
+
+export const getProfilesQueryDocument = graphql(`
+    query getProfiles {
+        profiles {
+            address
+            education
+            experience
+            handle
+            id
+            job_type
+            link
+            minted
+            pref_location
+            salary
+            skills
+            summary
+            title
+            user_id
+            years_of_exp
+        }
+    }
+`);
+
+export const getProfilesQuery = async () => {
+    const { profiles } = await request(API_URL, getProfilesQueryDocument).catch(
+        (err) => {
+            console.log(err);
+            return { profiles: null };
+        }
+    );
+
+    return profiles;
+};
