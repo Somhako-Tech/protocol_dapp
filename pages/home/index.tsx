@@ -8,22 +8,21 @@ import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import {
     getProfileByUserIdQuery,
+    getProfilesQuery,
     getUserQuery,
 } from "../../graphql/graphqlQueries";
+import { ProfileFormSkeleton } from "../../components/skeletons";
+import ProfilePreview from "../../components/ProfilePreview";
 
 export default function Home() {
     const router = useRouter();
     const { data: session } = useSession();
 
-    // const {
-    //     isLoading: isProfileListLoading,
-    //     isError: profileListError,
-    //     data: ProfileList,
-    // } = useQuery({
-    //     queryKey: ["profiles"],
-    //     queryFn: () =>
-    //         fetch("http://localhost:3030/profile").then((res) => res.json()),
-    // });
+    const {
+        isLoading: isProfileListLoading,
+        isError: profileListError,
+        data: Profiles,
+    } = useQuery(["getProfiles"], async () => getProfilesQuery());
 
     const {
         isLoading: isProfileQueryLoading,
@@ -59,40 +58,52 @@ export default function Home() {
         router,
     ]);
 
-    // useEffect(() => {
-    //     if (!session) router.push("/");
-    // }, [session, router]);
+    useEffect(() => {
+        if (!session) router.push("/");
+    }, [session, router]);
 
-    // if (isProfileListLoading) {
-    //     return (
-    //         <section className="w-full flex flex-wrap ">
-    //             <div className="container h-full">
-    //                 <div className="w-full mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
-    //                     <ProfileFormSkeleton />
-    //                 </div>
-    //             </div>
-    //         </section>
-    //     );
-    // }
-    let queuedProfileList = <></>;
-    let mintedProfileList = <></>;
+    if (isProfileListLoading) {
+        return (
+            <section className="w-full flex flex-wrap ">
+                <div className="container h-full">
+                    <div className="w-full mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
+                        <ProfileFormSkeleton />
+                    </div>
+                </div>
+            </section>
+        );
+    }
+    let queuedProfileList = () => {
+        if (!isProfileListLoading && !profileListError && Profiles) {
+            const queuedProfileList = Profiles?.map((profile: any) => {
+                if (profile.minted) return;
+                else
+                    return (
+                        <ProfilePreview
+                            profile={profile}
+                            key={profile.handle}
+                        />
+                    );
+            });
+            return queuedProfileList;
+        } else return <></>;
+    };
+    let mintedProfileList = () => {
+        if (!isProfileListLoading && !profileListError && Profiles) {
+            const mintedProfileList = Profiles?.map((profile: any) => {
+                if (profile && profile.minted)
+                    return (
+                        <ProfilePreview
+                            profile={profile}
+                            key={profile.handle}
+                        />
+                    );
+                else return <></>;
+            });
 
-    // if (!isProfileListLoading && !profileListError) {
-    //     mintedProfileList = ProfileList.profiles.map((profile: any) => {
-    //         if (profile.minted)
-    //             return (
-    //                 <ProfilePreview profile={profile} key={profile.handle} />
-    //             );
-    //         else return;
-    //     });
-    //     queuedProfileList = ProfileList.profiles.map((profile: any) => {
-    //         if (profile.minted) return;
-    //         else
-    //             return (
-    //                 <ProfilePreview profile={profile} key={profile.handle} />
-    //             );
-    //     });
-    // }
+            return mintedProfileList;
+        } else return <></>;
+    };
 
     return (
         <section className="w-full flex flex-wrap ">
@@ -102,7 +113,7 @@ export default function Home() {
                         Profiles In Queue
                     </h1>
                     <div className="grid grid-cols-3 grid-flow-row gap-4">
-                        {queuedProfileList}
+                        {queuedProfileList()}
                     </div>
                 </div>
                 <div className="w-full mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
@@ -110,7 +121,7 @@ export default function Home() {
                         Minted Profiles
                     </h1>
                     <div className="grid grid-cols-3 grid-flow-row gap-4">
-                        {mintedProfileList}
+                        {mintedProfileList()}
                     </div>
                 </div>
             </div>
