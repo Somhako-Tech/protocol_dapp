@@ -2,25 +2,32 @@ import { useEffect, useState } from "react";
 import "@rainbow-me/rainbowkit/styles.css";
 import { useAccount } from "wagmi";
 import ProfileForm from "../../components/ProfileForm";
-import { Profile } from "../../constants/types";
+import { Profile } from "@prisma/client";
+import { Profile as ProfileType } from "../../constants/types";
 import * as React from "react";
 
 import { SnackbarOrigin } from "@mui/material/Snackbar";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import {
-    axiosAPIInstance,
-    getProfileById,
-} from "../../constants/axiosInstances";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useProfileStore, useReferralStore } from "../../store";
-import Header from "../../components/Header";
 import { ProfileFormSkeleton } from "../../components/skeletons";
+import {
+    getProfileByUserIdQuery,
+    getProfileByHandleIdQuery,
+} from "../../graphql/graphqlQueries";
+
+import {
+    createReferralQuery,
+    createProfileQuery,
+} from "../../graphql/graphqlMutations";
 
 export default function AppPage() {
     const router = useRouter();
+
+    const queryClient = useQueryClient();
 
     const { address, isConnected } = useAccount();
 
@@ -29,14 +36,17 @@ export default function AppPage() {
     const [referredFrom] = useReferralStore((state) => [state.referredFrom]);
 
     const {
-        data: ProfileData,
+        data: Profile,
         isLoading: isQueryLoading,
         isError: isQueryError,
-    } = useQuery(["profileById", session?.user?.id], () =>
-        getProfileById(session?.user?.id ? session.user.id : 0)
+    } = useQuery(
+        ["getProfile", session?.user.id],
+        () => getProfileByUserIdQuery(session?.user.id || "default"),
+        { enabled: !!session }
     );
 
     const [queryInMintQueue, setQueryInMintQueue] = useState(false);
+    const [isProfileCreating, setIsProfileCreating] = useState(false);
 
     const [setHandle] = useProfileStore((state) => [state.setHandle]);
 
@@ -60,14 +70,15 @@ export default function AppPage() {
 
     //Minted accounts should go to profile page
     useEffect(() => {
-        if (!isQueryLoading && !isQueryError && !ProfileData.error)
-            if (ProfileData.profile.minted)
-                router.push(`/u/${ProfileData.profile.handle}`);
+        if (!isQueryLoading && !isQueryError && Profile)
+            if (Profile.minted) router.push(`/u/${Profile?.handle}`);
             else setQueryInMintQueue(true);
         // if (mintSuccessful) router.push(`/u/${handle}`);
-    }, [ProfileData, isQueryError, isQueryLoading, router]);
+    }, [Profile, isQueryError, isQueryLoading, router]);
 
     const [userProfile, setUserProfile] = useState<Profile>({
+        id: 0,
+        minted: false,
         handle: "",
         title: "",
         summary: "",
@@ -82,7 +93,7 @@ export default function AppPage() {
             { organization: "", startYear: "", endYear: "", title: "" },
         ],
         address: "",
-        user_id: 0,
+        user_id: "",
     });
 
     const [snackBarState, setSnackBarState] = React.useState({
@@ -106,33 +117,40 @@ export default function AppPage() {
     };
 
     async function saveProfile(profile: Profile) {
-        const id = session?.user?.id || 0;
-
-        const response = await axiosAPIInstance.post("/profile", {
-            data: { ...profile, user_id: id },
-        });
+        console.log({ id: session?.user.id, profile });
+        setIsProfileCreating(true);
+        await createProfileQuery(session?.user.id || "default", profile)
+            .then((data) => {
+                if (data) {
+                    setHandle(data.handle);
+                    setQueryInMintQueue(true);
+                }
+                queryClient.invalidateQueries({ queryKey: ["getProfile"] });
+            })
+            .catch((err) => {
+                console.log(err);
+                throw new Error("Profile creation failed");
+            });
 
         if (referredFrom !== "" && referredFrom !== undefined) {
-            await axiosAPIInstance
-                .post("/referral", {
-                    user_id: id,
-                    email: session?.user?.email,
-                })
-                .catch((err) => console.error(err));
+            const referrer = await getProfileByHandleIdQuery(referredFrom);
+            if (referrer) {
+                await createReferralQuery(
+                    referrer.handle,
+                    session?.user.email || "default"
+                );
+            }
         }
-
-        setHandle(profile.handle);
-        return response.data;
     }
 
-    async function checkHandle(e: { preventDefault: () => void }) {
-        e.preventDefault();
+    async function doesHandleExist(e?: { preventDefault: () => void }) {
+        e?.preventDefault();
 
         // Make an API call to check if the handle already exists
-        const handleExistsResponse = await axiosAPIInstance.get(
-            `/handle/${userProfile.handle}`
-        );
-        if (handleExistsResponse.data.exists) {
+        const data = await getProfileByHandleIdQuery(userProfile.handle);
+        console.log(data);
+        if (data !== null) {
+            // console.log(data?.handle);
             // If the handle already exists, show an error message
             handleAlert({
                 vertical: "top",
@@ -140,8 +158,10 @@ export default function AppPage() {
             });
             //TODO Switch to a snackbar
             alert("Handle already exists");
-            return;
+            return true;
         }
+
+        return false;
     }
 
     const handleChange = (e: {
@@ -158,25 +178,15 @@ export default function AppPage() {
         e.preventDefault();
 
         // Make an API call to check if the handle already exists
-        const handleExistsResponse = await axiosAPIInstance.get(
-            `/handle/${userProfile.handle}`
-        );
+        const ProfileExists = await doesHandleExist();
 
-        if (handleExistsResponse.data.exists) {
-            // If the handle already exists, show an error message
-            // TODO update to support better UI
-            alert("Handle already exists");
-            return;
+        if (!ProfileExists) {
+            await saveProfile(userProfile);
+            setIsProfileCreating(false);
         }
-
-        await saveProfile(userProfile)
-            .then(() => {
-                setQueryInMintQueue(true);
-            })
-            .catch((err) => console.log(err));
     }
 
-    if (!isConnected || isQueryLoading)
+    if (!isConnected || isQueryLoading || isProfileCreating)
         return (
             <section className="w-full flex flex-wrap ">
                 <div className="container h-full">
@@ -193,7 +203,7 @@ export default function AppPage() {
         <section className="w-full flex flex-wrap ">
             <div className="container h-full">
                 <div className="text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
-                    {ProfileData.error ? (
+                    {!Profile ? (
                         <div className="flex-col items-center">
                             <form
                                 className="flex flex-col justify-center items-center"
@@ -231,7 +241,7 @@ export default function AppPage() {
                                         className="w-auto mx-4 rounded-full border border-black"
                                         value={userProfile.handle}
                                         onChange={handleChange}
-                                        onBlur={checkHandle}
+                                        onBlur={doesHandleExist}
                                     />
                                 </div>
                                 <div className="my-6">
@@ -255,7 +265,7 @@ export default function AppPage() {
                                 </div>
                                 <ProfileForm
                                     handleChange={handleChange}
-                                    userProfile={userProfile}
+                                    userProfile={userProfile as ProfileType}
                                 />
                             </form>
                         </div>

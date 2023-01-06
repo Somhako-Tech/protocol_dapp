@@ -23,7 +23,18 @@ export default function Layout({ children }: { children: any }) {
         { enabled: !!session }
     );
 
-    if (isQueryLoading || isQueryError || !ProfileData) {
+    if (isQueryLoading || isQueryError) {
+        return (
+            <main className="">
+                <Head>
+                    <title> Somhakohr Dapp </title>
+                </Head>
+                {children}
+            </main>
+        );
+    }
+
+    if (!ProfileData) {
         return (
             <main className="py-8 bg-white">
                 <Head>
