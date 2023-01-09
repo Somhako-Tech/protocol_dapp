@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import "@rainbow-me/rainbowkit/styles.css";
 import "ethers";
-// import { axiosInstance } from "../api/axiosApi";
 import { Profile } from "../../constants/types";
 
 import { useSession } from "next-auth/react";
@@ -48,6 +47,7 @@ export default function Home() {
         });
 
         if (response.data.success) {
+            //TODO Switch to graphql
             await axiosAPIInstance
                 .patch(`/profile/${profile.user_id}`, {
                     minted: true,

@@ -2,13 +2,7 @@ import Head from "next/head";
 import Header from "../Header";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
-import { getProfileById } from "../../constants/axiosInstances";
-import {
-    getProfileByUserIdQuery,
-    getProfileByUserIdQueryDocument,
-    getUserQueryDocument,
-} from "../../graphql/graphqlQueries";
-import { request } from "graphql-request";
+import { getProfileByUserIdQuery } from "../../graphql/graphqlQueries";
 
 export default function Layout({ children }: { children: any }) {
     const { data: session } = useSession();

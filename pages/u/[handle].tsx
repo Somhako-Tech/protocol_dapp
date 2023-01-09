@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "@rainbow-me/rainbowkit/styles.css";
 import "ethers";
-// import { axiosInstance } from "../api/axiosApi";
 import React from "react";
 
 import {

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Profile } from "../constants/types";
 import * as changeCase from "change-case";
-import { axiosAPIInstance } from "../constants/axiosInstances";
 import { ProfileFormSkeleton } from "./skeletons";
 
 export default function ProfileSummary({

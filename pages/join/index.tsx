@@ -4,7 +4,6 @@ import {
     signIn,
     useSession,
 } from "next-auth/react";
-import { axiosAPIInstance } from "../../constants/axiosInstances";
 import { useReferralStore } from "../../store";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
