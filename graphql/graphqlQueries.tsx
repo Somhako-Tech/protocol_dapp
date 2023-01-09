@@ -5,7 +5,7 @@ import { graphql } from "./gql";
 import { request } from "graphql-request";
 import { Prisma, Profile } from "@prisma/client";
 
-const API_URL = `http://localhost:3030/graphql`;
+const API_URL = `/api/graphql`;
 
 export const getProfileByHandleQueryDocument = graphql(`
     query getProfileByHandle($handle: String!) {
@@ -32,8 +32,21 @@ export const getProfileByHandleIdQuery = async (handle: string) => {
 export const getProfileByUserIdQueryDocument = graphql(`
     query getProfileById($user_id: String!) {
         getProfile(where: { user_id: $user_id }) {
-            minted
+            id
             handle
+            title
+            summary
+            job_type
+            pref_location
+            salary
+            years_of_exp
+            skills
+            experience
+            education
+            address
+            link
+            minted
+            user_id
         }
     }
 `);
@@ -109,4 +122,29 @@ export const getProfilesQuery = async () => {
     );
 
     return profiles;
+};
+
+export const getReferralCountQueryDocument = graphql(`
+    query getReferralCount($user_id: String!) {
+        aggregateReferral(where: { user_id: { equals: $user_id } }) {
+            _count {
+                user_id
+            }
+        }
+    }
+`);
+
+export const getReferralCountQuery = async (user_id: string) => {
+    const { aggregateReferral } = await request(
+        API_URL,
+        getReferralCountQueryDocument,
+        {
+            user_id: user_id,
+        }
+    ).catch((err) => {
+        console.log(err);
+        return { aggregateReferral: null };
+    });
+
+    return aggregateReferral;
 };

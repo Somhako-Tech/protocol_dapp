@@ -5,7 +5,7 @@ import { graphql } from "./gql";
 import { request } from "graphql-request";
 import { Profile } from "@prisma/client";
 
-const API_URL = `http://localhost:3030/graphql`;
+const API_URL = `/api/graphql`;
 
 export const createReferralQueryDocument = graphql(`
     mutation createOneReferral($email: String!, $user_id: String!) {
