@@ -4,7 +4,10 @@ import "ethers";
 // import { axiosInstance } from "../api/axiosApi";
 import React from "react";
 
-import { getReferralCount } from "../../constants/axiosInstances";
+import {
+    getProfileByUserIdQuery,
+    getReferralCountQuery,
+} from "../../graphql/graphqlQueries";
 import { useRouter } from "next/router";
 import ProfileSummary from "../../components/ProfileSummary";
 import { useMintStore } from "../../store";
@@ -13,24 +16,34 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import Snackbar from "@mui/material/Snackbar";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
+import { ProfileFormSkeleton } from "../../components/skeletons";
 
 export default function UserPage() {
     const router = useRouter();
     const { handle } = router.query;
     const { data: session } = useSession();
 
-    const { data, isLoading, isError } = useQuery(
-        ["referral", session?.user?.id],
-        () => getReferralCount(session?.user?.id ? session.user.id : 0)
+    const {
+        data: aggregateReferral,
+        isLoading: isReferralLoading,
+        isError: isReferralError,
+    } = useQuery(["getReferralCount", session?.user?.id], () =>
+        getReferralCountQuery(session?.user?.id || "default")
     );
 
-    const referralCount = isLoading ? 0 : isError ? 0 : data.count;
+    const {
+        data: Profile,
+        isLoading: isProfileQueryLoading,
+        isError: isQueryError,
+    } = useQuery(
+        ["getProfile", session?.user.id],
+        () => getProfileByUserIdQuery(session?.user.id || "default"),
+        { enabled: !!session }
+    );
 
-    useEffect(() => {
-        if (!handle || typeof handle !== "string") router.push("/app");
-    }, [handle, router]);
+    const [referralCount, setReferralCount] = useState(0);
 
-    const [tokenId] = useMintStore((state) => [state.tokenId]);
+    const [tokenId] = useState(0);
 
     const [isCopied, setIsCopied] = useState(false);
 
@@ -43,6 +56,20 @@ export default function UserPage() {
     }
 
     const referralLink = `http://localhost:3000/join?referral=${handle}`;
+
+    useEffect(() => {
+        setReferralCount(
+            isReferralLoading
+                ? 0
+                : isReferralError
+                ? 0
+                : aggregateReferral?._count?.user_id || 0
+        );
+    }, [isReferralLoading, isReferralError, aggregateReferral]);
+
+    useEffect(() => {
+        if (!handle || typeof handle !== "string") router.push("/app");
+    }, [handle, router]);
 
     // onClick handler function for the copy button
     const handleCopyClick = () => {
@@ -72,7 +99,11 @@ export default function UserPage() {
                     <div className="flex-col items-center justify-center">
                         <h1 className={" font-bold text-2xl mb-4 text-center"}>
                             Minting Complete! Your token id is {`'${tokenId}'`}!
-                            <ProfileSummary handle={handle} />
+                            {isProfileQueryLoading ? (
+                                <ProfileFormSkeleton />
+                            ) : (
+                                <ProfileSummary userProfile={Profile} />
+                            )}
                             <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 flex flex-col justify-center items-center">
                                 <label
                                     htmlFor="referral"

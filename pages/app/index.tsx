@@ -265,7 +265,7 @@ export default function AppPage() {
                                 </div>
                                 <ProfileForm
                                     handleChange={handleChange}
-                                    userProfile={userProfile as ProfileType}
+                                    userProfile={userProfile}
                                 />
                             </form>
                         </div>

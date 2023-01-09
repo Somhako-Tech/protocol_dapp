@@ -1,10 +1,21 @@
-import { getCsrfToken, getProviders, signIn } from "next-auth/react";
+import {
+    getCsrfToken,
+    getProviders,
+    signIn,
+    useSession,
+} from "next-auth/react";
 import { axiosAPIInstance } from "../../constants/axiosInstances";
 import { useReferralStore } from "../../store";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function LogIn({ providers }: { providers: any }) {
     const router = useRouter();
+    const { data: session } = useSession();
+
+    useEffect(() => {
+        if (session) router.push("/");
+    }, [session, router]);
 
     const { referral } = router.query;
     const [setReferredFrom] = useReferralStore((state) => [
@@ -90,7 +101,7 @@ export default function LogIn({ providers }: { providers: any }) {
                                         (provider: any) => (
                                             <div
                                                 key={provider.name}
-                                                style={{ marginBottom: 0 }}
+                                                className="my-2"
                                             >
                                                 <button
                                                     className="w-full max-w-sm rounded-full bg-blue-500 text-white font-bold py-2 px-4 hover:bg-blue-700 focus:outline-none focus:shadow-outline"
