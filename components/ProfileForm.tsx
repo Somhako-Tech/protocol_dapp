@@ -1,6 +1,6 @@
 import { Tab } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import { Profile } from "../constants/types";
+import { Profile } from "@prisma/client";
 
 const ProfileForm = ({
     handleChange,
@@ -107,6 +107,7 @@ const ProfileForm = ({
             },
         });
     };
+
     const addEducation = () => {
         const education = userProfile.education;
         if (userProfile.education.length > 1) return;

@@ -205,7 +205,11 @@ export default function ProfileSummary({
         <div className="container">
             <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 flex flex-col justify-center items-center">
                 <h2 className="font-semibold text-lg md:text-3xl mb-4">
-                    Profile Summary (User ID #{profile.user_id})
+                    Profile Summary{" "}
+                    <span className="italic font-thin">
+                        {" "}
+                        ID: {profile.user_id}
+                    </span>
                 </h2>
                 <div className="grid">{ProfileInfo}</div>
                 <div className="grid grid-cols-2 gap-20 pt-11">
