@@ -8,6 +8,7 @@ import { axiosAPIInstance } from "../../constants/axiosInstances";
 import { useReferralStore } from "../../store";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { getProfileByHandleIdQuery } from "../../graphql/graphqlQueries";
 
 export default function LogIn({ providers }: { providers: any }) {
     const router = useRouter();
@@ -23,12 +24,14 @@ export default function LogIn({ providers }: { providers: any }) {
         state.referredFrom,
     ]);
 
-    //TODO Add check for users that don't exist
+    //TODO Switch to graphql
     const handleReferralSignIn = async (provider_id: any) => {
         if (referral && typeof referral === "string") {
-            await axiosAPIInstance(`/profile/${referral}`).then((response) => {
-                const referredFrom = response.data.profile.user_id;
-                setReferredFrom(referredFrom);
+            await getProfileByHandleIdQuery(referral).then((profile) => {
+                if (profile?.handle) {
+                    const referredFrom = profile?.handle;
+                    setReferredFrom(referredFrom);
+                }
                 signIn(provider_id);
             });
         } else signIn(provider_id);
