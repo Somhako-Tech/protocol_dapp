@@ -12,8 +12,9 @@ export default function Layout({ children }: { children: any }) {
         isLoading: isQueryLoading,
         isError: isQueryError,
     } = useQuery(
-        ["getProfile", session?.user.id],
-        () => getProfileByUserIdQuery(session?.user.id || "default"),
+        ["getProfile", session?.user.id as string],
+        () =>
+            getProfileByUserIdQuery((session?.user.id as string) || "default"),
         { enabled: !!session }
     );
 

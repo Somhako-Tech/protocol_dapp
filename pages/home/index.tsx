@@ -27,13 +27,13 @@ export default function Home() {
         isLoading: isProfileQueryLoading,
         isError: isProfileQueryError,
         data: Profile,
-    } = useQuery(["getProfile", session?.user.id], async () =>
-        getProfileByUserIdQuery(session?.user.id || "default")
+    } = useQuery(["getProfile", session?.user.id as string], async () =>
+        getProfileByUserIdQuery((session?.user.id as string) || "default")
     );
 
     const { isLoading: isUserQueryLoading, data: User } = useQuery(
-        ["getUser", session?.user.id],
-        async () => getUserQuery(session?.user.id || "default")
+        ["getUser", session?.user.id as string],
+        async () => getUserQuery((session?.user.id as string) || "default")
     );
 
     const [inMintQueue, setInMintQueue] = useState(false);

@@ -40,8 +40,9 @@ export default function AppPage() {
         isLoading: isQueryLoading,
         isError: isQueryError,
     } = useQuery(
-        ["getProfile", session?.user.id],
-        () => getProfileByUserIdQuery(session?.user.id || "default"),
+        ["getProfile", session?.user.id as string],
+        () =>
+            getProfileByUserIdQuery((session?.user.id as string) || "default"),
         { enabled: !!session }
     );
 
@@ -117,9 +118,12 @@ export default function AppPage() {
     };
 
     async function saveProfile(profile: Profile) {
-        console.log({ id: session?.user.id, profile });
+        console.log({ id: session?.user.id as string, profile });
         setIsProfileCreating(true);
-        await createProfileQuery(session?.user.id || "default", profile)
+        await createProfileQuery(
+            (session?.user.id as string) || "default",
+            profile
+        )
             .then((data) => {
                 if (data) {
                     setHandle(data.handle);

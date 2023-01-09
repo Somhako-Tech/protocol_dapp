@@ -35,8 +35,9 @@ export default function UserPage() {
         isLoading: isProfileQueryLoading,
         isError: isQueryError,
     } = useQuery(
-        ["getProfile", session?.user.id],
-        () => getProfileByUserIdQuery(session?.user.id || "default"),
+        ["getProfile", session?.user.id as string],
+        () =>
+            getProfileByUserIdQuery((session?.user.id as string) || "default"),
         { enabled: !!session }
     );
 
