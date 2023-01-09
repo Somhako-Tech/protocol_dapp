@@ -51,9 +51,9 @@ const ProfileForm = ({
         },
         i: number
     ) => {
-        const education = userProfile.education;
+        const education = userProfile.education as any;
 
-        if (e.target.id == "institution")
+        if (e.target.id == "institution" && education !== null)
             education[i].institution = e.target.value;
         if (e.target.id == "title") education[i].title = e.target.value;
         if (e.target.id == "year") education[i].year = e.target.value;
@@ -70,7 +70,7 @@ const ProfileForm = ({
         },
         i: number
     ) => {
-        const experience = userProfile.experience;
+        const experience = userProfile.experience as any;
 
         if (e.target.id == "title") experience[i].title = e.target.value;
         if (e.target.id == "organization")
@@ -144,7 +144,7 @@ const ProfileForm = ({
         </div>
     ));
 
-    const education = userProfile.education.map((education, i) => (
+    const education = userProfile.education.map((education: any, i) => (
         <div key={i}>
             <label className="text-md mb-2 leading-none inline-block">
                 Education #{i + 1}
@@ -203,7 +203,7 @@ const ProfileForm = ({
         </div>
     ));
 
-    const experience = userProfile.experience.map((experience, i) => (
+    const experience = userProfile.experience.map((experience: any, i) => (
         <div key={i}>
             <label className="text-md mb-2 leading-none inline-block">
                 Experience #{i + 1}

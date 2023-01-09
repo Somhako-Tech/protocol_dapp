@@ -1,8 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
-import { Session } from "next-auth/core/types";
-
+import { Session, SessionStrategy } from "next-auth/core/types";
 import prisma from "../../../lib/prismadb";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import LinkedInProvider from "next-auth/providers/linkedin";
@@ -25,7 +24,7 @@ export const authOptions = {
         // ...add more providers here
     ],
     session: {
-        strategy: "jwt",
+        strategy: "jwt" as SessionStrategy,
         maxAge: 15 * 24 * 60 * 60, // the session will last 15 days
     },
     pages: {
