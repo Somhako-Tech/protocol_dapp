@@ -11,44 +11,34 @@ import { useQuery } from "@tanstack/react-query";
 import { ProfileFormSkeleton } from "../../components/skeletons";
 import { axiosAPIInstance } from "../../constants/axiosInstances";
 import ProfileReview from "../../components/ProfileReview";
+import { getProfilesQuery } from "../../graphql/graphqlQueries";
 
 export default function Home() {
     const router = useRouter();
     const { data: session } = useSession();
 
     const {
-        isLoading: isProfileListLoading,
+        isLoading: isProfilesLoading,
         isError: profileListError,
-        data: ProfileList,
-    } = useQuery({
-        queryKey: ["profiles"],
-        queryFn: () =>
-            fetch("http://localhost:3030/profile").then((res) => res.json()),
-    });
+        data: Profiles,
+    } = useQuery(["getProfiles"], async () => getProfilesQuery());
 
     useEffect(() => {
         if (!session) router.push("/");
     }, [session, router]);
 
-    if (isProfileListLoading) {
+    if (isProfilesLoading) {
         return (
-            <main className="py-8 bg-white">
-                <Header inMintQueue={false} />
-                <section className="w-full flex flex-wrap ">
-                    <div className="container h-full">
-                        <div className="w-full mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
-                            <ProfileFormSkeleton />
-                        </div>
+            <section className="w-full flex flex-wrap ">
+                <div className="container h-full">
+                    <div className="w-full mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
+                        <ProfileFormSkeleton />
                     </div>
-                </section>
-            </main>
+                </div>
+            </section>
         );
     }
-    let profileList = "Loading";
-
-    if (profileListError) {
-        profileList = "Failed to load";
-    }
+    let profileList = <></>;
 
     const handleMint = async (profile: Profile) => {
         const { handle, address } = profile;
@@ -69,38 +59,35 @@ export default function Home() {
     };
     const handleRejection = (profile: Profile) => console.log(profile);
 
-    if (!isProfileListLoading && !profileListError) {
-        profileList = ProfileList.profiles.map((profile: any) =>
-            profile.minted ? (
-                <></>
-            ) : (
-                <ProfileReview
-                    profile={profile}
-                    key={profile.handle}
-                    handleMint={handleMint}
-                    handleRejection={handleRejection}
-                />
-            )
+    if (!isProfilesLoading && !profileListError && Profiles) {
+        profileList = (
+            <>
+                {Profiles?.map((profile: any) =>
+                    profile.minted ? (
+                        <></>
+                    ) : (
+                        <ProfileReview
+                            profile={profile}
+                            key={profile.handle}
+                            handleMint={handleMint}
+                            handleRejection={handleRejection}
+                        />
+                    )
+                )}
+            </>
         );
     }
 
     return (
-        <main className="py-8 bg-white">
-            <Header inMintQueue={false} />
-            <section className="w-full flex flex-wrap ">
-                <div className="container h-full">
-                    <div className="w-full max-w-5xl mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
-                        <h1
-                            className={
-                                " font-bold text-4xl mb-4 text-center py-5"
-                            }
-                        >
-                            Profiles In Queue
-                        </h1>
-                        {profileList}
-                    </div>
+        <section className="w-full flex flex-wrap ">
+            <div className="container h-full">
+                <div className="w-full max-w-5xl mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
+                    <h1 className={" font-bold text-4xl mb-4 text-center py-5"}>
+                        Profiles In Queue
+                    </h1>
+                    {profileList}
                 </div>
-            </section>
-        </main>
+            </div>
+        </section>
     );
 }
