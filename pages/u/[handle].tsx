@@ -55,7 +55,7 @@ export default function UserPage() {
         }
     }
 
-    const referralLink = `http://localhost:3000/join?referral=${handle}`;
+    const referralLink = `${process.env.NEXT_URL}/join?referral=${handle}`;
 
     useEffect(() => {
         setReferralCount(
