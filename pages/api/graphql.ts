@@ -39,7 +39,7 @@ export default async function _(
             query: _req.body.query,
         }), // body data type must match "Content-Type" header
     };
-    const graphqlBaseUrl = "http://localhost:3030/graphql";
+    const graphqlBaseUrl = process.env.GRAPHQL_ENDPOINT as string;
     const res = await fetch(graphqlBaseUrl, query);
     const json = await res.json();
     _res.statusCode = 200;
