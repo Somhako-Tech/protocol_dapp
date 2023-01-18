@@ -44,7 +44,6 @@
         "next-auth": "^4.18.7",
         "npm": "^9.2.0",
         "pg": "^8.8.0",
-        "prisma": "^4.8.0",
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "reflect-metadata": "^0.1.13",
@@ -64,6 +63,7 @@
         "apollo": "^2.11.1",
         "autoprefixer": "^10.4.13",
         "postcss": "^8.4.20",
+        "prisma": "^4.9.0",
         "tailwindcss": "^3.2.4"
     }
 }
