@@ -1,0 +1,30 @@
+import * as TypeGraphQL from "type-graphql";
+import { Mint } from "../../../models/Mint";
+import { Profile } from "../../../models/Profile";
+import { User } from "../../../models/User";
+import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
+
+@TypeGraphQL.Resolver(_of => Profile)
+export class ProfileRelationsResolver {
+  @TypeGraphQL.FieldResolver(_type => Mint, {
+    nullable: true
+  })
+  async mint(@TypeGraphQL.Root() profile: Profile, @TypeGraphQL.Ctx() ctx: any): Promise<Mint | null> {
+    return getPrismaFromContext(ctx).profile.findUnique({
+      where: {
+        id: profile.id,
+      },
+    }).mint({});
+  }
+
+  @TypeGraphQL.FieldResolver(_type => User, {
+    nullable: false
+  })
+  async user(@TypeGraphQL.Root() profile: Profile, @TypeGraphQL.Ctx() ctx: any): Promise<User> {
+    return getPrismaFromContext(ctx).profile.findUnique({
+      where: {
+        id: profile.id,
+      },
+    }).user({});
+  }
+}

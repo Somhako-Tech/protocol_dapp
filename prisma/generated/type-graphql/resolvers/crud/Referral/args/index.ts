@@ -1,0 +1,14 @@
+export { AggregateReferralArgs } from "./AggregateReferralArgs";
+export { CreateManyReferralArgs } from "./CreateManyReferralArgs";
+export { CreateOneReferralArgs } from "./CreateOneReferralArgs";
+export { DeleteManyReferralArgs } from "./DeleteManyReferralArgs";
+export { DeleteOneReferralArgs } from "./DeleteOneReferralArgs";
+export { FindFirstReferralArgs } from "./FindFirstReferralArgs";
+export { FindFirstReferralOrThrowArgs } from "./FindFirstReferralOrThrowArgs";
+export { FindManyReferralArgs } from "./FindManyReferralArgs";
+export { FindUniqueReferralArgs } from "./FindUniqueReferralArgs";
+export { FindUniqueReferralOrThrowArgs } from "./FindUniqueReferralOrThrowArgs";
+export { GroupByReferralArgs } from "./GroupByReferralArgs";
+export { UpdateManyReferralArgs } from "./UpdateManyReferralArgs";
+export { UpdateOneReferralArgs } from "./UpdateOneReferralArgs";
+export { UpsertOneReferralArgs } from "./UpsertOneReferralArgs";
