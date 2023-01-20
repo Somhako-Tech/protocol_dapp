@@ -67,7 +67,7 @@ export const getProfileByUserIdQuery = async (user_id: string) => {
 };
 
 export const getUserQueryDocument = graphql(`
-    query getUser($id: String!) {
+    query getUserById($id: String!) {
         getUser(where: { id: $id }) {
             created_at
             email
@@ -92,7 +92,7 @@ export const getUserQuery = async (id: string) => {
 };
 
 export const getUserByEmailQueryDocument = graphql(`
-    query getUser($email: String!) {
+    query getUserByEmail($email: String!) {
         getUser(where: { email: $email }) {
             created_at
             email
