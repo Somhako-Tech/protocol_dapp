@@ -91,6 +91,31 @@ export const getUserQuery = async (id: string) => {
     return getUser;
 };
 
+export const getUserByEmailQueryDocument = graphql(`
+    query getUser($email: String!) {
+        getUser(where: { email: $email }) {
+            created_at
+            email
+            emailVerified
+            id
+            is_admin
+            name
+            updated_at
+        }
+    }
+`);
+
+export const getUserByEmailQuery = async (email: string) => {
+    const { getUser } = await request(API_URL, getUserByEmailQueryDocument, {
+        email: email,
+    }).catch((err) => {
+        console.log(err);
+        return { getUser: null };
+    });
+
+    return getUser;
+};
+
 export const getProfilesQueryDocument = graphql(`
     query getProfiles {
         profiles {
