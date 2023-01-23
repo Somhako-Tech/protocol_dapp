@@ -30,6 +30,7 @@ export default function UserPage() {
         getReferralCountQuery(session?.user?.id || "default")
     );
 
+    // TODO Get user by handle
     const {
         data: Profile,
         isLoading: isProfileQueryLoading,
@@ -55,7 +56,9 @@ export default function UserPage() {
         }
     }
 
-    const referralLink = `${process.env.NEXT_URL}/join?referral=${handle}`;
+    const base_url = process.env.NEXT_PUBLIC_NEXT_URL;
+
+    const referralLink = `${base_url}/join?referral=${handle}`;
 
     useEffect(() => {
         setReferralCount(
@@ -68,8 +71,8 @@ export default function UserPage() {
     }, [isReferralLoading, isReferralError, aggregateReferral]);
 
     useEffect(() => {
-        if (!handle || typeof handle !== "string") router.push("/app");
-    }, [handle, router]);
+        if (!isProfileQueryLoading && !Profile) router.push("/app");
+    }, [Profile, handle, isProfileQueryLoading, router]);
 
     // onClick handler function for the copy button
     const handleCopyClick = () => {
@@ -98,7 +101,10 @@ export default function UserPage() {
                 <div className="w-full max-w-[800px] mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
                     <div className="flex-col items-center justify-center">
                         <h1 className={" font-bold text-2xl mb-4 text-center"}>
-                            Minting Complete! Your token id is {`'${tokenId}'`}!
+                            {/* TODO Add check for minting complete */}
+                            {
+                                "You're in the mint queue! We'll notify you as soon as your profile get minted!"
+                            }
                             {isProfileQueryLoading ? (
                                 <ProfileFormSkeleton />
                             ) : (
