@@ -642,12 +642,47 @@ export type IntWithAggregatesFilter = {
   notIn?: InputMaybe<Array<Scalars['Int']>>;
 };
 
+export type JsonFilter = {
+  array_contains?: InputMaybe<Scalars['JSON']>;
+  array_ends_with?: InputMaybe<Scalars['JSON']>;
+  array_starts_with?: InputMaybe<Scalars['JSON']>;
+  equals?: InputMaybe<Scalars['JSON']>;
+  gt?: InputMaybe<Scalars['JSON']>;
+  gte?: InputMaybe<Scalars['JSON']>;
+  lt?: InputMaybe<Scalars['JSON']>;
+  lte?: InputMaybe<Scalars['JSON']>;
+  not?: InputMaybe<Scalars['JSON']>;
+  path?: InputMaybe<Array<Scalars['String']>>;
+  string_contains?: InputMaybe<Scalars['String']>;
+  string_ends_with?: InputMaybe<Scalars['String']>;
+  string_starts_with?: InputMaybe<Scalars['String']>;
+};
+
 export type JsonNullableListFilter = {
   equals?: InputMaybe<Array<Scalars['JSON']>>;
   has?: InputMaybe<Scalars['JSON']>;
   hasEvery?: InputMaybe<Array<Scalars['JSON']>>;
   hasSome?: InputMaybe<Array<Scalars['JSON']>>;
   isEmpty?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type JsonWithAggregatesFilter = {
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedJsonFilter>;
+  _min?: InputMaybe<NestedJsonFilter>;
+  array_contains?: InputMaybe<Scalars['JSON']>;
+  array_ends_with?: InputMaybe<Scalars['JSON']>;
+  array_starts_with?: InputMaybe<Scalars['JSON']>;
+  equals?: InputMaybe<Scalars['JSON']>;
+  gt?: InputMaybe<Scalars['JSON']>;
+  gte?: InputMaybe<Scalars['JSON']>;
+  lt?: InputMaybe<Scalars['JSON']>;
+  lte?: InputMaybe<Scalars['JSON']>;
+  not?: InputMaybe<Scalars['JSON']>;
+  path?: InputMaybe<Array<Scalars['String']>>;
+  string_contains?: InputMaybe<Scalars['String']>;
+  string_ends_with?: InputMaybe<Scalars['String']>;
+  string_starts_with?: InputMaybe<Scalars['String']>;
 };
 
 export type Mint = {
@@ -1428,6 +1463,22 @@ export type NestedIntWithAggregatesFilter = {
   notIn?: InputMaybe<Array<Scalars['Int']>>;
 };
 
+export type NestedJsonFilter = {
+  array_contains?: InputMaybe<Scalars['JSON']>;
+  array_ends_with?: InputMaybe<Scalars['JSON']>;
+  array_starts_with?: InputMaybe<Scalars['JSON']>;
+  equals?: InputMaybe<Scalars['JSON']>;
+  gt?: InputMaybe<Scalars['JSON']>;
+  gte?: InputMaybe<Scalars['JSON']>;
+  lt?: InputMaybe<Scalars['JSON']>;
+  lte?: InputMaybe<Scalars['JSON']>;
+  not?: InputMaybe<Scalars['JSON']>;
+  path?: InputMaybe<Array<Scalars['String']>>;
+  string_contains?: InputMaybe<Scalars['String']>;
+  string_ends_with?: InputMaybe<Scalars['String']>;
+  string_starts_with?: InputMaybe<Scalars['String']>;
+};
+
 export type NestedStringFilter = {
   contains?: InputMaybe<Scalars['String']>;
   endsWith?: InputMaybe<Scalars['String']>;
@@ -1518,7 +1569,7 @@ export type Profile = {
   handle: Scalars['String'];
   id: Scalars['Int'];
   job_type: Scalars['String'];
-  link: Scalars['String'];
+  link: Scalars['JSON'];
   mint?: Maybe<Mint>;
   minted: Scalars['Boolean'];
   pref_location: Scalars['String'];
@@ -1584,7 +1635,7 @@ export type ProfileCreateInput = {
   experience?: InputMaybe<ProfileCreateexperienceInput>;
   handle: Scalars['String'];
   job_type: Scalars['String'];
-  link: Scalars['String'];
+  link: Scalars['JSON'];
   mint?: InputMaybe<MintCreateNestedOneWithoutProfileInput>;
   minted: Scalars['Boolean'];
   pref_location: Scalars['String'];
@@ -1603,7 +1654,7 @@ export type ProfileCreateManyInput = {
   handle: Scalars['String'];
   id?: InputMaybe<Scalars['Int']>;
   job_type: Scalars['String'];
-  link: Scalars['String'];
+  link: Scalars['JSON'];
   minted: Scalars['Boolean'];
   pref_location: Scalars['String'];
   salary: Scalars['String'];
@@ -1642,7 +1693,7 @@ export type ProfileCreateWithoutMintInput = {
   experience?: InputMaybe<ProfileCreateexperienceInput>;
   handle: Scalars['String'];
   job_type: Scalars['String'];
-  link: Scalars['String'];
+  link: Scalars['JSON'];
   minted: Scalars['Boolean'];
   pref_location: Scalars['String'];
   salary: Scalars['String'];
@@ -1659,7 +1710,7 @@ export type ProfileCreateWithoutUserInput = {
   experience?: InputMaybe<ProfileCreateexperienceInput>;
   handle: Scalars['String'];
   job_type: Scalars['String'];
-  link: Scalars['String'];
+  link: Scalars['JSON'];
   mint?: InputMaybe<MintCreateNestedOneWithoutProfileInput>;
   minted: Scalars['Boolean'];
   pref_location: Scalars['String'];
@@ -1695,7 +1746,7 @@ export type ProfileGroupBy = {
   handle: Scalars['String'];
   id: Scalars['Int'];
   job_type: Scalars['String'];
-  link: Scalars['String'];
+  link: Scalars['JSON'];
   minted: Scalars['Boolean'];
   pref_location: Scalars['String'];
   salary: Scalars['String'];
@@ -1712,7 +1763,6 @@ export type ProfileMaxAggregate = {
   handle?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   job_type?: Maybe<Scalars['String']>;
-  link?: Maybe<Scalars['String']>;
   minted?: Maybe<Scalars['Boolean']>;
   pref_location?: Maybe<Scalars['String']>;
   salary?: Maybe<Scalars['String']>;
@@ -1727,7 +1777,6 @@ export type ProfileMaxOrderByAggregateInput = {
   handle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   job_type?: InputMaybe<SortOrder>;
-  link?: InputMaybe<SortOrder>;
   minted?: InputMaybe<SortOrder>;
   pref_location?: InputMaybe<SortOrder>;
   salary?: InputMaybe<SortOrder>;
@@ -1743,7 +1792,6 @@ export type ProfileMinAggregate = {
   handle?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   job_type?: Maybe<Scalars['String']>;
-  link?: Maybe<Scalars['String']>;
   minted?: Maybe<Scalars['Boolean']>;
   pref_location?: Maybe<Scalars['String']>;
   salary?: Maybe<Scalars['String']>;
@@ -1758,7 +1806,6 @@ export type ProfileMinOrderByAggregateInput = {
   handle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   job_type?: InputMaybe<SortOrder>;
-  link?: InputMaybe<SortOrder>;
   minted?: InputMaybe<SortOrder>;
   pref_location?: InputMaybe<SortOrder>;
   salary?: InputMaybe<SortOrder>;
@@ -1844,7 +1891,7 @@ export type ProfileScalarWhereWithAggregatesInput = {
   handle?: InputMaybe<StringWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   job_type?: InputMaybe<StringWithAggregatesFilter>;
-  link?: InputMaybe<StringWithAggregatesFilter>;
+  link?: InputMaybe<JsonWithAggregatesFilter>;
   minted?: InputMaybe<BoolWithAggregatesFilter>;
   pref_location?: InputMaybe<StringWithAggregatesFilter>;
   salary?: InputMaybe<StringWithAggregatesFilter>;
@@ -1870,7 +1917,7 @@ export type ProfileUpdateInput = {
   experience?: InputMaybe<ProfileUpdateexperienceInput>;
   handle?: InputMaybe<StringFieldUpdateOperationsInput>;
   job_type?: InputMaybe<StringFieldUpdateOperationsInput>;
-  link?: InputMaybe<StringFieldUpdateOperationsInput>;
+  link?: InputMaybe<Scalars['JSON']>;
   mint?: InputMaybe<MintUpdateOneWithoutProfileNestedInput>;
   minted?: InputMaybe<BoolFieldUpdateOperationsInput>;
   pref_location?: InputMaybe<StringFieldUpdateOperationsInput>;
@@ -1888,7 +1935,7 @@ export type ProfileUpdateManyMutationInput = {
   experience?: InputMaybe<ProfileUpdateexperienceInput>;
   handle?: InputMaybe<StringFieldUpdateOperationsInput>;
   job_type?: InputMaybe<StringFieldUpdateOperationsInput>;
-  link?: InputMaybe<StringFieldUpdateOperationsInput>;
+  link?: InputMaybe<Scalars['JSON']>;
   minted?: InputMaybe<BoolFieldUpdateOperationsInput>;
   pref_location?: InputMaybe<StringFieldUpdateOperationsInput>;
   salary?: InputMaybe<StringFieldUpdateOperationsInput>;
@@ -1922,7 +1969,7 @@ export type ProfileUpdateWithoutMintInput = {
   experience?: InputMaybe<ProfileUpdateexperienceInput>;
   handle?: InputMaybe<StringFieldUpdateOperationsInput>;
   job_type?: InputMaybe<StringFieldUpdateOperationsInput>;
-  link?: InputMaybe<StringFieldUpdateOperationsInput>;
+  link?: InputMaybe<Scalars['JSON']>;
   minted?: InputMaybe<BoolFieldUpdateOperationsInput>;
   pref_location?: InputMaybe<StringFieldUpdateOperationsInput>;
   salary?: InputMaybe<StringFieldUpdateOperationsInput>;
@@ -1939,7 +1986,7 @@ export type ProfileUpdateWithoutUserInput = {
   experience?: InputMaybe<ProfileUpdateexperienceInput>;
   handle?: InputMaybe<StringFieldUpdateOperationsInput>;
   job_type?: InputMaybe<StringFieldUpdateOperationsInput>;
-  link?: InputMaybe<StringFieldUpdateOperationsInput>;
+  link?: InputMaybe<Scalars['JSON']>;
   mint?: InputMaybe<MintUpdateOneWithoutProfileNestedInput>;
   minted?: InputMaybe<BoolFieldUpdateOperationsInput>;
   pref_location?: InputMaybe<StringFieldUpdateOperationsInput>;
@@ -1985,7 +2032,7 @@ export type ProfileWhereInput = {
   handle?: InputMaybe<StringFilter>;
   id?: InputMaybe<IntFilter>;
   job_type?: InputMaybe<StringFilter>;
-  link?: InputMaybe<StringFilter>;
+  link?: InputMaybe<JsonFilter>;
   mint?: InputMaybe<MintRelationFilter>;
   minted?: InputMaybe<BoolFilter>;
   pref_location?: InputMaybe<StringFilter>;
@@ -3717,7 +3764,7 @@ export type CreateProfileMutationMutationVariables = Exact<{
   pref_location: Scalars['String'];
   salary: Scalars['String'];
   years_of_exp: Scalars['String'];
-  link: Scalars['String'];
+  link: Scalars['JSON'];
   address: Scalars['String'];
   education: Array<Scalars['JSON']> | Scalars['JSON'];
   experience: Array<Scalars['JSON']> | Scalars['JSON'];
@@ -3739,7 +3786,7 @@ export type GetProfileByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetProfileByIdQuery = { __typename?: 'Query', getProfile?: { __typename?: 'Profile', id: number, handle: string, title: string, summary: string, job_type: string, pref_location: string, salary: string, years_of_exp: string, skills: Array<string>, experience: Array<any>, education: Array<any>, address: string, link: string, minted: boolean, user_id: string } | null };
+export type GetProfileByIdQuery = { __typename?: 'Query', getProfile?: { __typename?: 'Profile', id: number, handle: string, title: string, summary: string, job_type: string, pref_location: string, salary: string, years_of_exp: string, skills: Array<string>, experience: Array<any>, education: Array<any>, address: string, link: any, minted: boolean, user_id: string } | null };
 
 export type GetUserByIdQueryVariables = Exact<{
   id: Scalars['String'];
@@ -3758,7 +3805,7 @@ export type GetUserByEmailQuery = { __typename?: 'Query', getUser?: { __typename
 export type GetProfilesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProfilesQuery = { __typename?: 'Query', profiles: Array<{ __typename?: 'Profile', address: string, education: Array<any>, experience: Array<any>, handle: string, id: number, job_type: string, link: string, minted: boolean, pref_location: string, salary: string, skills: Array<string>, summary: string, title: string, user_id: string, years_of_exp: string }> };
+export type GetProfilesQuery = { __typename?: 'Query', profiles: Array<{ __typename?: 'Profile', address: string, education: Array<any>, experience: Array<any>, handle: string, id: number, job_type: string, link: any, minted: boolean, pref_location: string, salary: string, skills: Array<string>, summary: string, title: string, user_id: string, years_of_exp: string }> };
 
 export type GetReferralCountQueryVariables = Exact<{
   user_id: Scalars['String'];
@@ -3769,7 +3816,7 @@ export type GetReferralCountQuery = { __typename?: 'Query', aggregateReferral: {
 
 
 export const CreateOneReferralDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createOneReferral"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"user_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createOneReferral"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"user"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"connect"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"user_id"}}}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateOneReferralMutation, CreateOneReferralMutationVariables>;
-export const CreateProfileMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateProfileMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"handle"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"title"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"summary"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"job_type"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pref_location"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"salary"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"years_of_exp"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"link"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"address"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"education"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"JSON"}}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"experience"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"JSON"}}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"user_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createOneProfile"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"handle"},"value":{"kind":"Variable","name":{"kind":"Name","value":"handle"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"title"},"value":{"kind":"Variable","name":{"kind":"Name","value":"title"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"summary"},"value":{"kind":"Variable","name":{"kind":"Name","value":"summary"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"job_type"},"value":{"kind":"Variable","name":{"kind":"Name","value":"job_type"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"pref_location"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pref_location"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"salary"},"value":{"kind":"Variable","name":{"kind":"Name","value":"salary"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"years_of_exp"},"value":{"kind":"Variable","name":{"kind":"Name","value":"years_of_exp"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"link"},"value":{"kind":"Variable","name":{"kind":"Name","value":"link"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"address"},"value":{"kind":"Variable","name":{"kind":"Name","value":"address"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"education"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"set"},"value":{"kind":"Variable","name":{"kind":"Name","value":"education"}}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"experience"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"set"},"value":{"kind":"Variable","name":{"kind":"Name","value":"experience"}}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"minted"},"value":{"kind":"BooleanValue","value":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"user"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"connect"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"user_id"}}}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}}]}}]}}]} as unknown as DocumentNode<CreateProfileMutationMutation, CreateProfileMutationMutationVariables>;
+export const CreateProfileMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateProfileMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"handle"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"title"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"summary"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"job_type"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pref_location"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"salary"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"years_of_exp"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"link"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"JSON"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"address"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"education"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"JSON"}}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"experience"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"JSON"}}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"user_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createOneProfile"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"handle"},"value":{"kind":"Variable","name":{"kind":"Name","value":"handle"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"title"},"value":{"kind":"Variable","name":{"kind":"Name","value":"title"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"summary"},"value":{"kind":"Variable","name":{"kind":"Name","value":"summary"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"job_type"},"value":{"kind":"Variable","name":{"kind":"Name","value":"job_type"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"pref_location"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pref_location"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"salary"},"value":{"kind":"Variable","name":{"kind":"Name","value":"salary"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"years_of_exp"},"value":{"kind":"Variable","name":{"kind":"Name","value":"years_of_exp"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"link"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"set"},"value":{"kind":"Variable","name":{"kind":"Name","value":"link"}}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"address"},"value":{"kind":"Variable","name":{"kind":"Name","value":"address"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"education"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"set"},"value":{"kind":"Variable","name":{"kind":"Name","value":"education"}}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"experience"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"set"},"value":{"kind":"Variable","name":{"kind":"Name","value":"experience"}}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"minted"},"value":{"kind":"BooleanValue","value":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"user"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"connect"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"user_id"}}}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}}]}}]}}]} as unknown as DocumentNode<CreateProfileMutationMutation, CreateProfileMutationMutationVariables>;
 export const GetProfileByHandleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getProfileByHandle"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"handle"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getProfile"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"handle"},"value":{"kind":"Variable","name":{"kind":"Name","value":"handle"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"handle"}}]}}]}}]} as unknown as DocumentNode<GetProfileByHandleQuery, GetProfileByHandleQueryVariables>;
 export const GetProfileByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getProfileById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"user_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getProfile"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"user_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"user_id"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"summary"}},{"kind":"Field","name":{"kind":"Name","value":"job_type"}},{"kind":"Field","name":{"kind":"Name","value":"pref_location"}},{"kind":"Field","name":{"kind":"Name","value":"salary"}},{"kind":"Field","name":{"kind":"Name","value":"years_of_exp"}},{"kind":"Field","name":{"kind":"Name","value":"skills"}},{"kind":"Field","name":{"kind":"Name","value":"experience"}},{"kind":"Field","name":{"kind":"Name","value":"education"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"minted"}},{"kind":"Field","name":{"kind":"Name","value":"user_id"}}]}}]}}]} as unknown as DocumentNode<GetProfileByIdQuery, GetProfileByIdQueryVariables>;
 export const GetUserByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getUserById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"emailVerified"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"is_admin"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}}]}}]} as unknown as DocumentNode<GetUserByIdQuery, GetUserByIdQueryVariables>;
