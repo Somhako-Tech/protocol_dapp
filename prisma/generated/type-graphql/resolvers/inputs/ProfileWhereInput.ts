@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolFilter } from "../inputs/BoolFilter";
 import { IntFilter } from "../inputs/IntFilter";
+import { JsonFilter } from "../inputs/JsonFilter";
 import { JsonNullableListFilter } from "../inputs/JsonNullableListFilter";
 import { MintRelationFilter } from "../inputs/MintRelationFilter";
 import { StringFilter } from "../inputs/StringFilter";
@@ -69,10 +70,10 @@ export class ProfileWhereInput {
   })
   years_of_exp?: StringFilter | undefined;
 
-  @TypeGraphQL.Field(_type => StringFilter, {
+  @TypeGraphQL.Field(_type => JsonFilter, {
     nullable: true
   })
-  link?: StringFilter | undefined;
+  link?: JsonFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true

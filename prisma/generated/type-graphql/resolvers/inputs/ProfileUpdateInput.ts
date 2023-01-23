@@ -49,10 +49,10 @@ export class ProfileUpdateInput {
   })
   years_of_exp?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
+  @TypeGraphQL.Field(_type => GraphQLScalars.JSONResolver, {
     nullable: true
   })
-  link?: StringFieldUpdateOperationsInput | undefined;
+  link?: Prisma.InputJsonValue | undefined;
 
   @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true

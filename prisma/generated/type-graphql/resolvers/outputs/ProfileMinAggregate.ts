@@ -50,11 +50,6 @@ export class ProfileMinAggregate {
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  link!: string | null;
-
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true
-  })
   address!: string | null;
 
   @TypeGraphQL.Field(_type => Boolean, {

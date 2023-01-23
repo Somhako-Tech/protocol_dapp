@@ -52,10 +52,10 @@ export class ProfileGroupBy {
   })
   years_of_exp!: string;
 
-  @TypeGraphQL.Field(_type => String, {
+  @TypeGraphQL.Field(_type => GraphQLScalars.JSONResolver, {
     nullable: false
   })
-  link!: string;
+  link!: Prisma.JsonValue;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false
