@@ -5,6 +5,9 @@ import Modal from "@mui/material/Modal";
 import LinkModal from "./LinkModal";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import EducationFields from "./FormFields/EducationFields";
+import SkillFields from "./FormFields/SkillFields";
+import ExperienceFields from "./FormFields/ExperienceFields";
 
 const ProfileForm = ({
     handleChange,
@@ -73,280 +76,7 @@ const ProfileForm = ({
             );
     };
 
-    const updateSkill = (e: {
-        target: {
-            id: string;
-            name: string | number;
-            value: string;
-        };
-    }) => {
-        const skills = userProfile.skills;
-
-        skills[Number(e.target.id)] = e.target.value;
-        handleChange({ target: { name: "skills", value: [...skills] } });
-    };
-
-    const updateEducation = (
-        e: {
-            target: {
-                id: string;
-                name: string | number;
-                value: string;
-            };
-        },
-        i: number
-    ) => {
-        const education = userProfile.education as any;
-
-        if (e.target.id == "institution" && education !== null)
-            education[i].institution = e.target.value;
-        if (e.target.id == "title") education[i].title = e.target.value;
-        if (e.target.id == "year") education[i].year = e.target.value;
-        handleChange({ target: { id: "education", value: [...education] } });
-    };
-
-    const updateExperience = (
-        e: {
-            target: {
-                id: string;
-                name: string | number;
-                value: string;
-            };
-        },
-        i: number
-    ) => {
-        const experience = userProfile.experience as any;
-
-        if (e.target.id == "title") experience[i].title = e.target.value;
-        if (e.target.id == "organization")
-            experience[i].organization = e.target.value;
-        if (e.target.id == "startYear")
-            experience[i].startYear = e.target.value;
-        if (e.target.id == "endYear") experience[i].endYear = e.target.value;
-        handleChange({
-            target: { id: "experience", value: [...experience] },
-        });
-    };
-
     const addLink = () => setLinkModalOpen(true);
-    const addSkill = () => {
-        const skills = userProfile.skills;
-        if (userProfile.skills.length > 3) return;
-        handleChange({ target: { id: "skills", value: [...skills, " "] } });
-    };
-
-    const addExperience = () => {
-        const experience = userProfile.experience;
-        if (userProfile.experience.length > 1) return;
-        handleChange({
-            target: {
-                id: "experience",
-                value: [
-                    ...experience,
-                    {
-                        title: " ",
-                        startYear: "",
-                        endYear: "",
-                        organization: " ",
-                    },
-                ],
-            },
-        });
-    };
-
-    const addEducation = () => {
-        const education = userProfile.education;
-        if (userProfile.education.length > 1) return;
-        handleChange({
-            target: {
-                id: "education",
-                value: [
-                    ...education,
-                    { institution: " ", title: " ", year: "" },
-                ],
-            },
-        });
-    };
-
-    const skills = userProfile.skills.map((skill, i) => (
-        <div key={i}>
-            <div className="my-6">
-                <label
-                    htmlFor={i.toString()}
-                    className="font-medium mb-2 leading-none inline-block"
-                >
-                    Skill #{i + 1}
-                </label>
-                <input
-                    required
-                    id={i.toString()}
-                    name={i.toString()}
-                    type="text"
-                    className="formInputs"
-                    onChange={updateSkill}
-                    value={userProfile.skills[i]}
-                />
-            </div>
-        </div>
-    ));
-
-    const education = userProfile.education.map((education: any, i) => (
-        <div key={i} className="w-full">
-            <label className="text-md mb-2 leading-none inline-block">
-                Education #{i + 1}
-            </label>
-            <div className="my-6  flex justify-between items-center" key={i}>
-                <label
-                    htmlFor="institution"
-                    className="font-medium mb-2 leading-none inline-block"
-                >
-                    Institution
-                </label>
-                <input
-                    required
-                    id="institution"
-                    name="institution"
-                    type="text"
-                    className="formInputs"
-                    onChange={(e) => updateEducation(e, i)}
-                    value={education.institution}
-                />
-            </div>
-            <div className="my-6 flex justify-between items-center" key={i}>
-                <label
-                    htmlFor="title"
-                    className="font-medium mb-2 leading-none inline-block"
-                >
-                    Title
-                </label>
-                <input
-                    required
-                    id="title"
-                    name="title"
-                    type="text"
-                    className="formInputs"
-                    onChange={(e) => updateEducation(e, i)}
-                    value={education.title}
-                />
-            </div>
-            <div className="my-6 w-full flex justify-end items-center" key={i}>
-                <label
-                    htmlFor="year"
-                    className="font-medium mb-2 leading-none inline-block"
-                >
-                    Year
-                </label>
-
-                <DatePicker
-                    selected={education.year}
-                    className="formInputs"
-                    onChange={(date: any) =>
-                        updateEducation(
-                            {
-                                target: {
-                                    id: "year",
-                                    value: date,
-                                    name: "year",
-                                },
-                            },
-                            i
-                        )
-                    }
-                />
-            </div>
-        </div>
-    ));
-
-    const experience = userProfile.experience.map((experience: any, i) => (
-        <div key={i}>
-            <label className="text-md mb-2 leading-none inline-block">
-                Experience #{i + 1}
-            </label>
-            <div className="my-6  flex justify-between items-center" key={i}>
-                <label
-                    htmlFor="organization"
-                    className="font-medium mb-2 leading-none inline-block"
-                >
-                    Organization
-                </label>
-                <input
-                    required
-                    id="organization"
-                    name="organization"
-                    type="text"
-                    className="formInputs"
-                    onChange={(e) => updateExperience(e, i)}
-                    value={experience.organization}
-                />
-            </div>
-            <div className="my-6 flex justify-between items-center" key={i}>
-                <label
-                    htmlFor="startYear"
-                    className="font-medium mb-2 leading-none inline-block"
-                >
-                    Start Year
-                </label>
-
-                <DatePicker
-                    selected={experience.startYear}
-                    className="formInputs"
-                    onChange={(date: any) =>
-                        updateExperience(
-                            {
-                                target: {
-                                    id: "startYear",
-                                    value: date,
-                                    name: "startYear",
-                                },
-                            },
-                            i
-                        )
-                    }
-                />
-            </div>
-            <div className="my-6  flex justify-between items-center" key={i}>
-                <label
-                    htmlFor="endYear"
-                    className="font-medium mb-2 leading-none inline-block"
-                >
-                    End Year
-                </label>
-                <DatePicker
-                    selected={experience.endYear}
-                    className="formInputs"
-                    onChange={(date: any) =>
-                        updateExperience(
-                            {
-                                target: {
-                                    id: "endYear",
-                                    value: date,
-                                    name: "endYear",
-                                },
-                            },
-                            i
-                        )
-                    }
-                />
-            </div>
-            <div className="my-6  flex justify-between items-center" key={i}>
-                <label
-                    htmlFor="title"
-                    className="font-medium mb-2 leading-none inline-block"
-                >
-                    Title
-                </label>
-                <input
-                    required
-                    id="title"
-                    name="title"
-                    type="title"
-                    className="formInputs"
-                    onChange={(e) => updateExperience(e, i)}
-                    value={experience.title}
-                />
-            </div>
-        </div>
-    ));
 
     const links = Object.keys(userProfile.link as Object).map(
         (link: string, i) => {
@@ -609,87 +339,28 @@ const ProfileForm = ({
                         </Tab.Panel>
                         {/*Resume page*/}
                         <Tab.Panel>
-                            <div className="formInputSection px-48">
-                                <div className="mb-6 flex justify-between items-center">
-                                    <label className="text-lg font-medium mb-2 leading-none inline-block">
-                                        Education
-                                    </label>
-                                    <button
-                                        type="button"
-                                        className="border border-[#6D27F9] rounded-full py-1 px-8 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white"
-                                        onClick={() => addEducation()}
-                                    >
-                                        Add
-                                    </button>
-                                </div>
-                                <div className="flex-col items-center justify-between mb-4 w-full">
-                                    {education.length > 0 ? (
-                                        <>
-                                            {/* <p className="text-[#646464] mb-2">Skills</p> */}
-                                            {education}
-                                        </>
-                                    ) : (
-                                        <></>
-                                    )}
-                                </div>
-                            </div>
-                            <div className="formInputSection px-48">
-                                <div className="mb-6 flex justify-between items-center">
-                                    <label className=" text-lg font-medium mb-2 leading-none inline-block">
-                                        Key Skills
-                                    </label>
-                                    <button
-                                        type="button"
-                                        className="border border-[#6D27F9] rounded-full py-1 px-8 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white"
-                                        onClick={() => addSkill()}
-                                    >
-                                        Add
-                                    </button>
-                                </div>
-                                <div className="flex-col items-center justify-between mb-4">
-                                    {skills.length > 0 ? (
-                                        <>
-                                            {/* <p className="text-[#646464] mb-2">Skills</p> */}
-                                            {skills}
-                                        </>
-                                    ) : (
-                                        <></>
-                                    )}
-                                </div>
+                            <div className="formInputSection">
+                                <EducationFields
+                                    handleChange={handleChange}
+                                    userProfile={userProfile}
+                                />
+                                <SkillFields
+                                    handleChange={handleChange}
+                                    userProfile={userProfile}
+                                />
                             </div>
                         </Tab.Panel>
                         <Tab.Panel>
-                            <div className="formInputSection px-48">
-                                <div className="mb-6 flex justify-between items-center">
-                                    <label className="text-lg font-medium mb-2 leading-none inline-block">
-                                        Experience
-                                    </label>
-                                    <button
-                                        type="button"
-                                        className="border border-[#6D27F9] rounded-full py-1 px-8 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white"
-                                        onClick={() => addExperience()}
-                                    >
-                                        Add
-                                    </button>
-                                </div>
-                                <div className="flex-col items-center justify-between mb-4">
-                                    {experience.length > 0 ? (
-                                        <>
-                                            {/* <p className="text-[#646464] mb-2">Skills</p> */}
-                                            {experience}
-                                        </>
-                                    ) : (
-                                        <></>
-                                    )}
-                                </div>
+                            <div className="formInputSection">
+                                <ExperienceFields
+                                    handleChange={handleChange}
+                                    userProfile={userProfile}
+                                />
                             </div>
                         </Tab.Panel>
                     </Tab.Panels>
                 </Tab.Group>
-                <FormButton
-                    currentPageValid={currentPageValid}
-                    selectTab={selectTab}
-                />
+                <FormButton selectTab={selectTab} />
             </form>
         </div>
     );
