@@ -40,7 +40,7 @@ export default function LogIn({ providers }: { providers: any }) {
             <div className="max-w-6xl mx-auto sm:px-6 lg:px-8">
                 <div className="mt-8 overflow-hidden">
                     <div className="grid grid-cols-1 md:grid-cols-2">
-                        <div className="p-6 mr-2 bg-gray-100 dark:bg-gray-800 sm:rounded-lg">
+                        <div className="p-6 mr-2 bg-gray-800 sm:rounded-lg">
                             <p className="text-normal text-lg sm:text-2xl font-medium text-gray-600 dark:text-gray-400 mt-2">
                                 {referral &&
                                     `@${referral} has invited you to join Somhakohr\n`}
