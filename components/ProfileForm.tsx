@@ -8,16 +8,18 @@ import "react-datepicker/dist/react-datepicker.css";
 import EducationFields from "./FormFields/EducationFields";
 import SkillFields from "./FormFields/SkillFields";
 import ExperienceFields from "./FormFields/ExperienceFields";
+import Alert from "@mui/material/Alert";
+import { Transition } from "react-transition-group";
+import { useRef } from "react";
+import { getProfileByHandleIdQuery } from "../graphql/graphqlQueries";
 
 const ProfileForm = ({
     handleChange,
     userProfile,
-    doesHandleExist,
     address,
     handleSubmit,
 }: {
     handleChange: (e: any) => void;
-    doesHandleExist: (e: any) => void;
     handleSubmit: (e: any) => void;
     userProfile: Profile;
     address: any;
@@ -27,18 +29,59 @@ const ProfileForm = ({
     );
     const [selectedIndex, setSelectedIndex] = useState(0);
 
-    const [currentPageValid, setCurrentPageValid] = useState(false);
-
     const [linkModalOpen, setLinkModalOpen] = useState(false);
 
-    const checkSubmit = (e: { preventDefault: () => void; target: any }) => {
+    const [showHandleAlert, setShowHandleAlert] = useState(false);
+
+    const validations = {
+        summary_length: "Summary needs to be longer",
+        link_count: "You need to add more links",
+    };
+    const validateValues = () => {
+        if (userProfile.summary.length < 120)
+            return { valid: false, error: "sum_length" };
+        // const linkCount = Object(userProfile.link).map((link: string) => {
+        //     if ((userProfile.link as any)[link] !== "") return link;
+        // });
+        // if (linkCount.length < 2) return { valid: false, error: "link_length" };
+
+        return { valid: true };
+    };
+
+    async function doesHandleExist(e?: { preventDefault: () => void }) {
+        e?.preventDefault();
+
+        // Make an API call to check if the handle already exists
+        const data = await getProfileByHandleIdQuery(userProfile.handle);
+        console.log(data);
+        if (data !== null) {
+            //TODO Switch to a snackbar
+            setShowHandleAlert(true);
+            return true;
+        }
+
+        setShowHandleAlert(false);
+        return false;
+    }
+
+    const checkSubmit = async (e: {
+        preventDefault: () => void;
+        target: any;
+    }) => {
         e.preventDefault();
         const form = e.target;
         const formValid = form.checkValidity();
 
         if (!formValid) return;
-        if (selectedIndex == 2 && selectTab == "resume") handleSubmit(e);
-        else {
+
+        // const validity = validateValues();
+
+        // if (!validity.valid) console.log(validity.error);
+        if (selectedIndex == 2 && selectTab == "resume") {
+            const ProfileExists = await doesHandleExist();
+
+            if (!ProfileExists) handleSubmit(e);
+        } else {
             if (selectTab == "bio") {
                 setSelectTab("background");
                 setSelectedIndex(1);
@@ -51,10 +94,8 @@ const ProfileForm = ({
 
     const FormButton = ({
         selectTab,
-        currentPageValid,
     }: {
         selectTab: "bio" | "background" | "resume";
-        currentPageValid: Boolean;
     }) => {
         if (selectTab == "resume")
             return (
@@ -69,7 +110,7 @@ const ProfileForm = ({
             return (
                 <button
                     type="submit"
-                    className="bg-gradient-to-r from-[#928aa1] to-[#c9a7dd] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
+                    className="bg-gradient-to-r from-[#6d27f9e3] to-somhakohr text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
                 >
                     {"Next >"}
                 </button>
@@ -142,10 +183,10 @@ const ProfileForm = ({
                             Resume
                         </Tab>
                     </Tab.List>
-                    <Tab.Panels className="flex justify-between">
+                    <Tab.Panels>
                         <Tab.Panel>
-                            <div className="flex flex-col justify-center items-center">
-                                <div className="my-6">
+                            <div className="flex flex-col justify-center items-center w-full">
+                                <div className="my-6 flex-row justify-between items-center">
                                     <label
                                         htmlFor="handle"
                                         className="font-medium mb-2 leading-none inline-block"
@@ -163,6 +204,26 @@ const ProfileForm = ({
                                         onBlur={doesHandleExist}
                                     />
                                 </div>
+                                <Transition
+                                    nodeRef={null}
+                                    in={false}
+                                    timeout={100}
+                                >
+                                    {(state) => (
+                                        <div ref={null}>
+                                            <Alert
+                                                severity="error"
+                                                className={
+                                                    state == "exited"
+                                                        ? "hidden"
+                                                        : ""
+                                                }
+                                            >
+                                                Handle is already taken!
+                                            </Alert>
+                                        </div>
+                                    )}
+                                </Transition>
                                 <div className="my-6">
                                     <label
                                         htmlFor="address"
@@ -218,9 +279,11 @@ const ProfileForm = ({
                                         onChange={handleChange}
                                         onBlur={handleChange}
                                     ></textarea>
-                                    {/* <span className="absolute right-3 bottom-3 text-gray-500">
-                                        20/300
-                                    </span> */}
+                                    {userProfile.summary.length < 120 && (
+                                        <span className="absolute right-3 bottom-3 text-gray-500">
+                                            {120 - userProfile.summary.length}
+                                        </span>
+                                    )}
                                 </div>
 
                                 <div className="mb-6 flex justify-between items-center">
@@ -240,28 +303,26 @@ const ProfileForm = ({
                                 </div>
                             </div>
                             <div className="formInputSection">
-                                <div className="flex flex-wrap justify-between">
-                                    <div className="w-full lg:w-[47%] mb-6">
-                                        <label
-                                            htmlFor="job_type"
-                                            className="font-medium mb-4 leading-none inline-block"
-                                        >
-                                            Preferred Job Type
-                                        </label>
-                                        <input
-                                            required
-                                            id="job_type"
-                                            type="text"
-                                            placeholder="Ex: Fulltime"
-                                            className="formInputs"
-                                            value={userProfile.job_type}
-                                            onChange={handleChange}
-                                            onBlur={handleChange}
-                                        />
-                                    </div>
+                                <div className="formInputPair">
+                                    <label
+                                        htmlFor="job_type"
+                                        className="font-medium mb-4 leading-none inline-block"
+                                    >
+                                        Preferred Job Type
+                                    </label>
+                                    <input
+                                        required
+                                        id="job_type"
+                                        type="text"
+                                        placeholder="Ex: Fulltime"
+                                        className="formInputs"
+                                        value={userProfile.job_type}
+                                        onChange={handleChange}
+                                        onBlur={handleChange}
+                                    />
                                 </div>
                                 <div className="flex flex-wrap justify-between">
-                                    <div className="w-full lg:w-[47%] mb-6">
+                                    <div className="formInputPair">
                                         <label
                                             htmlFor="pref_location"
                                             className="font-medium mb-4 leading-none inline-block"
@@ -283,7 +344,7 @@ const ProfileForm = ({
                                         </select>
                                     </div>
 
-                                    <div className="w-full lg:w-[47%] mb-6">
+                                    <div className="formInputPair my-2">
                                         <label
                                             htmlFor="salary"
                                             className="font-medium mb-4 leading-none inline-block"
@@ -298,12 +359,12 @@ const ProfileForm = ({
                                             value={userProfile.salary}
                                             onChange={handleChange}
                                             onBlur={handleChange}
-                                            className="w-full rounded-full border-slate-300 formInputs"
+                                            className="formInputs"
                                         />
                                     </div>
                                 </div>
-                                <div className="flex flex-wrap justify-between">
-                                    <div className="w-full lg:w-[47%] mb-6">
+                                <div className="w-full mb-6">
+                                    <div className="formInputPair">
                                         <label
                                             htmlFor="years_of_exp"
                                             className="font-medium mb-4 leading-none inline-block"
@@ -337,7 +398,7 @@ const ProfileForm = ({
                                 </div>
                             </div>
                         </Tab.Panel>
-                        {/*Resume page*/}
+                        {/*Background page*/}
                         <Tab.Panel>
                             <div className="formInputSection">
                                 <EducationFields
