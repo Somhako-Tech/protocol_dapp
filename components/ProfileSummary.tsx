@@ -45,7 +45,7 @@ export default function ProfileSummary({
 
     if (!userProfile) return <ProfileFormSkeleton />;
     return (
-        <div className="container">
+        <div className="w-full">
             <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 flex flex-col justify-center items-center">
                 <h2 className="font-semibold text-lg md:text-3xl mb-4">
                     Profile Summary

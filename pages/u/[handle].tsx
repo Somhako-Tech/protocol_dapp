@@ -97,7 +97,7 @@ export default function UserPage() {
                 autoHideDuration={6000}
                 message="Link copied"
             />
-            <div className="container h-full">
+            <div className="h-full w-full">
                 <div className="w-full max-w-[800px] mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
                     <div className="flex-col items-center justify-center">
                         <h1 className={" font-bold text-2xl mb-4 text-center"}>

@@ -53,7 +53,7 @@ export default function LogIn({ providers }: { providers: any }) {
 
                             <div className="flex items-center mt-2 text-gray-600 dark:text-gray-400"></div>
                         </div>
-                        <div className="container py-24 flex-col justify-center items-center text-white">
+                        <div className="py-24 flex-col justify-center items-center text-white">
                             <h1 className="text-5xl font-bold text-center mb-6 text-white">
                                 Welcome to somhako protocol!
                             </h1>
