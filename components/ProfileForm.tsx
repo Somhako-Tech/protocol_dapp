@@ -1,6 +1,10 @@
 import { Tab } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { Profile } from "@prisma/client";
+import Modal from "@mui/material/Modal";
+import LinkModal from "./LinkModal";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const ProfileForm = ({
     handleChange,
@@ -15,13 +19,14 @@ const ProfileForm = ({
     userProfile: Profile;
     address: any;
 }) => {
-    // TODO Switch to next and previous buttons
     const [selectTab, setSelectTab] = useState<"bio" | "background" | "resume">(
         "bio"
     );
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     const [currentPageValid, setCurrentPageValid] = useState(false);
+
+    const [linkModalOpen, setLinkModalOpen] = useState(false);
 
     const checkSubmit = (e: { preventDefault: () => void; target: any }) => {
         e.preventDefault();
@@ -123,6 +128,7 @@ const ProfileForm = ({
         });
     };
 
+    const addLink = () => setLinkModalOpen(true);
     const addSkill = () => {
         const skills = userProfile.skills;
         if (userProfile.skills.length > 3) return;
@@ -139,8 +145,8 @@ const ProfileForm = ({
                     ...experience,
                     {
                         title: " ",
-                        startYear: " ",
-                        endYear: " ",
+                        startYear: "",
+                        endYear: "",
                         organization: " ",
                     },
                 ],
@@ -156,7 +162,7 @@ const ProfileForm = ({
                 id: "education",
                 value: [
                     ...education,
-                    { institution: " ", title: " ", year: " " },
+                    { institution: " ", title: " ", year: "" },
                 ],
             },
         });
@@ -176,7 +182,7 @@ const ProfileForm = ({
                     id={i.toString()}
                     name={i.toString()}
                     type="text"
-                    className="w-auto mx-4 rounded-full border border-black"
+                    className="formInputs"
                     onChange={updateSkill}
                     value={userProfile.skills[i]}
                 />
@@ -185,7 +191,7 @@ const ProfileForm = ({
     ));
 
     const education = userProfile.education.map((education: any, i) => (
-        <div key={i}>
+        <div key={i} className="w-full">
             <label className="text-md mb-2 leading-none inline-block">
                 Education #{i + 1}
             </label>
@@ -201,7 +207,7 @@ const ProfileForm = ({
                     id="institution"
                     name="institution"
                     type="text"
-                    className="w-auto mx-4 rounded-full border border-black"
+                    className="formInputs"
                     onChange={(e) => updateEducation(e, i)}
                     value={education.institution}
                 />
@@ -218,26 +224,34 @@ const ProfileForm = ({
                     id="title"
                     name="title"
                     type="text"
-                    className="w-auto mx-4 rounded-full border border-black"
+                    className="formInputs"
                     onChange={(e) => updateEducation(e, i)}
                     value={education.title}
                 />
             </div>
-            <div className="my-6  flex justify-between items-center" key={i}>
+            <div className="my-6 w-full flex justify-end items-center" key={i}>
                 <label
                     htmlFor="year"
                     className="font-medium mb-2 leading-none inline-block"
                 >
                     Year
                 </label>
-                <input
-                    required
-                    id="year"
-                    name="year"
-                    type="text"
-                    className="w-auto mx-4 rounded-full border border-black"
-                    onChange={(e) => updateEducation(e, i)}
-                    value={education.year}
+
+                <DatePicker
+                    selected={education.year}
+                    className="formInputs"
+                    onChange={(date: any) =>
+                        updateEducation(
+                            {
+                                target: {
+                                    id: "year",
+                                    value: date,
+                                    name: "year",
+                                },
+                            },
+                            i
+                        )
+                    }
                 />
             </div>
         </div>
@@ -260,7 +274,7 @@ const ProfileForm = ({
                     id="organization"
                     name="organization"
                     type="text"
-                    className="w-auto mx-4 rounded-full border border-black"
+                    className="formInputs"
                     onChange={(e) => updateExperience(e, i)}
                     value={experience.organization}
                 />
@@ -272,14 +286,22 @@ const ProfileForm = ({
                 >
                     Start Year
                 </label>
-                <input
-                    required
-                    id="startYear"
-                    name="startYear"
-                    type="text"
-                    className="w-auto mx-4 rounded-full border border-black"
-                    onChange={(e) => updateExperience(e, i)}
-                    value={experience.startYear}
+
+                <DatePicker
+                    selected={experience.startYear}
+                    className="formInputs"
+                    onChange={(date: any) =>
+                        updateExperience(
+                            {
+                                target: {
+                                    id: "startYear",
+                                    value: date,
+                                    name: "startYear",
+                                },
+                            },
+                            i
+                        )
+                    }
                 />
             </div>
             <div className="my-6  flex justify-between items-center" key={i}>
@@ -289,14 +311,21 @@ const ProfileForm = ({
                 >
                     End Year
                 </label>
-                <input
-                    required
-                    id="endYear"
-                    name="endYear"
-                    type="endYear"
-                    className="w-auto mx-4 rounded-full border border-black"
-                    onChange={(e) => updateExperience(e, i)}
-                    value={experience.endYear}
+                <DatePicker
+                    selected={experience.endYear}
+                    className="formInputs"
+                    onChange={(date: any) =>
+                        updateExperience(
+                            {
+                                target: {
+                                    id: "endYear",
+                                    value: date,
+                                    name: "endYear",
+                                },
+                            },
+                            i
+                        )
+                    }
                 />
             </div>
             <div className="my-6  flex justify-between items-center" key={i}>
@@ -311,7 +340,7 @@ const ProfileForm = ({
                     id="title"
                     name="title"
                     type="title"
-                    className="w-auto mx-4 rounded-full border border-black"
+                    className="formInputs"
                     onChange={(e) => updateExperience(e, i)}
                     value={experience.title}
                 />
@@ -319,12 +348,34 @@ const ProfileForm = ({
         </div>
     ));
 
+    const links = Object.keys(userProfile.link as Object).map(
+        (link: string, i) => {
+            if ((userProfile.link as any)[link] == "") return;
+            return (
+                <div key={i} className="flex">
+                    <label className="font-medium mb-2 leading-none inline-block">
+                        {link}
+                    </label>
+                    <label className="font-normal mb-2 ml-10 leading-none inline-block">
+                        {(userProfile.link as any)[link]}
+                    </label>
+                </div>
+            );
+        }
+    );
+
     return (
         <div className="flex-col items-center">
             <form
                 className="flex flex-col justify-center items-center"
                 onSubmit={checkSubmit}
             >
+                <LinkModal
+                    linkModalOpen={linkModalOpen}
+                    handleClose={() => setLinkModalOpen(false)}
+                    handleChange={handleChange}
+                    userProfile={userProfile}
+                />
                 <Tab.Group
                     selectedIndex={selectedIndex}
                     onChange={setSelectedIndex}
@@ -376,7 +427,7 @@ const ProfileForm = ({
                                         type="text"
                                         id="handle"
                                         name="handle"
-                                        className="w-auto mx-4 rounded-full border border-black"
+                                        className="formInputs"
                                         value={userProfile.handle}
                                         onChange={handleChange}
                                         onBlur={doesHandleExist}
@@ -440,6 +491,22 @@ const ProfileForm = ({
                                     {/* <span className="absolute right-3 bottom-3 text-gray-500">
                                         20/300
                                     </span> */}
+                                </div>
+
+                                <div className="mb-6 flex justify-between items-center">
+                                    <label className=" text-lg font-medium mb-2 leading-none inline-block">
+                                        Links
+                                    </label>
+                                    <button
+                                        type="button"
+                                        className="border border-[#6D27F9] rounded-full py-1 px-8 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white"
+                                        onClick={() => addLink()}
+                                    >
+                                        Add
+                                    </button>
+                                </div>
+                                <div className="mb-6 flex-row justify-between items-center">
+                                    {links}
                                 </div>
                             </div>
                             <div className="formInputSection">
@@ -555,7 +622,7 @@ const ProfileForm = ({
                                         Add
                                     </button>
                                 </div>
-                                <div className="flex-col items-center justify-between mb-4">
+                                <div className="flex-col items-center justify-between mb-4 w-full">
                                     {education.length > 0 ? (
                                         <>
                                             {/* <p className="text-[#646464] mb-2">Skills</p> */}
