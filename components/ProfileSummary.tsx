@@ -19,7 +19,7 @@ export default function ProfileSummary({
                 return;
 
             let label: string = changeCase.sentenceCase(key);
-            const value: string = userProfile[key as keyof Profile].toString();
+            const value: string = userProfile[key as keyof Profile]!.toString();
             if (key === "pref_location") label = "Preferred Location";
 
             return (
