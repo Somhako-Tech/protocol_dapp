@@ -190,10 +190,26 @@ export default function AppPage() {
         }
     }
 
-    if (!isConnected || isQueryLoading || isProfileCreating)
+    if (!isConnected)
         return (
             <section className="w-full flex flex-wrap ">
-                <div className="container h-full">
+                <div className="h-full w-full">
+                    <div className="flex-col items-center justify-center">
+                        <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 ">
+                            <h1 className="text-3xl font-semibold capitalize text-center">
+                                Please connect your wallet to mint your profile.
+                            </h1>
+                            <ProfileFormSkeleton />
+                        </div>
+                    </div>
+                </div>
+            </section>
+        );
+
+    if (isQueryLoading || isProfileCreating)
+        return (
+            <section className="w-full flex flex-wrap ">
+                <div className="h-full w-full">
                     <div className="flex-col items-center justify-center">
                         <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 ">
                             <ProfileFormSkeleton />
@@ -205,15 +221,11 @@ export default function AppPage() {
 
     return (
         <section className="w-full flex flex-wrap ">
-            <div className="container h-full">
+            <div className="h-full w-full">
                 <div className="text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
                     {!Profile ? (
                         <div className="flex-col items-center">
-                            <form
-                                className="flex flex-col justify-center items-center"
-                                onSubmit={handleSubmit}
-                            >
-                                {/* 
+                            {/* 
                                     * TODO Finish snackbar
                                     <div>
                                         <Snackbar
@@ -230,48 +242,14 @@ export default function AppPage() {
                                             }
                                         />
                                     </div> */}
-                                <div className="my-6">
-                                    <label
-                                        htmlFor="handle"
-                                        className="font-medium mb-2 leading-none inline-block"
-                                    >
-                                        Handle
-                                    </label>
-                                    <input
-                                        required
-                                        type="text"
-                                        id="handle"
-                                        name="handle"
-                                        className="w-auto mx-4 rounded-full border border-black"
-                                        value={userProfile.handle}
-                                        onChange={handleChange}
-                                        onBlur={doesHandleExist}
-                                    />
-                                </div>
-                                <div className="my-6">
-                                    <label
-                                        htmlFor="address"
-                                        className="font-medium mb-2 leading-none inline-block"
-                                    >
-                                        Address
-                                    </label>
-                                    <label
-                                        id="address"
-                                        className="w-auto mx-4 rounded-full border-slate-300"
-                                    >
-                                        {address &&
-                                            address.slice(0, 10) +
-                                                "..." +
-                                                address.slice(
-                                                    address.length - 8
-                                                )}
-                                    </label>
-                                </div>
-                                <ProfileForm
-                                    handleChange={handleChange}
-                                    userProfile={userProfile}
-                                />
-                            </form>
+
+                            <ProfileForm
+                                handleChange={handleChange}
+                                userProfile={userProfile}
+                                doesHandleExist={doesHandleExist}
+                                address={address}
+                                handleSubmit={handleSubmit}
+                            />
                         </div>
                     ) : queryInMintQueue ? (
                         <div className="flex-col items-center justify-center">
