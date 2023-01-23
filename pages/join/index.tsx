@@ -23,7 +23,6 @@ export default function LogIn({ providers }: { providers: any }) {
         state.referredFrom,
     ]);
 
-    //TODO Switch to graphql
     const handleReferralSignIn = async (provider_id: any) => {
         if (referral && typeof referral === "string") {
             await getProfileByHandleIdQuery(referral).then((profile) => {
@@ -37,7 +36,7 @@ export default function LogIn({ providers }: { providers: any }) {
     };
 
     return (
-        <div className="relative flex items-top justify-center min-h-screen bg-white dark:bg-gray-900 sm:items-center sm:pt-0">
+        <div className="relative flex items-top justify-center min-h-screen bg-gray-900 sm:items-center sm:pt-0">
             <div className="max-w-6xl mx-auto sm:px-6 lg:px-8">
                 <div className="mt-8 overflow-hidden">
                     <div className="grid grid-cols-1 md:grid-cols-2">
