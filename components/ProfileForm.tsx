@@ -33,19 +33,28 @@ const ProfileForm = ({
 
     const [showHandleAlert, setShowHandleAlert] = useState(false);
 
+    const [validationError, setValidationError] = useState<{
+        valid: boolean;
+        error: string | null;
+    }>({ valid: false, error: null });
+
     const validations = {
         summary_length: "Summary needs to be longer",
         link_count: "You need to add more links",
     };
+
     const validateValues = () => {
         if (userProfile.summary.length < 120)
-            return { valid: false, error: "sum_length" };
-        // const linkCount = Object(userProfile.link).map((link: string) => {
-        //     if ((userProfile.link as any)[link] !== "") return link;
-        // });
-        // if (linkCount.length < 2) return { valid: false, error: "link_length" };
+            return { valid: false, error: validations.summary_length };
+        const linkCount = Object.keys(Object(userProfile.link)).map(
+            (link: string) => {
+                if ((userProfile.link as any)[link] !== "") return link;
+            }
+        );
+        if (linkCount.length < 2)
+            return { valid: false, error: validations.summary_length };
 
-        return { valid: true };
+        return { valid: true, error: null };
     };
 
     async function doesHandleExist(e?: { preventDefault: () => void }) {
@@ -68,13 +77,15 @@ const ProfileForm = ({
     }) => {
         e.preventDefault();
         const form = e.target;
-        const formValid = form.checkValidity();
+        const formValid = form.reportValidity();
 
         if (!formValid) return;
 
-        // const validity = validateValues();
+        const validity = validateValues();
 
-        // if (!validity.valid) console.log(validity.error);
+        if (!validity.valid) {
+            setValidationError(validity);
+        }
         if (selectedIndex == 2 && selectTab == "resume") {
             const ProfileExists = await doesHandleExist();
 
@@ -268,23 +279,54 @@ const ProfileForm = ({
                                     >
                                         Summary
                                     </label>
-                                    <textarea
-                                        required
-                                        id="summary"
-                                        placeholder="Something about yourself..."
-                                        className="w-full rounded-[25px] h-[120px] border-slate-300 resize-none pb-6 formInputs"
-                                        value={userProfile.summary}
-                                        onChange={handleChange}
-                                        onBlur={handleChange}
-                                    ></textarea>
-                                    {userProfile.summary.length < 120 && (
-                                        <span className="absolute right-3 bottom-3 text-gray-500">
-                                            {120 - userProfile.summary.length}
-                                        </span>
-                                    )}
+                                    <div className="relative">
+                                        <textarea
+                                            required
+                                            id="summary"
+                                            placeholder="Something about yourself..."
+                                            className="w-full min-w-[100px]  h-[150px]  resize-none pb-6 rounded-sm "
+                                            value={userProfile.summary}
+                                            onChange={handleChange}
+                                            onBlur={handleChange}
+                                        ></textarea>
+                                        {userProfile.summary.length < 120 && (
+                                            <span className="fixed right-3 bottom-3 text-gray-500">
+                                                {120 -
+                                                    userProfile.summary.length}
+                                                2
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    <Transition
+                                        nodeRef={null}
+                                        in={userProfile.summary.length < 120}
+                                        timeout={400}
+                                        className="my-10"
+                                    >
+                                        {(state) => (
+                                            <div ref={null}>
+                                                <Alert
+                                                    severity="error"
+                                                    className={
+                                                        state == "exited"
+                                                            ? "opacity-0 h-0"
+                                                            : "opacity-90 transition-all 400ms my-2"
+                                                    }
+                                                >
+                                                    Summary has to be at least
+                                                    120 chars (
+                                                    {120 -
+                                                        userProfile.summary
+                                                            .length}
+                                                    )
+                                                </Alert>
+                                            </div>
+                                        )}
+                                    </Transition>
                                 </div>
 
-                                <div className="mb-6 flex justify-between items-center">
+                                <div className="mb-6 flex justify-between items-center my-6">
                                     <label className=" text-lg font-medium mb-2 leading-none inline-block">
                                         Links
                                     </label>
