@@ -13,6 +13,7 @@ import {
 import { ProfileFormSkeleton } from "../../components/skeletons";
 import ProfilePreview from "../../components/ProfilePreview";
 import Link from "next/link";
+import { Transition } from "react-transition-group";
 
 export default function Home() {
     const router = useRouter();
@@ -109,16 +110,26 @@ export default function Home() {
         <section className="w-full  flex flex-wrap ">
             <div className=" h-full w-full">
                 <div className="w-full flex justify-center ">
-                    {!inMintQueue && (
-                        <Link
-                            href="/app"
-                            className={
-                                "font-bold text-3xl text-center pt-5 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600"
-                            }
-                        >
-                            Create Your Profile and Mint Now
-                        </Link>
-                    )}
+                    <Transition
+                        nodeRef={null}
+                        in={!inMintQueue}
+                        timeout={400}
+                        className="my-10"
+                    >
+                        {(state) => (
+                            <Link
+                                href="/app"
+                                className={
+                                    state == "exited"
+                                        ? "opacity-0 h-0 transition-all 400ms"
+                                        : "opacity-90 transition-all 400ms my-2" +
+                                          "font-extrabold text-3xl text-center pt-5 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600"
+                                }
+                            >
+                                Create Your Profile and Mint Now
+                            </Link>
+                        )}
+                    </Transition>
                 </div>
 
                 <div className="w-full mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
