@@ -11,6 +11,7 @@ import { ProfileFormSkeleton } from "../../components/skeletons";
 import { axiosAPIInstance } from "../../constants/axiosInstances";
 import ProfileReview from "../../components/ProfileReview";
 import { getProfilesQuery } from "../../graphql/graphqlQueries";
+import { updateProfileMintingMutation } from "../../graphql/graphqlMutations";
 
 export default function Home() {
     const router = useRouter();
@@ -42,20 +43,25 @@ export default function Home() {
     const handleMint = async (profile: Profile) => {
         const { handle, address } = profile;
 
-        const response = await axiosAPIInstance.post("/contract", {
-            data: { handle, address, id: profile.user_id },
-        });
+        //TODO Test with contract
+        // const response = await axiosAPIInstance.post("/contract", {
+        //     data: { handle, address, id: profile.user_id },
+        // });
 
-        if (response.data.success) {
-            //TODO Switch to graphql
-            await axiosAPIInstance
-                .patch(`/profile/${profile.user_id}`, {
-                    minted: true,
-                })
-                .catch((err) => console.error(err));
+        if (true) {
+            const updatedProfile = await updateProfileMintingMutation(
+                profile.user_id,
+                true
+            );
+
+            await axiosAPIInstance.post("/mail", {
+                to: updatedProfile?.user.email,
+                subject: "NFT Profile Successfully Minted!",
+                html: "<h1>Congratulations</h1> <p>NFT Profile Successfully Minted!</p>",
+            });
         }
 
-        return response.data;
+        return;
     };
     const handleRejection = (profile: Profile) => console.log(profile);
 
