@@ -20,6 +20,8 @@ import {
     createReferralQuery,
     createProfileQuery,
 } from "../../graphql/graphqlMutations";
+import { axiosAPIInstance } from "../../constants/axiosInstances";
+import emails from "../../constants/email";
 
 export default function AppPage() {
     const router = useRouter();
@@ -107,11 +109,17 @@ export default function AppPage() {
                     setQueryInMintQueue(true);
                 }
                 queryClient.invalidateQueries({ queryKey: ["getProfile"] });
+                return data;
             })
             .catch((err) => {
                 console.log(err);
                 throw new Error("Profile creation failed");
             });
+        await axiosAPIInstance.post("/mail", {
+            to: session?.user.email,
+            subject: emails.profileCreated.subject,
+            html: emails.profileCreated.html,
+        });
 
         if (referredFrom !== "" && referredFrom !== undefined) {
             const referrer = await getProfileByHandleIdQuery(referredFrom);
