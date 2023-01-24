@@ -50,10 +50,8 @@ const ProfileForm = ({
 
     async function doesHandleExist(e?: { preventDefault: () => void }) {
         e?.preventDefault();
-
         // Make an API call to check if the handle already exists
         const data = await getProfileByHandleIdQuery(userProfile.handle);
-        console.log(data);
         if (data !== null) {
             //TODO Switch to a snackbar
             setShowHandleAlert(true);
@@ -206,8 +204,8 @@ const ProfileForm = ({
                                 </div>
                                 <Transition
                                     nodeRef={null}
-                                    in={false}
-                                    timeout={100}
+                                    in={showHandleAlert}
+                                    timeout={400}
                                 >
                                     {(state) => (
                                         <div ref={null}>
@@ -215,8 +213,8 @@ const ProfileForm = ({
                                                 severity="error"
                                                 className={
                                                     state == "exited"
-                                                        ? "hidden"
-                                                        : ""
+                                                        ? "opacity-0 h-0"
+                                                        : "opacity-100 transition-all 400ms;"
                                                 }
                                             >
                                                 Handle is already taken!
