@@ -9,7 +9,7 @@ type Profile = {
     salary: string;
     years_of_exp: string;
 
-    link: string;
+    link: {};
 
     skills: Array<string>;
 
@@ -18,7 +18,7 @@ type Profile = {
     experience: Experience[];
 
     address: string;
-    user_id: number | 0;
+    user_id: string | "0";
 };
 
 type Education = {
