@@ -65,43 +65,46 @@ export default function SkillFields({
     ));
 
     return (
-        <>
-            <div className="mb-6 flex-col items-start justify-start">
-                <label className=" text-lg font-medium mb-2 ">Key Skills</label>
-                <Combobox value={selectedSkills} multiple>
-                    <Combobox.Input
-                        onChange={(e) => setSearchParams(e.target.value)}
-                        className="formInputs"
-                    />
-                    <Combobox.Options className="bg-white border fixed">
-                        {Skills &&
-                            Skills.map((skill: string) => (
-                                <Combobox.Option
-                                    key={skill}
-                                    value={skill}
-                                    className="hover:bg-slate-400 hover:text-white p-1"
-                                    onClick={() =>
-                                        setSelectedSkills((prev) => [
-                                            ...prev,
-                                            skill,
-                                        ])
-                                    }
-                                >
-                                    {skill}
-                                </Combobox.Option>
+        <div className="mb-6 flex-col items-start justify-start">
+            <label className=" text-lg font-medium mb-2 ">Key Skills</label>
+            <Combobox value={userProfile.skills} multiple>
+                <Combobox.Input
+                    onChange={(e) => setSearchParams(e.target.value)}
+                    className="formInputs"
+                />
+                <Combobox.Options className="bg-white border fixed">
+                    {Skills &&
+                        Skills.map((skill: string) => (
+                            <Combobox.Option
+                                key={skill}
+                                value={skill}
+                                className="hover:bg-slate-400 hover:text-white p-1"
+                                onClick={() =>
+                                    handleChange({
+                                        target: {
+                                            id: "skills",
+                                            value: [
+                                                ...userProfile.skills,
+                                                skill,
+                                            ],
+                                        },
+                                    })
+                                }
+                            >
+                                {skill}
+                            </Combobox.Option>
+                        ))}
+                </Combobox.Options>
+                <div className="flex justify-start items-center capitalize border py-2 my-2">
+                    {userProfile.skills.length > 0 && (
+                        <ul className="p-1 font-medium">
+                            {userProfile.skills.map((skill) => (
+                                <li key={skill}>{skill}</li>
                             ))}
-                    </Combobox.Options>
-                    <div className="flex justify-start items-center capitalize border py-2 my-2">
-                        {selectedSkills.length > 0 && (
-                            <ul className="p-1 font-medium">
-                                {selectedSkills.map((skill) => (
-                                    <li key={skill}>{skill}</li>
-                                ))}
-                            </ul>
-                        )}
-                    </div>
-                </Combobox>
-            </div>
-        </>
+                        </ul>
+                    )}
+                </div>
+            </Combobox>
+        </div>
     );
 }
