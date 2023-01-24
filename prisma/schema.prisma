@@ -81,7 +81,7 @@ model Profile {
   pref_location String
   salary        String
   years_of_exp  String
-  link          String
+  link          Json     @db.Json
   address       String
   skills        String[]
   education     Json[]   @db.Json

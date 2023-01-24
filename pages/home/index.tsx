@@ -64,7 +64,7 @@ export default function Home() {
     if (isProfileListLoading) {
         return (
             <section className="w-full flex flex-wrap ">
-                <div className="container h-full">
+                <div className="h-full w-full">
                     <div className="w-full mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
                         <ProfileFormSkeleton />
                     </div>
@@ -105,8 +105,8 @@ export default function Home() {
     };
 
     return (
-        <section className="w-full flex flex-wrap ">
-            <div className="container h-full">
+        <section className="w-full  flex flex-wrap ">
+            <div className=" h-full w-full">
                 <div className="w-full mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
                     <h1 className={" font-bold text-4xl mb-4 text-center py-5"}>
                         Profiles In Queue

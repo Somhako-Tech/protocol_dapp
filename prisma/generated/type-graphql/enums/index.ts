@@ -1,4 +1,6 @@
 export { AccountScalarFieldEnum } from "./AccountScalarFieldEnum";
+export { JsonNullValueFilter } from "./JsonNullValueFilter";
+export { JsonNullValueInput } from "./JsonNullValueInput";
 export { MintScalarFieldEnum } from "./MintScalarFieldEnum";
 export { ProfileScalarFieldEnum } from "./ProfileScalarFieldEnum";
 export { QueryMode } from "./QueryMode";

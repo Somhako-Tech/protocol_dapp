@@ -4,7 +4,7 @@
 
 @layer components {
     .formInputs {
-        @apply w-full rounded-full border-slate-300 p-2;
+        @apply w-auto mx-4 rounded-full border border-slate-500 p-1;
     }
     .googleButton {
         @apply text-white bg-somhakohr hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-somhakohr dark:hover:bg-blue-700 dark:focus:ring-blue-800;

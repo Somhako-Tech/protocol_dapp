@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { BoolWithAggregatesFilter } from "../inputs/BoolWithAggregatesFilter";
 import { IntWithAggregatesFilter } from "../inputs/IntWithAggregatesFilter";
 import { JsonNullableListFilter } from "../inputs/JsonNullableListFilter";
+import { JsonWithAggregatesFilter } from "../inputs/JsonWithAggregatesFilter";
 import { StringNullableListFilter } from "../inputs/StringNullableListFilter";
 import { StringWithAggregatesFilter } from "../inputs/StringWithAggregatesFilter";
 
@@ -67,10 +68,10 @@ export class ProfileScalarWhereWithAggregatesInput {
   })
   years_of_exp?: StringWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
+  @TypeGraphQL.Field(_type => JsonWithAggregatesFilter, {
     nullable: true
   })
-  link?: StringWithAggregatesFilter | undefined;
+  link?: JsonWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
     nullable: true

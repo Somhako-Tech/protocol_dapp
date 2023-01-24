@@ -42,7 +42,7 @@ export const createProfileQueryDocument = graphql(`
         $pref_location: String!
         $salary: String!
         $years_of_exp: String!
-        $link: String!
+        $link: JSON!
         $address: String!
         $education: [JSON!]!
         $experience: [JSON!]!
@@ -57,7 +57,7 @@ export const createProfileQueryDocument = graphql(`
                 pref_location: $pref_location
                 salary: $salary
                 years_of_exp: $years_of_exp
-                link: $link
+                link: { set: $link }
                 address: $address
                 education: { set: $education }
                 experience: { set: $experience }

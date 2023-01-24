@@ -51,11 +51,6 @@ export class ProfileMinOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  link?: "asc" | "desc" | undefined;
-
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
   address?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
