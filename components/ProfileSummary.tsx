@@ -18,6 +18,31 @@ export default function ProfileSummary({
             )
                 return;
 
+            if (key === "link") {
+                const links = userProfile.link as any;
+
+                const linkList = links["set"];
+
+                return Object.keys(linkList).map(
+                    (item: string) =>
+                        linkList[item] !== "" && (
+                            <div className="my-2" key={item}>
+                                <label
+                                    htmlFor={key}
+                                    className="font-medium text-base mb-2 leading-none inline-block"
+                                >
+                                    {item}
+                                </label>
+                                <label
+                                    id={key}
+                                    className="font-medium text-base w-auto mx-4 "
+                                >
+                                    {linkList[item]}
+                                </label>
+                            </div>
+                        )
+                );
+            }
             let label: string = changeCase.sentenceCase(key);
             const value: string = userProfile[key as keyof Profile]!.toString();
             if (key === "pref_location") label = "Preferred Location";

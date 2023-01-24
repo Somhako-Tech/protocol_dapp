@@ -174,7 +174,33 @@ export default function ProfileSummary({
             if (key === "experience") return getExperience(profile);
             if (key === "education") return getEducation(profile);
             if (key === "skills") return getSkills(profile);
-            if (key === "user_id" || key === "minted") return;
+            if (key === "user_id" || key === "minted" || key === "key") return;
+
+            if (key === "link") {
+                const links = profile.link as any;
+
+                const linkList = links["set"];
+
+                return Object.keys(linkList).map(
+                    (item: string) =>
+                        linkList[item] !== "" && (
+                            <div className="my-2" key={item}>
+                                <label
+                                    htmlFor={key}
+                                    className="font-medium text-base mb-2 leading-none inline-block"
+                                >
+                                    {item}
+                                </label>
+                                <label
+                                    id={key}
+                                    className="font-medium text-base w-auto mx-4 "
+                                >
+                                    {linkList[item]}
+                                </label>
+                            </div>
+                        )
+                );
+            }
 
             let label: string = changeCase.sentenceCase(key);
             const value: string = profile[key as keyof Profile].toString();

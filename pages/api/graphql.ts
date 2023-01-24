@@ -70,6 +70,7 @@ const schema = buildSchema({
     validate: false,
 });
 
+//TODO Auth
 export default createYoga<{
     req: NextApiRequest;
     res: NextApiResponse;
