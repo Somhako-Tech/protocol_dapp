@@ -102,48 +102,49 @@ export default function UserPage() {
                     <div className="flex-col items-center justify-center">
                         <h1 className={" font-bold text-2xl mb-4 text-center"}>
                             {/* TODO Add check for minting complete */}
-                            {
-                                "You're in the mint queue! We'll notify you as soon as your profile get minted!"
-                            }
-                            {isProfileQueryLoading ? (
-                                <ProfileFormSkeleton />
-                            ) : (
-                                <ProfileSummary userProfile={Profile} />
-                            )}
-                            <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 flex flex-col justify-center items-center">
-                                <label
-                                    htmlFor="referral"
-                                    className="font-medium text-base mb-2 leading-none inline-block"
-                                >
-                                    Referral Link
-                                </label>
-                                <div>
-                                    <label
-                                        id="referral"
-                                        className="font-medium text-base w-auto mx-4 text-somhakohr2"
-                                    >
-                                        {referralLink}{" "}
-                                    </label>
-                                    <ContentCopyIcon
-                                        onClick={handleCopyClick}
-                                    />
-                                </div>
-                                <div>
-                                    <label
-                                        id="referral"
-                                        className="font-medium text-base w-auto mx-4 "
-                                    >
-                                        Referred Accounts :
-                                    </label>
-                                    <label
-                                        id="referral"
-                                        className="font-medium text-base w-auto mx-4 text-somhakohr2"
-                                    >
-                                        {referralCount}{" "}
-                                    </label>
-                                </div>
-                            </div>
+                            {isProfileQueryLoading
+                                ? "Profile loading"
+                                : Profile?.minted
+                                ? "Your account has been minted! Check your email for more information."
+                                : "You're in the mint queue! We'll notify you as soon as your profile get minted!"}
                         </h1>
+
+                        {isProfileQueryLoading ? (
+                            <ProfileFormSkeleton />
+                        ) : (
+                            <ProfileSummary userProfile={Profile} />
+                        )}
+                        <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 flex flex-col justify-center items-center">
+                            <label
+                                htmlFor="referral"
+                                className="font-medium text-base mb-2 leading-none inline-block"
+                            >
+                                Referral Link
+                            </label>
+                            <div>
+                                <label
+                                    id="referral"
+                                    className="font-medium text-base w-auto mx-4 text-somhakohr2"
+                                >
+                                    {referralLink}{" "}
+                                </label>
+                                <ContentCopyIcon onClick={handleCopyClick} />
+                            </div>
+                            <div>
+                                <label
+                                    id="referral"
+                                    className="font-medium text-base w-auto mx-4 "
+                                >
+                                    Referred Accounts :
+                                </label>
+                                <label
+                                    id="referral"
+                                    className="font-medium text-base w-auto mx-4 text-somhakohr2"
+                                >
+                                    {referralCount}{" "}
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
