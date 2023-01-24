@@ -1,10 +1,10 @@
 import React from "react";
 import axios from "axios";
 
-const contractEndpoint = "http://localhost:3030/";
+const apiEndpoint = "/api";
 
 const axiosAPIInstance = axios.create({
-    baseURL: contractEndpoint,
+    baseURL: apiEndpoint,
     timeout: 5000,
     headers: {
         // 'Authorization': "JWT " + access_token,
