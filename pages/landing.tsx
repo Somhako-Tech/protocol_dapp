@@ -90,11 +90,7 @@ export default function Example() {
                                     <span className="sr-only">
                                         Your Company
                                     </span>
-                                    <img
-                                        src="/images/logo.png"
-                                        alt="Somhako"
-                                        class=""
-                                    />{" "}
+                                    <img src="/images/logo.png" alt="Somhako" />{" "}
                                 </a>
                             </div>
                             <div className="flex lg:hidden">
@@ -137,10 +133,7 @@ export default function Example() {
                             open={mobileMenuOpen}
                             onClose={setMobileMenuOpen}
                         >
-                            <Dialog.Panel
-                                focus="true"
-                                className="fixed inset-0 z-10 overflow-y-auto bg-white px-6 py-6 lg:hidden"
-                            >
+                            <Dialog.Panel className="fixed inset-0 z-10 overflow-y-auto bg-white px-6 py-6 lg:hidden">
                                 <div className="flex h-9 items-center justify-between">
                                     <div className="flex">
                                         <a href="#" className="-m-1.5 p-1.5">
@@ -426,7 +419,7 @@ export default function Example() {
                                     Streamlined recruiting process
                                 </div>
                                 <p className="max-w-xs py-2 text-sm text-indigo-900">
-                                    Our ATS's automation, queue, planning,
+                                    {" Our ATS's automation, queue, planning,"}
                                     scheduling, and task management features
                                     will help you streamline your recruiting
                                     process, saving them time and resources.
