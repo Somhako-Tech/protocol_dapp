@@ -12,9 +12,11 @@ import { axiosAPIInstance } from "../../constants/axiosInstances";
 import ProfileReview from "../../components/ProfileReview";
 import { getProfilesQuery } from "../../graphql/graphqlQueries";
 import { updateProfileMintingMutation } from "../../graphql/graphqlMutations";
-
+import { useQueryClient } from "@tanstack/react-query";
 export default function Home() {
     const router = useRouter();
+    const queryClient = useQueryClient();
+
     const { data: session } = useSession();
 
     const {
@@ -54,11 +56,13 @@ export default function Home() {
                 true
             );
 
-            await axiosAPIInstance.post("/mail", {
+            const resp = await axiosAPIInstance.post("/mail", {
                 to: updatedProfile?.user.email,
                 subject: "NFT Profile Successfully Minted!",
                 html: "<h1>Congratulations</h1> <p>NFT Profile Successfully Minted!</p>",
             });
+            if (resp.data.success)
+                queryClient.invalidateQueries({ queryKey: ["getProfiles"] });
         }
 
         return;
