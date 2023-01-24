@@ -96,3 +96,39 @@ export const createProfileQuery = async (user_id: string, profile: Profile) => {
 
     return createOneProfile;
 };
+
+const updateProfileMintingMutationDocument = graphql(`
+    mutation updateProfileMintingMutation(
+        $user_id: String!
+        $minted: Boolean!
+    ) {
+        updateOneProfile(
+            data: { minted: { set: $minted } }
+            where: { user_id: $user_id }
+        ) {
+            id
+            user {
+                email
+            }
+        }
+    }
+`);
+
+export const updateProfileMintingMutation = async (
+    user_id: string,
+    minted: boolean
+) => {
+    const { updateOneProfile } = await request(
+        API_URL,
+        updateProfileMintingMutationDocument,
+        {
+            user_id: user_id,
+            minted: minted,
+        }
+    ).catch((err) => {
+        console.log(err);
+        return { updateOneProfile: null };
+    });
+
+    return updateOneProfile;
+};
