@@ -3,8 +3,14 @@
 @tailwind utilities;
 
 @layer components {
+    .formInputSection {
+        @apply bg-white border shadow-md shadow-slate-200 rounded-[30px] p-8 mb-6 px-48 max-w-2xl;
+    }
     .formInputs {
-        @apply w-auto mx-4 rounded-full border border-slate-500 p-1;
+        @apply w-auto mx-4 rounded-full border border-slate-500  p-1 ml-6;
+    }
+    .formInputPair {
+        @apply my-6 flex-row justify-between items-center;
     }
     .googleButton {
         @apply text-white bg-somhakohr hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-somhakohr dark:hover:bg-blue-700 dark:focus:ring-blue-800;
@@ -14,9 +20,6 @@
     }
     .headerButton {
         @apply text-lg mr-4 text-white bg-somhakohr font-medium rounded-full px-5 py-1.5 text-center dark:bg-somhakohr;
-    }
-    .formInputSection {
-        @apply bg-white border shadow-md shadow-slate-200 rounded-[30px] p-8 mb-6 max-w-2xl w-full;
     }
 }
 :root {

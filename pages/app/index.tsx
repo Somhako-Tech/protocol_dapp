@@ -3,10 +3,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 import { useAccount } from "wagmi";
 import ProfileForm from "../../components/ProfileForm";
 import { Profile } from "@prisma/client";
-import { Profile as ProfileType } from "../../constants/types";
 import * as React from "react";
-
-import { SnackbarOrigin } from "@mui/material/Snackbar";
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -97,26 +94,6 @@ export default function AppPage() {
         user_id: "",
     });
 
-    const [snackBarState, setSnackBarState] = React.useState({
-        open: false,
-        vertical: "top",
-        horizontal: "center",
-    });
-
-    const {
-        vertical: snackBarVertical,
-        horizontal: snackBarHorizontal,
-        open: snackBarOpen,
-    } = snackBarState;
-
-    const handleAlert = (newState: SnackbarOrigin) => () => {
-        setSnackBarState({ open: true, ...newState });
-    };
-
-    const handleClose = () => {
-        setSnackBarState({ ...snackBarState, open: false });
-    };
-
     async function saveProfile(profile: Profile) {
         console.log({ id: session?.user.id as string, profile });
         setIsProfileCreating(true);
@@ -146,28 +123,6 @@ export default function AppPage() {
             }
         }
     }
-
-    async function doesHandleExist(e?: { preventDefault: () => void }) {
-        e?.preventDefault();
-
-        // Make an API call to check if the handle already exists
-        const data = await getProfileByHandleIdQuery(userProfile.handle);
-        console.log(data);
-        if (data !== null) {
-            // console.log(data?.handle);
-            // If the handle already exists, show an error message
-            handleAlert({
-                vertical: "top",
-                horizontal: "right",
-            });
-            //TODO Switch to a snackbar
-            alert("Handle already exists");
-            return true;
-        }
-
-        return false;
-    }
-
     const handleChange = (e: {
         target: {
             id: any;
@@ -181,13 +136,8 @@ export default function AppPage() {
     async function handleSubmit(e: any) {
         e.preventDefault();
 
-        // Make an API call to check if the handle already exists
-        const ProfileExists = await doesHandleExist();
-
-        if (!ProfileExists) {
-            await saveProfile(userProfile);
-            setIsProfileCreating(false);
-        }
+        await saveProfile(userProfile);
+        setIsProfileCreating(false);
     }
 
     if (!isConnected)
@@ -225,28 +175,9 @@ export default function AppPage() {
                 <div className="text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
                     {!Profile ? (
                         <div className="flex-col items-center">
-                            {/* 
-                                    * TODO Finish snackbar
-                                    <div>
-                                        <Snackbar
-                                            anchorOrigin={{
-                                                vertical: snackBarVertical,
-                                                horizontal: snackBarHorizontal,
-                                            }}
-                                            open={snackBarOpen}
-                                            onClose={handleClose}
-                                            message="I love snacks"
-                                            key={
-                                                snackBarVertical +
-                                                snackBarHorizontal
-                                            }
-                                        />
-                                    </div> */}
-
                             <ProfileForm
                                 handleChange={handleChange}
                                 userProfile={userProfile}
-                                doesHandleExist={doesHandleExist}
                                 address={address}
                                 handleSubmit={handleSubmit}
                             />
