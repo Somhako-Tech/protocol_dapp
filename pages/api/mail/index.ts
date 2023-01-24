@@ -32,6 +32,6 @@ export default async function handler(req: NextApiRequest, res: any) {
     };
     const resp = sgMail.send(msg);
 
-    if (resp) res.status(200).json(resp);
+    if (resp) res.status(200).json({ success: true });
     else res.status(500);
 }
