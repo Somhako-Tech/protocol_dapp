@@ -8,7 +8,7 @@ const Home = () => {
 
     useEffect(() => {
         if (session) router.push("/home");
-        else router.push("/join");
+        else router.push("/landing");
     }, [session, router]);
 };
 
