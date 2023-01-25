@@ -52,9 +52,8 @@ export const authOptions = {
         async redirect(redirect: { baseUrl: string; url: string }) {
             return redirect.baseUrl;
         },
-        async signIn({ user }: { user: any }) {
+        async signIn({ user, account, profile, email, credentials }: any) {
             const isAllowedToSignIn = true;
-            console.log("siginng in");
             if (isAllowedToSignIn) {
                 return true;
             } else {

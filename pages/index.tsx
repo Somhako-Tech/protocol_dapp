@@ -22,10 +22,6 @@ const Home = () => {
     const router = useRouter();
     const { data: session } = useSession();
 
-    useEffect(() => {
-        if (session) router.push("/home");
-    }, [session, router]);
-
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const candidateBenifits = [
@@ -493,6 +489,7 @@ export default Home;
 
 import { authOptions } from "./api/auth/[...nextauth]";
 import { unstable_getServerSession } from "next-auth/next";
+import { getUserQuery } from "../graphql/graphqlQueries";
 
 export async function getServerSideProps(context: any) {
     const session = await unstable_getServerSession(
@@ -501,14 +498,22 @@ export async function getServerSideProps(context: any) {
         authOptions
     );
 
-    if (session) {
+    if (!session) return { props: {} };
+
+    const user = await getUserQuery(session.user.id);
+
+    if (user?.is_admin)
+        return {
+            redirect: {
+                destination: "/admin",
+                permanent: false,
+            },
+        };
+    else
         return {
             redirect: {
                 destination: "/home",
                 permanent: false,
             },
         };
-    }
-
-    return { props: {} };
 }

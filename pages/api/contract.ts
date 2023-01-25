@@ -9,30 +9,38 @@ export default async function handler(req: NextApiRequest, res: any) {
     if (req.method !== "POST")
         return res.status(405).send({ error: "Wrong method" });
 
-    const { address: owner, id, handle } = req.body.data;
-
-    console.log(`minting: ${JSON.stringify(req.body.data)}`);
-
     const provider = new ethers.providers.JsonRpcProvider(
-        process.env.RPC_PROVIDER
+        process.env.RPC_PROVIDER as string
     );
 
-    const contractAddress =
-        process.env.CONTRACT_ADDRESS || "contract not found";
+    const { address: owner, id, handle } = req.body;
 
-    const signer = new ethers.Wallet(process.env.PRIVATE_KEY || "", provider);
+    console.log(
+        `minting: ${JSON.stringify(req.body)} @ ${process.env.RPC_PROVIDER}`
+    );
 
-    const profileManagerContract = new ethers.Contract(
-        contractAddress,
-        ProfileManagerABI,
+    const contractAddress = process.env.CONTRACT_ADDRESS as string;
+
+    console.log({
+        network: await provider.getNetwork(),
+        block: await provider.getBlockNumber(),
+    });
+    const signer = new ethers.Wallet(
+        process.env.PRIVATE_KEY as string,
         provider
     );
 
-    const user_address = getAddress(owner);
-
-    const profileManagerWithSigner = profileManagerContract.connect(signer);
-
     try {
+        const profileManagerContract = new ethers.Contract(
+            contractAddress,
+            ProfileManagerABI,
+            provider
+        );
+
+        const user_address = getAddress(owner);
+
+        const profileManagerWithSigner = profileManagerContract.connect(signer);
+
         const txResponse = await profileManagerWithSigner.safeMint({
             owner: user_address,
             id: id,

@@ -12,7 +12,8 @@ export default function ProfileSummary({
     handleMint: (profile: Profile) => void;
     handleRejection: (profile: Profile) => void;
 }) {
-    console.log(profile);
+    const [handlingSubmit, setHandlingSubmit] = useState(false);
+
     const getExperience = (profile: Profile) =>
         profile.experience.map((experience, key) => (
             <div key={key} className="my-2">
@@ -226,6 +227,16 @@ export default function ProfileSummary({
     ) : (
         <ProfileFormSkeleton />
     );
+
+    if (handlingSubmit)
+        return (
+            <div className="w-full">
+                <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 ">
+                    <ProfileFormSkeleton />
+                </div>
+            </div>
+        );
+
     return (
         <div className="w-full">
             <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 flex flex-col justify-center items-center">
@@ -239,13 +250,19 @@ export default function ProfileSummary({
                 <div className="grid">{ProfileInfo}</div>
                 <div className="grid grid-cols-2 gap-20 pt-11">
                     <button
-                        onClick={() => handleRejection(profile)}
+                        onClick={() => {
+                            handleRejection(profile);
+                            setHandlingSubmit(true);
+                        }}
                         className=" bg-gradient-to-r from-[#a85959] to-somhakohr text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
                     >
                         Reject
                     </button>
                     <button
-                        onClick={() => handleMint(profile)}
+                        onClick={() => {
+                            handleMint(profile);
+                            setHandlingSubmit(true);
+                        }}
                         className=" bg-gradient-to-r from-[#6D27F9] to-somhakohr text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
                     >
                         Approve

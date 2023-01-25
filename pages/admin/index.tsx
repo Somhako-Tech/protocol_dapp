@@ -8,7 +8,10 @@ import { useRouter } from "next/router";
 import Header from "../../components/Header";
 import { useQuery } from "@tanstack/react-query";
 import { ProfileFormSkeleton } from "../../components/skeletons";
-import { axiosAPIInstance } from "../../constants/axiosInstances";
+import {
+    axiosAPIInstance,
+    axiosContractInstance,
+} from "../../constants/axiosInstances";
 import ProfileReview from "../../components/ProfileReview";
 import { getProfilesQuery } from "../../graphql/graphqlQueries";
 import { updateProfileMintingMutation } from "../../graphql/graphqlMutations";
@@ -25,10 +28,6 @@ export default function Home() {
         isError: profileListError,
         data: Profiles,
     } = useQuery(["getProfiles"], async () => getProfilesQuery());
-
-    useEffect(() => {
-        if (!session) router.push("/");
-    }, [session, router]);
 
     if (isProfilesLoading) {
         return (
@@ -47,11 +46,13 @@ export default function Home() {
         const { handle, address } = profile;
 
         //TODO Test with contract
-        // const response = await axiosAPIInstance.post("/contract", {
-        //     data: { handle, address, id: profile.user_id },
-        // });
+        const response = await axiosContractInstance.post("/contract", {
+            handle,
+            address,
+            id: profile.user_id,
+        });
 
-        if (true) {
+        if (response.data.success) {
             const updatedProfile = await updateProfileMintingMutation(
                 profile.user_id,
                 true
@@ -64,7 +65,7 @@ export default function Home() {
             });
             if (resp.data.success)
                 queryClient.invalidateQueries({ queryKey: ["getProfiles"] });
-        }
+        } else console.log(response.data);
 
         return;
     };
@@ -101,4 +102,30 @@ export default function Home() {
             </div>
         </section>
     );
+}
+
+import { authOptions } from "../api/auth/[...nextauth]";
+import { unstable_getServerSession } from "next-auth/next";
+import { getUserQuery } from "../../graphql/graphqlQueries";
+
+export async function getServerSideProps(context: any) {
+    const session = await unstable_getServerSession(
+        context.req,
+        context.res,
+        authOptions
+    );
+
+    const user = await getUserQuery(session?.user.id as string);
+
+    if (!user?.is_admin)
+        return {
+            redirect: {
+                destination: "/home",
+                permanent: false,
+            },
+        };
+
+    return {
+        props: {},
+    };
 }
