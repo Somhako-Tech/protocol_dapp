@@ -76,7 +76,7 @@ export default function EducationFields({
                     id="title"
                     name="title"
                     type="text"
-                    className="formInputs right-0"
+                    className="formInputs "
                     onChange={(e) => updateEducation(e, i)}
                     value={education.title}
                 />
@@ -91,7 +91,8 @@ export default function EducationFields({
 
                 <DatePicker
                     selected={education.year}
-                    className="formInputs"
+                    wrapperClassName="formInputs"
+                    dateFormat="dd/MM/yyyy"
                     onChange={(date: any) =>
                         updateEducation(
                             {

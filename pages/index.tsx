@@ -490,3 +490,25 @@ const Home = () => {
 };
 
 export default Home;
+
+import { authOptions } from "./api/auth/[...nextauth]";
+import { unstable_getServerSession } from "next-auth/next";
+
+export async function getServerSideProps(context: any) {
+    const session = await unstable_getServerSession(
+        context.req,
+        context.res,
+        authOptions
+    );
+
+    if (session) {
+        return {
+            redirect: {
+                destination: "/home",
+                permanent: false,
+            },
+        };
+    }
+
+    return { props: {} };
+}

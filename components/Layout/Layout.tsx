@@ -3,9 +3,12 @@ import Header from "../Header";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { getProfileByUserIdQuery } from "../../graphql/graphqlQueries";
+import { useRouter } from "next/router";
 
 export default function Layout({ children }: { children: any }) {
     const { data: session } = useSession();
+
+    const router = useRouter();
 
     const {
         data: ProfileData,
@@ -17,7 +20,7 @@ export default function Layout({ children }: { children: any }) {
             getProfileByUserIdQuery((session?.user.id as string) || "default"),
         { enabled: !!session }
     );
-    if (!session)
+    if (!session || router.asPath === "/")
         return (
             <main className="">
                 <Head>
