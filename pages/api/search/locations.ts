@@ -28,6 +28,6 @@ export default async function handler(req: NextApiRequest, res: any) {
                 )
                 .slice(0, 6);
 
-            return res.status(200).json({ locations: [result] });
+            return res.status(200).json({ locations: result });
         });
 }

@@ -18,22 +18,19 @@ export default function SearchComboBox({
                 onChange={(e) => setSearchParams(e.target.value)}
                 className="formInputs"
             />
-            <Combobox.Options className="bg-white border flex-col">
+            <Combobox.Options className="bg-white border flex-col justify-center w-full">
                 {data &&
                     data.map((item: string) => (
                         <Combobox.Option
                             key={item}
                             value={item}
-                            className="hover:bg-slate-400 hover:text-white p-1 inline-block"
+                            className="hover:bg-slate-400 hover:text-white p-1 w-full"
                             onClick={() => handleChange(item)}
                         >
                             {item}
                         </Combobox.Option>
                     ))}
             </Combobox.Options>
-            <div className="flex justify-start items-center capitalize border py-2 my-2">
-                {value}
-            </div>
         </Combobox>
     );
 }
