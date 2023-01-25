@@ -32,6 +32,7 @@
         "add": "^2.0.6",
         "change-case": "^4.1.2",
         "class-validator": "^0.14.0",
+        "csv": "^6.2.5",
         "eslint": "8.30.0",
         "eslint-config-next": "13.0.7",
         "ethers": "^5.7.2",
