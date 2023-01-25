@@ -122,8 +122,8 @@ export default function Home() {
                                 className={
                                     state == "exited"
                                         ? "opacity-0 h-0 transition-all 400ms"
-                                        : "opacity-90 transition-all 400ms my-2" +
-                                          "font-extrabold text-3xl text-center pt-5 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600"
+                                        : "opacity-100 transition-all 400ms my-2" +
+                                          "z-0 font-extrabold text-5xl text-center pt-5 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600"
                                 }
                             >
                                 Create Your Profile and Mint Now
