@@ -24,24 +24,33 @@ export default function SkillFields({
         )
     );
 
-    console.log(Skills);
-
     return (
-        <div className="mb-6 flex-col items-start justify-start">
-            <label className=" text-lg font-medium mb-2 ">Key Skills</label>
-            <SearchComboBox
-                handleChange={(item) =>
-                    handleChange({
-                        target: {
-                            id: "skills",
-                            value: [...userProfile.skills, item],
-                        },
-                    })
-                }
-                setSearchParams={setSearchParams}
-                data={queryLoading ? [] : Skills}
-                value={userProfile.skills}
-            />
+        <div className="flex flex-col">
+            <div className="formInputPair">
+                <label className=" text-lg font-medium mb-2 ">Key Skills</label>
+                <SearchComboBox
+                    handleChange={(item) =>
+                        handleChange({
+                            target: {
+                                id: "skills",
+                                value: [...userProfile.skills, item],
+                            },
+                        })
+                    }
+                    setSearchParams={setSearchParams}
+                    data={queryLoading ? [] : Skills}
+                    value={userProfile.skills}
+                />
+            </div>
+            <div className="flex justify-start items-center capitalize border py-2 my-2">
+                {userProfile.skills && userProfile.skills.length > 0 && (
+                    <ul className="p-1 font-medium">
+                        {userProfile.skills.map((item: string) => (
+                            <li key={item}>{item}</li>
+                        ))}
+                    </ul>
+                )}
+            </div>
         </div>
     );
 }

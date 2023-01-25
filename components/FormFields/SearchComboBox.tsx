@@ -12,30 +12,29 @@ export default function SearchComboBox({
     value: string;
 }) {
     return (
-        <Combobox>
-            <Combobox.Input
-                onChange={(e) => {
-                    setSearchParams(e.target.value);
-                    handleChange(e.target.value);
-                }}
-                value={value}
-                className="formInputs"
-                required
-            />
-            {data && (
-                <Combobox.Options className="bg-white border flex-col justify-center w-full">
-                    {data.map((item: string) => (
-                        <Combobox.Option
-                            key={item}
-                            value={item}
-                            className="hover:bg-slate-400 hover:text-white p-1 w-full"
-                            onClick={() => handleChange(item)}
-                        >
-                            {item}
-                        </Combobox.Option>
-                    ))}
-                </Combobox.Options>
-            )}
-        </Combobox>
+        <div className="relative">
+            <Combobox value={value} onChange={(value) => handleChange(value)}>
+                <Combobox.Input
+                    onChange={(e) => {
+                        setSearchParams(e.target.value);
+                    }}
+                    className="formInputs"
+                />
+                {data && (
+                    <Combobox.Options className="bg-white border flex-col justify-center w-full absolute">
+                        {data.map((item: string) => (
+                            <Combobox.Option
+                                key={item}
+                                value={item}
+                                className="hover:bg-slate-400 hover:text-white p-1 w-full"
+                                onClick={() => handleChange(item)}
+                            >
+                                {item}
+                            </Combobox.Option>
+                        ))}
+                    </Combobox.Options>
+                )}
+            </Combobox>
+        </div>
     );
 }

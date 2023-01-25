@@ -25,7 +25,7 @@ export default function LocationField({
     );
 
     return (
-        <div className="mb-6 flex-col items-start justify-start">
+        <div className="formInputPair">
             <label
                 htmlFor="pref_location"
                 className="font-medium mb-4 leading-none inline-block"
