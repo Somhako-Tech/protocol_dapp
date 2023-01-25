@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 export default function Logo({
-    width,
-    height,
+    width = 200,
+    height = 200,
 }: {
     width: number;
     height: number;
