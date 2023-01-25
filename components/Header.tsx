@@ -13,17 +13,16 @@ export default function Header({ handle }: { handle: string | null }) {
                 <div className="bg-white shadow-normal border-4 border-somhakohr2 rounded-[50px] p-6 center flex-col justify-center items-center">
                     <div className="flex justify-between items-center ">
                         <div className="font-semibold text-lg">
-                            <Logo />
+                            <Logo width={200} height={200} />
                         </div>
+                        <Link
+                            className="text-lg  mr-4 text-somhakohr font-medium rounded-full px-5 py-1.5 text-center "
+                            href={"/home"}
+                        >
+                            Explore
+                        </Link>
                         {handle && (
                             <div>
-                                <Link
-                                    className="text-lg  mr-4 text-somhakohr font-medium rounded-full px-5 py-1.5 text-center "
-                                    href={"/home"}
-                                >
-                                    Explore
-                                </Link>
-
                                 <Link
                                     className="text-lg  mr-4 text-somhakohr font-medium rounded-full px-5 py-1.5 text-center "
                                     href={handleLink}
