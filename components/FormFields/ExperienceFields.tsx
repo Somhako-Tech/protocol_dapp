@@ -141,7 +141,7 @@ export default function ExperienceFields({
 
     return (
         <>
-            <div className="mb-6 flex justify-between items-center">
+            <div className="formInputPair">
                 <label className="text-lg font-medium mb-2 leading-none inline-block">
                     Experience
                 </label>

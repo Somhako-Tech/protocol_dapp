@@ -32,6 +32,7 @@ const ProfileForm = ({
 
     const [linkModalOpen, setLinkModalOpen] = useState(false);
 
+    //TODO Improve validation
     const [showHandleAlert, setShowHandleAlert] = useState(false);
 
     const [validationError, setValidationError] = useState<{
@@ -262,7 +263,7 @@ const ProfileForm = ({
                                 </div>
                             </div>
                             <div className="formInputSection">
-                                <div className="mb-6">
+                                <div className="formInputPair">
                                     <label
                                         htmlFor="title"
                                         className="font-medium mb-2 leading-none inline-block"
@@ -280,7 +281,7 @@ const ProfileForm = ({
                                         className="formInputs"
                                     />
                                 </div>
-                                <div className="relative">
+                                <div className="my-6 mx-6">
                                     <label
                                         htmlFor="summary"
                                         className="font-medium mb-2 leading-none inline-block"
@@ -318,15 +319,17 @@ const ProfileForm = ({
                                                     severity="error"
                                                     className={
                                                         state == "exited"
-                                                            ? "opacity-0 h-0"
-                                                            : "opacity-90 transition-all 400ms my-2"
+                                                            ? "opacity-0 h-0 transition-all 400ms"
+                                                            : "opacity-90 transition-all 400ms"
                                                     }
                                                 >
                                                     Summary has to be at least
                                                     120 chars (
-                                                    {120 -
-                                                        userProfile.summary
-                                                            .length}
+                                                    {userProfile.summary
+                                                        .length < 120 &&
+                                                        120 -
+                                                            userProfile.summary
+                                                                .length}
                                                     )
                                                 </Alert>
                                             </div>
@@ -334,7 +337,7 @@ const ProfileForm = ({
                                     </Transition>
                                 </div>
 
-                                <div className="mb-6 flex justify-between items-center my-6">
+                                <div className="formInputPair">
                                     <label className=" text-lg font-medium mb-2 leading-none inline-block">
                                         Links
                                     </label>
@@ -394,62 +397,58 @@ const ProfileForm = ({
                                         onBlur={handleChange}
                                     />
                                 </div>
-                                <div className="flex flex-wrap justify-between">
-                                    <LocationField
-                                        userProfile={userProfile}
-                                        handleChange={handleChange}
+                                <LocationField
+                                    userProfile={userProfile}
+                                    handleChange={handleChange}
+                                />
+                                <div className="formInputPair">
+                                    <label
+                                        htmlFor="salary"
+                                        className="font-medium mb-4 leading-none inline-block"
+                                    >
+                                        Salary
+                                    </label>
+                                    <input
+                                        required
+                                        id="salary"
+                                        type="text"
+                                        placeholder="Ex: 2 Lpa"
+                                        value={userProfile.salary}
+                                        onChange={handleChange}
+                                        onBlur={handleChange}
+                                        className="formInputs"
                                     />
-                                    <div className="formInputPair my-2">
-                                        <label
-                                            htmlFor="salary"
-                                            className="font-medium mb-4 leading-none inline-block"
-                                        >
-                                            Salary
-                                        </label>
-                                        <input
-                                            required
-                                            id="salary"
-                                            type="text"
-                                            placeholder="Ex: 2 Lpa"
-                                            value={userProfile.salary}
-                                            onChange={handleChange}
-                                            onBlur={handleChange}
-                                            className="formInputs"
-                                        />
-                                    </div>
                                 </div>
-                                <div className="w-full mb-6">
-                                    <div className="formInputPair">
-                                        <label
-                                            htmlFor="years_of_exp"
-                                            className="font-medium mb-4 leading-none inline-block"
-                                        >
-                                            Years of Experience
-                                        </label>
-                                        <select
-                                            required
-                                            id="years_of_exp"
-                                            className="w-full rounded-full border-slate-300 formInputs"
-                                            value={userProfile.years_of_exp}
-                                            onChange={handleChange}
-                                        >
-                                            <option value="">
-                                                Select Year Of Exp
-                                            </option>
-                                            <option value="No Experience">
-                                                No Experience
-                                            </option>
-                                            <option value="1-5 years">
-                                                1-5 years
-                                            </option>
-                                            <option value="5-10 years">
-                                                5-10 years
-                                            </option>
-                                            <option value="10-15 years">
-                                                10-15 years
-                                            </option>
-                                        </select>
-                                    </div>
+                                <div className="formInputPair">
+                                    <label
+                                        htmlFor="years_of_exp"
+                                        className="font-medium mb-4 leading-none inline-block "
+                                    >
+                                        Years of Experience
+                                    </label>
+                                    <select
+                                        required
+                                        id="years_of_exp"
+                                        className="formInputs"
+                                        value={userProfile.years_of_exp}
+                                        onChange={handleChange}
+                                    >
+                                        <option value="">
+                                            Select Year Of Exp
+                                        </option>
+                                        <option value="No Experience">
+                                            No Experience
+                                        </option>
+                                        <option value="1-5 years">
+                                            1-5 years
+                                        </option>
+                                        <option value="5-10 years">
+                                            5-10 years
+                                        </option>
+                                        <option value="10-15 years">
+                                            10-15 years
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
                         </Tab.Panel>

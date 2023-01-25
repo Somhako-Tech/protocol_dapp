@@ -47,7 +47,7 @@ export default function EducationFields({
             <label className="text-md mb-2 leading-none inline-block">
                 Education #{i + 1}
             </label>
-            <div className="my-6  flex justify-between items-center">
+            <div className="formInputPair">
                 <label
                     htmlFor="institution"
                     className="font-medium mb-2 leading-none inline-block"
@@ -64,7 +64,7 @@ export default function EducationFields({
                     value={education.institution}
                 />
             </div>
-            <div className="my-6 flex-row justify-center items-center">
+            <div className="formInputPair">
                 <label
                     htmlFor="title"
                     className="font-medium mb-2 leading-none inline-block"
@@ -81,7 +81,7 @@ export default function EducationFields({
                     value={education.title}
                 />
             </div>
-            <div className="my-6 flex justify-between items-center">
+            <div className="formInputPair">
                 <label
                     htmlFor="year"
                     className="font-medium mb-2 leading-none inline-block"
@@ -104,13 +104,14 @@ export default function EducationFields({
                             i
                         )
                     }
+                    id="year"
                 />
             </div>
         </div>
     ));
     return (
         <div className="w-full">
-            <div className="mb-6 flex justify-between items-center">
+            <div className="formInputPair">
                 <label className="text-lg font-medium mb-2 leading-none inline-block">
                     Education
                 </label>
