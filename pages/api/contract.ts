@@ -21,10 +21,6 @@ export default async function handler(req: NextApiRequest, res: any) {
 
     const contractAddress = process.env.CONTRACT_ADDRESS as string;
 
-    console.log({
-        network: await provider.getNetwork(),
-        block: await provider.getBlockNumber(),
-    });
     const signer = new ethers.Wallet(
         process.env.PRIVATE_KEY as string,
         provider
