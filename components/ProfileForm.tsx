@@ -6,12 +6,13 @@ import LinkModal from "./LinkModal";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import EducationFields from "./FormFields/EducationFields";
-import SkillFields from "./FormFields/SkillFields";
+import SkillFields from "./FormFields/SkillField";
 import ExperienceFields from "./FormFields/ExperienceFields";
 import Alert from "@mui/material/Alert";
 import { Transition } from "react-transition-group";
 import { useRef } from "react";
 import { getProfileByHandleIdQuery } from "../graphql/graphqlQueries";
+import LocationField from "./FormFields/LocationField";
 
 const ProfileForm = ({
     handleChange,
@@ -362,28 +363,10 @@ const ProfileForm = ({
                                     />
                                 </div>
                                 <div className="flex flex-wrap justify-between">
-                                    <div className="formInputPair">
-                                        <label
-                                            htmlFor="pref_location"
-                                            className="font-medium mb-4 leading-none inline-block"
-                                        >
-                                            Preferred Location
-                                        </label>
-                                        <select
-                                            required
-                                            id="pref_location"
-                                            className="w-full rounded-full border-slate-300 formInputs"
-                                            value={userProfile.pref_location}
-                                            onChange={handleChange}
-                                        >
-                                            <option value="">
-                                                Select Location
-                                            </option>
-                                            <option value="India">India</option>
-                                            <option value="Japan">Japan</option>
-                                        </select>
-                                    </div>
-
+                                    <LocationField
+                                        userProfile={userProfile}
+                                        handleChange={handleChange}
+                                    />
                                     <div className="formInputPair my-2">
                                         <label
                                             htmlFor="salary"
