@@ -11,7 +11,6 @@ export default function SearchComboBox({
     data: Array<string> | undefined;
     value: Array<string> | undefined;
 }) {
-    console.log({ data, value });
     return (
         <Combobox multiple>
             <Combobox.Input

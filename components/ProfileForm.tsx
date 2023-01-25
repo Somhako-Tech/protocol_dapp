@@ -47,13 +47,14 @@ const ProfileForm = ({
     const validateValues = () => {
         if (userProfile.summary.length < 120)
             return { valid: false, error: validations.summary_length };
-        const linkCount = Object.keys(Object(userProfile.link)).map(
-            (link: string) => {
-                if ((userProfile.link as any)[link] !== "") return link;
-            }
-        );
+
+        const links = userProfile.link as { [x: string]: string };
+
+        const linkCount = Object.keys(Object(links)).map((link: string) => {
+            if (links[link] !== "") return link;
+        });
         if (linkCount.length < 2)
-            return { valid: false, error: validations.summary_length };
+            return { valid: false, error: validations.link_count };
 
         return { valid: true, error: null };
     };
@@ -84,8 +85,11 @@ const ProfileForm = ({
 
         const validity = validateValues();
 
+        console.log(validity);
+
         if (!validity.valid) {
             setValidationError(validity);
+            return;
         }
         if (selectedIndex == 2 && selectTab == "resume") {
             const ProfileExists = await doesHandleExist();
@@ -154,7 +158,10 @@ const ProfileForm = ({
                 <LinkModal
                     linkModalOpen={linkModalOpen}
                     handleClose={() => setLinkModalOpen(false)}
-                    handleChange={handleChange}
+                    handleChange={(e) => {
+                        setValidationError({ valid: true, error: null });
+                        handleChange(e);
+                    }}
                     userProfile={userProfile}
                 />
                 <Tab.Group
@@ -225,8 +232,8 @@ const ProfileForm = ({
                                                 severity="error"
                                                 className={
                                                     state == "exited"
-                                                        ? "opacity-0 h-0"
-                                                        : "opacity-100 transition-all 400ms;"
+                                                        ? "opacity-0 h-0 transition-all 400ms"
+                                                        : "opacity-100 transition-all 400ms"
                                                 }
                                             >
                                                 Handle is already taken!
@@ -342,6 +349,31 @@ const ProfileForm = ({
                                 <div className="mb-6 flex-row justify-between items-center">
                                     {links}
                                 </div>
+                                <Transition
+                                    nodeRef={null}
+                                    in={
+                                        !validationError.valid &&
+                                        validationError.error ==
+                                            validations.link_count
+                                    }
+                                    timeout={400}
+                                    className="my-10"
+                                >
+                                    {(state) => (
+                                        <div ref={null}>
+                                            <Alert
+                                                severity="error"
+                                                className={
+                                                    state == "exited"
+                                                        ? "opacity-0 h-0 transition-all 400ms my-2"
+                                                        : "opacity-90 transition-all 400ms my-2"
+                                                }
+                                            >
+                                                You need at least 3 links.
+                                            </Alert>
+                                        </div>
+                                    )}
+                                </Transition>
                             </div>
                             <div className="formInputSection">
                                 <div className="formInputPair">
