@@ -11,8 +11,8 @@ export default function Logo({
         <div className="w-full">
             <Link href="/" className="w-full inline-block align-middle">
                 <Image
-                    width={width}
-                    height={height}
+                    width={width || 200}
+                    height={height || 200}
                     src="/images/logo.png"
                     alt="Somhako"
                 />
