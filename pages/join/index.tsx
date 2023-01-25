@@ -14,7 +14,7 @@ export default function LogIn({ providers }: { providers: any }) {
     const { data: session } = useSession();
 
     useEffect(() => {
-        if (session) router.push("/");
+        if (session) router.push("/home");
     }, [session, router]);
 
     const { referral } = router.query;

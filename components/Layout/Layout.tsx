@@ -17,13 +17,23 @@ export default function Layout({ children }: { children: any }) {
             getProfileByUserIdQuery((session?.user.id as string) || "default"),
         { enabled: !!session }
     );
-
-    if (isQueryLoading || isQueryError) {
+    if (!session)
         return (
             <main className="">
                 <Head>
                     <title> Somhakohr Dapp </title>
                 </Head>
+                {children}
+            </main>
+        );
+
+    if (isQueryLoading || isQueryError) {
+        return (
+            <main className="py-8 bg-white">
+                <Head>
+                    <title> Somhakohr Dapp </title>
+                </Head>
+                <Header handle={null}></Header>
                 {children}
             </main>
         );
@@ -40,16 +50,6 @@ export default function Layout({ children }: { children: any }) {
             </main>
         );
     }
-
-    if (!session)
-        return (
-            <main className="">
-                <Head>
-                    <title> Somhakohr Dapp </title>
-                </Head>
-                {children}
-            </main>
-        );
     return (
         <main className="py-8 bg-white">
             <Head>

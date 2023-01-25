@@ -28,7 +28,9 @@ export const authOptions = {
         maxAge: 15 * 24 * 60 * 60, // the session will last 15 days
     },
     pages: {
-        signIn: "/join",
+        signIn: "/",
+        error: "/",
+        newUser: "/home",
     },
     callbacks: {
         session: async ({
@@ -47,9 +49,8 @@ export const authOptions = {
             // console.log({ token });
             return session;
         },
-
-        async redirect({ baseUrl }: { baseUrl: string }) {
-            return baseUrl;
+        async redirect(redirect: { baseUrl: string; url: string }) {
+            return redirect.baseUrl;
         },
         async signIn({ user }: { user: any }) {
             const isAllowedToSignIn = true;
