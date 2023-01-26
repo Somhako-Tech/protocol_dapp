@@ -5,7 +5,10 @@ import { graphql } from "./gql";
 import { request } from "graphql-request";
 import { Profile } from "@prisma/client";
 
-const API_URL = `/api/graphql`;
+const API_URL =
+    process.env.NEXTAUTH_URL === undefined
+        ? `/api/graphql`
+        : `${process.env.NEXTAUTH_URL}/api/graphql`;
 
 export const createReferralQueryDocument = graphql(`
     mutation createOneReferral($email: String!, $user_id: String!) {
@@ -57,7 +60,7 @@ export const createProfileQueryDocument = graphql(`
                 pref_location: $pref_location
                 salary: $salary
                 years_of_exp: $years_of_exp
-                link: { set: $link }
+                link: $link
                 address: $address
                 education: { set: $education }
                 experience: { set: $experience }

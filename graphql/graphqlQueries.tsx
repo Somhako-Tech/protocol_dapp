@@ -5,7 +5,10 @@ import { graphql } from "./gql";
 import { request } from "graphql-request";
 import { Prisma, Profile } from "@prisma/client";
 
-const API_URL = `/api/graphql`;
+const API_URL =
+    process.env.NEXTAUTH_URL === undefined
+        ? `/api/graphql`
+        : `${process.env.NEXTAUTH_URL}/api/graphql`;
 
 export const getProfileByHandleQueryDocument = graphql(`
     query getProfileByHandle($handle: String!) {
@@ -73,6 +76,7 @@ export const getUserQueryDocument = graphql(`
             email
             emailVerified
             id
+            image
             is_admin
             name
             updated_at
