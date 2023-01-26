@@ -19,7 +19,7 @@ export default function Header({ handle }: { handle: string | null }) {
                             className="text-lg  mr-4 text-somhakohr font-medium rounded-full px-5 py-1.5 text-center "
                             href={"/home"}
                         >
-                            Explore
+                            Home
                         </Link>
                         {handle && (
                             <div>

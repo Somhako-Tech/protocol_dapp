@@ -9,7 +9,10 @@ export default function Logo({
 }) {
     return (
         <div className="w-full">
-            <Link href="/" className="w-full inline-block align-middle">
+            <Link
+                href="/"
+                className="w-full inline-block align-middle max-w-[200px] max-h-[200px]"
+            >
                 <Image
                     width={width || 200}
                     height={height || 200}
