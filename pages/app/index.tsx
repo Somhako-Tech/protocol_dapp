@@ -61,13 +61,6 @@ export default function AppPage() {
         }
     }, [isConnected, address]);
 
-    //Accounts not signed in should go to root
-    useEffect(() => {
-        if (!session) {
-            // router.push("/");
-        }
-    }, [session, router]);
-
     //Minted accounts should go to profile page
     useEffect(() => {
         if (!isQueryLoading && !isQueryError && Profile)
