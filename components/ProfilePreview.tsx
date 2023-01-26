@@ -1,118 +1,120 @@
-import React from "react";
-import { Profile } from "../constants/types";
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Profile } from "@prisma/client";
+import {
+    getProfileByUserIdQuery,
+    getUserQuery,
+} from "../graphql/graphqlQueries";
+import { useQuery } from "@tanstack/react-query";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-const ProfilePreview = ({ profile }: { profile: Profile }) => {
-    //TODO Make it more programmatic
+const ProfilePreview = ({ userProfile }: { userProfile: Profile }) => {
+    const [image, setImage] = useState("");
+
+    const { isLoading: isUserQueryLoading, data: User } = useQuery(
+        ["getUser", userProfile.user_id as string],
+        async () => getUserQuery((userProfile.user_id as string) || "default")
+    );
+
+    useEffect(() => {
+        if (!isUserQueryLoading) setImage(User?.image as string);
+    }, [User?.image, isUserQueryLoading]);
+
+    if (!userProfile) return <></>;
+
     return (
-        <div className="bg-white shadow-normal border shadow-md shadow-slate-200 rounded-[30px] p-8 mb-6">
-            <h1 className="font-medium mb-2 leading-none inline-block">
-                @{profile.handle}
-            </h1>
-            <h2 className="font-medium mb-2 leading-none ">{profile.title}</h2>
-            <div className="my-2" key="summary">
-                <label
-                    htmlFor="summary"
-                    className="font-medium text-base mb-2 leading-none inline-block"
-                >
-                    Summary :
-                </label>
-                <label
-                    id={"summary"}
-                    className="font-medium text-base w-auto mx-4 "
-                >
-                    {profile.summary}
-                </label>
+        <div className="relative" key={userProfile.id}>
+            <div className=" shadow-normal border shadow-slate-200 rounded-[30px] py-6 px-16 mb-6 text-center hover:shadow-2xl h-72 absolute inset-0 z-10 opacity-0 hover:opacity-100 bg-white bg-opacity-98 duration-300">
+                <div className="my-2" key="summary">
+                    <label
+                        htmlFor="summary"
+                        className="font-medium text-lg mb-2 leading-none inline-block"
+                    >
+                        Summary
+                    </label>
+                    <label
+                        id={"summary"}
+                        className="font-medium text-base w-auto mx-4 "
+                    >
+                        {userProfile.summary.slice(0, 40) + "..."}
+                    </label>
+                </div>
+                <div className="my-2">
+                    <label className="font-medium text-lg mb-2 leading-none inline-block">
+                        Experience
+                    </label>
+                    <label className="font-medium text-base w-auto mx-4 leading-none inline-block">
+                        {userProfile.years_of_exp}
+                    </label>
+                </div>
+                <div className="my-2">
+                    <label className="font-medium text-lg mb-2 leading-none inline-block">
+                        Links
+                    </label>
+                    <label className="font-medium text-base w-auto mx-4 flex flex-row justify-center">
+                        {userProfile.link &&
+                            Object.keys(userProfile.link as any).map(
+                                (linkName: string) =>
+                                    (userProfile?.link as any)[linkName] !==
+                                        "" && (
+                                        <Link
+                                            href={
+                                                (userProfile?.link as any)[
+                                                    linkName
+                                                ]
+                                            }
+                                            key={linkName}
+                                            className="p-1"
+                                        >
+                                            {linkName === "Github" ? (
+                                                <Image
+                                                    src="/images/github_icon.png"
+                                                    width={30}
+                                                    height={30}
+                                                    alt="Github Icon"
+                                                />
+                                            ) : linkName === "LinkedIn" ? (
+                                                <Image
+                                                    src="/images/linkedin_icon.png"
+                                                    width={30}
+                                                    height={30}
+                                                    alt="Github Icon"
+                                                />
+                                            ) : (
+                                                <></>
+                                            )}
+                                        </Link>
+                                    )
+                            )}
+                    </label>
+                </div>
             </div>
-            <div className="my-2" key="job_type">
-                <label
-                    htmlFor="job_type"
-                    className="font-medium text-base mb-2 leading-none inline-block"
-                >
-                    Job Type :
-                </label>
-                <label
-                    id={"job_type"}
-                    className="font-medium text-base w-auto mx-4 "
-                >
-                    {profile.job_type}
-                </label>
+            <div className="bg-white shadow-normal border shadow-slate-200 rounded-[30px] py-6 px-16 mb-6 text-center hover:shadow-2xl h-72">
+                <div className="flex-col items-center justify-between">
+                    <div className="flex justify-center mb-3 pb-2">
+                        {image ? (
+                            <Image
+                                src={image}
+                                alt={userProfile.handle}
+                                className="rounded-full"
+                                width={100}
+                                height={60}
+                            />
+                        ) : (
+                            <AccountCircleIcon
+                                sx={{ fontSize: 100, color: "purple" }}
+                            />
+                        )}
+                    </div>
+                    <h1 className="font-medium text-xl mb-2 leading-none inline-block">
+                        @{userProfile.handle}
+                    </h1>
+                    <h2 className="font-medium mb-2 text-xl leading-none ">
+                        {userProfile.title}
+                    </h2>
+                </div>
             </div>
-            <div className="my-2" key="pref_location">
-                <label
-                    htmlFor="pref_location"
-                    className="font-medium text-base mb-2 leading-none inline-block"
-                >
-                    Preferred Location :
-                </label>
-                <label
-                    id={"pref_location"}
-                    className="font-medium text-base w-auto mx-4 "
-                >
-                    {profile.pref_location}
-                </label>
-            </div>
-            <div className="my-2" key="salary">
-                <label
-                    htmlFor="salary"
-                    className="font-medium text-base mb-2 leading-none inline-block"
-                >
-                    Ideal Salary :
-                </label>
-                <label
-                    id={"salary"}
-                    className="font-medium text-base w-auto mx-4 "
-                >
-                    {profile.salary}
-                </label>
-            </div>
-            <div className="my-2" key="years_of_exp">
-                <label
-                    htmlFor="years_of_exp"
-                    className="font-medium text-base mb-2 leading-none inline-block"
-                >
-                    Years of Experience :
-                </label>
-                <label
-                    id={"years_of_exp"}
-                    className="font-medium text-base w-auto mx-4 "
-                >
-                    {profile.years_of_exp}
-                </label>
-            </div>
-
-            <h3 className="font-medium text-base w-auto ">Skills:</h3>
-            <ul>
-                {profile.skills.map((skill) => (
-                    <li className="font-sm text-base w-auto mx-4 " key={skill}>
-                        {skill}
-                    </li>
-                ))}
-            </ul>
-            <h3 className="font-medium text-base w-auto">Education:</h3>
-            <ul>
-                {profile.education.map(
-                    (education, i) =>
-                        education && (
-                            <li
-                                key={i}
-                                className="font-sm text-base w-auto mx-4 "
-                            >
-                                {education.institution}: {education.title} (
-                                {education.year.split("-")[0]})
-                            </li>
-                        )
-                )}
-            </ul>
-            <h3 className="font-medium text-base w-auto ">Experience:</h3>
-            <ul>
-                {profile.experience.map((experience, i) => (
-                    <li key={i} className="font-sm text-base w-auto mx-4 ">
-                        {experience.organization}: {experience.title} (
-                        {experience.startYear.split("-")[0]} -{" "}
-                        {experience.endYear.split("-")[0]})
-                    </li>
-                ))}
-            </ul>
         </div>
     );
 };
