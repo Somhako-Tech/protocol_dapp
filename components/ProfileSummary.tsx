@@ -21,7 +21,7 @@ export default function ProfileSummary({
             if (key === "link") {
                 const links = userProfile.link as any;
 
-                const linkList = links["set"];
+                const linkList = links;
 
                 return Object.keys(linkList).map(
                     (item: string) =>
