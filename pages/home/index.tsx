@@ -44,7 +44,7 @@ export default function Home() {
     useEffect(() => {
         if (!isProfileQueryLoading && !isUserQueryLoading && User) {
             console.log({ User, Profile });
-            if (User.is_admin) router.push("/admin");
+
             if (!Profile && !User.is_admin) {
                 // router.push("/app");
             } else setInMintQueue(true);
@@ -74,28 +74,14 @@ export default function Home() {
             </section>
         );
     }
-    let queuedProfileList = () => {
-        if (!isProfileListLoading && !profileListError && Profiles) {
-            const queuedProfileList = Profiles?.map((profile: any) => {
-                if (profile.minted) return;
-                else
-                    return (
-                        <ProfilePreview
-                            profile={profile}
-                            key={profile.handle}
-                        />
-                    );
-            });
-            return queuedProfileList;
-        } else return <></>;
-    };
+
     let mintedProfileList = () => {
         if (!isProfileListLoading && !profileListError && Profiles) {
             const mintedProfileList = Profiles?.map((profile: any) => {
                 if (profile && profile.minted)
                     return (
                         <ProfilePreview
-                            profile={profile}
+                            userProfile={profile}
                             key={profile.handle}
                         />
                     );
@@ -132,14 +118,6 @@ export default function Home() {
                     </Transition>
                 </div>
 
-                <div className="w-full mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
-                    <h1 className={" font-bold text-4xl mb-4 text-center py-5"}>
-                        Profiles In Queue
-                    </h1>
-                    <div className="grid grid-cols-3 grid-flow-row gap-4">
-                        {queuedProfileList()}
-                    </div>
-                </div>
                 <div className="w-full mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
                     <h1 className={" font-bold text-4xl mb-4 text-center py-5"}>
                         Minted Profiles
