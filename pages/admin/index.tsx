@@ -115,7 +115,8 @@ export async function getServerSideProps(context: any) {
         authOptions
     );
 
-    const user = await getUserQuery(session?.user.id as string);
+    const getUser = async () => getUserQuery(session?.user.id as string);
+    const user = await getUser();
 
     if (!user?.is_admin)
         return {
