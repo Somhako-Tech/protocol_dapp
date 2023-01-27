@@ -3,6 +3,7 @@ import { Profile } from "@prisma/client";
 import * as changeCase from "change-case";
 import { ProfileFormSkeleton } from "./skeletons";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
+import styles from "./components.module.css";
 
 export default function ProfileSummary({
     userProfile,
@@ -11,15 +12,7 @@ export default function ProfileSummary({
 }) {
     const ListInfo = userProfile ? (
         Object.keys(userProfile).map((key) => {
-            if (
-                key === "id" ||
-                key === "handle" ||
-                key === "education" ||
-                key === "experience" ||
-                key === "years_of_exp" ||
-                key === "skills"
-            )
-                return;
+            if (key === "id" || key === "handle" || key === "skills") return;
 
             if (key === "link") {
                 const links = userProfile.link as any;
@@ -32,7 +25,7 @@ export default function ProfileSummary({
                             <div className="my-2" key={item}>
                                 <label
                                     htmlFor={key}
-                                    className="font-medium text-base mb-2 leading-none inline-block"
+                                    className={styles.profileLabel}
                                 >
                                     {item}
                                 </label>
@@ -46,6 +39,64 @@ export default function ProfileSummary({
                         )
                 );
             }
+
+            if (key === "education")
+                return (
+                    <div className="py-1 text-center">
+                        <label
+                            className={styles.profileLabel + " underline pb-2"}
+                        >
+                            Education
+                        </label>
+                        {(userProfile.education as any).map(
+                            (education: {
+                                institution: string;
+                                year: string;
+                                title: string;
+                            }) => (
+                                <div key={education.institution}>
+                                    <label className="font-semibold text-lg mb-2 leading-none inline-block capitalize">
+                                        {education.institution} (
+                                        {education.year.split("-")[0]})
+                                    </label>
+                                    <label className="font-normal text-base w-auto mx-4 leading-none inline-block capitalize">
+                                        {education.title}
+                                    </label>
+                                </div>
+                            )
+                        )}
+                    </div>
+                );
+
+            if (key === "experience")
+                return (
+                    <div className="py-1 text-center">
+                        <label
+                            className={styles.profileLabel + " underline pb-2"}
+                        >
+                            Experience
+                        </label>
+                        {(userProfile.experience as any).map(
+                            (experience: {
+                                organization: string;
+                                startYear: string;
+                                endYear: string;
+                                title: string;
+                            }) => (
+                                <div key={experience.organization}>
+                                    <label className="font-semibold text-lg mb-2 leading-none inline-block capitalize">
+                                        {experience.organization} (
+                                        {experience.startYear.split("-")[0]} -
+                                        {experience.endYear.split("-")[0]})
+                                    </label>
+                                    <label className="font-normal text-base w-auto mx-4 leading-none inline-block capitalize">
+                                        {experience.title}
+                                    </label>
+                                </div>
+                            )
+                        )}
+                    </div>
+                );
 
             let label: string = changeCase.sentenceCase(key);
             const value: string = userProfile[key as keyof Profile]!.toString();
@@ -64,13 +115,11 @@ export default function ProfileSummary({
                 );
             }
             if (key === "pref_location") label = "Preferred Location";
+            if (key === "years_of_exp") label = "Years of Experience";
 
             return (
                 <div className="my-2" key={key}>
-                    <label
-                        htmlFor={key}
-                        className="font-medium text-base mb-2 leading-none inline-block"
-                    >
+                    <label htmlFor={key} className={styles.profileLabel}>
                         {label}
                     </label>
                     <label

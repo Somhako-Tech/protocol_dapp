@@ -8,6 +8,7 @@ import {
 } from "../graphql/graphqlQueries";
 import { useQuery } from "@tanstack/react-query";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import styles from "./components.module.css";
 
 interface ProfileWithImage extends Profile {
     user: { image: string };
@@ -48,7 +49,7 @@ const ProfilePreview = ({ userProfile }: { userProfile: ProfileWithImage }) => {
 
     return (
         <div className="relative" key={userProfile.id}>
-            <div className="flex flex-col justify-evenly shadow-normal border shadow-slate-200 rounded-[30px] py-6 px-16 mb-6 text-center hover:shadow-2xl h-72 absolute inset-0 z-10 opacity-0 hover:opacity-100 bg-white bg-opacity-98 duration-300">
+            <div className="flex flex-col justify-evenly shadow-normal border shadow-slate-200 rounded-[30px] py-6 px-16 mb-6 text-center hover:shadow-2xl  h-[350px] absolute inset-0 z-10 opacity-0 hover:opacity-100 bg-white bg-opacity-98 duration-300">
                 <div className="my-2">
                     <label className="font-medium text-lg mb-2 leading-none inline-block">
                         Experience
@@ -66,7 +67,7 @@ const ProfilePreview = ({ userProfile }: { userProfile: ProfileWithImage }) => {
                     {"More >"}
                 </Link>
             </div>
-            <div className="flex flex-col justify-evenly bg-white shadow-normal border shadow-slate-200 rounded-[30px] py-6 px-16 mb-6 text-center hover:shadow-2xl h-72">
+            <div className="flex flex-col justify-start bg-white shadow-normal border shadow-slate-200 rounded-[30px] py-6 px-16 mb-6 text-center hover:shadow-2xl h-[350px]">
                 <div className="flex-col items-center justify-between">
                     <div className="flex justify-center mb-3 pb-2">
                         {userProfile.user.image ? (
@@ -92,15 +93,14 @@ const ProfilePreview = ({ userProfile }: { userProfile: ProfileWithImage }) => {
                     <div className="my-2" key="summary">
                         <label
                             htmlFor="summary"
-                            className="font-medium text-lg mb-2 leading-none inline-block"
+                            className={styles.profileLabel}
                         >
                             Summary
                         </label>
-                        <label
-                            id={"summary"}
-                            className="font-medium text-base w-auto mx-4 "
-                        >
-                            {userProfile.summary.slice(0, 40) + "..."}
+                        <label id={"summary"} className={styles.profileText}>
+                            {userProfile.summary.length > 120
+                                ? userProfile.summary.slice(0, 120) + "..."
+                                : userProfile.summary}
                         </label>
                     </div>
                 </div>

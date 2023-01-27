@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Profile } from "../constants/types";
 import * as changeCase from "change-case";
 import { ProfileFormSkeleton } from "./skeletons";
+import styles from "./components.module.css";
 
 export default function ProfileSummary({
     profile,
@@ -188,7 +189,7 @@ export default function ProfileSummary({
                             <div className="my-2" key={item}>
                                 <label
                                     htmlFor={key}
-                                    className="font-medium text-base mb-2 leading-none inline-block"
+                                    className={styles.profileLabel}
                                 >
                                     {item}
                                 </label>
@@ -209,10 +210,7 @@ export default function ProfileSummary({
 
             return (
                 <div className="my-2" key={key}>
-                    <label
-                        htmlFor={key}
-                        className="font-medium text-base mb-2 leading-none inline-block"
-                    >
+                    <label htmlFor={key} className={styles.profileLabel}>
                         {label}
                     </label>
                     <label
