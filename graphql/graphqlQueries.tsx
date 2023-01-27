@@ -13,7 +13,19 @@ const API_URL =
 export const getProfileByHandleQueryDocument = graphql(`
     query getProfileByHandle($handle: String!) {
         getProfile(where: { handle: $handle }) {
+            id
             handle
+            title
+            summary
+            job_type
+            pref_location
+            salary
+            years_of_exp
+            skills
+            experience
+            education
+            address
+            minted
         }
     }
 `);
@@ -138,6 +150,9 @@ export const getProfilesQueryDocument = graphql(`
             title
             user_id
             years_of_exp
+            user {
+                image
+            }
         }
     }
 `);
@@ -149,6 +164,43 @@ export const getProfilesQuery = async () => {
             return { profiles: null };
         }
     );
+
+    return profiles;
+};
+
+export const getMintedProfilesQueryDocument = graphql(`
+    query getMintedProfiles {
+        profiles(where: { minted: { equals: true } }) {
+            address
+            education
+            experience
+            handle
+            id
+            job_type
+            link
+            minted
+            pref_location
+            salary
+            skills
+            summary
+            title
+            user_id
+            years_of_exp
+            user {
+                image
+            }
+        }
+    }
+`);
+
+export const getMintedProfilesQuery = async () => {
+    const { profiles } = await request(
+        API_URL,
+        getMintedProfilesQueryDocument
+    ).catch((err) => {
+        console.log(err);
+        return { profiles: null };
+    });
 
     return profiles;
 };
