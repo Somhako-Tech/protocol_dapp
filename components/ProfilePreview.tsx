@@ -9,20 +9,10 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-const ProfilePreview = ({ userProfile }: { userProfile: Profile }) => {
-    const [image, setImage] = useState("");
-
-    const { isLoading: isUserQueryLoading, data: User } = useQuery(
-        ["getUser", userProfile.user_id as string],
-        async () => getUserQuery((userProfile.user_id as string) || "default")
-    );
-
-    useEffect(() => {
-        if (!isUserQueryLoading) setImage(User?.image as string);
-    }, [User?.image, isUserQueryLoading]);
-
-    if (!userProfile) return <></>;
-
+interface ProfileWithImage extends Profile {
+    user: { image: string };
+}
+const ProfilePreview = ({ userProfile }: { userProfile: ProfileWithImage }) => {
     const education = (userProfile.education as any).map(
         (education: { institution: string; year: string; title: string }) => (
             <div key={education.institution}>
@@ -79,9 +69,9 @@ const ProfilePreview = ({ userProfile }: { userProfile: Profile }) => {
             <div className="flex flex-col justify-evenly bg-white shadow-normal border shadow-slate-200 rounded-[30px] py-6 px-16 mb-6 text-center hover:shadow-2xl h-72">
                 <div className="flex-col items-center justify-between">
                     <div className="flex justify-center mb-3 pb-2">
-                        {image ? (
+                        {userProfile.user.image ? (
                             <Image
-                                src={image}
+                                src={userProfile.user.image}
                                 alt={userProfile.handle}
                                 className="rounded-full"
                                 width={100}
