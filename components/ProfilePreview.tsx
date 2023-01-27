@@ -23,74 +23,60 @@ const ProfilePreview = ({ userProfile }: { userProfile: Profile }) => {
 
     if (!userProfile) return <></>;
 
+    const education = (userProfile.education as any).map(
+        (education: { institution: string; year: string; title: string }) => (
+            <div key={education.institution}>
+                <label className="font-semibold text-lg mb-2 leading-none inline-block capitalize">
+                    {education.institution} ({education.year.split("-")[0]})
+                </label>
+                <label className="font-normal text-base w-auto mx-4 leading-none inline-block capitalize">
+                    {education.title}
+                </label>
+            </div>
+        )
+    );
+
+    const experience = (userProfile.experience as any).map(
+        (experience: {
+            organization: string;
+            startYear: string;
+            endYear: string;
+            title: string;
+        }) => (
+            <div key={experience.organization}>
+                <label className="font-semibold text-lg mb-2 leading-none inline-block capitalize">
+                    {experience.organization} (
+                    {experience.startYear.split("-")[0]} -
+                    {experience.endYear.split("-")[0]})
+                </label>
+                <label className="font-normal text-base w-auto mx-4 leading-none inline-block capitalize">
+                    {experience.title}
+                </label>
+            </div>
+        )
+    );
+
     return (
         <div className="relative" key={userProfile.id}>
-            <div className=" shadow-normal border shadow-slate-200 rounded-[30px] py-6 px-16 mb-6 text-center hover:shadow-2xl h-72 absolute inset-0 z-10 opacity-0 hover:opacity-100 bg-white bg-opacity-98 duration-300">
-                <div className="my-2" key="summary">
-                    <label
-                        htmlFor="summary"
-                        className="font-medium text-lg mb-2 leading-none inline-block"
-                    >
-                        Summary
-                    </label>
-                    <label
-                        id={"summary"}
-                        className="font-medium text-base w-auto mx-4 "
-                    >
-                        {userProfile.summary.slice(0, 40) + "..."}
-                    </label>
-                </div>
+            <div className="flex flex-col justify-evenly shadow-normal border shadow-slate-200 rounded-[30px] py-6 px-16 mb-6 text-center hover:shadow-2xl h-72 absolute inset-0 z-10 opacity-0 hover:opacity-100 bg-white bg-opacity-98 duration-300">
                 <div className="my-2">
                     <label className="font-medium text-lg mb-2 leading-none inline-block">
                         Experience
                     </label>
-                    <label className="font-medium text-base w-auto mx-4 leading-none inline-block">
+                    <label className="font-normal text-base w-auto mx-4 leading-none inline-block">
                         {userProfile.years_of_exp}
                     </label>
                 </div>
-                <div className="my-2">
-                    <label className="font-medium text-lg mb-2 leading-none inline-block">
-                        Links
-                    </label>
-                    <label className="font-medium text-base w-auto mx-4 flex flex-row justify-center">
-                        {userProfile.link &&
-                            Object.keys(userProfile.link as any).map(
-                                (linkName: string) =>
-                                    (userProfile?.link as any)[linkName] !==
-                                        "" && (
-                                        <Link
-                                            href={
-                                                (userProfile?.link as any)[
-                                                    linkName
-                                                ]
-                                            }
-                                            key={linkName}
-                                            className="p-1"
-                                        >
-                                            {linkName === "Github" ? (
-                                                <Image
-                                                    src="/images/github_icon.png"
-                                                    width={30}
-                                                    height={30}
-                                                    alt="Github Icon"
-                                                />
-                                            ) : linkName === "LinkedIn" ? (
-                                                <Image
-                                                    src="/images/linkedin_icon.png"
-                                                    width={30}
-                                                    height={30}
-                                                    alt="Github Icon"
-                                                />
-                                            ) : (
-                                                <></>
-                                            )}
-                                        </Link>
-                                    )
-                            )}
-                    </label>
-                </div>
+                <div className="my-2">{experience}</div>
+                <div className="my-2">{education}</div>
+                <Link
+                    href={`/u/${userProfile.handle}`}
+                    className="font-normal text-somhakohr"
+                >
+                    {"More >"}
+                </Link>
             </div>
-            <div className="bg-white shadow-normal border shadow-slate-200 rounded-[30px] py-6 px-16 mb-6 text-center hover:shadow-2xl h-72">
+            <div className="flex flex-col justify-evenly bg-white shadow-normal border shadow-slate-200 rounded-[30px] py-6 px-16 mb-6 text-center hover:shadow-2xl h-72">
                 <div className="flex-col items-center justify-between">
                     <div className="flex justify-center mb-3 pb-2">
                         {image ? (
@@ -113,6 +99,20 @@ const ProfilePreview = ({ userProfile }: { userProfile: Profile }) => {
                     <h2 className="font-medium mb-2 text-xl leading-none ">
                         {userProfile.title}
                     </h2>
+                    <div className="my-2" key="summary">
+                        <label
+                            htmlFor="summary"
+                            className="font-medium text-lg mb-2 leading-none inline-block"
+                        >
+                            Summary
+                        </label>
+                        <label
+                            id={"summary"}
+                            className="font-medium text-base w-auto mx-4 "
+                        >
+                            {userProfile.summary.slice(0, 40) + "..."}
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
