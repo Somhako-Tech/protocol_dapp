@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import {
+    getMintedProfilesQuery,
     getProfileByUserIdQuery,
     getProfilesQuery,
     getUserQuery,
@@ -15,7 +16,11 @@ import ProfilePreview from "../../components/ProfilePreview";
 import Link from "next/link";
 import { Transition } from "react-transition-group";
 
-export default function Home() {
+export default function Home({
+    profileCreated = false,
+}: {
+    profileCreated: boolean;
+}) {
     const router = useRouter();
     const { data: session } = useSession();
 
@@ -23,41 +28,9 @@ export default function Home() {
         isLoading: isProfileListLoading,
         isError: profileListError,
         data: Profiles,
-    } = useQuery(["getProfiles"], async () => getProfilesQuery());
-
-    const {
-        isLoading: isProfileQueryLoading,
-        isError: isProfileQueryError,
-        data: Profile,
-    } = useQuery(["getProfile", session?.user.id as string], async () =>
-        getProfileByUserIdQuery((session?.user.id as string) || "default")
-    );
-
-    const { isLoading: isUserQueryLoading, data: User } = useQuery(
-        ["getUser", session?.user.id as string],
-        async () => getUserQuery((session?.user.id as string) || "default")
-    );
-
-    const [inMintQueue, setInMintQueue] = useState(false);
-
-    //TODO turn this into a middleware
-    useEffect(() => {
-        if (!isProfileQueryLoading && !isUserQueryLoading && User) {
-            console.log({ User, Profile });
-
-            if (!Profile && !User.is_admin) {
-                // router.push("/app");
-            } else setInMintQueue(true);
-        }
-    }, [
-        Profile,
-        User,
-        inMintQueue,
-        isProfileQueryError,
-        isProfileQueryLoading,
-        isUserQueryLoading,
-        router,
-    ]);
+    } = useQuery(["getMintedProfiles"], async () => getMintedProfilesQuery(), {
+        cacheTime: 60,
+    });
 
     useEffect(() => {
         if (!session) router.push("/");
@@ -78,14 +51,12 @@ export default function Home() {
     let mintedProfileList = () => {
         if (!isProfileListLoading && !profileListError && Profiles) {
             const mintedProfileList = Profiles?.map((profile: any) => {
-                if (profile && profile.minted)
-                    return (
-                        <ProfilePreview
-                            userProfile={profile}
-                            key={profile.handle}
-                        />
-                    );
-                else return <></>;
+                return (
+                    <ProfilePreview
+                        userProfile={profile}
+                        key={profile.handle}
+                    />
+                );
             });
 
             return mintedProfileList;
@@ -98,7 +69,7 @@ export default function Home() {
                 <div className="w-full flex justify-center ">
                     <Transition
                         nodeRef={null}
-                        in={!inMintQueue}
+                        in={!profileCreated}
                         timeout={400}
                         className="my-10"
                     >
@@ -129,4 +100,23 @@ export default function Home() {
             </div>
         </section>
     );
+}
+
+import { authOptions } from "../api/auth/[...nextauth]";
+import { unstable_getServerSession } from "next-auth/next";
+
+export async function getServerSideProps(context: any) {
+    const session = await unstable_getServerSession(
+        context.req,
+        context.res,
+        authOptions
+    );
+
+    const user = await getProfileByUserIdQuery(session?.user.id as string);
+
+    return {
+        props: {
+            profileCreated: user !== null,
+        },
+    };
 }
