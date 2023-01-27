@@ -4,7 +4,7 @@
 
 @layer components {
     .formInputSection {
-        @apply bg-white border shadow-md shadow-slate-200 rounded-[30px] flex flex-col w-auto p-10 items-stretch justify-center my-2;
+        @apply bg-white border shadow-md shadow-slate-200 rounded-[30px] flex flex-col w-auto p-10 items-stretch justify-center my-4 min-w-[600px];
     }
     .formInputPair {
         @apply my-6 mx-6 flex flex-row justify-between items-center;

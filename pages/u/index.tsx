@@ -117,7 +117,7 @@ export default function UserPage() {
                         <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 flex flex-col justify-center items-center">
                             <label
                                 htmlFor="referral"
-                                className="font-medium text-base mb-2 leading-none inline-block"
+                                className={styles.profileLabel}
                             >
                                 Referral Link
                             </label>
