@@ -18,7 +18,7 @@ export default function Layout({ children }: { children: any }) {
         ["getProfile", session?.user.id as string],
         () =>
             getProfileByUserIdQuery((session?.user.id as string) || "default"),
-        { enabled: !!session }
+        { enabled: !!session, cacheTime: 600 }
     );
     if (!session || router.asPath === "/")
         return (
@@ -30,7 +30,7 @@ export default function Layout({ children }: { children: any }) {
             </main>
         );
 
-    if (isQueryLoading || isQueryError) {
+    if (isQueryLoading || isQueryError || !ProfileData) {
         return (
             <main className="py-8 bg-white">
                 <Head>
@@ -42,17 +42,6 @@ export default function Layout({ children }: { children: any }) {
         );
     }
 
-    if (!ProfileData) {
-        return (
-            <main className="py-8 bg-white">
-                <Head>
-                    <title> Somhakohr Dapp </title>
-                </Head>
-                <Header handle={null}></Header>
-                {children}
-            </main>
-        );
-    }
     return (
         <main className="py-8 bg-white">
             <Head>

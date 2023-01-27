@@ -35,7 +35,7 @@ export default function UserDropdownButton({
                             <Menu.Item>
                                 {({ active }) => (
                                     <Link
-                                        href={profileLink}
+                                        href={"/u"}
                                         className={`${
                                             active
                                                 ? "bg-violet-500 text-white"

@@ -8,10 +8,10 @@ export default function Logo({
     height: number;
 }) {
     return (
-        <div className="w-full">
+        <div className="w-full  max-h-[200px]">
             <Link
-                href="/"
-                className="w-full inline-block align-middle max-w-[200px] max-h-[200px]"
+                href="/home"
+                className="w-full inline-block align-middle max-w-[200px]"
             >
                 <Image
                     width={width || 200}
