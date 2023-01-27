@@ -1,6 +1,6 @@
 import { Profile } from "@prisma/client";
+import { forwardRef } from "react";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 
 export default function ExperienceFields({
     userProfile,
@@ -51,6 +51,17 @@ export default function ExperienceFields({
         });
     };
 
+    const CustomDateInput =
+        // eslint-disable-next-line react/display-name
+        forwardRef(({ value, onClick }: any, ref: any) => (
+            <input
+                className="formInputs"
+                onClick={onClick}
+                ref={ref}
+                value={value || ""}
+            />
+        ));
+
     const experience = userProfile.experience.map((experience: any, i) => (
         <div key={i}>
             <label className="text-md mb-2 leading-none inline-block">
@@ -78,23 +89,26 @@ export default function ExperienceFields({
                     Start Year
                 </label>
 
-                <DatePicker
-                    selected={experience.startYear}
-                    className="formInputs"
-                    onChange={(date: any) =>
-                        updateExperience(
-                            {
-                                target: {
-                                    id: "startYear",
-                                    value: date,
-                                    name: "startYear",
+                <div className="w-auto">
+                    <DatePicker
+                        selected={experience.startYear}
+                        customInput={<CustomDateInput />}
+                        onChange={(date: any) =>
+                            updateExperience(
+                                {
+                                    target: {
+                                        id: "startYear",
+                                        value: date,
+                                        name: "startYear",
+                                    },
                                 },
-                            },
-                            i
-                        )
-                    }
-                />
+                                i
+                            )
+                        }
+                    />
+                </div>
             </div>
+
             <div className="formInputPair" key={i}>
                 <label
                     htmlFor="endYear"
@@ -102,22 +116,24 @@ export default function ExperienceFields({
                 >
                     End Year
                 </label>
-                <DatePicker
-                    selected={experience.endYear}
-                    className="formInputs"
-                    onChange={(date: any) =>
-                        updateExperience(
-                            {
-                                target: {
-                                    id: "endYear",
-                                    value: date,
-                                    name: "endYear",
+                <div className="w-auto">
+                    <DatePicker
+                        selected={experience.endYear}
+                        customInput={<CustomDateInput />}
+                        onChange={(date: any) =>
+                            updateExperience(
+                                {
+                                    target: {
+                                        id: "endYear",
+                                        value: date,
+                                        name: "endYear",
+                                    },
                                 },
-                            },
-                            i
-                        )
-                    }
-                />
+                                i
+                            )
+                        }
+                    />
+                </div>
             </div>
             <div className="formInputPair" key={i}>
                 <label

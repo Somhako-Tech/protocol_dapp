@@ -151,9 +151,9 @@ const ProfileForm = ({
     );
 
     return (
-        <div className="flex-col items-center">
+        <div className="flex-col items-center w-full">
             <form
-                className="flex flex-col justify-center items-center"
+                className="flex flex-col justify-evenly items-center "
                 onSubmit={checkSubmit}
             >
                 <LinkModal

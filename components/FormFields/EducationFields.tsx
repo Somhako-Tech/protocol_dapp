@@ -1,6 +1,6 @@
 import { Profile } from "@prisma/client";
+import { forwardRef } from "react";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 
 export default function EducationFields({
     userProfile,
@@ -41,6 +41,17 @@ export default function EducationFields({
         if (e.target.id == "year") education[i].year = e.target.value;
         handleChange({ target: { id: "education", value: [...education] } });
     };
+
+    const CustomDateInput =
+        // eslint-disable-next-line react/display-name
+        forwardRef(({ value, onClick }: any, ref: any) => (
+            <input
+                className="formInputs"
+                onClick={onClick}
+                ref={ref}
+                value={value || ""}
+            />
+        ));
 
     const education = userProfile.education.map((education: any, i) => (
         <div key={i} className="w-full">
@@ -88,25 +99,25 @@ export default function EducationFields({
                 >
                     Year
                 </label>
-
-                <DatePicker
-                    selected={education.year}
-                    wrapperClassName="formInputs"
-                    dateFormat="dd/MM/yyyy"
-                    onChange={(date: any) =>
-                        updateEducation(
-                            {
-                                target: {
-                                    id: "year",
-                                    value: date,
-                                    name: "year",
+                <div className="w-auto">
+                    <DatePicker
+                        selected={education.year}
+                        customInput={<CustomDateInput />}
+                        onChange={(date: any) =>
+                            updateEducation(
+                                {
+                                    target: {
+                                        id: "year",
+                                        value: date,
+                                        name: "year",
+                                    },
                                 },
-                            },
-                            i
-                        )
-                    }
-                    id="year"
-                />
+                                i
+                            )
+                        }
+                        id="year"
+                    />
+                </div>
             </div>
         </div>
     ));
