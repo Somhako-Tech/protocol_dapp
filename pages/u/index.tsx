@@ -16,6 +16,7 @@ import Snackbar from "@mui/material/Snackbar";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { ProfileFormSkeleton } from "../../components/skeletons";
+import styles from "./u.module.css";
 
 export default function UserPage() {
     const router = useRouter();
