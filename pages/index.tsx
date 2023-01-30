@@ -492,7 +492,7 @@ import { unstable_getServerSession } from "next-auth/next";
 import { getUserQuery } from "../graphql/graphqlQueries";
 
 export async function getServerSideProps(context: any) {
-    const session = await unstable_getServerSession(
+    const session: any = await unstable_getServerSession(
         context.req,
         context.res,
         authOptions
@@ -500,9 +500,10 @@ export async function getServerSideProps(context: any) {
 
     if (!session) return { props: {} };
 
-    const user = await getUserQuery(session.user.id);
+    const user = session?.user ? session.user : { id: "default" };
+    const loggedInUser = await getUserQuery(user.id);
 
-    if (user?.is_admin)
+    if (loggedInUser?.is_admin)
         return {
             redirect: {
                 destination: "/admin",
