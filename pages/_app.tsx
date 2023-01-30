@@ -14,9 +14,15 @@ import {
 } from "@tanstack/react-query";
 import Layout from "../components/Layout/Layout";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import type { Session } from "next-auth";
 
 const queryClient = new QueryClient();
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({
+    Component,
+    pageProps,
+}: AppProps<{
+    session: Session;
+}>) {
     const { chains, provider } = configureChains(
         [mainnet, polygon],
         [

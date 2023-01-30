@@ -106,17 +106,20 @@ import { authOptions } from "../api/auth/[...nextauth]";
 import { unstable_getServerSession } from "next-auth/next";
 
 export async function getServerSideProps(context: any) {
-    const session = await unstable_getServerSession(
+    //TODO Fix this type
+    const session: any = await unstable_getServerSession(
         context.req,
         context.res,
         authOptions
     );
 
-    const user = await getProfileByUserIdQuery(session?.user.id as string);
+    const user = session?.user ? session.user : { id: "default" };
+
+    const userProfile = await getProfileByUserIdQuery(user.id as string);
 
     return {
         props: {
-            profileCreated: user !== null,
+            profileCreated: userProfile !== null,
         },
     };
 }

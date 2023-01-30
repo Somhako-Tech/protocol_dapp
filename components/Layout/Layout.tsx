@@ -10,14 +10,15 @@ export default function Layout({ children }: { children: any }) {
 
     const router = useRouter();
 
+    const user = session?.user ? session.user : { id: "default" };
+
     const {
         data: ProfileData,
         isLoading: isQueryLoading,
         isError: isQueryError,
     } = useQuery(
-        ["getProfile", session?.user.id as string],
-        () =>
-            getProfileByUserIdQuery((session?.user.id as string) || "default"),
+        ["getProfile", user.id as string],
+        () => getProfileByUserIdQuery((user.id as string) || "default"),
         { enabled: !!session, cacheTime: 600 }
     );
     if (!session || router.asPath === "/")

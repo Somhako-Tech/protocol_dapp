@@ -65,7 +65,6 @@ const ProfileForm = ({
         // Make an API call to check if the handle already exists
         const data = await getProfileByHandleIdQuery(userProfile.handle);
         if (data !== null) {
-            //TODO Switch to a snackbar
             setShowHandleAlert(true);
             return true;
         }

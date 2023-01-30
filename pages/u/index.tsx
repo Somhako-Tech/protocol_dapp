@@ -23,12 +23,14 @@ export default function UserPage() {
     const { handle } = router.query;
     const { data: session } = useSession();
 
+    const user = session?.user ? session.user : { id: null, email: null };
+
     const {
         data: aggregateReferral,
         isLoading: isReferralLoading,
         isError: isReferralError,
-    } = useQuery(["getReferralCount", session?.user?.id], () =>
-        getReferralCountQuery(session?.user?.id || "default")
+    } = useQuery(["getReferralCount", user?.id], () =>
+        getReferralCountQuery(user?.id || "default")
     );
 
     // TODO Get user by handle
@@ -37,9 +39,8 @@ export default function UserPage() {
         isLoading: isProfileQueryLoading,
         isError: isQueryError,
     } = useQuery(
-        ["getProfile", session?.user.id as string],
-        () =>
-            getProfileByUserIdQuery((session?.user.id as string) || "default"),
+        ["getProfile", user.id as string],
+        () => getProfileByUserIdQuery((user.id as string) || "default"),
         { enabled: !!session }
     );
 

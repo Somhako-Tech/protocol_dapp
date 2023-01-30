@@ -34,14 +34,15 @@ export default function AppPage() {
 
     const [referredFrom] = useReferralStore((state) => [state.referredFrom]);
 
+    const user = session?.user ? session.user : { id: null, email: null };
+
     const {
         data: Profile,
         isLoading: isQueryLoading,
         isError: isQueryError,
     } = useQuery(
-        ["getProfile", session?.user.id as string],
-        () =>
-            getProfileByUserIdQuery((session?.user.id as string) || "default"),
+        ["getProfile", user.id as string],
+        () => getProfileByUserIdQuery((user.id as string) || "default"),
         { enabled: !!session }
     );
 
@@ -90,12 +91,9 @@ export default function AppPage() {
     });
 
     async function saveProfile(profile: Profile) {
-        console.log({ id: session?.user.id as string, profile });
+        console.log({ id: user.id as string, profile });
         setIsProfileCreating(true);
-        await createProfileQuery(
-            (session?.user.id as string) || "default",
-            profile
-        )
+        await createProfileQuery((user.id as string) || "default", profile)
             .then((data) => {
                 if (data) {
                     setHandle(data.handle);
@@ -109,7 +107,7 @@ export default function AppPage() {
                 throw new Error("Profile creation failed");
             });
         await axiosAPIInstance.post("/mail", {
-            to: session?.user.email,
+            to: user.email,
             subject: emails.profileCreated.subject,
             html: emails.profileCreated.html,
         });
@@ -119,7 +117,7 @@ export default function AppPage() {
             if (referrer) {
                 await createReferralQuery(
                     referrer.handle,
-                    session?.user.email || "default"
+                    user.email || "default"
                 );
             }
         }

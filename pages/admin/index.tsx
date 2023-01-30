@@ -107,18 +107,21 @@ export default function Home() {
 import { authOptions } from "../api/auth/[...nextauth]";
 import { unstable_getServerSession } from "next-auth/next";
 import { getUserQuery } from "../../graphql/graphqlQueries";
+import { Session, SessionStrategy } from "next-auth/core/types";
 
 export async function getServerSideProps(context: any) {
-    const session = await unstable_getServerSession(
+    const session: any = await unstable_getServerSession(
         context.req,
         context.res,
         authOptions
     );
 
-    const getUser = async () => getUserQuery(session?.user.id as string);
-    const user = await getUser();
+    const user = session?.user ? session.user : { id: "default" };
 
-    if (!user?.is_admin)
+    const getUser = async () => getUserQuery(user.id as string);
+    const loggedInUser = await getUser();
+
+    if (!loggedInUser?.is_admin)
         return {
             redirect: {
                 destination: "/home",
