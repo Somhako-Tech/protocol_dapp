@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator typegraphql {
+  provider = "typegraphql-prisma"
+  output   = "./client-generated/type-graphql"
+}
+
+datasource db {
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
+  relationMode = "foreignKeys"
+}
+
+model Profile {
+  id            Int      @id @default(autoincrement())
+  handle        String   @unique(map: "handle")
+  title         String
+  summary       String
+  job_type      String
+  pref_location String
+  salary        String
+  years_of_exp  String
+  link          Json     @db.Json
+  address       String
+  skills        String[]
+  education     Json[]   @db.Json
+  experience    Json[]   @db.Json
+  minted        Boolean
+  /// @TypeGraphQL.omit(output: true)
+  user_id       String
+}
