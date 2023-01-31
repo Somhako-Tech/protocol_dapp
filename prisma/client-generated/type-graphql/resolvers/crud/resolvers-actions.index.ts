@@ -1,0 +1,14 @@
+export { AggregateProfileResolver } from "./Profile/AggregateProfileResolver";
+export { CreateManyProfileResolver } from "./Profile/CreateManyProfileResolver";
+export { CreateOneProfileResolver } from "./Profile/CreateOneProfileResolver";
+export { DeleteManyProfileResolver } from "./Profile/DeleteManyProfileResolver";
+export { DeleteOneProfileResolver } from "./Profile/DeleteOneProfileResolver";
+export { FindFirstProfileResolver } from "./Profile/FindFirstProfileResolver";
+export { FindFirstProfileOrThrowResolver } from "./Profile/FindFirstProfileOrThrowResolver";
+export { FindManyProfileResolver } from "./Profile/FindManyProfileResolver";
+export { FindUniqueProfileResolver } from "./Profile/FindUniqueProfileResolver";
+export { FindUniqueProfileOrThrowResolver } from "./Profile/FindUniqueProfileOrThrowResolver";
+export { GroupByProfileResolver } from "./Profile/GroupByProfileResolver";
+export { UpdateManyProfileResolver } from "./Profile/UpdateManyProfileResolver";
+export { UpdateOneProfileResolver } from "./Profile/UpdateOneProfileResolver";
+export { UpsertOneProfileResolver } from "./Profile/UpsertOneProfileResolver";
