@@ -16,7 +16,10 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import Snackbar from "@mui/material/Snackbar";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
-import { ProfileFormSkeleton } from "../../components/skeletons";
+import {
+    ProfileFormSkeleton,
+    ProfileSummarySkeleton,
+} from "../../components/skeletons";
 import { Profile } from "@prisma/client";
 
 export default function UserPage() {
@@ -36,7 +39,7 @@ export default function UserPage() {
                 <div className="w-full max-w-[800px] mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
                     <div className="flex-col items-center justify-center">
                         {isProfileQueryLoading ? (
-                            <ProfileFormSkeleton />
+                            <ProfileSummarySkeleton />
                         ) : (
                             <ProfileSummary userProfile={Profile as Profile} />
                         )}

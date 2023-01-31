@@ -37,19 +37,20 @@ export default async function handler(req: NextApiRequest, res: any) {
 
         const profileManagerWithSigner = profileManagerContract.connect(signer);
 
-        const txResponse = await profileManagerWithSigner.safeMint({
+        const txReceipt = await profileManagerWithSigner.safeMint({
             owner: user_address,
             id: id,
             handle: handle,
         });
 
-        await txResponse.wait();
+        await txReceipt.wait();
 
         const tokenId = await profileManagerWithSigner.balanceOf(owner);
 
         res.setHeader("Access-Control-Allow-Origin", "*").send({
             success: true,
             tokenId,
+            txReceipt,
         });
     } catch (error: any) {
         res.send({ success: false, error });

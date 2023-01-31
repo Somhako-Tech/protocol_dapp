@@ -13,6 +13,7 @@ import { Transition } from "react-transition-group";
 import { useRef } from "react";
 import { getProfileByHandleIdQuery } from "../graphql/graphqlQueries";
 import LocationField from "./FormFields/LocationField";
+import Link from "next/link";
 
 const ProfileForm = ({
     handleChange,
@@ -135,15 +136,18 @@ const ProfileForm = ({
 
     const links = Object.keys(userProfile.link as Object).map(
         (link: string, i) => {
-            if ((userProfile.link as any)[link] == "") return;
+            const links = userProfile.link as any;
             return (
-                <div key={i} className="flex">
+                <div key={i} className="flex flex-row justify-evenly w-full">
                     <label className="font-medium mb-2 leading-none inline-block">
                         {link}
                     </label>
-                    <label className="font-normal mb-2 ml-10 leading-none inline-block">
-                        {(userProfile.link as any)[link]}
-                    </label>
+                    <Link
+                        href={links[link] != "" ? links[link] : "/"}
+                        className="font-normal mb-2 ml-10 leading-none inline-block"
+                    >
+                        {links[link] != "" ? links[link] : "No link"}
+                    </Link>
                 </div>
             );
         }
@@ -348,9 +352,7 @@ const ProfileForm = ({
                                         Add
                                     </button>
                                 </div>
-                                <div className="mb-6 flex-row justify-between items-center">
-                                    {links}
-                                </div>
+                                <div className="mb-6 w-full">{links}</div>
                                 <Transition
                                     nodeRef={null}
                                     in={
@@ -385,16 +387,24 @@ const ProfileForm = ({
                                     >
                                         Preferred Job Type
                                     </label>
-                                    <input
+
+                                    <select
                                         required
                                         id="job_type"
-                                        type="text"
-                                        placeholder="Ex: Fulltime"
-                                        className="formInputs"
+                                        className="formInputs px-10"
                                         value={userProfile.job_type}
                                         onChange={handleChange}
-                                        onBlur={handleChange}
-                                    />
+                                    >
+                                        <option value="Not sure">
+                                            Not sure
+                                        </option>
+                                        <option value="Part-time">
+                                            Part-time
+                                        </option>
+                                        <option value="Fulltime">
+                                            Fulltime
+                                        </option>
+                                    </select>
                                 </div>
                                 <LocationField
                                     userProfile={userProfile}
@@ -410,7 +420,7 @@ const ProfileForm = ({
                                     <input
                                         required
                                         id="salary"
-                                        type="text"
+                                        type="number"
                                         placeholder="Ex: 2 Lpa"
                                         value={userProfile.salary}
                                         onChange={handleChange}

@@ -25,7 +25,7 @@ export default function SkillFields({
     );
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col justify-center items-stretch w-full">
             <div className="formInputPair">
                 <label className=" text-lg font-medium mb-2 ">Key Skills</label>
                 <SearchComboBox
@@ -42,13 +42,21 @@ export default function SkillFields({
                     value={userProfile.skills}
                 />
             </div>
-            <div className="flex justify-start items-center capitalize border py-2 my-2">
+            <div className="self-center flex justify-center items-center capitalize py-2 my-2 w-1/3">
                 {userProfile.skills && userProfile.skills.length > 0 && (
-                    <ul className="p-1 font-medium">
-                        {userProfile.skills.map((item: string) => (
-                            <li key={item}>{item}</li>
-                        ))}
-                    </ul>
+                    <div className="font-medium w-[80%] grid-flow-row grid-cols-2 text-center">
+                        {userProfile.skills.map(
+                            (item: string) =>
+                                item !== "" && (
+                                    <div
+                                        key={item}
+                                        className="border border-orange-900 px-4 py-1"
+                                    >
+                                        {item}
+                                    </div>
+                                )
+                        )}
+                    </div>
                 )}
             </div>
         </div>

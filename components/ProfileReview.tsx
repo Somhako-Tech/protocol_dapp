@@ -95,11 +95,11 @@ export default function ProfileSummary({
     const getEducation = (profile: Profile) =>
         profile.education.map((education, key) => (
             <div key={key} className="my-2">
-                <label className="text-lg font-bold mb-2 leading-none inline-block">
+                <label className="my-6 text-lg font-bold mb-2 leading-none inline-block">
                     Education #{key + 1}
                 </label>
                 <div
-                    className="my-6  flex justify-between items-center"
+                    className="my-6 flex justify-between items-center"
                     key={key}
                 >
                     <label

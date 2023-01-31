@@ -21,7 +21,7 @@ export default function Layout({ children }: { children: any }) {
         () => getProfileByUserIdQuery((user.id as string) || "default"),
         { enabled: !!session, cacheTime: 600 }
     );
-    if (!session || router.asPath === "/")
+    if (router.asPath === "/" || router.asPath === "/join")
         return (
             <main className="">
                 <Head>
