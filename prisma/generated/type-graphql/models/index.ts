@@ -1,4 +1,5 @@
 export { Account } from "./Account";
+export { Credit } from "./Credit";
 export { Mint } from "./Mint";
 export { Profile } from "./Profile";
 export { Referral } from "./Referral";

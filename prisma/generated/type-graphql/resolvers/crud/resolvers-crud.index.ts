@@ -1,4 +1,5 @@
 export { AccountCrudResolver } from "./Account/AccountCrudResolver";
+export { CreditCrudResolver } from "./Credit/CreditCrudResolver";
 export { MintCrudResolver } from "./Mint/MintCrudResolver";
 export { ProfileCrudResolver } from "./Profile/ProfileCrudResolver";
 export { ReferralCrudResolver } from "./Referral/ReferralCrudResolver";

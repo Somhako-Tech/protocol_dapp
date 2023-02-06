@@ -1,4 +1,5 @@
 export { AccountScalarFieldEnum } from "./AccountScalarFieldEnum";
+export { CreditScalarFieldEnum } from "./CreditScalarFieldEnum";
 export { JsonNullValueFilter } from "./JsonNullValueFilter";
 export { JsonNullValueInput } from "./JsonNullValueInput";
 export { MintScalarFieldEnum } from "./MintScalarFieldEnum";

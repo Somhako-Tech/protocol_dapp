@@ -15,7 +15,8 @@ const crudResolversMap = {
   User: crudResolvers.UserCrudResolver,
   Mint: crudResolvers.MintCrudResolver,
   Profile: crudResolvers.ProfileCrudResolver,
-  Referral: crudResolvers.ReferralCrudResolver
+  Referral: crudResolvers.ReferralCrudResolver,
+  Credit: crudResolvers.CreditCrudResolver
 };
 const actionResolversMap = {
   Account: {
@@ -129,6 +130,22 @@ const actionResolversMap = {
     updateManyReferral: actionResolvers.UpdateManyReferralResolver,
     updateOneReferral: actionResolvers.UpdateOneReferralResolver,
     upsertOneReferral: actionResolvers.UpsertOneReferralResolver
+  },
+  Credit: {
+    aggregateCredit: actionResolvers.AggregateCreditResolver,
+    createManyCredit: actionResolvers.CreateManyCreditResolver,
+    createOneCredit: actionResolvers.CreateOneCreditResolver,
+    deleteManyCredit: actionResolvers.DeleteManyCreditResolver,
+    deleteOneCredit: actionResolvers.DeleteOneCreditResolver,
+    findFirstCredit: actionResolvers.FindFirstCreditResolver,
+    findFirstCreditOrThrow: actionResolvers.FindFirstCreditOrThrowResolver,
+    credits: actionResolvers.FindManyCreditResolver,
+    credit: actionResolvers.FindUniqueCreditResolver,
+    getCredit: actionResolvers.FindUniqueCreditOrThrowResolver,
+    groupByCredit: actionResolvers.GroupByCreditResolver,
+    updateManyCredit: actionResolvers.UpdateManyCreditResolver,
+    updateOneCredit: actionResolvers.UpdateOneCreditResolver,
+    upsertOneCredit: actionResolvers.UpsertOneCreditResolver
   }
 };
 const crudResolversInfo = {
@@ -138,7 +155,8 @@ const crudResolversInfo = {
   User: ["aggregateUser", "createManyUser", "createOneUser", "deleteManyUser", "deleteOneUser", "findFirstUser", "findFirstUserOrThrow", "users", "user", "getUser", "groupByUser", "updateManyUser", "updateOneUser", "upsertOneUser"],
   Mint: ["aggregateMint", "createManyMint", "createOneMint", "deleteManyMint", "deleteOneMint", "findFirstMint", "findFirstMintOrThrow", "mints", "mint", "getMint", "groupByMint", "updateManyMint", "updateOneMint", "upsertOneMint"],
   Profile: ["aggregateProfile", "createManyProfile", "createOneProfile", "deleteManyProfile", "deleteOneProfile", "findFirstProfile", "findFirstProfileOrThrow", "profiles", "profile", "getProfile", "groupByProfile", "updateManyProfile", "updateOneProfile", "upsertOneProfile"],
-  Referral: ["aggregateReferral", "createManyReferral", "createOneReferral", "deleteManyReferral", "deleteOneReferral", "findFirstReferral", "findFirstReferralOrThrow", "referrals", "referral", "getReferral", "groupByReferral", "updateManyReferral", "updateOneReferral", "upsertOneReferral"]
+  Referral: ["aggregateReferral", "createManyReferral", "createOneReferral", "deleteManyReferral", "deleteOneReferral", "findFirstReferral", "findFirstReferralOrThrow", "referrals", "referral", "getReferral", "groupByReferral", "updateManyReferral", "updateOneReferral", "upsertOneReferral"],
+  Credit: ["aggregateCredit", "createManyCredit", "createOneCredit", "deleteManyCredit", "deleteOneCredit", "findFirstCredit", "findFirstCreditOrThrow", "credits", "credit", "getCredit", "groupByCredit", "updateManyCredit", "updateOneCredit", "upsertOneCredit"]
 };
 const argsInfo = {
   AggregateAccountArgs: ["where", "orderBy", "cursor", "take", "skip"],
@@ -238,7 +256,21 @@ const argsInfo = {
   GroupByReferralArgs: ["where", "orderBy", "by", "having", "take", "skip"],
   UpdateManyReferralArgs: ["data", "where"],
   UpdateOneReferralArgs: ["data", "where"],
-  UpsertOneReferralArgs: ["where", "create", "update"]
+  UpsertOneReferralArgs: ["where", "create", "update"],
+  AggregateCreditArgs: ["where", "orderBy", "cursor", "take", "skip"],
+  CreateManyCreditArgs: ["data", "skipDuplicates"],
+  CreateOneCreditArgs: ["data"],
+  DeleteManyCreditArgs: ["where"],
+  DeleteOneCreditArgs: ["where"],
+  FindFirstCreditArgs: ["where", "orderBy", "cursor", "take", "skip", "distinct"],
+  FindFirstCreditOrThrowArgs: ["where", "orderBy", "cursor", "take", "skip", "distinct"],
+  FindManyCreditArgs: ["where", "orderBy", "cursor", "take", "skip", "distinct"],
+  FindUniqueCreditArgs: ["where"],
+  FindUniqueCreditOrThrowArgs: ["where"],
+  GroupByCreditArgs: ["where", "orderBy", "by", "having", "take", "skip"],
+  UpdateManyCreditArgs: ["data", "where"],
+  UpdateOneCreditArgs: ["data", "where"],
+  UpsertOneCreditArgs: ["where", "create", "update"]
 };
 
 type ResolverModelNames = keyof typeof crudResolversMap;
@@ -428,7 +460,8 @@ const modelsInfo = {
   User: ["id", "name", "email", "emailVerified", "image", "created_at", "updated_at", "is_admin"],
   Mint: ["id", "profile_id", "approved", "reviewed_by"],
   Profile: ["id", "handle", "title", "summary", "job_type", "pref_location", "salary", "years_of_exp", "link", "address", "skills", "education", "experience", "minted", "user_id"],
-  Referral: ["id", "email", "user_id"]
+  Referral: ["id", "email", "user_id"],
+  Credit: ["id", "orefid", "profile_id"]
 };
 
 type ModelNames = keyof typeof models;
@@ -481,6 +514,8 @@ const outputsInfo = {
   ProfileGroupBy: ["id", "handle", "title", "summary", "job_type", "pref_location", "salary", "years_of_exp", "link", "address", "skills", "education", "experience", "minted", "user_id", "_count", "_avg", "_sum", "_min", "_max"],
   AggregateReferral: ["_count", "_avg", "_sum", "_min", "_max"],
   ReferralGroupBy: ["id", "email", "user_id", "_count", "_avg", "_sum", "_min", "_max"],
+  AggregateCredit: ["_count", "_avg", "_sum", "_min", "_max"],
+  CreditGroupBy: ["id", "orefid", "profile_id", "_count", "_avg", "_sum", "_min", "_max"],
   AffectedRowsOutput: ["count"],
   AccountCountAggregate: ["id", "userId", "type", "provider", "providerAccountId", "refresh_token", "access_token", "expires_at", "token_type", "scope", "id_token", "session_state", "_all"],
   AccountAvgAggregate: ["expires_at"],
@@ -511,7 +546,12 @@ const outputsInfo = {
   ReferralAvgAggregate: ["id"],
   ReferralSumAggregate: ["id"],
   ReferralMinAggregate: ["id", "email", "user_id"],
-  ReferralMaxAggregate: ["id", "email", "user_id"]
+  ReferralMaxAggregate: ["id", "email", "user_id"],
+  CreditCountAggregate: ["id", "orefid", "profile_id", "_all"],
+  CreditAvgAggregate: ["id"],
+  CreditSumAggregate: ["id"],
+  CreditMinAggregate: ["id", "orefid", "profile_id"],
+  CreditMaxAggregate: ["id", "orefid", "profile_id"]
 };
 
 type OutputTypesNames = keyof typeof outputTypes;
@@ -587,6 +627,11 @@ const inputsInfo = {
   ReferralWhereUniqueInput: ["id", "email"],
   ReferralOrderByWithAggregationInput: ["id", "email", "user_id", "_count", "_avg", "_max", "_min", "_sum"],
   ReferralScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "id", "email", "user_id"],
+  CreditWhereInput: ["AND", "OR", "NOT", "id", "orefid", "profile_id"],
+  CreditOrderByWithRelationInput: ["id", "orefid", "profile_id"],
+  CreditWhereUniqueInput: ["id"],
+  CreditOrderByWithAggregationInput: ["id", "orefid", "profile_id", "_count", "_avg", "_max", "_min", "_sum"],
+  CreditScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "id", "orefid", "profile_id"],
   AccountCreateInput: ["id", "type", "provider", "providerAccountId", "refresh_token", "access_token", "expires_at", "token_type", "scope", "id_token", "session_state", "user"],
   AccountUpdateInput: ["id", "type", "provider", "providerAccountId", "refresh_token", "access_token", "expires_at", "token_type", "scope", "id_token", "session_state", "user"],
   AccountCreateManyInput: ["id", "userId", "type", "provider", "providerAccountId", "refresh_token", "access_token", "expires_at", "token_type", "scope", "id_token", "session_state"],
@@ -615,6 +660,10 @@ const inputsInfo = {
   ReferralUpdateInput: ["email", "user"],
   ReferralCreateManyInput: ["id", "email", "user_id"],
   ReferralUpdateManyMutationInput: ["email"],
+  CreditCreateInput: ["orefid", "profile_id"],
+  CreditUpdateInput: ["orefid", "profile_id"],
+  CreditCreateManyInput: ["id", "orefid", "profile_id"],
+  CreditUpdateManyMutationInput: ["orefid", "profile_id"],
   StringFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "contains", "startsWith", "endsWith", "mode", "not"],
   StringNullableFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "contains", "startsWith", "endsWith", "mode", "not"],
   IntNullableFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not"],
@@ -677,6 +726,11 @@ const inputsInfo = {
   ReferralMaxOrderByAggregateInput: ["id", "email", "user_id"],
   ReferralMinOrderByAggregateInput: ["id", "email", "user_id"],
   ReferralSumOrderByAggregateInput: ["id"],
+  CreditCountOrderByAggregateInput: ["id", "orefid", "profile_id"],
+  CreditAvgOrderByAggregateInput: ["id"],
+  CreditMaxOrderByAggregateInput: ["id", "orefid", "profile_id"],
+  CreditMinOrderByAggregateInput: ["id", "orefid", "profile_id"],
+  CreditSumOrderByAggregateInput: ["id"],
   UserCreateNestedOneWithoutAccountsInput: ["create", "connectOrCreate", "connect"],
   StringFieldUpdateOperationsInput: ["set"],
   NullableStringFieldUpdateOperationsInput: ["set"],
