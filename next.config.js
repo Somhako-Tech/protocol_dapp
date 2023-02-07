@@ -2,7 +2,7 @@
 const nextConfig = {
     reactStrictMode: true,
     async rewrites() {
-        return [{ source: "/docs", destination: "/html/index.html" }];
+        return [{ source: "/docs", destination: "/index.html" }];
     },
     images: {
         domains: ["lh3.googleusercontent.com", "avatars.githubusercontent.com"],
