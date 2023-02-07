@@ -6,11 +6,11 @@
 spectaql:
     # Optional Boolean indicating whether to omit the HTML <body/> and generate the documentation content only
     # Default: false
-    embeddable: false
+    # embeddable: false
 
     # Optional Boolean indicating whether to embed all resources (CSS and JS) into the same file
     # Default: false
-    oneFile: false
+    oneFile: true
 
     # Optional path to the target build directory.
     # Set to null to not write the output to the filesystem, making it only available via the API (default: public)
@@ -22,18 +22,18 @@ spectaql:
     # logoFile: path/to/logo.png
     # Optional boolean indicating whether to preserve the filename of the logo provided.
     # If false, the logo name will default to "logo"
-    preserveLogoName: false
+    # preserveLogoName: false
     # Control the height of your logo here. Can be useful if your logo is SVG or an
     # inappropriate size.
     #
     # Default: None; No "height" property will be set on the logo
-    logoHeightPx: 18
+    # logoHeightPx: 18
 
     # Optional path to an image to use as a favicon for the site when it's not embedded
-    faviconFile: path/to/favicon.png
+    # faviconFile: path/to/favicon.png
     # Optional boolean indicating whether to preserve the filename of the faviconFile provided.
     # If false, the favicon name will default to "favicon"
-    preserveFaviconName: false
+    # preserveFaviconName: false
 
     # Optional string specifying a path to a theme directory to use for your build.
     #
@@ -96,7 +96,7 @@ introspection:
 
     # URL of the GraphQL endpoint to hit if you want to generate the documentation based on live Introspection Query results
     # NOTE: If not using introspection.url OR servers[], you need to provide x-url below
-    url: http://localhost:3000/api/graphql
+    url: http://localhost:3000/api/clientql
 
     #
     #
@@ -104,31 +104,31 @@ introspection:
 
     # If using the "url" option above, any headers (such as Authorization) can be added here. This
     # can also be added via the CLI options
-    headers:
-        Authorization: Bearer s3cretT0k2n
+    # headers:
+    #     Authorization: Bearer s3cretT0k2n
 
     # Some helpful options for those who are an "SDL-first" shop and/or want to get your metadata into
     # SpectaQL during the SDL ingestion.
-    spectaqlDirective:
-        # Boolean indicating whether to enable and process the @spectaql directive
-        #
-        # Default: true
-        enable: true
+    # spectaqlDirective:
+    # Boolean indicating whether to enable and process the @spectaql directive
+    #
+    # Default: true
+    # enable: true
 
-        # String indicating the name to use for the SpectaQL directive, e.g. "@spectaql"
-        # This should be inconsequential in the end since it should be removed
-        # from your resulting Schema by SpectaQL
-        #
-        # Default: 'spectaql'
-        directiveName: "spectaql"
+    # String indicating the name to use for the SpectaQL directive, e.g. "@spectaql"
+    # This should be inconsequential in the end since it should be removed
+    # from your resulting Schema by SpectaQL
+    #
+    # Default: 'spectaql'
+    # directiveName: "spectaql"
 
-        # String indicating the name to use for the Type used in the "options" array that can be passed
-        # to the SpectaQL directive.
-        # This should be inconsequential in the end since it should be removed
-        # from your resulting Schema by SpectaQL
-        #
-        # Default: 'SpectaQLOption'
-        optionsTypeName: "SpectaQLOption"
+    # String indicating the name to use for the Type used in the "options" array that can be passed
+    # to the SpectaQL directive.
+    # This should be inconsequential in the end since it should be removed
+    # from your resulting Schema by SpectaQL
+    #
+    # Default: 'SpectaQLOption'
+    # optionsTypeName: "SpectaQLOption"
 
     #
     #
@@ -143,7 +143,7 @@ introspection:
     # things fresh and clean.
     #
     # Default: false
-    removeTrailingPeriodFromDescriptions: false
+    # removeTrailingPeriodFromDescriptions: false
 
     # What manipulation of the query/mutation/subscription name would you like to perform to determine
     # the name in query examples? Possible values:
@@ -155,13 +155,13 @@ introspection:
     # - snakeCase
     # - upperCase: all letters to upper case.
     # - lowerCase: all letters to lower case.
-    queryNameStrategy: none
+    # queryNameStrategy: none
 
     # When generating a Query or Mutation example, to what maximum depth should any nested fields
     # be represented before a fragment placeholder is rendered?
     #
     # Default: 1
-    fieldExpansionDepth: 1
+    # fieldExpansionDepth: 1
 
     #
     #
@@ -251,56 +251,56 @@ introspection:
 
     # Whether to document any Mutations at all, in the absence of a metadata directive
     # Default: true
-    mutationsDocumentedDefault: true
-    # Whether to document an individual Mutation, in the absence of a metadata directive
-    # Default: true
-    mutationDocumentedDefault: true
-    # Whether to document a Mutation Argument, in the absence of a metadata directive
-    # Default: true
-    mutationArgDocumentedDefault: true
-    # Hide any Mutations with undocumented return types so as not to reference something
-    # that seemingly does not exist.
-    # Default: true
-    hideMutationsWithUndocumentedReturnType: true
+    # mutationsDocumentedDefault: true
+    # # Whether to document an individual Mutation, in the absence of a metadata directive
+    # # Default: true
+    # mutationDocumentedDefault: true
+    # # Whether to document a Mutation Argument, in the absence of a metadata directive
+    # # Default: true
+    # mutationArgDocumentedDefault: true
+    # # Hide any Mutations with undocumented return types so as not to reference something
+    # # that seemingly does not exist.
+    # # Default: true
+    # hideMutationsWithUndocumentedReturnType: true
 
     # Whether to document any Subscriptions at all
     # Default: true
-    subscriptionsDocumentedDefault: true
-    # Whether to document an individual Subscription, in the absence of a metadata directive
-    # Default: true
-    subscriptionDocumentedDefault: true
-    # Whether to document a Subscription Argument, in the absence of a metadata directive
-    # Default: true
-    subscriptionArgDocumentedDefault: true
-    # Hide any Subscriptions with undocumented return types so as not to reference something
-    # that seemingly does not exist.
-    # Default: true
-    hideSubscriptionsWithUndocumentedReturnType: true
+    # subscriptionsDocumentedDefault: true
+    # # Whether to document an individual Subscription, in the absence of a metadata directive
+    # # Default: true
+    # subscriptionDocumentedDefault: true
+    # # Whether to document a Subscription Argument, in the absence of a metadata directive
+    # # Default: true
+    # subscriptionArgDocumentedDefault: true
+    # # Hide any Subscriptions with undocumented return types so as not to reference something
+    # # that seemingly does not exist.
+    # # Default: true
+    # hideSubscriptionsWithUndocumentedReturnType: true
 
     # Hide any Types that are not used anywhere in your schema after other things have been hidden.
     # Default: true
-    hideUnusedTypes: true
+    # hideUnusedTypes: true
 
-    # Whether to document any Types at all
-    # Default: true
-    objectsDocumentedDefault: true
-    # Whether to document an individual Type, in the absence of a metadata directive
-    # Default: true
-    objectDocumentedDefault: true
+    # # Whether to document any Types at all
+    # # Default: true
+    # objectsDocumentedDefault: false
+    # # Whether to document an individual Type, in the absence of a metadata directive
+    # # Default: true
+    # objectDocumentedDefault: false
 
-    # Whether to document any Input Object types at all
-    # Default: true
-    inputsDocumentedDefault: true
-    # Whether to document an individual Input Object, in the absence of a metadata directive
-    # Default: true
-    inputDocumentedDefault: true
+    # # Whether to document any Input Object types at all
+    # # Default: true
+    # inputsDocumentedDefault: false
+    # # Whether to document an individual Input Object, in the absence of a metadata directive
+    # # Default: true
+    # inputDocumentedDefault: false
 
-    # Whether to document any Enums at all
-    # Default: true
-    enumsDocumentedDefault: true
-    # Whether to document an individual Enum, in the absence of a metadata directive
-    # Default: true
-    enumDocumentedDefault: true
+    # # Whether to document any Enums at all
+    # # Default: true
+    # enumsDocumentedDefault: true
+    # # Whether to document an individual Enum, in the absence of a metadata directive
+    # # Default: true
+    # enumDocumentedDefault: true
 
     # Whether to document any Unions at all
     # Default: true
@@ -353,8 +353,8 @@ servers:
 
     # same format as for OpenAPI Specification https://swagger.io/specification/#server-object
 
-    - url: http://localhost:3000/api/graphql
-      description: Production Server
+    - url: http://localhost:3000/api/clientql
+      description: Dev Server
       # Indicates to use this server's URL as the typical GraphQL request base in the documentation
       # If no server entries have this indicator, the first server's URL will be used.
       # If no server entries are defined at all, the Introspection URL will be used.
@@ -393,17 +393,14 @@ info:
     #
     ##############################################
 
-    description: Your description here
+    description: Somhakohr Graphql Endpoint
     version: 1.0.0
-    title: Your Welcome title here
+    title: Somhakohr Graphql Endpoint
     # This is non-standard and optional. If omitted, will use "title". Also, only relevant
     # when building non-embedded.
-    x-htmlTitle: Your HTML page title here
-    termsOfService: "https://yoursite.com/terms"
-    contact:
-        name: YourSite Support
-        email: support@yoursite.com
-        url: https://yoursite.com/support
+    x-htmlTitle: Somhakohr Graphql Endpoint
+    termsOfService: "https://protocol.somhakohr.com"
+
     license:
         name: Apache 2.0
         url: "https://www.apache.org/licenses/LICENSE-2.0.html"
