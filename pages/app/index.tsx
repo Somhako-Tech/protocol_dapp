@@ -49,7 +49,7 @@ export default function AppPage() {
     const [queryInMintQueue, setQueryInMintQueue] = useState(false);
     const [isProfileCreating, setIsProfileCreating] = useState(false);
 
-    const [setHandle] = useProfileStore((state) => [state.setHandle]);
+    const [setHandle] = useProfileStore((state: any) => [state.setHandle]);
 
     //TODO update id
     //Updates address on connection
