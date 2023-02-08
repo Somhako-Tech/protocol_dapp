@@ -15,7 +15,7 @@ import {
 const navigation = [
     { name: "For companies", href: "#forcompanies" },
     { name: "For Candidates", href: "#forcandidates" },
-    { name: "Documentation", href: "#" },
+    { name: "Documentation", href: "/docs" },
 ];
 
 const Home = () => {
