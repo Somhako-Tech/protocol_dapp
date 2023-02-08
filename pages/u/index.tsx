@@ -9,8 +9,6 @@ import {
 } from "../../graphql/graphqlQueries";
 import { useRouter } from "next/router";
 import ProfileSummary from "../../components/ProfileSummary";
-import { useMintStore } from "../../store";
-import Header from "../../components/Header";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import Snackbar from "@mui/material/Snackbar";
 import { useQuery } from "@tanstack/react-query";
@@ -106,9 +104,10 @@ export default function UserPage() {
                             {/* TODO Add check for minting complete */}
                             {isProfileQueryLoading
                                 ? "Profile loading"
-                                : Profile?.minted
-                                ? "Your account has been minted! Check your email for more information."
-                                : "You're in the mint queue! We'll notify you as soon as your profile get minted!"}
+                                : Profile &&
+                                  (Profile?.minted
+                                      ? "Your account has been minted! Check your email for more information."
+                                      : "You're in the mint queue! We'll notify you as soon as your profile get minted!")}
                         </h1>
 
                         {isProfileQueryLoading ? (
@@ -116,37 +115,41 @@ export default function UserPage() {
                         ) : (
                             <ProfileSummary userProfile={Profile} />
                         )}
-                        <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 flex flex-col justify-center items-center">
-                            <label
-                                htmlFor="referral"
-                                className={styles.profileLabel}
-                            >
-                                Referral Link
-                            </label>
-                            <div>
+                        {Profile && (
+                            <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 flex flex-col justify-center items-center">
                                 <label
-                                    id="referral"
-                                    className="font-medium text-base w-auto mx-4 text-somhakohr2"
+                                    htmlFor="referral"
+                                    className={styles.profileLabel}
                                 >
-                                    {referralLink}{" "}
+                                    Referral Link
                                 </label>
-                                <ContentCopyIcon onClick={handleCopyClick} />
+                                <div>
+                                    <label
+                                        id="referral"
+                                        className="font-medium text-base w-auto mx-4 text-somhakohr2"
+                                    >
+                                        {referralLink}{" "}
+                                    </label>
+                                    <ContentCopyIcon
+                                        onClick={handleCopyClick}
+                                    />
+                                </div>
+                                <div>
+                                    <label
+                                        id="referral"
+                                        className="font-medium text-base w-auto mx-4 "
+                                    >
+                                        Referred Accounts :
+                                    </label>
+                                    <label
+                                        id="referral"
+                                        className="font-medium text-base w-auto mx-4 text-somhakohr2"
+                                    >
+                                        {referralCount}{" "}
+                                    </label>
+                                </div>
                             </div>
-                            <div>
-                                <label
-                                    id="referral"
-                                    className="font-medium text-base w-auto mx-4 "
-                                >
-                                    Referred Accounts :
-                                </label>
-                                <label
-                                    id="referral"
-                                    className="font-medium text-base w-auto mx-4 text-somhakohr2"
-                                >
-                                    {referralCount}{" "}
-                                </label>
-                            </div>
-                        </div>
+                        )}
                     </div>
                 </div>
             </div>
