@@ -11,7 +11,6 @@ export default function SkillFields({
     userProfile: Profile;
     handleChange: (e: any) => void;
 }) {
-    const [selectedSkills, setSelectedSkills] = useState([""]);
     const [searchParams, setSearchParams] = useState("");
 
     const {
@@ -44,13 +43,13 @@ export default function SkillFields({
             </div>
             <div className="self-center flex justify-center items-center capitalize py-2 my-2 w-1/3">
                 {userProfile.skills && userProfile.skills.length > 0 && (
-                    <div className="font-medium w-[80%] grid-flow-row grid-cols-2 text-center">
+                    <div className="grid-cols-4">
                         {userProfile.skills.map(
                             (item: string) =>
                                 item !== "" && (
                                     <div
                                         key={item}
-                                        className="border border-orange-900 px-4 py-1"
+                                        // className="border border-orange-900 px-4 py-1"
                                     >
                                         {item}
                                     </div>
