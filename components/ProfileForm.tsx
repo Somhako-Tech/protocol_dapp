@@ -1,5 +1,5 @@
 import { Tab } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Profile } from "@prisma/client";
 import Modal from "@mui/material/Modal";
 import LinkModal from "./LinkModal";
@@ -32,6 +32,17 @@ const ProfileForm = ({
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     const [linkModalOpen, setLinkModalOpen] = useState(false);
+
+    const [resume, setResume] = useState<any>();
+
+    //save resume
+    useEffect(() => {
+        if (resume) {
+            const formData = new FormData();
+            formData.append("file", resume);
+            // addResume(formData)
+        }
+    }, [resume]);
 
     //TODO Improve validation
     const [showHandleAlert, setShowHandleAlert] = useState(false);
@@ -134,19 +145,36 @@ const ProfileForm = ({
 
     const addLink = () => setLinkModalOpen(true);
 
+    const getFullUrl = (linkType: string, username: string) => {
+        if (linkType == "LinkedIn")
+            return "https://linkedin.com/in/" + username;
+        else if (linkType == "Github") return "https://github.com/" + username;
+        else return "https://twitter.com/" + username;
+    };
+
     const links = Object.keys(userProfile.link as Object).map(
         (link: string, i) => {
             const links = userProfile.link as any;
             return (
-                <div key={i} className="flex flex-row justify-evenly w-full">
-                    <label className="font-medium mb-2 leading-none inline-block">
+                <div
+                    key={i}
+                    className="flex flex-row justify-between w-full px-10"
+                >
+                    <label className="font-medium mb-2 leading-none inline-blocks">
                         {link}
                     </label>
                     <Link
-                        href={links[link] != "" ? links[link] : "/"}
-                        className="font-normal mb-2 ml-10 leading-none inline-block"
+                        href={
+                            links[link] != ""
+                                ? getFullUrl(links, links[link])
+                                : "/"
+                        }
+                        target="_blank"
+                        className="font-normal mb-2 ml-10 leading-none inline-block text-cyan-700"
                     >
-                        {links[link] != "" ? links[link] : "No link"}
+                        {links[link] != ""
+                            ? getFullUrl(link, links[link])
+                            : "No link"}
                     </Link>
                 </div>
             );
@@ -472,6 +500,41 @@ const ProfileForm = ({
                                     handleChange={handleChange}
                                     userProfile={userProfile}
                                 />
+                                <div className="mb-6">
+                                    <label className="font-medium mb-4 leading-none inline-block">
+                                        Resume
+                                    </label>
+                                    <div className="flex flex-col">
+                                        <label
+                                            htmlFor="uploadCV"
+                                            className="mb-2 w-[150px] p-2.5 px-4 border border-dashed border-teal-500 rounded-md text-sm text-center font-semibold cursor-pointer "
+                                        >
+                                            <span>
+                                                {resume
+                                                    ? "Uploaded"
+                                                    : "Upload" + " "}
+                                                <i className="fa-solid fa-cloud-arrow-up ml-1 text-[#6D27F9]"></i>
+                                            </span>
+                                            <input
+                                                type="file"
+                                                id="uploadCV"
+                                                accept="application/pdf,application/msword,.rtf"
+                                                className="hidden"
+                                                onChange={(e) =>
+                                                    setResume(
+                                                        e.target.files
+                                                            ? e.target.files[0]
+                                                            : null
+                                                    )
+                                                }
+                                            />
+                                        </label>
+                                        <span className="text-[#333] dark:text-white text-[12px]">
+                                            Supported Formats: doc, docx, rtf,
+                                            pdf, upto 2 MB
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </Tab.Panel>
                         <Tab.Panel>
