@@ -4,6 +4,6 @@
         @apply font-medium text-lg mb-2 leading-none inline-block;
     }
     .profileText {
-        @apply font-medium text-base w-auto mx-4;
+        @apply font-normal text-base w-auto mx-4;
     }
 }
