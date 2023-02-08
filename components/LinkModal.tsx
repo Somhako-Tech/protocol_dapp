@@ -20,24 +20,32 @@ export default function LinkModal({
 
     const link = { ...(userProfile.link as any) };
 
-    const currentPlaceholder = () => {
-        if (currentLinkType == "LinkedIn") return "https://linkedin.com/in/you";
-        if (currentLinkType == "Github") return "https://github.com/you";
-        if (currentLinkType == "Twitter") return "https://twitter.com/you";
-    };
+    const [linkObj, setLinkObj] = useState<any>(link);
 
     const handleLinkUpdate = (e: { target: { value: any } }) => {
         console.log({ link, c: e.target.value });
         console.log({ currentLinkType, currentVal: link[currentLinkType] });
+
+        setLinkObj((prev: any) => ({
+            ...prev,
+            [currentLinkType]: e.target.value.slice(1),
+        }));
+    };
+
+    const close = () => {
+        for (const key of Object.keys(linkObj)) {
+            if (linkObj[key] === "") {
+                setCurrentLinkType(key as LinkType);
+                return;
+            }
+        }
         handleChange({
             target: {
                 id: "link",
-                value: {
-                    ...(link as Object),
-                    [currentLinkType]: e.target.value,
-                },
+                value: { ...linkObj },
             },
         });
+        handleClose();
     };
     return (
         <Modal open={linkModalOpen} onClose={handleClose}>
@@ -67,13 +75,15 @@ export default function LinkModal({
                         type="text"
                         id="link"
                         name="link"
-                        value={link[currentLinkType]}
-                        placeholder={currentPlaceholder()}
+                        value={"@" + linkObj[currentLinkType]}
+                        placeholder={"@dev"}
                         className="formInputs border"
                         onChange={handleLinkUpdate}
                     />
                 </div>
-                <button onClick={handleClose}>Save</button>
+                <button onClick={close} type="button">
+                    Save
+                </button>
             </div>
         </Modal>
     );
