@@ -49,17 +49,17 @@ export default function LinkModal({
     };
     return (
         <Modal open={linkModalOpen} onClose={handleClose}>
-            <div className="bg-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 formInputSection">
+            <div className="formInputSection absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white">
                 <label
                     htmlFor="link"
-                    className="font-medium mb-4 leading-none inline-block"
+                    className="mb-4 inline-block font-medium leading-none"
                 >
                     Link for
                 </label>
                 <select
                     required
                     id="link"
-                    className="w-full rounded-full border-slate-300 formInputs"
+                    className="formInputs w-full rounded-full border-slate-300"
                     value={currentLinkType}
                     onChange={(e) =>
                         setCurrentLinkType(e.target.value as LinkType)
