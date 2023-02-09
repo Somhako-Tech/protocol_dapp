@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 
 import { MintStore, ProfileStore, ReferralStore } from "../constants/types";
 
@@ -12,7 +12,7 @@ const useReferralStore = create<ReferralStore>()(
         }),
         {
             name: "referralStore",
-            getStorage: () => localStorage,
+            storage: createJSONStorage(() => localStorage), // (optional) by default the 'localStorage' is used
         }
     )
 );
@@ -26,7 +26,7 @@ const useProfileStore = create<ProfileStore>()(
         }),
         {
             name: "userStore", // name of item in the storage (must be unique)
-            getStorage: () => localStorage, // (optional) by default the 'localStorage' is used
+            storage: createJSONStorage(() => localStorage), // (optional) by default the 'localStorage' is used
         }
     )
 );
