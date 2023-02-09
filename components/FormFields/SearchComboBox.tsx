@@ -21,12 +21,12 @@ export default function SearchComboBox({
                     className="formInputs"
                 />
                 {data && (
-                    <Combobox.Options className="bg-white border flex-col justify-center w-full absolute rounded-md mt-3 shadow-md">
+                    <Combobox.Options className="absolute mt-3 w-full flex-col justify-center rounded-md border bg-white shadow-md">
                         {data.map((item: string) => (
                             <Combobox.Option
                                 key={item}
                                 value={item}
-                                className="hover:bg-indigo-500 hover:text-white p-1 w-full rounded-md px-2"
+                                className="w-full rounded-md p-1 px-2 hover:bg-indigo-500 hover:text-white"
                                 onClick={() => handleChange(item)}
                             >
                                 {item}

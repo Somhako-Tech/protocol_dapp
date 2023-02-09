@@ -18,73 +18,73 @@ export default function ProfileSummary({
     const getExperience = (profile: Profile) =>
         profile.experience.map((experience, key) => (
             <div key={key} className="my-2">
-                <label className="text-lg font-bold  mb-2 leading-none inline-block">
+                <label className="mb-2 inline-block  text-lg font-bold leading-none">
                     Experience #{key + 1}
                 </label>
                 <div
-                    className="my-6  flex justify-between items-center"
+                    className="my-6  flex items-center justify-between"
                     key={key}
                 >
                     <label
                         htmlFor="organization"
-                        className="font-medium mb-2 leading-none inline-block"
+                        className="mb-2 inline-block font-medium leading-none"
                     >
                         Organization
                     </label>
                     <label
                         id={key.toString()}
-                        className="font-medium text-base w-auto mx-4 "
+                        className="mx-4 w-auto text-base font-medium "
                     >
                         {experience.organization}
                     </label>
                 </div>
                 <div
-                    className="my-6 flex justify-between items-center"
+                    className="my-6 flex items-center justify-between"
                     key={key}
                 >
                     <label
                         htmlFor="startYear"
-                        className="font-medium mb-2 leading-none inline-block"
+                        className="mb-2 inline-block font-medium leading-none"
                     >
                         Start Year
                     </label>
                     <label
                         id={key.toString()}
-                        className="font-medium text-base w-auto mx-4 "
+                        className="mx-4 w-auto text-base font-medium "
                     >
                         {experience.startYear}
                     </label>
                 </div>
                 <div
-                    className="my-6  flex justify-between items-center"
+                    className="my-6  flex items-center justify-between"
                     key={key}
                 >
                     <label
                         htmlFor="endYear"
-                        className="font-medium mb-2 leading-none inline-block"
+                        className="mb-2 inline-block font-medium leading-none"
                     >
                         End Year
                     </label>
                     <label
                         id={key.toString()}
-                        className="font-medium text-base w-auto mx-4 "
+                        className="mx-4 w-auto text-base font-medium "
                     >
                         {experience.endYear}
                     </label>
                 </div>
                 <div
-                    className="my-6  flex justify-between items-center"
+                    className="my-6  flex items-center justify-between"
                     key={key}
                 >
                     <label
                         htmlFor="title"
-                        className="font-medium mb-2 leading-none inline-block"
+                        className="mb-2 inline-block font-medium leading-none"
                     >
                         Title
                     </label>
                     <label
                         id={key.toString()}
-                        className="font-medium text-base w-auto mx-4 "
+                        className="mx-4 w-auto text-base font-medium "
                     >
                         {experience.title}
                     </label>
@@ -95,56 +95,56 @@ export default function ProfileSummary({
     const getEducation = (profile: Profile) =>
         profile.education.map((education, key) => (
             <div key={key} className="my-2">
-                <label className="my-6 text-lg font-bold mb-2 leading-none inline-block">
+                <label className="my-6 mb-2 inline-block text-lg font-bold leading-none">
                     Education #{key + 1}
                 </label>
                 <div
-                    className="my-6 flex justify-between items-center"
+                    className="my-6 flex items-center justify-between"
                     key={key}
                 >
                     <label
                         htmlFor="institution"
-                        className="font-medium mb-2 leading-none inline-block"
+                        className="mb-2 inline-block font-medium leading-none"
                     >
                         Institution
                     </label>
                     <label
                         id={key.toString()}
-                        className="font-medium text-base w-auto mx-4 "
+                        className="mx-4 w-auto text-base font-medium "
                     >
                         {education.institution}
                     </label>
                 </div>
                 <div
-                    className="my-6 flex justify-between items-center"
+                    className="my-6 flex items-center justify-between"
                     key={key}
                 >
                     <label
                         htmlFor="title"
-                        className="font-medium mb-2 leading-none inline-block"
+                        className="mb-2 inline-block font-medium leading-none"
                     >
                         Title
                     </label>
                     <label
                         id={key.toString()}
-                        className="font-medium text-base w-auto mx-4 "
+                        className="mx-4 w-auto text-base font-medium "
                     >
                         {education.title}
                     </label>
                 </div>
                 <div
-                    className="my-6  flex justify-between items-center"
+                    className="my-6  flex items-center justify-between"
                     key={key}
                 >
                     <label
                         htmlFor="year"
-                        className="font-medium mb-2 leading-none inline-block"
+                        className="mb-2 inline-block font-medium leading-none"
                     >
                         Year
                     </label>
                     <label
                         id={key.toString()}
-                        className="font-medium text-base w-auto mx-4 "
+                        className="mx-4 w-auto text-base font-medium "
                     >
                         {education.year}
                     </label>
@@ -158,13 +158,13 @@ export default function ProfileSummary({
                 <div className="my-1">
                     <label
                         htmlFor={key.toString()}
-                        className="font-medium mb-2 leading-none inline-block"
+                        className="mb-2 inline-block font-medium leading-none"
                     >
                         Skill #{key + 1}
                     </label>
                     <label
                         id={key.toString()}
-                        className="font-medium text-base w-auto mx-4 "
+                        className="mx-4 w-auto text-base font-medium "
                     >
                         {skill}
                     </label>
@@ -195,7 +195,7 @@ export default function ProfileSummary({
                                 </label>
                                 <label
                                     id={key}
-                                    className="font-medium text-base w-auto mx-4 "
+                                    className="mx-4 w-auto text-base font-medium "
                                 >
                                     {linkList[item]}
                                 </label>
@@ -215,7 +215,7 @@ export default function ProfileSummary({
                     </label>
                     <label
                         id={key}
-                        className="font-medium text-base w-auto mx-4 "
+                        className="mx-4 w-auto text-base font-medium "
                     >
                         {value}
                     </label>
@@ -229,7 +229,7 @@ export default function ProfileSummary({
     if (handlingSubmit)
         return (
             <div className="w-full">
-                <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 ">
+                <div className="shadow-normal mx-auto my-10 w-full max-w-[1000px] rounded-[25px] border border-slate-700 bg-white p-8 md:py-14 md:px-20 ">
                     <ProfileFormSkeleton />
                 </div>
             </div>
@@ -237,10 +237,10 @@ export default function ProfileSummary({
 
     return (
         <div className="w-full">
-            <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 flex flex-col justify-center items-center">
-                <h2 className="font-semibold text-lg md:text-3xl mb-4">
+            <div className="shadow-normal mx-auto my-10 flex w-full max-w-[1000px] flex-col items-center justify-center rounded-[25px] border border-slate-700 bg-white p-8 md:py-14 md:px-20">
+                <h2 className="mb-4 text-lg font-semibold md:text-3xl">
                     Profile Summary{" "}
-                    <span className="italic font-thin">
+                    <span className="font-thin italic">
                         {" "}
                         ID: {profile.user_id}
                     </span>
@@ -252,7 +252,7 @@ export default function ProfileSummary({
                             handleRejection(profile);
                             setHandlingSubmit(true);
                         }}
-                        className=" bg-gradient-to-r from-[#a85959] to-somhakohr text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
+                        className=" rounded-full bg-gradient-to-r from-[#a85959] to-somhakohr py-2.5 px-6 font-bold text-white transition-all hover:from-[#391188] hover:to-[#391188] md:min-w-[150px]"
                     >
                         Reject
                     </button>
@@ -261,7 +261,7 @@ export default function ProfileSummary({
                             handleMint(profile);
                             setHandlingSubmit(true);
                         }}
-                        className=" bg-gradient-to-r from-[#6D27F9] to-somhakohr text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
+                        className=" rounded-full bg-gradient-to-r from-[#6D27F9] to-somhakohr py-2.5 px-6 font-bold text-white transition-all hover:from-[#391188] hover:to-[#391188] md:min-w-[150px]"
                     >
                         Approve
                     </button>

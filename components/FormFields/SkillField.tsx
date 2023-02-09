@@ -24,9 +24,9 @@ export default function SkillFields({
     );
 
     return (
-        <div className="flex flex-col justify-center items-stretch w-full">
+        <div className="flex w-full flex-col items-stretch justify-center">
             <div className="formInputPair">
-                <label className=" text-lg font-medium mb-2 ">Key Skills</label>
+                <label className=" mb-2 text-lg font-medium ">Key Skills</label>
                 <SearchComboBox
                     handleChange={(item) =>
                         handleChange({
@@ -41,7 +41,7 @@ export default function SkillFields({
                     value={userProfile.skills}
                 />
             </div>
-            <div className="self-center flex justify-center items-center capitalize py-2 my-2 w-1/3">
+            <div className="my-2 flex w-1/3 items-center justify-center self-center py-2 capitalize">
                 {userProfile.skills && userProfile.skills.length > 0 && (
                     <div className="grid-cols-4">
                         {userProfile.skills.map(

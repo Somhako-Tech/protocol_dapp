@@ -64,13 +64,13 @@ export default function ExperienceFields({
 
     const experience = userProfile.experience.map((experience: any, i) => (
         <div key={i}>
-            <label className="text-md mb-2 leading-none inline-block">
+            <label className="text-md mb-2 inline-block leading-none">
                 Experience #{i + 1}
             </label>
             <div className="formInputPair" key={i}>
                 <label
                     htmlFor="organization"
-                    className="font-medium mb-2 leading-none inline-block"
+                    className="mb-2 inline-block font-medium leading-none"
                 >
                     Organization
                 </label>
@@ -85,7 +85,7 @@ export default function ExperienceFields({
                 />
             </div>
             <div className="formInputPair" key={i}>
-                <label htmlFor="startYear" className="font-medium mb-2">
+                <label htmlFor="startYear" className="mb-2 font-medium">
                     Start Year
                 </label>
 
@@ -112,7 +112,7 @@ export default function ExperienceFields({
             <div className="formInputPair" key={i}>
                 <label
                     htmlFor="endYear"
-                    className="font-medium mb-2 leading-none inline-block"
+                    className="mb-2 inline-block font-medium leading-none"
                 >
                     End Year
                 </label>
@@ -138,7 +138,7 @@ export default function ExperienceFields({
             <div className="formInputPair" key={i}>
                 <label
                     htmlFor="title"
-                    className="font-medium mb-2 leading-none inline-block"
+                    className="mb-2 inline-block font-medium leading-none"
                 >
                     Title
                 </label>
@@ -158,18 +158,18 @@ export default function ExperienceFields({
     return (
         <>
             <div className="formInputPair">
-                <label className="text-lg font-medium mb-2 leading-none inline-block">
+                <label className="mb-2 inline-block text-lg font-medium leading-none">
                     Experience
                 </label>
                 <button
                     type="button"
-                    className="border border-[#6D27F9] rounded-full py-1 px-8 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white"
+                    className="rounded-full border border-[#6D27F9] py-1 px-8 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white"
                     onClick={() => addExperience()}
                 >
                     Add
                 </button>
             </div>
-            <div className="flex-col items-center justify-between mb-4">
+            <div className="mb-4 flex-col items-center justify-between">
                 {experience.length > 0 ? (
                     <>
                         {/* <p className="text-[#646464] mb-2">Skills</p> */}

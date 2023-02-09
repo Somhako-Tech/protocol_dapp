@@ -28,7 +28,7 @@ export default function LocationField({
         <div className="formInputPair">
             <label
                 htmlFor="pref_location"
-                className="font-medium mb-4 leading-none inline-block"
+                className="mb-4 inline-block font-medium leading-none"
             >
                 Preferred Location
             </label>

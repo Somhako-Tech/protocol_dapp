@@ -55,13 +55,13 @@ export default function EducationFields({
 
     const education = userProfile.education.map((education: any, i) => (
         <div key={i} className="w-full">
-            <label className="text-md mb-2 leading-none inline-block">
+            <label className="text-md mb-2 inline-block leading-none">
                 Education #{i + 1}
             </label>
             <div className="formInputPair">
                 <label
                     htmlFor="institution"
-                    className="font-medium mb-2 leading-none inline-block"
+                    className="mb-2 inline-block font-medium leading-none"
                 >
                     Institution
                 </label>
@@ -78,7 +78,7 @@ export default function EducationFields({
             <div className="formInputPair">
                 <label
                     htmlFor="title"
-                    className="font-medium mb-2 leading-none inline-block"
+                    className="mb-2 inline-block font-medium leading-none"
                 >
                     Title
                 </label>
@@ -95,7 +95,7 @@ export default function EducationFields({
             <div className="formInputPair">
                 <label
                     htmlFor="year"
-                    className="font-medium mb-2 leading-none inline-block"
+                    className="mb-2 inline-block font-medium leading-none"
                 >
                     Year
                 </label>
@@ -124,12 +124,12 @@ export default function EducationFields({
     return (
         <div className="w-full">
             <div className="formInputPair">
-                <label className="text-lg font-medium mb-2 leading-none inline-block">
+                <label className="mb-2 inline-block text-lg font-medium leading-none">
                     Education
                 </label>
                 <button
                     type="button"
-                    className="border border-[#6D27F9] rounded-full py-1 px-8 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white"
+                    className="rounded-full border border-[#6D27F9] py-1 px-8 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white"
                     onClick={() => addEducation()}
                 >
                     Add

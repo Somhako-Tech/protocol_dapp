@@ -55,7 +55,7 @@ export default function SignInButton({
     return (
         <button
             key={provider.name}
-            className="flex items-center justify-center flex-none px-3 py-2 md:px-4 md:py-3 border-2 rounded-lg font-medium border-black relative"
+            className="relative flex flex-none items-center justify-center rounded-lg border-2 border-black px-3 py-2 font-medium md:px-4 md:py-3"
             onClick={() => handleReferralSignIn(provider.id)}
             // className="my-2"
         >

@@ -12,7 +12,7 @@ const ProfileFormSkeleton = () => (
 );
 
 const ProfilePreviewSkeleton = () => (
-    <div className="flex flex-col justify-evenly items-center shadow-normal border shadow-slate-200 rounded-[30px] py-6 px-6 mb-6 text-center hover:shadow-2xl  h-[350px] hover:opacity-100 bg-white bg-opacity-98 duration-300">
+    <div className="shadow-normal bg-opacity-98 mb-6 flex h-[350px] flex-col items-center justify-evenly rounded-[30px] border bg-white py-6 px-6  text-center shadow-slate-200 duration-300 hover:opacity-100 hover:shadow-2xl">
         {/* For variant="text", adjust the height via font-size */}
         <Skeleton variant="circular" width={100} height={100} />
 
@@ -28,7 +28,7 @@ const ProfilePreviewSkeleton = () => (
 
 const ProfileSummarySkeleton = () => (
     <div className="w-full">
-        <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 flex flex-col justify-center items-center">
+        <div className="shadow-normal mx-auto my-10 flex w-full max-w-[1000px] flex-col items-center justify-center rounded-[25px] border border-slate-700 bg-white p-8 md:py-14 md:px-20">
             <Skeleton
                 variant="text"
                 width="100%"

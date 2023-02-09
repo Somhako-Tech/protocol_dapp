@@ -31,7 +31,7 @@ export default function ProfileSummary({
                                 </label>
                                 <label
                                     id={key}
-                                    className="font-medium text-base w-auto mx-4 "
+                                    className="mx-4 w-auto text-base font-medium "
                                 >
                                     {linkList[item]}
                                 </label>
@@ -44,7 +44,7 @@ export default function ProfileSummary({
                 return (
                     <div className="py-1 text-center">
                         <label
-                            className={styles.profileLabel + " underline pb-2"}
+                            className={styles.profileLabel + " pb-2 underline"}
                         >
                             Education
                         </label>
@@ -55,11 +55,11 @@ export default function ProfileSummary({
                                 title: string;
                             }) => (
                                 <div key={education.institution}>
-                                    <label className="font-semibold text-lg mb-2 leading-none inline-block capitalize">
+                                    <label className="mb-2 inline-block text-lg font-semibold capitalize leading-none">
                                         {education.institution} (
                                         {education.year.split("-")[0]})
                                     </label>
-                                    <label className="font-normal text-base w-auto mx-4 leading-none inline-block capitalize">
+                                    <label className="mx-4 inline-block w-auto text-base font-normal capitalize leading-none">
                                         {education.title}
                                     </label>
                                 </div>
@@ -72,7 +72,7 @@ export default function ProfileSummary({
                 return (
                     <div className="py-1 text-center">
                         <label
-                            className={styles.profileLabel + " underline pb-2"}
+                            className={styles.profileLabel + " pb-2 underline"}
                         >
                             Experience
                         </label>
@@ -84,12 +84,12 @@ export default function ProfileSummary({
                                 title: string;
                             }) => (
                                 <div key={experience.organization}>
-                                    <label className="font-semibold text-lg mb-2 leading-none inline-block capitalize">
+                                    <label className="mb-2 inline-block text-lg font-semibold capitalize leading-none">
                                         {experience.organization} (
                                         {experience.startYear.split("-")[0]} -
                                         {experience.endYear.split("-")[0]})
                                     </label>
-                                    <label className="font-normal text-base w-auto mx-4 leading-none inline-block capitalize">
+                                    <label className="mx-4 inline-block w-auto text-base font-normal capitalize leading-none">
                                         {experience.title}
                                     </label>
                                 </div>
@@ -106,7 +106,7 @@ export default function ProfileSummary({
                     <div className="my-2" key={key}>
                         <label
                             htmlFor={key}
-                            className="font-medium text-base mb-2 leading-none inline-block pr-3"
+                            className="mb-2 inline-block pr-3 text-base font-medium leading-none"
                         >
                             {label}
                         </label>
@@ -124,7 +124,7 @@ export default function ProfileSummary({
                     </label>
                     <label
                         id={key}
-                        className="font-medium text-base w-auto mx-4 "
+                        className="mx-4 w-auto text-base font-medium "
                     >
                         {value}
                     </label>
@@ -138,8 +138,8 @@ export default function ProfileSummary({
     if (!userProfile) return <ProfileFormSkeleton />;
     return (
         <div className="w-full">
-            <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 flex flex-col justify-center items-center">
-                <h2 className="font-semibold text-lg md:text-3xl mb-4">
+            <div className="shadow-normal mx-auto my-10 flex w-full max-w-[1000px] flex-col items-center justify-center rounded-[25px] border border-slate-700 bg-white p-8 md:py-14 md:px-20">
+                <h2 className="mb-4 text-lg font-semibold md:text-3xl">
                     @{userProfile.handle}
                 </h2>
                 {ListInfo}
