@@ -5,24 +5,20 @@ import UserDropdownButton from "./UserDropdownButton";
 import Link from "next/link";
 import { useProfileStore } from "../store";
 
-export default function Header({ handle }: { handle: string | null }) {
-    const handleLink = `/u/${handle}`;
+export default function Header() {
     return (
-        <section className="w-full flex flex-wrap px-4 items-center justify-center max-h-[200px]">
-            <div className="w-full lg:max-w-80 ">
-                <div className="bg-white shadow-normal border-4 border-somhakohr2 rounded-[50px] p-6 center flex-col justify-center items-center">
-                    <div className="flex justify-between items-center ">
-                        <div className="font-semibold text-lg  max-h-[200px]">
+        <section className="mt-0 flex max-h-[200px] w-full flex-wrap items-center justify-center p-4">
+            <div className="lg:max-w-80 w-full ">
+                <div className="shadow-normal center flex-col items-center justify-center rounded-[50px] border-4 border-somhakohr bg-white bg-gradient-to-r from-slate-50 to-slate-200 p-6">
+                    <div className="flex items-center justify-between ">
+                        <div className="max-h-[200px] text-lg  font-semibold">
                             <Logo width={200} height={200} />
                         </div>
 
                         <div className="flex items-center justify-center">
-                            <UserDropdownButton
-                                handleLink={handleLink}
-                                signOut={signOut}
-                            />
+                            <UserDropdownButton signOut={signOut} />
 
-                            <div className="font-semibold text-lg">
+                            <div className="text-lg font-semibold">
                                 <ConnectButton />
                             </div>
                         </div>
