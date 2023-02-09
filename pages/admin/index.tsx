@@ -31,9 +31,9 @@ export default function Home() {
 
     if (isProfilesLoading) {
         return (
-            <section className="w-full flex flex-wrap ">
+            <section className="flex w-full flex-wrap ">
                 <div className=" h-full w-full">
-                    <div className="w-full mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
+                    <div className="shadow-normal mx-auto w-full	 rounded-[25px] bg-white  p-8 text-black md:py-14 md:px-20">
                         <ProfileFormSkeleton />
                     </div>
                 </div>
@@ -91,10 +91,10 @@ export default function Home() {
     }
 
     return (
-        <section className="w-full flex flex-wrap ">
+        <section className="flex w-full flex-wrap ">
             <div className="h-full w-full">
-                <div className="w-full max-w-5xl mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
-                    <h1 className={" font-bold text-4xl mb-4 text-center py-5"}>
+                <div className="shadow-normal mx-auto w-full max-w-5xl	 rounded-[25px] bg-white  p-8 text-black md:py-14 md:px-20">
+                    <h1 className={" mb-4 py-5 text-center text-4xl font-bold"}>
                         Profiles In Queue
                     </h1>
                     {profileList}
@@ -105,12 +105,12 @@ export default function Home() {
 }
 
 import { authOptions } from "../api/auth/[...nextauth]";
-import { unstable_getServerSession } from "next-auth/next";
+import { getServerSession } from "next-auth/next";
 import { getUserQuery } from "../../graphql/graphqlQueries";
 import { Session, SessionStrategy } from "next-auth/core/types";
 
 export async function getServerSideProps(context: any) {
-    const session: any = await unstable_getServerSession(
+    const session: any = await getServerSession(
         context.req,
         context.res,
         authOptions
