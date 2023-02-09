@@ -91,16 +91,16 @@ export default function UserPage() {
     };
 
     return (
-        <section className="w-full flex flex-wrap ">
+        <section className="flex w-full flex-wrap ">
             <Snackbar
                 open={isCopied}
                 autoHideDuration={6000}
                 message="Link copied"
             />
             <div className="h-full w-full">
-                <div className="w-full max-w-[800px] mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
+                <div className="shadow-normal mx-auto w-full max-w-[800px]	 rounded-[25px] bg-white  p-8 text-black md:py-14 md:px-20">
                     <div className="flex-col items-center justify-center">
-                        <h1 className={" font-bold text-2xl mb-4 text-center"}>
+                        <h1 className={" mb-4 text-center text-2xl font-bold"}>
                             {/* TODO Add check for minting complete */}
                             {isProfileQueryLoading
                                 ? "Profile loading"
@@ -116,7 +116,7 @@ export default function UserPage() {
                             <ProfileSummary userProfile={Profile} />
                         )}
                         {Profile && (
-                            <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 flex flex-col justify-center items-center">
+                            <div className="shadow-normal mx-auto my-10 flex w-full max-w-[1000px] flex-col items-center justify-center rounded-[25px] border border-slate-700 bg-white p-8 md:py-14 md:px-20">
                                 <label
                                     htmlFor="referral"
                                     className={styles.profileLabel}
@@ -126,7 +126,7 @@ export default function UserPage() {
                                 <div>
                                     <label
                                         id="referral"
-                                        className="font-medium text-base w-auto mx-4 text-somhakohr2"
+                                        className="mx-4 w-auto text-base font-medium text-somhakohr2"
                                     >
                                         {referralLink}{" "}
                                     </label>
@@ -137,13 +137,13 @@ export default function UserPage() {
                                 <div>
                                     <label
                                         id="referral"
-                                        className="font-medium text-base w-auto mx-4 "
+                                        className="mx-4 w-auto text-base font-medium "
                                     >
                                         Referred Accounts :
                                     </label>
                                     <label
                                         id="referral"
-                                        className="font-medium text-base w-auto mx-4 text-somhakohr2"
+                                        className="mx-4 w-auto text-base font-medium text-somhakohr2"
                                     >
                                         {referralCount}{" "}
                                     </label>

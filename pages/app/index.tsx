@@ -5,8 +5,6 @@ import ProfileForm from "../../components/ProfileForm";
 import { Profile } from "@prisma/client";
 import * as React from "react";
 
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useProfileStore, useReferralStore } from "../../store";
@@ -22,11 +20,10 @@ import {
 } from "../../graphql/graphqlMutations";
 import { axiosAPIInstance } from "../../constants/axiosInstances";
 import emails from "../../constants/email";
+import { GridLoader, RiseLoader } from "react-spinners";
 
 export default function AppPage() {
     const router = useRouter();
-
-    const queryClient = useQueryClient();
 
     const { address, isConnected } = useAccount();
 
@@ -36,23 +33,27 @@ export default function AppPage() {
 
     const user = session?.user ? session.user : { id: null, email: null };
 
-    const {
-        data: Profile,
-        isLoading: isQueryLoading,
-        isError: isQueryError,
-    } = useQuery(
-        ["getProfile", user.id as string],
-        () => getProfileByUserIdQuery((user.id as string) || "default"),
-        { enabled: !!session }
-    );
+    const [Profile, setProfile] = useState<Profile | null>(null);
+    const [isQueryLoading, setIsQueryLoading] = useState(true);
+
+    useEffect(() => {
+        const getProfile = async () => {
+            const profile = await getProfileByUserIdQuery(
+                (user.id as string) || "default"
+            );
+            profile && setProfile(profile);
+            setIsQueryLoading(false);
+        };
+        if (session) {
+            getProfile();
+        }
+    }, [session, user.id]);
 
     const [queryInMintQueue, setQueryInMintQueue] = useState(false);
     const [isProfileCreating, setIsProfileCreating] = useState(false);
 
     const [setHandle] = useProfileStore((state: any) => [state.setHandle]);
 
-    //TODO update id
-    //Updates address on connection
     useEffect(() => {
         if (isConnected) {
             setUserProfile((prevData) => ({
@@ -64,11 +65,11 @@ export default function AppPage() {
 
     //Minted accounts should go to profile page
     useEffect(() => {
-        if (!isQueryLoading && !isQueryError && Profile)
+        if (!isQueryLoading && Profile)
             if (Profile.minted) router.push(`/u/${Profile?.handle}`);
             else setQueryInMintQueue(true);
         // if (mintSuccessful) router.push(`/u/${handle}`);
-    }, [Profile, isQueryError, isQueryLoading, router]);
+    }, [Profile, isQueryLoading, router]);
 
     const [userProfile, setUserProfile] = useState<Profile>({
         id: 0,
@@ -99,7 +100,6 @@ export default function AppPage() {
                     setHandle(data.handle);
                     setQueryInMintQueue(true);
                 }
-                queryClient.invalidateQueries({ queryKey: ["getProfile"] });
                 return data;
             })
             .catch((err) => {
@@ -121,7 +121,10 @@ export default function AppPage() {
                 );
             }
         }
+
+        router.push("/u");
     }
+
     const handleChange = (e: {
         target: {
             id: any;
@@ -141,27 +144,31 @@ export default function AppPage() {
 
     if (!isConnected)
         return (
-            <section className="w-full flex flex-wrap ">
+            <section className="flex w-full flex-wrap">
                 <div className="h-full w-full">
                     <div className="flex-col items-center justify-center">
-                        <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 ">
-                            <h1 className="text-3xl font-semibold capitalize text-center">
+                        <div className=" shadow-normal mx-auto my-10 flex w-full max-w-[1000px] flex-col items-center justify-center rounded-[25px] bg-white p-8 shadow-md shadow-slate-400 md:py-14 md:px-20 ">
+                            <h1 className="mb-20 bg-gradient-to-r from-[##7F7FD5] via-[#86A8E7] to-[#91EAE4] bg-clip-text pt-5 text-center text-4xl font-extrabold capitalize text-transparent">
                                 Please connect your wallet to mint your profile.
                             </h1>
-                            <ProfileFormSkeleton />
+                            <RiseLoader size={30} speedMultiplier={0.8} />
                         </div>
                     </div>
                 </div>
             </section>
         );
 
-    if (isQueryLoading || isProfileCreating)
+    if (isQueryLoading || isProfileCreating || true)
         return (
-            <section className="w-full flex flex-wrap ">
+            <section className="flex w-full flex-wrap ">
                 <div className="h-full w-full">
                     <div className="flex-col items-center justify-center">
-                        <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 ">
-                            <ProfileFormSkeleton />
+                        <div className="shadow-normal mx-auto my-10 flex w-full max-w-[1000px] flex-col items-center rounded-[25px] p-8 md:py-14 md:px-20">
+                            <GridLoader
+                                size={80}
+                                speedMultiplier={0.8}
+                                color="white"
+                            />
                         </div>
                     </div>
                 </div>
@@ -169,9 +176,9 @@ export default function AppPage() {
         );
 
     return (
-        <section className="w-full flex flex-wrap ">
-            <div className="h-full w-full">
-                <div className="text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
+        <section className="flex w-full flex-wrap ">
+            <div className="h-full w-full ">
+                <div className="shadow-normal bg-white  bg-gradient-to-r from-[##a8c0ff] to-[##3f2b96] p-8 text-black  md:px-20">
                     {!Profile ? (
                         <div className="flex-col items-center">
                             <ProfileForm
@@ -183,10 +190,10 @@ export default function AppPage() {
                         </div>
                     ) : queryInMintQueue ? (
                         <div className="flex-col items-center justify-center">
-                            <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 flex flex-col justify-center items-center">
+                            <div className="shadow-normal mx-auto my-10 flex w-full max-w-[1000px] flex-col items-center justify-center rounded-[25px] border border-slate-700 bg-white p-8 md:py-14 md:px-20">
                                 <h1
                                     className={
-                                        " font-bold text-2xl mb-4 text-center"
+                                        " mb-4 text-center text-2xl font-bold"
                                     }
                                 >
                                     You are in the mint queue! We let you know
@@ -195,7 +202,7 @@ export default function AppPage() {
 
                                 <button
                                     onClick={() => router.push("/home")}
-                                    className=" bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
+                                    className=" rounded-full bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] py-2.5 px-6 font-bold text-white transition-all hover:from-[#391188] hover:to-[#391188] md:min-w-[150px]"
                                 >
                                     Home
                                 </button>
@@ -203,7 +210,7 @@ export default function AppPage() {
                         </div>
                     ) : (
                         <div className="flex-col items-center justify-center">
-                            <div className="w-full max-w-[1000px] mx-auto my-10 bg-white shadow-normal border border-slate-700 rounded-[25px] p-8 md:py-14 md:px-20 ">
+                            <div className="shadow-normal mx-auto my-10 w-full max-w-[1000px] rounded-[25px] border border-slate-700 bg-white p-8 md:py-14 md:px-20 ">
                                 <ProfileFormSkeleton />
                             </div>
                         </div>

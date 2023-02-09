@@ -92,25 +92,25 @@ export default function LogIn({ providers }: { providers: any }) {
 
         <div className="flex min-h-screen">
             {/* Container */}
-            <div className="flex flex-row w-full">
+            <div className="flex w-full flex-row">
                 {/* Sidebar */}
-                <div className="hidden lg:flex flex-col justify-between join lg:p-8 xl:p-12 lg:max-w-sm xl:max-w-lg">
+                <div className="join hidden flex-col justify-between lg:flex lg:max-w-sm lg:p-8 xl:max-w-lg xl:p-12">
                     <div className="flex items-center justify-start space-x-3">
                         <Logo width={350} height={350} />
                     </div>
                     <div className="space-y-5">
-                        <h1 className="lg:text-3xl xl:text-5xl xl:leading-snug font-extrabold">
+                        <h1 className="font-extrabold lg:text-3xl xl:text-5xl xl:leading-snug">
                             Somhako: Your digital resume for the future
                         </h1>
                     </div>
                     <p className="font-medium">© 2023 Somhako</p>
                 </div>
                 {/* Login */}
-                <div className="flex flex-1 flex-col items-center justify-center px-10 relative">
-                    <div className="flex lg:hidden justify-between items-center w-full py-4">
+                <div className="relative flex flex-1 flex-col items-center justify-center px-10">
+                    <div className="flex w-full items-center justify-between py-4 lg:hidden">
                         <div className="flex items-center justify-start space-x-3">
-                            <span className="bg-black rounded-full w-6 h-6" />
-                            <a href="#" className="font-medium text-lg">
+                            <span className="h-6 w-6 rounded-full bg-black" />
+                            <a href="#" className="text-lg font-medium">
                                 Brand
                             </a>
                         </div>
@@ -118,25 +118,25 @@ export default function LogIn({ providers }: { providers: any }) {
                             <span>Not a member? </span>
                             <a
                                 href="#"
-                                className="underline font-medium text-[#070eff]"
+                                className="font-medium text-[#070eff] underline"
                             >
                                 Sign up now
                             </a>
                         </div>
                     </div>
                     {/* Login box */}
-                    <div className="flex flex-1 flex-col  justify-center space-y-5 max-w-md">
+                    <div className="flex max-w-md flex-1  flex-col justify-center space-y-5">
                         <div className="flex flex-col space-y-2 text-center">
                             {referral &&
                                 `@${referral} has invited you to join Somhakohr\n`}
-                            <h2 className="text-3xl md:text-4xl font-bold">
+                            <h2 className="text-3xl font-bold md:text-4xl">
                                 Sign in to account
                             </h2>
                             <p className="text-md md:text-xl">
                                 Sign up or log in to Somhako Protocol.
                             </p>
                         </div>
-                        <div className="flex flex-col max-w-md space-y-5">
+                        <div className="flex max-w-md flex-col space-y-5">
                             {providers &&
                                 Object.values(providers).map(
                                     (provider: any) => (
@@ -181,11 +181,11 @@ export default function LogIn({ providers }: { providers: any }) {
                         </div>
                     </div>
                     {/* Footer */}
-                    <div className="flex justify-center flex-col m-auto mb-16 text-center text-lg dark:text-slate-200 ">
-                        <div className="flex items-center justify-center space-x-2 mt-4 flex-wrap">
+                    <div className="m-auto mb-16 flex flex-col justify-center text-center text-lg dark:text-slate-200 ">
+                        <div className="mt-4 flex flex-wrap items-center justify-center space-x-2">
                             <a
                                 href="https://www.linkedin.com/in/somhako"
-                                className="flex flex-none items-center justify-center rounded-full w-12 h-12 hover:bg-slate-200 transition-all dark:hover:bg-slate-700"
+                                className="flex h-12 w-12 flex-none items-center justify-center rounded-full transition-all hover:bg-slate-200 dark:hover:bg-slate-700"
                             >
                                 <svg
                                     width={24}
@@ -208,7 +208,7 @@ export default function LogIn({ providers }: { providers: any }) {
 
                             <a
                                 href="https://www.instagram.com/somhako"
-                                className="flex flex-none items-center justify-center rounded-full w-12 h-12 hover:bg-slate-200 transition-all dark:hover:bg-slate-700"
+                                className="flex h-12 w-12 flex-none items-center justify-center rounded-full transition-all hover:bg-slate-200 dark:hover:bg-slate-700"
                             >
                                 <svg
                                     width={24}
@@ -224,7 +224,7 @@ export default function LogIn({ providers }: { providers: any }) {
                             </a>
                             <a
                                 href="https://twitter.com/somhako"
-                                className="flex flex-none items-center justify-center rounded-full w-12 h-12 hover:bg-slate-200 transition-all dark:hover:bg-slate-700"
+                                className="flex h-12 w-12 flex-none items-center justify-center rounded-full transition-all hover:bg-slate-200 dark:hover:bg-slate-700"
                             >
                                 <svg
                                     width={24}

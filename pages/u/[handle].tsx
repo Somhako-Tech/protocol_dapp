@@ -21,9 +21,9 @@ export default function UserPage() {
         getProfileByHandleIdQuery((handle as string) || "default")
     );
     return (
-        <section className="w-full flex flex-wrap ">
+        <section className="flex w-full flex-wrap ">
             <div className="h-full w-full">
-                <div className="w-full max-w-[800px] mx-auto text-black	 bg-white shadow-normal  rounded-[25px] p-8 md:py-14 md:px-20">
+                <div className="shadow-normal mx-auto w-full max-w-[800px]	 rounded-[25px] bg-white  p-8 text-black md:py-14 md:px-20">
                     <div className="flex-col items-center justify-center">
                         {isProfileQueryLoading ? (
                             <ProfileSummarySkeleton />

@@ -1,9 +1,9 @@
 @tailwind components;
 @layer components {
     .profileLabel {
-        @apply font-medium text-lg mb-2 leading-none inline-block;
+        @apply mb-2 inline-block text-lg font-medium leading-none;
     }
     .profileText {
-        @apply font-medium text-base w-auto mx-4;
+        @apply mx-4 w-auto text-base font-medium;
     }
 }
