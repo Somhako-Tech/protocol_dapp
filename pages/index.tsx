@@ -393,11 +393,11 @@ const Home = () => {
                     </div>
                 </div>
 
-                <div className="p-4 text-gray-600 mx-auto max-w-7xl px-6 lg:px-8">
+                <div className="mx-auto max-w-7xl p-4 px-6 text-gray-600 lg:px-8">
                     <h1 className="mb-8 text-center text-3xl font-bold text-indigo-900">
                         Benefits for companies
                     </h1>
-                    <ul className="grid place-content-center sm:grid-cols-2 gap-8">
+                    <ul className="grid place-content-center gap-8 sm:grid-cols-2">
                         <li className="flex">
                             <div className="px-4 text-5xl font-extralight text-indigo-700">
                                 01.
@@ -488,11 +488,11 @@ const Home = () => {
 export default Home;
 
 import { authOptions } from "./api/auth/[...nextauth]";
-import { unstable_getServerSession } from "next-auth/next";
+import { getServerSession } from "next-auth/next";
 import { getUserQuery } from "../graphql/graphqlQueries";
 
 export async function getServerSideProps(context: any) {
-    const session: any = await unstable_getServerSession(
+    const session: any = await getServerSession(
         context.req,
         context.res,
         authOptions
