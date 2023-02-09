@@ -1,12 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Profile } from "@prisma/client";
-import {
-    getProfileByUserIdQuery,
-    getUserQuery,
-} from "../graphql/graphqlQueries";
-import { useQuery } from "@tanstack/react-query";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import styles from "./components.module.css";
 
@@ -17,10 +12,10 @@ const ProfilePreview = ({ userProfile }: { userProfile: ProfileWithImage }) => {
     const education = (userProfile.education as any).map(
         (education: { institution: string; year: string; title: string }) => (
             <div key={education.institution}>
-                <label className="font-semibold text-lg mb-2 leading-none inline-block capitalize">
+                <label className="mb-2 inline-block text-lg font-semibold capitalize leading-none">
                     {education.institution} ({education.year.split("-")[0]})
                 </label>
-                <label className="font-normal text-base w-auto mx-4 leading-none inline-block capitalize">
+                <label className="mx-4 inline-block w-auto text-base font-normal capitalize leading-none">
                     {education.title}
                 </label>
             </div>
@@ -35,12 +30,12 @@ const ProfilePreview = ({ userProfile }: { userProfile: ProfileWithImage }) => {
             title: string;
         }) => (
             <div key={experience.organization}>
-                <label className="font-semibold text-lg mb-2 leading-none inline-block capitalize">
+                <label className="mb-2 inline-block text-lg font-semibold capitalize leading-none">
                     {experience.organization} (
                     {experience.startYear.split("-")[0]} -
                     {experience.endYear.split("-")[0]})
                 </label>
-                <label className="font-normal text-base w-auto mx-4 leading-none inline-block capitalize">
+                <label className="mx-4 inline-block w-auto text-base font-normal capitalize leading-none">
                     {experience.title}
                 </label>
             </div>
@@ -49,12 +44,12 @@ const ProfilePreview = ({ userProfile }: { userProfile: ProfileWithImage }) => {
 
     return (
         <div className="relative" key={userProfile.id}>
-            <div className="flex flex-col justify-evenly shadow-normal border shadow-slate-200 rounded-[30px] py-6 pb-6 px-16 mb-6 text-center hover:shadow-2xl  h-[350px] absolute inset-0 z-10 opacity-0 hover:opacity-100 bg-white bg-opacity-98 duration-300">
+            <div className="shadow-normal bg-opacity-98 absolute inset-0 z-10 mb-6 flex h-[350px] flex-col justify-evenly rounded-[30px] border bg-white  py-6 px-16 pb-6 text-center opacity-0 shadow-slate-200 duration-300 hover:opacity-100 hover:shadow-2xl">
                 <div className="my-2">
-                    <label className="font-medium text-lg mb-2 leading-none inline-block">
+                    <label className="mb-2 inline-block text-lg font-medium leading-none">
                         Experience
                     </label>
-                    <label className="font-normal text-base w-auto mx-4 leading-none inline-block">
+                    <label className="mx-4 inline-block w-auto text-base font-normal leading-none">
                         {userProfile.years_of_exp}
                     </label>
                 </div>
@@ -67,9 +62,9 @@ const ProfilePreview = ({ userProfile }: { userProfile: ProfileWithImage }) => {
                     {"More >"}
                 </Link>
             </div>
-            <div className="flex flex-col justify-start bg-white shadow-normal border shadow-slate-200 rounded-[30px] py-6 pb-6 px-16 mb-6 text-center hover:shadow-2xl h-[350px]">
+            <div className="shadow-normal mb-6 flex h-[350px] flex-col justify-start rounded-[30px] border bg-white py-6 px-16 pb-6 text-center shadow-slate-200 hover:shadow-2xl">
                 <div className="flex-col items-center justify-between">
-                    <div className="flex justify-center mb-3 pb-2">
+                    <div className="mb-3 flex justify-center pb-2">
                         {userProfile.user.image ? (
                             <Image
                                 src={userProfile.user.image}
@@ -84,16 +79,16 @@ const ProfilePreview = ({ userProfile }: { userProfile: ProfileWithImage }) => {
                             />
                         )}
                     </div>
-                    <h1 className="font-medium text-xl mb-2 leading-none inline-block">
+                    <h1 className="mb-2 inline-block text-xl font-medium leading-none">
                         @{userProfile.handle}
                     </h1>
-                    <h2 className="font-medium mb-2 text-xl leading-none ">
+                    <h2 className="mb-2 text-xl font-medium leading-none ">
                         {userProfile.title}
                     </h2>
                     <div className="my-2" key="summary">
                         <label id={"summary"} className={styles.profileText}>
                             {userProfile.summary.length > 120
-                                ? userProfile.summary.slice(0, 100) + "..."
+                                ? userProfile.summary.slice(0, 80) + "..."
                                 : userProfile.summary}
                         </label>
                     </div>
