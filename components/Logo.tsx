@@ -8,14 +8,15 @@ export default function Logo({
     height: number;
 }) {
     return (
-        <div className="w-full  max-h-[200px]">
+        <div className="max-h-[200px]  w-full">
             <Link
                 href="/home"
-                className="w-full inline-block align-middle max-w-[200px]"
+                className="inline-block w-full max-w-[200px] align-middle"
             >
                 <Image
                     width={width || 200}
                     height={height || 200}
+                    loading="eager"
                     src="/images/logo.png"
                     alt="Somhako"
                 />
