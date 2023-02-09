@@ -6,18 +6,15 @@ import Link from "next/link";
 import PersonIcon from "@mui/icons-material/Person";
 
 export default function UserDropdownButton({
-    handleLink,
     signOut,
 }: {
-    handleLink: string;
     signOut: () => void;
 }) {
-    const profileLink = handleLink && handleLink !== "" ? handleLink : "/app";
     return (
         <div className="top-16 w-56 text-right">
             <Menu as="div" className="relative inline-block text-left">
                 <div>
-                    <Menu.Button className="headerButton px-2 flex items-center justify-center">
+                    <Menu.Button className="headerButton flex items-center justify-center px-2">
                         <PersonIcon />
                     </Menu.Button>
                 </div>
