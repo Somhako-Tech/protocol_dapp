@@ -4,52 +4,34 @@ import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { getProfileByUserIdQuery } from "../../graphql/graphqlQueries";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { Profile } from "@prisma/client";
 
 export default function Layout({ children }: { children: any }) {
     const { data: session } = useSession();
 
     const router = useRouter();
 
-    const user = session?.user ? session.user : { id: "default" };
-
-    const {
-        data: ProfileData,
-        isLoading: isQueryLoading,
-        isError: isQueryError,
-    } = useQuery(
-        ["getProfile", user.id as string],
-        () => getProfileByUserIdQuery((user.id as string) || "default"),
-        { enabled: !!session, cacheTime: 600 }
-    );
     if (router.asPath === "/" || router.asPath === "/join")
         return (
-            <main className="">
+            <main>
                 <Head>
                     <title> Somhakohr Dapp </title>
                 </Head>
                 {children}
             </main>
         );
-
-    if (isQueryLoading || isQueryError || !ProfileData) {
-        return (
-            <main className="py-8 bg-white">
-                <Head>
-                    <title> Somhakohr Dapp </title>
-                </Head>
-                <Header handle={null}></Header>
-                {children}
-            </main>
-        );
-    }
 
     return (
-        <main className="py-8 bg-white">
+        <main>
             <Head>
                 <title> Somhakohr Dapp </title>
             </Head>
-            <Header handle={ProfileData?.handle}></Header>
-            {children}
+
+            <div className="h-full min-h-screen bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e]">
+                <Header />
+                {children}
+            </div>
         </main>
     );
 }

@@ -7,11 +7,7 @@ import { mainnet, polygon, optimism, arbitrum } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import { SessionProvider } from "next-auth/react";
-import {
-    QueryClient,
-    QueryClientProvider,
-    useQuery,
-} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Layout from "../components/Layout/Layout";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { Session } from "next-auth";
