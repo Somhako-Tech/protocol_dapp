@@ -1,35 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer base {
-    input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-}
-
-@layer components {
-    .formInputSection {
-        @apply bg-white border shadow-md shadow-slate-200 rounded-[30px] flex flex-col w-auto p-10 items-stretch justify-center my-4 min-w-[600px];
-    }
-    .formInputPair {
-        @apply my-6 mx-6 flex flex-row justify-between items-center;
-    }
-    .formInputs {
-        @apply w-auto mx-4 rounded-full border border-slate-500 p-1 ml-6;
-    }
-    .googleButton {
-        @apply text-white bg-somhakohr hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-somhakohr dark:hover:bg-blue-700 dark:focus:ring-blue-800;
-    }
-    .signInButtons {
-        @apply inline-block p-3 bg-somhakohr text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out mx-1;
-    }
-    .headerButton {
-        @apply text-lg mr-4 text-white bg-somhakohr font-medium rounded-full px-5 py-1.5 text-center dark:bg-somhakohr;
-    }
-}
 :root {
     --max-width: 1100px;
     --border-radius: 12px;
@@ -164,7 +132,6 @@ a {
     max-width: 1100px;
     margin: 0 auto 30px;
     overflow-x: auto;
-    background-color: white;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -173,7 +140,6 @@ a {
     text-align: center;
     max-width: 1100px;
     overflow-x: auto;
-    background-color: white;
 }
 
 .join {
