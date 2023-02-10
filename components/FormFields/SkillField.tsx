@@ -3,7 +3,7 @@ import { Combobox } from "@headlessui/react";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import SearchComboBox from "./SearchComboBoxMultiple";
-import Alert from "@mui/material/Alert/Alert";
+import Alert from "@mui/material/Alert";
 import { Transition } from "react-transition-group";
 
 export default function SkillFields({
@@ -41,7 +41,7 @@ export default function SkillFields({
     console.log(userProfile.skills);
     return (
         <div className="flex flex-col items-stretch justify-center">
-            <div className="formInputPair">
+            <div className="my-6 mx-6 flex flex-row items-center justify-between">
                 <label className=" mb-2 text-lg font-medium ">Key Skills</label>
                 <SearchComboBox
                     handleChange={(item) =>

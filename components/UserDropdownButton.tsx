@@ -14,7 +14,7 @@ export default function UserDropdownButton({
         <div className="top-16 w-56 text-right">
             <Menu as="div" className="relative inline-block text-left">
                 <div>
-                    <Menu.Button className="headerButton flex items-center justify-center px-2">
+                    <Menu.Button className="mr-4 flex items-center justify-center rounded-full bg-somhakohr px-5 py-1.5 px-2 text-center text-lg font-medium text-white dark:bg-somhakohr">
                         <PersonIcon />
                     </Menu.Button>
                 </div>
