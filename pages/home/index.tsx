@@ -104,7 +104,7 @@ export default function Home() {
                 </Transition>
             </div>
 
-            <div className="shadow-normal mx-auto w-full rounded-[25px] bg-white bg-gradient-to-r from-slate-50 to-slate-200 p-8 text-black md:py-14 md:px-20">
+            <div className="shadow-normal mx-auto w-full rounded-[25px] bg-gradient-to-r from-slate-50 to-slate-200 p-8 text-black md:py-14 md:px-20">
                 <h1 className={" mb-4 py-5 text-center text-4xl font-bold"}>
                     Web3 Profiles
                 </h1>
