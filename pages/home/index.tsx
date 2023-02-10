@@ -4,7 +4,6 @@ import "ethers";
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useQuery } from "@tanstack/react-query";
 import {
     getMintedProfilesQuery,
     getProfileByUserIdQuery,
@@ -49,13 +48,6 @@ export default function Home() {
 
         getProfiles();
     }, []);
-    // const {
-    //     isLoading: isProfileListLoading,
-    //     isError: profileListError,
-    //     data: profiles,
-    // } = useQuery(["getMintedProfiles"], async () => getMintedProfilesQuery(), {
-    //     staleTime: 60,
-    // });
 
     useEffect(() => {
         if (!session) router.push("/");
@@ -81,25 +73,28 @@ export default function Home() {
 
     return (
         <section className="mx-10 flex flex-wrap">
-            <div className="flex w-full justify-center">
+            <div className="flex w-full justify-center ">
                 <Transition
                     nodeRef={null}
                     in={!Profile}
                     timeout={400}
-                    className="my-10"
+                    className="my-10 "
                 >
                     {(state) => (
-                        <Link
-                            href="/app"
-                            className={
-                                state == "exited"
-                                    ? "400ms h-0 opacity-0 transition-all"
-                                    : "400ms my-2 opacity-100 transition-all" +
-                                      "z-0 bg-gradient-to-r from-purple-200 to-pink-300 bg-clip-text py-8 pt-5 text-center text-5xl font-extrabold text-transparent"
-                            }
-                        >
-                            Create Your Profile and Mint Now
-                        </Link>
+                        //TODO Improver Banner Color
+                        <div className="400ms m-10 rounded-lg border-2 border-slate-400 py-4 px-4 transition-all hover:scale-105 hover:border-0 hover:bg-purple-300 hover:bg-gradient-to-r hover:from-slate-50 hover:to-slate-200 hover:shadow-md hover:shadow-white">
+                            <Link
+                                href="/app"
+                                className={
+                                    state == "exited"
+                                        ? "400ms h-0 opacity-0 transition-all"
+                                        : "400ms my-2 opacity-100 transition-all" +
+                                          " z-0 bg-gradient-to-r from-purple-200 to-pink-300 bg-clip-text text-5xl font-extrabold text-transparent hover:bg-gradient-to-r hover:from-amber-600 hover:to-yellow-900"
+                                }
+                            >
+                                Create Your Profile and Mint Now
+                            </Link>
+                        </div>
                     )}
                 </Transition>
             </div>
