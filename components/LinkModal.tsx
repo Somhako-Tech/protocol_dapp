@@ -49,7 +49,7 @@ export default function LinkModal({
     };
     return (
         <Modal open={linkModalOpen} onClose={handleClose}>
-            <div className="formInputSection absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white">
+            <div className="absolute top-1/2 left-1/2 my-4 flex w-auto min-w-[600px] -translate-x-1/2 -translate-y-1/2 flex-col items-stretch justify-center rounded-[30px] border bg-white bg-white p-10 shadow-md shadow-slate-200">
                 <label
                     htmlFor="link"
                     className="mb-4 inline-block font-medium leading-none"
@@ -59,7 +59,7 @@ export default function LinkModal({
                 <select
                     required
                     id="link"
-                    className="formInputs w-full rounded-full border-slate-300"
+                    className="mx-4 ml-6 w-auto w-full rounded-full rounded-full border border-slate-500 border-slate-300 p-1"
                     value={currentLinkType}
                     onChange={(e) =>
                         setCurrentLinkType(e.target.value as LinkType)
@@ -77,7 +77,7 @@ export default function LinkModal({
                         name="link"
                         value={"@" + linkObj[currentLinkType]}
                         placeholder={"@dev"}
-                        className="formInputs border"
+                        className="mx-4 ml-6 w-auto rounded-full border border border-slate-500 p-1"
                         onChange={handleLinkUpdate}
                     />
                 </div>
