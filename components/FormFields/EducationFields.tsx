@@ -46,7 +46,7 @@ export default function EducationFields({
         // eslint-disable-next-line react/display-name
         forwardRef(({ value, onClick }: any, ref: any) => (
             <input
-                className="formInputs"
+                className="mx-4 ml-6 w-auto rounded-full border border-slate-500 p-1"
                 onClick={onClick}
                 ref={ref}
                 value={value || ""}
@@ -58,7 +58,7 @@ export default function EducationFields({
             <label className="text-md mb-2 inline-block leading-none">
                 Education #{i + 1}
             </label>
-            <div className="formInputPair">
+            <div className="my-6 mx-6 flex flex-row items-center justify-between">
                 <label
                     htmlFor="institution"
                     className="mb-2 inline-block font-medium leading-none"
@@ -70,12 +70,12 @@ export default function EducationFields({
                     id="institution"
                     name="institution"
                     type="text"
-                    className="formInputs"
+                    className="mx-4 ml-6 w-auto rounded-full border border-slate-500 p-1"
                     onChange={(e) => updateEducation(e, i)}
                     value={education.institution}
                 />
             </div>
-            <div className="formInputPair">
+            <div className="my-6 mx-6 flex flex-row items-center justify-between">
                 <label
                     htmlFor="title"
                     className="mb-2 inline-block font-medium leading-none"
@@ -87,12 +87,12 @@ export default function EducationFields({
                     id="title"
                     name="title"
                     type="text"
-                    className="formInputs "
+                    className="mx-4 ml-6 w-auto rounded-full border border-slate-500 p-1 "
                     onChange={(e) => updateEducation(e, i)}
                     value={education.title}
                 />
             </div>
-            <div className="formInputPair">
+            <div className="my-6 mx-6 flex flex-row items-center justify-between">
                 <label
                     htmlFor="year"
                     className="mb-2 inline-block font-medium leading-none"
@@ -123,7 +123,7 @@ export default function EducationFields({
     ));
     return (
         <div className="w-full">
-            <div className="formInputPair">
+            <div className="my-6 mx-6 flex flex-row items-center justify-between">
                 <label className="mb-2 inline-block text-lg font-medium leading-none">
                     Education
                 </label>

@@ -55,7 +55,7 @@ export default function ExperienceFields({
         // eslint-disable-next-line react/display-name
         forwardRef(({ value, onClick }: any, ref: any) => (
             <input
-                className="formInputs"
+                className="mx-4 ml-6 w-auto rounded-full border border-slate-500 p-1"
                 onClick={onClick}
                 ref={ref}
                 value={value || ""}
@@ -67,7 +67,10 @@ export default function ExperienceFields({
             <label className="text-md mb-2 inline-block leading-none">
                 Experience #{i + 1}
             </label>
-            <div className="formInputPair" key={i}>
+            <div
+                className="my-6 mx-6 flex flex-row items-center justify-between"
+                key={i}
+            >
                 <label
                     htmlFor="organization"
                     className="mb-2 inline-block font-medium leading-none"
@@ -79,12 +82,15 @@ export default function ExperienceFields({
                     id="organization"
                     name="organization"
                     type="text"
-                    className="formInputs"
+                    className="mx-4 ml-6 w-auto rounded-full border border-slate-500 p-1"
                     onChange={(e) => updateExperience(e, i)}
                     value={experience.organization}
                 />
             </div>
-            <div className="formInputPair" key={i}>
+            <div
+                className="my-6 mx-6 flex flex-row items-center justify-between"
+                key={i}
+            >
                 <label htmlFor="startYear" className="mb-2 font-medium">
                     Start Year
                 </label>
@@ -109,7 +115,10 @@ export default function ExperienceFields({
                 </div>
             </div>
 
-            <div className="formInputPair" key={i}>
+            <div
+                className="my-6 mx-6 flex flex-row items-center justify-between"
+                key={i}
+            >
                 <label
                     htmlFor="endYear"
                     className="mb-2 inline-block font-medium leading-none"
@@ -135,7 +144,10 @@ export default function ExperienceFields({
                     />
                 </div>
             </div>
-            <div className="formInputPair" key={i}>
+            <div
+                className="my-6 mx-6 flex flex-row items-center justify-between"
+                key={i}
+            >
                 <label
                     htmlFor="title"
                     className="mb-2 inline-block font-medium leading-none"
@@ -147,7 +159,7 @@ export default function ExperienceFields({
                     id="title"
                     name="title"
                     type="title"
-                    className="formInputs"
+                    className="mx-4 ml-6 w-auto rounded-full border border-slate-500 p-1"
                     onChange={(e) => updateExperience(e, i)}
                     value={experience.title}
                 />
@@ -157,7 +169,7 @@ export default function ExperienceFields({
 
     return (
         <>
-            <div className="formInputPair">
+            <div className="my-6 mx-6 flex flex-row items-center justify-between">
                 <label className="mb-2 inline-block text-lg font-medium leading-none">
                     Experience
                 </label>

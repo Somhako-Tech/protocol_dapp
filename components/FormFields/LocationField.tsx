@@ -31,7 +31,7 @@ export default function LocationField({
     }, [searchParams]);
 
     return (
-        <div className="formInputPair">
+        <div className="my-6 mx-6 flex flex-row items-center justify-between">
             <label
                 htmlFor="pref_location"
                 className="mb-4 inline-block font-medium leading-none"

@@ -24,7 +24,7 @@ export default function SearchComboBox({
                         setSearchParams(e.target.value);
                         setOpen(true);
                     }}
-                    className="formInputs"
+                    className="mx-4 ml-6 w-auto rounded-full border border-slate-500 p-1"
                     value={searchParams}
                     id="searchInput"
                 />

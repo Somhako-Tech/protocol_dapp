@@ -18,7 +18,7 @@ export default function SearchComboBox({
                     onChange={(e) => {
                         setSearchParams(e.target.value);
                     }}
-                    className="formInputs"
+                    className="mx-4 ml-6 w-auto rounded-full border border-slate-500 p-1"
                 />
                 {data && (
                     <Combobox.Options className="absolute mt-3 w-full flex-col justify-center rounded-md border bg-white shadow-md">
