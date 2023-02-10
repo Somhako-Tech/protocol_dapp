@@ -57,7 +57,8 @@ const defaultOptions = {
 };
 
 export default function AvatarEditor({ avatarConfig, setAvatarConfig }: any) {
-    const switchConfig = (type: string | number, currentOpt: any) => {
+    const switchConfig = (type: string | number) => {
+        const currentOpt = avatarConfig[type];
         const opts = defaultOptions[type as keyof typeof defaultOptions];
         const currentIdx = opts.findIndex((item: any) => item === currentOpt);
         const newIdx = (currentIdx + 1) % opts.length;
@@ -66,6 +67,39 @@ export default function AvatarEditor({ avatarConfig, setAvatarConfig }: any) {
             ...prevConfig,
             [type]: opts[newIdx],
         }));
+    };
+
+    const getButton = (config: string) => {
+        const IconComponent = icons[config as keyof typeof icons];
+
+        if (typeof IconComponent === "string")
+            return (
+                <button
+                    className="mx-2 flex h-16 w-16 items-center rounded-full p-2 px-3 py-2"
+                    type="button"
+                    onClick={() => switchConfig(config)}
+                >
+                    <div className="relative h-full w-full">
+                        <div className="absolute top-0 left-0 flex h-full w-full items-center justify-center">
+                            {IconComponent}
+                        </div>
+                    </div>
+                </button>
+            );
+        if (IconComponent)
+            return (
+                <button
+                    className="mx-2 flex h-16 w-16 items-center rounded-full bg-white stroke-gray-400 "
+                    type="button"
+                    onClick={() => switchConfig(config)}
+                >
+                    <div className="relative h-full w-full">
+                        <div className="absolute top-0 left-0 flex h-full w-full items-center justify-center">
+                            <IconComponent color={avatarConfig[config]} />
+                        </div>
+                    </div>
+                </button>
+            );
     };
 
     return (
@@ -77,21 +111,13 @@ export default function AvatarEditor({ avatarConfig, setAvatarConfig }: any) {
             >
                 Customize Your Avatar!
             </h1>
-            <div className="flex flex-row"></div>
             <Avatar className="m-10 h-32 w-32" {...avatarConfig} />
-            <div className="m-5 grid grid-cols-4 gap-2">
+            <div className="flex flex-row">
                 {Object.keys(avatarConfig)
                     .filter((key) => key !== "sex")
-                    .map((key) => (
-                        <button
-                            key={key}
-                            className="max-h-4 py-2 px-2 text-sm font-light capitalize   transition-all "
-                            onClick={() => switchConfig(key, avatarConfig[key])}
-                        >
-                            {key}
-                        </button>
-                    ))}
+                    .map((key) => getButton(key))}
             </div>
+
             <button
                 onClick={() => setAvatarConfig(genConfig())}
                 className="rounded-full bg-somhakohr py-2.5 px-6 font-bold text-white transition-all hover:bg-somhakohr2  md:min-w-[150px]"
