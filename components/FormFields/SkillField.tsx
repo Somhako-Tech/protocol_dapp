@@ -23,8 +23,22 @@ export default function SkillFields({
         )
     );
 
+    function removeSkill(item: string): void {
+        const skills = userProfile.skills.filter(
+            (skill) => skill !== item && skill !== ""
+        );
+
+        handleChange({
+            target: {
+                id: "skills",
+                value: skills,
+            },
+        });
+    }
+
+    console.log(userProfile.skills);
     return (
-        <div className="flex w-full flex-col items-stretch justify-center">
+        <div className="flex flex-col items-stretch justify-center">
             <div className="formInputPair">
                 <label className=" mb-2 text-lg font-medium ">Key Skills</label>
                 <SearchComboBox
@@ -38,25 +52,37 @@ export default function SkillFields({
                     }
                     setSearchParams={setSearchParams}
                     data={queryLoading ? [] : Skills}
-                    value={userProfile.skills}
+                    searchParams={searchParams}
                 />
             </div>
-            <div className="my-2 flex w-1/3 items-center justify-center self-center py-2 capitalize">
-                {userProfile.skills && userProfile.skills.length > 0 && (
-                    <div className="grid-cols-4">
-                        {userProfile.skills.map(
-                            (item: string) =>
-                                item !== "" && (
-                                    <div
-                                        key={item}
-                                        // className="border border-orange-900 px-4 py-1"
-                                    >
-                                        {item}
-                                    </div>
-                                )
-                        )}
-                    </div>
-                )}
+            <div className="border-slate- my-2 flex items-center justify-start self-center border py-2  capitalize text-white">
+                {userProfile.skills &&
+                    (userProfile.skills.length > 0 ? (
+                        <div className="grid max-w-md grid-cols-3 border-4 border-slate-500">
+                            {userProfile.skills.map(
+                                (item: string) =>
+                                    item !== "" && (
+                                        <button
+                                            key={item}
+                                            className="m-2 rounded-md bg-somhakohr px-4 py-1 hover:bg-somhakohr2"
+                                            onClick={() => removeSkill(item)}
+                                            type="button"
+                                        >
+                                            {item}
+                                        </button>
+                                    )
+                            )}
+                        </div>
+                    ) : (
+                        <div className="flex max-w-md flex-col border-4 border-slate-700">
+                            <label
+                                className="m-2 rounded-md bg-somhakohr px-4 py-1 hover:bg-somhakohr2"
+                                htmlFor="searchInput"
+                            >
+                                Add Skills
+                            </label>
+                        </div>
+                    ))}
             </div>
         </div>
     );

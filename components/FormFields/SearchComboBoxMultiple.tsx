@@ -3,14 +3,14 @@ import { useState } from "react";
 
 export default function SearchComboBox({
     setSearchParams,
+    searchParams,
     handleChange,
     data,
-    value,
 }: {
     setSearchParams: (value: string) => void;
     handleChange: (e: any) => void;
     data: Array<string> | undefined;
-    value: Array<string> | undefined;
+    searchParams: string;
 }) {
     const [open, setOpen] = useState(false);
 
@@ -23,6 +23,8 @@ export default function SearchComboBox({
                         setOpen(true);
                     }}
                     className="formInputs"
+                    value={searchParams}
+                    id="searchInput"
                 />
                 {open && (
                     <Combobox.Options className="absolute mt-3 w-full rounded-md border bg-white shadow-md">
@@ -35,6 +37,7 @@ export default function SearchComboBox({
                                     onClick={() => {
                                         handleChange(item);
                                         setOpen(false);
+                                        setSearchParams("");
                                     }}
                                 >
                                     {item}
