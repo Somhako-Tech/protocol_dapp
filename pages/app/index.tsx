@@ -85,7 +85,7 @@ export default function AppPage() {
         salary: "",
         years_of_exp: "",
         link: { Twitter: "", Github: "", LinkedIn: "" },
-        skills: [""],
+        skills: [],
         education: [{ institution: "", year: "", title: "" }],
         experience: [
             { organization: "", startYear: "", endYear: "", title: "" },

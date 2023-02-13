@@ -38,7 +38,6 @@ export default function SkillsField({
         });
     }
 
-    console.log(userProfile.skills);
     return (
         <div className="flex flex-col items-stretch justify-center">
             <div className="my-6 mx-6 flex flex-row items-center justify-between">
@@ -58,23 +57,20 @@ export default function SkillsField({
                     exclude={userProfile.skills}
                 />
             </div>
-            <div className="my-2 flex items-center justify-start self-center border py-2  capitalize text-white">
+            <div className="my-2 flex items-center justify-start self-center rounded-md py-2  capitalize text-white">
                 {userProfile.skills &&
                     (userProfile.skills.length > 0 ? (
-                        <div className="grid max-w-md grid-cols-3 border-4 border-slate-500">
-                            {userProfile.skills.map(
-                                (item: string) =>
-                                    item !== "" && (
-                                        <button
-                                            key={item}
-                                            className="m-2 rounded-md bg-somhakohr px-4 py-1 hover:bg-somhakohr2"
-                                            onClick={() => removeSkill(item)}
-                                            type="button"
-                                        >
-                                            {item}
-                                        </button>
-                                    )
-                            )}
+                        <div className="grid max-w-full grid-cols-4 border-2 border-slate-400 ">
+                            {userProfile.skills.map((item: string) => (
+                                <button
+                                    key={item}
+                                    className="m-2 rounded-md bg-somhakohr px-2 py-1 hover:bg-somhakohr2"
+                                    onClick={() => removeSkill(item)}
+                                    type="button"
+                                >
+                                    {item}
+                                </button>
+                            ))}
                         </div>
                     ) : (
                         <Transition
