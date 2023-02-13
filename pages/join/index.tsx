@@ -6,7 +6,7 @@ import {
 } from "next-auth/react";
 import { useReferralStore } from "../../store";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getProfileByHandleIdQuery } from "../../graphql/graphqlQueries";
 import Logo from "../../components/Logo";
 import SignInButton from "../../components/SignInButton";
@@ -14,10 +14,14 @@ import SignInButton from "../../components/SignInButton";
 export default function LogIn({ providers }: { providers: any }) {
     const router = useRouter();
     const { data: session } = useSession();
+    const [isRouteLoading, setIsRouteLoading] = useState(false);
 
     useEffect(() => {
-        if (session) router.push("/home");
-    }, [session, router]);
+        if (session && !isRouteLoading) {
+            setIsRouteLoading(true);
+            router.push("/home");
+        }
+    }, [session, router, isRouteLoading]);
 
     const { referral } = router.query;
     const [setReferredFrom] = useReferralStore((state) => [

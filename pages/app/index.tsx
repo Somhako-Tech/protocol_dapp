@@ -52,6 +52,8 @@ export default function AppPage() {
     const [queryInMintQueue, setQueryInMintQueue] = useState(false);
     const [isProfileCreating, setIsProfileCreating] = useState(false);
 
+    const [isRouteLoading, setIsRouteLoading] = useState(false);
+
     const [setHandle] = useProfileStore((state: any) => [state.setHandle]);
 
     useEffect(() => {
@@ -66,10 +68,11 @@ export default function AppPage() {
     //Minted accounts should go to profile page
     useEffect(() => {
         if (!isQueryLoading && Profile)
-            if (Profile.minted) router.push(`/u/${Profile?.handle}`);
-            else setQueryInMintQueue(true);
-        // if (mintSuccessful) router.push(`/u/${handle}`);
-    }, [Profile, isQueryLoading, router]);
+            if (Profile.minted && isRouteLoading) {
+                router.push(`/u/${Profile?.handle}`);
+                setIsRouteLoading(true);
+            } else setQueryInMintQueue(true);
+    }, [Profile, isQueryLoading, isRouteLoading, router]);
 
     const [userProfile, setUserProfile] = useState<Profile>({
         id: 0,
@@ -122,7 +125,10 @@ export default function AppPage() {
             }
         }
 
-        router.push("/u");
+        if (!isRouteLoading) {
+            router.push("/u");
+            setIsRouteLoading(true);
+        }
     }
 
     const handleChange = (e: {
@@ -201,7 +207,12 @@ export default function AppPage() {
                                 </h1>
 
                                 <button
-                                    onClick={() => router.push("/home")}
+                                    onClick={async () => {
+                                        if (!isRouteLoading) {
+                                            setIsRouteLoading(true);
+                                            await router.push("/home");
+                                        }
+                                    }}
                                     className=" rounded-full bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] py-2.5 px-6 font-bold text-white transition-all hover:from-[#391188] hover:to-[#391188] md:min-w-[150px]"
                                 >
                                     Home

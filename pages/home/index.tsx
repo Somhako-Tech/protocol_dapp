@@ -22,6 +22,7 @@ export default function Home() {
 
     const [Profile, setProfile] = useState<Profile | null>(null);
     const [isQueryLoading, setIsQueryLoading] = useState(true);
+    const [isRouteLoading, setIsRouteLoading] = useState(false);
 
     useEffect(() => {
         const getProfile = async () => {
@@ -50,8 +51,11 @@ export default function Home() {
     }, []);
 
     useEffect(() => {
-        if (!session) router.push("/");
-    }, [session, router]);
+        if (!session && !isRouteLoading) {
+            router.push("/");
+            setIsRouteLoading(true);
+        }
+    }, [session, router, isRouteLoading]);
 
     let mintedProfileList = () => {
         if (!isProfilesQueryLoading && profiles) {
