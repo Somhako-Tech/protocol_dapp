@@ -22,8 +22,8 @@ export default function LocationField({
             const newLocations = await fetch(
                 `/api/search/locations?search=${searchParams}`
             ).then((data) => data.json().then((j) => j.locations));
-            setIsQueryLoading(false);
             setLocations(newLocations);
+            setIsQueryLoading(false);
         };
 
         setIsQueryLoading(true);
@@ -31,15 +31,15 @@ export default function LocationField({
     }, [searchParams]);
 
     return (
-        <div className="my-6 mx-6 flex flex-row items-center justify-between">
+        <div className="mb-10 flex flex-row items-center justify-between">
             <label
                 htmlFor="pref_location"
-                className="mb-4 inline-block font-medium leading-none"
+                className="mb-2 inline-block font-semibold leading-none"
             >
                 Preferred Location
             </label>
 
-            <div className="relative flex flex-row">
+            <div className="relative flex flex-row justify-start">
                 <SearchComboBox
                     handleChange={(item) =>
                         handleChange({
