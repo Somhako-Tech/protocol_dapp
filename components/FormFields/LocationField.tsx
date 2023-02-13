@@ -31,7 +31,7 @@ export default function LocationField({
     }, [searchParams]);
 
     return (
-        <div className="mb-10 flex flex-row items-center justify-between">
+        <div className="relative mb-10 flex flex-row items-center justify-between">
             <label
                 htmlFor="pref_location"
                 className="mb-2 inline-block font-semibold leading-none"
@@ -39,26 +39,20 @@ export default function LocationField({
                 Preferred Location
             </label>
 
-            <div className="relative flex flex-row justify-start">
-                <SearchComboBox
-                    handleChange={(item) =>
-                        handleChange({
-                            target: {
-                                id: "pref_location",
-                                value: item,
-                            },
-                        })
-                    }
-                    setSearchParams={setSearchParams}
-                    data={isQueryLoading ? [] : locations}
-                    value={userProfile.pref_location}
-                />
-                {isQueryLoading && (
-                    <div className="absolute right-8 top-2">
-                        <ClipLoader size={20} />
-                    </div>
-                )}
-            </div>
+            <SearchComboBox
+                handleChange={(item) =>
+                    handleChange({
+                        target: {
+                            id: "pref_location",
+                            value: item,
+                        },
+                    })
+                }
+                setSearchParams={setSearchParams}
+                data={isQueryLoading ? [] : locations}
+                value={userProfile.pref_location}
+                isQueryLoading={isQueryLoading}
+            />
         </div>
     );
 }
