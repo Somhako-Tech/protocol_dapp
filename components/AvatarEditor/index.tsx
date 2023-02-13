@@ -1,6 +1,7 @@
 import Avatar, { genConfig, AvatarConfig } from "react-nice-avatar";
 import { icons } from "./icons";
 import styles from "./AvatarEditor.module.scss";
+import DomToImage from "dom-to-image";
 
 const defaultOptions = {
     sex: ["man", "woman"],
@@ -58,6 +59,31 @@ const defaultOptions = {
 };
 
 export default function AvatarEditor({ avatarConfig, setAvatarConfig }: any) {
+    const saveAvatarFile = async () => {
+        const scale = 2;
+        const node = document.getElementById("avatarId");
+        if (node) {
+            const blob = await DomToImage.toBlob(node, {
+                height: node.offsetHeight * scale,
+                style: {
+                    transform: `scale(${scale}) translate(${
+                        node.offsetWidth / 2 / scale
+                    }px, ${node.offsetHeight / 2 / scale}px)`,
+                    "border-radius": 0,
+                },
+                width: node.offsetWidth * scale,
+            });
+            const formData = new FormData();
+
+            formData.append("file", blob);
+
+            await fetch("/api/pinata", {
+                body: formData,
+                method: "POST",
+            }).catch((err) => console.log(err));
+        }
+    };
+
     const switchConfig = (type: string | number) => {
         const currentOpt = avatarConfig[type];
         const opts = defaultOptions[type as keyof typeof defaultOptions];
@@ -83,6 +109,7 @@ export default function AvatarEditor({ avatarConfig, setAvatarConfig }: any) {
                     className="100ms mx-2 flex h-16 w-16 items-center   rounded-full bg-gradient-to-r from-purple-400 to-pink-300  stroke-gray-400 shadow-md transition-all hover:from-purple-400 hover:to-pink-400 hover:shadow-lg "
                     type="button"
                     onClick={() => switchConfig(config)}
+                    key={config}
                 >
                     <div className="relative h-full w-full">
                         <div className="absolute top-0 left-0 flex h-full w-full items-center justify-center">
@@ -97,7 +124,7 @@ export default function AvatarEditor({ avatarConfig, setAvatarConfig }: any) {
         <div className="flex flex-col items-center">
             <h1
                 className={
-                    "z-0 bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text pt-5 text-center text-4xl font-extrabold text-transparent"
+                    "z-0 bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text pt-5 text-center text-5xl font-extrabold text-transparent"
                 }
             >
                 Customize Your Avatar!
@@ -108,6 +135,7 @@ export default function AvatarEditor({ avatarConfig, setAvatarConfig }: any) {
                         <Avatar
                             className={"m-10 h-64 w-64"}
                             {...avatarConfig}
+                            id="avatarId"
                         />
                     </div>
                     {Object.keys(avatarConfig)
@@ -119,7 +147,9 @@ export default function AvatarEditor({ avatarConfig, setAvatarConfig }: any) {
             </div>
 
             <button
-                onClick={() => setAvatarConfig(genConfig())}
+                // onClick={() => setAvatarConfig(genConfig())}
+                onClick={() => saveAvatarFile()}
+                type="button"
                 className="rounded-full bg-somhakohr py-2.5 px-6 font-bold text-white transition-all hover:bg-somhakohr2  md:min-w-[150px]"
             >
                 Randomize
