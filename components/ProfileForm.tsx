@@ -6,7 +6,7 @@ import LinkModal from "./LinkModal";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import EducationFields from "./FormFields/EducationFields";
-import SkillFields from "./FormFields/SkillField";
+import SkillsField from "./FormFields/SkillsField";
 import ExperienceFields from "./FormFields/ExperienceFields";
 import Alert from "@mui/material/Alert";
 import { Transition } from "react-transition-group";
@@ -60,7 +60,7 @@ const ProfileForm = ({
             return (
                 <button
                     type="submit"
-                    className="rounded-full bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] py-2.5 px-6 font-bold text-white transition-all hover:from-[#391188] hover:to-[#391188] md:min-w-[150px]"
+                    className="rounded-full bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] py-2.5 px-6 font-bold text-white shadow-md shadow-gray-500 transition-all hover:from-[#391188] hover:to-[#391188] md:min-w-[150px]"
                 >
                     MINT
                 </button>
@@ -69,7 +69,7 @@ const ProfileForm = ({
             return (
                 <button
                     type="button"
-                    className="mx-4 rounded-full bg-somhakohr py-2.5 px-6 font-bold text-white  hover:bg-[#391188] md:min-w-[80px]"
+                    className="mx-4 rounded-full bg-somhakohr py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:min-w-[80px]"
                     onClick={() => {
                         setSelectedIndex((prev) => prev + 1);
                     }}
@@ -82,7 +82,7 @@ const ProfileForm = ({
                 <div>
                     <button
                         type="button"
-                        className="mx-4 rounded-full bg-somhakohr py-2.5 px-6 font-bold text-white  hover:bg-[#391188] md:min-w-[80px]"
+                        className="mx-4 rounded-full bg-somhakohr py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:min-w-[80px]"
                         onClick={() => {
                             setSelectedIndex((prev) => prev - 1);
                         }}
@@ -91,7 +91,7 @@ const ProfileForm = ({
                     </button>
                     <button
                         type="button"
-                        className="mx-4 rounded-full bg-somhakohr py-2.5 px-6 font-bold text-white  hover:bg-[#391188] md:min-w-[80px]"
+                        className="mx-4 rounded-full bg-somhakohr py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:min-w-[80px]"
                         onClick={() => {
                             setSelectedIndex((prev) => prev + 1);
                         }}
@@ -269,7 +269,7 @@ const ProfileForm = ({
                         </Tab>
                     </Tab.List>
                     <Tab.Panels>
-                        <Tab.Panel className="my-4 flex w-auto min-w-[700px] flex-col items-stretch justify-center rounded-[30px] border bg-gradient-to-r from-slate-50 to-slate-200 p-10 shadow-2xl shadow-slate-200">
+                        <Tab.Panel className="my-4 flex w-[700px] flex-col items-stretch justify-center rounded-[30px] border bg-gradient-to-r from-slate-50 to-slate-200 p-10 shadow-2xl shadow-slate-200">
                             <div className="flex flex-row justify-between">
                                 <div className="my-6 flex-row items-center justify-between">
                                     <label
@@ -415,98 +415,119 @@ const ProfileForm = ({
                             <div className="w-full px-20 py-10">{links}</div>
                         </Tab.Panel>
                         {/*Background page*/}
-                        <Tab.Panel className="my-4 flex w-auto min-w-[700px] flex-col items-stretch justify-center rounded-[30px] border bg-gradient-to-r from-slate-50 to-slate-200 p-10 shadow-2xl shadow-slate-200">
-                            <Transition
-                                nodeRef={null}
-                                in={
-                                    !validationError.valid &&
-                                    validationError.error ==
-                                        validations.link_count
-                                }
-                                timeout={400}
-                                className="my-10"
-                            >
-                                {(state) => (
-                                    <div ref={null}>
-                                        <Alert
-                                            severity="error"
-                                            className={
-                                                state == "exited"
-                                                    ? "400ms my-2 h-0 opacity-0 transition-all"
-                                                    : "400ms my-2 opacity-90 transition-all"
-                                            }
-                                        >
-                                            You need at least 3 links.
-                                        </Alert>
-                                    </div>
-                                )}
-                            </Transition>
-                            <div className="my-6 mx-6 flex flex-row items-center justify-between">
-                                <label
-                                    htmlFor="job_type"
-                                    className="mb-4 inline-block font-medium leading-none"
+                        <Tab.Panel className="my-4 flex w-[700px] flex-col items-stretch justify-center rounded-[30px] border bg-gradient-to-r from-slate-50 to-slate-200 p-10 shadow-2xl shadow-slate-200">
+                            <div className="m-0 w-3/4 p-0">
+                                <Transition
+                                    nodeRef={null}
+                                    in={
+                                        !validationError.valid &&
+                                        validationError.error ==
+                                            validations.link_count
+                                    }
+                                    timeout={400}
+                                    className="my-10"
                                 >
-                                    Preferred Job Type
-                                </label>
+                                    {(state) => (
+                                        <div ref={null}>
+                                            <Alert
+                                                severity="error"
+                                                className={
+                                                    state == "exited"
+                                                        ? "400ms my-2 h-0 opacity-0 transition-all"
+                                                        : "400ms my-2 opacity-90 transition-all"
+                                                }
+                                            >
+                                                You need at least 3 links.
+                                            </Alert>
+                                        </div>
+                                    )}
+                                </Transition>
+                                <div className="mb-10 flex flex-row items-center justify-between">
+                                    <label
+                                        htmlFor="job_type"
+                                        className="mb-2 inline-block font-semibold leading-none"
+                                    >
+                                        Preferred Job Type
+                                    </label>
 
-                                <select
-                                    required
-                                    id="job_type"
-                                    className="mx-4 ml-6 w-auto rounded-full border border-slate-500 p-1 px-10"
-                                    value={userProfile.job_type}
-                                    onChange={handleChange}
-                                >
-                                    <option value="Not sure">Not sure</option>
-                                    <option value="Part-time">Part-time</option>
-                                    <option value="Fulltime">Fulltime</option>
-                                </select>
+                                    <select
+                                        required
+                                        id="job_type"
+                                        className="mx-4 ml-6 w-1/2 rounded-full border border-slate-500 p-1 pl-3"
+                                        value={userProfile.job_type}
+                                        onChange={handleChange}
+                                    >
+                                        <option value="Not sure">
+                                            Not sure
+                                        </option>
+                                        <option value="Part-time">
+                                            Part-time
+                                        </option>
+                                        <option value="Fulltime">
+                                            Fulltime
+                                        </option>
+                                    </select>
+                                </div>
+                                <LocationField
+                                    userProfile={userProfile}
+                                    handleChange={handleChange}
+                                />
+                                <div className="mb-10 flex flex-row items-center justify-between">
+                                    <label
+                                        htmlFor="salary"
+                                        className="mb-2 inline-block font-semibold leading-none"
+                                    >
+                                        Salary
+                                    </label>
+                                    <input
+                                        required
+                                        id="salary"
+                                        type="number"
+                                        placeholder="In USD"
+                                        value={userProfile.salary}
+                                        onChange={handleChange}
+                                        onBlur={handleChange}
+                                        className="mx-4 ml-6 w-1/2 rounded-full border border-slate-500 p-1 pl-3"
+                                    />
+                                </div>
+                                <div className="mb-5 flex flex-row items-center justify-between">
+                                    <label
+                                        htmlFor="years_of_exp"
+                                        className="mb-2 inline-block font-semibold leading-none"
+                                    >
+                                        Years of Experience
+                                    </label>
+                                    <select
+                                        required
+                                        id="years_of_exp"
+                                        className="mx-4 ml-6 w-1/2 rounded-full border border-slate-500 p-1 pl-3"
+                                        value={userProfile.years_of_exp}
+                                        onChange={handleChange}
+                                    >
+                                        <option value="">
+                                            Select Year Of Exp
+                                        </option>
+                                        <option value="No Experience">
+                                            No Experience
+                                        </option>
+                                        <option value="1-5 years">
+                                            1-5 years
+                                        </option>
+                                        <option value="5-10 years">
+                                            5-10 years
+                                        </option>
+                                        <option value="10-15 years">
+                                            10-15 years
+                                        </option>
+                                    </select>
+                                </div>
                             </div>
-                            <LocationField
-                                userProfile={userProfile}
-                                handleChange={handleChange}
-                            />
-                            <label
-                                htmlFor="salary"
-                                className="mb-4 inline-block font-medium leading-none"
-                            >
-                                Salary
-                            </label>
-                            <input
-                                required
-                                id="salary"
-                                type="number"
-                                placeholder="Ex: 2 Lpa"
-                                value={userProfile.salary}
-                                onChange={handleChange}
-                                onBlur={handleChange}
-                                className="mx-4 ml-6 w-auto rounded-full border border-slate-500 p-1"
-                            />
-                            <label
-                                htmlFor="years_of_exp"
-                                className="mb-4 inline-block font-medium leading-none "
-                            >
-                                Years of Experience
-                            </label>
-                            <select
-                                required
-                                id="years_of_exp"
-                                className="mx-4 ml-6 w-auto rounded-full border border-slate-500 p-1"
-                                value={userProfile.years_of_exp}
-                                onChange={handleChange}
-                            >
-                                <option value="">Select Year Of Exp</option>
-                                <option value="No Experience">
-                                    No Experience
-                                </option>
-                                <option value="1-5 years">1-5 years</option>
-                                <option value="5-10 years">5-10 years</option>
-                                <option value="10-15 years">10-15 years</option>
-                            </select>
+
                             <EducationFields
                                 handleChange={handleChange}
                                 userProfile={userProfile}
                             />
-                            <SkillFields
+                            <SkillsField
                                 handleChange={handleChange}
                                 userProfile={userProfile}
                             />
