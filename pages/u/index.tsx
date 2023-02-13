@@ -22,6 +22,7 @@ export default function UserPage() {
     const { data: session } = useSession();
 
     const user = session?.user ? session.user : { id: null, email: null };
+    const [isRouteLoading, setIsRouteLoading] = useState(false);
 
     const {
         data: aggregateReferral,
@@ -71,8 +72,11 @@ export default function UserPage() {
     }, [isReferralLoading, isReferralError, aggregateReferral]);
 
     useEffect(() => {
-        if (!isProfileQueryLoading && !Profile) router.push("/app");
-    }, [Profile, handle, isProfileQueryLoading, router]);
+        if (!isProfileQueryLoading && !Profile && !isRouteLoading) {
+            setIsRouteLoading(true);
+            router.push("/app");
+        }
+    }, [Profile, handle, isProfileQueryLoading, isRouteLoading, router]);
 
     // onClick handler function for the copy button
     const handleCopyClick = () => {
