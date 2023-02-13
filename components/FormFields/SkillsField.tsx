@@ -6,7 +6,7 @@ import SearchComboBox from "./SearchComboBoxMultiple";
 import Alert from "@mui/material/Alert";
 import { Transition } from "react-transition-group";
 
-export default function SkillFields({
+export default function SkillsField({
     userProfile,
     handleChange,
 }: {
