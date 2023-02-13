@@ -1,5 +1,6 @@
 import Avatar, { genConfig, AvatarConfig } from "react-nice-avatar";
 import { icons } from "./icons";
+import styles from "./AvatarEditor.module.scss";
 
 const defaultOptions = {
     sex: ["man", "woman"],
@@ -71,31 +72,21 @@ export default function AvatarEditor({ avatarConfig, setAvatarConfig }: any) {
 
     const getButton = (config: string) => {
         const IconComponent = icons[config as keyof typeof icons];
+        let value = avatarConfig[config];
+        if (config === "hairStyle") value = avatarConfig["hairColor"];
+        if (config === "shirtStyle") value = avatarConfig["shirtColor"];
+        if (config === "hatStyle") value = avatarConfig["hatColor"];
 
-        if (typeof IconComponent === "string")
-            return (
-                <button
-                    className="mx-2 flex h-16 w-16 items-center rounded-full p-2 px-3 py-2"
-                    type="button"
-                    onClick={() => switchConfig(config)}
-                >
-                    <div className="relative h-full w-full">
-                        <div className="absolute top-0 left-0 flex h-full w-full items-center justify-center">
-                            {IconComponent}
-                        </div>
-                    </div>
-                </button>
-            );
         if (IconComponent)
             return (
                 <button
-                    className="mx-2 flex h-16 w-16 items-center rounded-full bg-white stroke-gray-400 "
+                    className="100ms mx-2 flex h-16 w-16 items-center   rounded-full bg-gradient-to-r from-purple-400 to-pink-300  stroke-gray-400 shadow-md transition-all hover:from-purple-400 hover:to-pink-400 hover:shadow-lg "
                     type="button"
                     onClick={() => switchConfig(config)}
                 >
                     <div className="relative h-full w-full">
                         <div className="absolute top-0 left-0 flex h-full w-full items-center justify-center">
-                            <IconComponent color={avatarConfig[config]} />
+                            <IconComponent color={value} />
                         </div>
                     </div>
                 </button>
@@ -111,11 +102,20 @@ export default function AvatarEditor({ avatarConfig, setAvatarConfig }: any) {
             >
                 Customize Your Avatar!
             </h1>
-            <Avatar className="m-10 h-32 w-32" {...avatarConfig} />
-            <div className="flex flex-row">
-                {Object.keys(avatarConfig)
-                    .filter((key) => key !== "sex")
-                    .map((key) => getButton(key))}
+            <div className="my-16">
+                <div className={styles.circleContainer}>
+                    <div>
+                        <Avatar
+                            className={"m-10 h-64 w-64"}
+                            {...avatarConfig}
+                        />
+                    </div>
+                    {Object.keys(avatarConfig)
+                        .filter((key) => key !== "sex")
+                        .sort()
+                        .reverse()
+                        .map((key) => getButton(key))}
+                </div>
             </div>
 
             <button
