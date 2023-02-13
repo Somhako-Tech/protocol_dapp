@@ -1,0 +1,45 @@
+@mixin on-circle($item-count, $circle-size, $item-size) {
+    margin: 10;
+    position: relative;
+    width:  $circle-size;
+    height: $circle-size;
+    border-radius: 50%; 
+    
+    > div {
+
+        display: block;
+        transform: 
+            translate(0.4rem, 0.4rem) 
+        
+    }
+    > button {
+      display: block;
+      position: absolute;
+      top:  50%; 
+      left: 50%;
+      width:  $item-size;
+      height: $item-size;
+      margin: -($item-size / 2);
+    
+      $angle: (360 / $item-count);
+      $rot: 0;
+  
+      @for $i from 1 through $item-count {
+        &:nth-of-type(#{$i}) {
+          transform: 
+            rotate($rot * 1deg) 
+            translate($circle-size / 2) 
+            rotate($rot * -1deg);
+        }
+  
+        $rot: $rot + $angle;
+      }
+    }
+  }
+
+.circleContainer {
+    @include on-circle($item-count: 14, $circle-size: 22em, $item-size: 4.5em); 
+    border: solid 2px #db2777;
+    
+    
+  }
