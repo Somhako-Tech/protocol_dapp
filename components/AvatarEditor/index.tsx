@@ -1,7 +1,12 @@
-import Avatar, { genConfig, AvatarConfig } from "react-nice-avatar";
+import Avatar, {
+    genConfig,
+    AvatarConfig,
+    AvatarFullConfig,
+} from "react-nice-avatar";
 import { icons } from "./icons";
 import styles from "./AvatarEditor.module.scss";
 import DomToImage from "dom-to-image";
+import { buffer } from "stream/consumers";
 
 const defaultOptions = {
     sex: ["man", "woman"],
@@ -59,30 +64,47 @@ const defaultOptions = {
 };
 
 export default function AvatarEditor({ avatarConfig, setAvatarConfig }: any) {
-    const saveAvatarFile = async () => {
-        const scale = 2;
+    const saveAvatarToIpfs = async (
+        filename: string
+    ): Promise<{
+        IpfsHash: string;
+        PinSize: number;
+        Timestamp: string;
+    } | null> => {
         const node = document.getElementById("avatarId");
+        const scale = 2;
         if (node) {
+            const nodeWidth = node.offsetWidth - 10;
+            const nodeHeight = node.offsetHeight - 10;
+
             const blob = await DomToImage.toBlob(node, {
                 height: node.offsetHeight * scale,
                 style: {
                     transform: `scale(${scale}) translate(${
-                        node.offsetWidth / 2 / scale
-                    }px, ${node.offsetHeight / 2 / scale}px)`,
+                        nodeWidth / 2 / scale
+                    }px, ${nodeHeight / 2 / scale}px)`,
                     "border-radius": 0,
                 },
                 width: node.offsetWidth * scale,
             });
             const formData = new FormData();
 
-            formData.append("file", blob);
+            formData.append(filename, blob);
 
-            await fetch("/api/pinata", {
+            const response = await fetch("/api/pinata", {
                 body: formData,
                 method: "POST",
             }).catch((err) => console.log(err));
-        }
+
+            return response ? await response.json() : null;
+        } else return null;
     };
+
+    // const saveConfig = async (config: AvatarConfig) => {
+    //     const encryptedConfig = Buffer.from(config.toString(), "base64");
+    //     const decryptedConfig = encryptedConfig.toString("base64");
+    //     console.log({ config, encryptedConfig, decryptedConfig });
+    // };
 
     const switchConfig = (type: string | number) => {
         const currentOpt = avatarConfig[type];
@@ -147,8 +169,9 @@ export default function AvatarEditor({ avatarConfig, setAvatarConfig }: any) {
             </div>
 
             <button
-                // onClick={() => setAvatarConfig(genConfig())}
-                onClick={() => saveAvatarFile()}
+                onClick={() => setAvatarConfig(genConfig())}
+                // onClick={() => saveAvatarFile()}
+                // onClick={() => saveConfig(avatarConfig)}
                 type="button"
                 className="rounded-full bg-somhakohr py-2.5 px-6 font-bold text-white transition-all hover:bg-somhakohr2  md:min-w-[150px]"
             >
