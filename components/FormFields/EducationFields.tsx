@@ -48,6 +48,7 @@ export default function EducationFields({
             <input
                 className="mx-4 ml-6 w-auto rounded-full border border-slate-500 p-1"
                 onClick={onClick}
+                onChange={() => {}}
                 ref={ref}
                 value={value || ""}
             />

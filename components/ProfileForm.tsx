@@ -56,6 +56,7 @@ const ProfileForm = ({
                 [key]: errors[key],
             }));
         } else {
+            if (key === "handle") return;
             setFormErrors((prevErr: any) => ({ ...prevErr, [key]: null }));
         }
     }, 500);
@@ -145,7 +146,8 @@ const ProfileForm = ({
                     ...prevErr,
                     handle: ["Handle is already taken."],
                 }));
-            }
+            } else
+                setFormErrors((prevErr: any) => ({ ...prevErr, handle: null }));
             setHandleSearching(false);
         };
         checkUserName();
@@ -212,55 +214,30 @@ const ProfileForm = ({
             );
     };
 
-    const [validationError, setValidationError] = useState<{
-        valid: boolean;
-        error: string | null;
-    }>({ valid: false, error: null });
+    // const checkSubmit = async (e: {
+    //     preventDefault: () => void;
+    //     target: any;
+    // }) => {
+    //     e.preventDefault();
+    //     const form = e.target;
+    //     const formValid = form.reportValidity();
 
-    const validations = {
-        summary_length: "Summary needs to be longer",
-        link_count: "You need to add more links",
-    };
+    //     if (!formValid) return;
 
-    const validateValues = () => {
-        if (userProfile.summary.length < 120)
-            return { valid: false, error: validations.summary_length };
+    //     const validity = validateValues();
 
-        const links = userProfile.link as { [x: string]: string };
+    //     console.log(validity);
 
-        const linkCount = Object.keys(Object(links)).map((link: string) => {
-            if (links[link] !== "") return link;
-        });
-        if (linkCount.length < 2)
-            return { valid: false, error: validations.link_count };
+    //     if (!validity.valid) {
+    //         setValidationError(validity);
+    //         return;
+    //     }
+    //     if (selectedIndex == 3 && selectTab == "mint") {
+    //         const ProfileExists = await doesHandleExist();
 
-        return { valid: true, error: null };
-    };
-
-    const checkSubmit = async (e: {
-        preventDefault: () => void;
-        target: any;
-    }) => {
-        e.preventDefault();
-        const form = e.target;
-        const formValid = form.reportValidity();
-
-        if (!formValid) return;
-
-        const validity = validateValues();
-
-        console.log(validity);
-
-        if (!validity.valid) {
-            setValidationError(validity);
-            return;
-        }
-        if (selectedIndex == 3 && selectTab == "mint") {
-            const ProfileExists = await doesHandleExist();
-
-            if (!ProfileExists) handleSubmit(userProfile);
-        }
-    };
+    //         if (!ProfileExists) handleSubmit(userProfile);
+    //     }
+    // };
 
     const getFullUrl = (linkType: string, username: string) => {
         console.log({ linkType });
@@ -303,15 +280,12 @@ const ProfileForm = ({
         <div className="w-full flex-col items-center ">
             <form
                 className="flex flex-col items-center justify-evenly p-5"
-                onSubmit={checkSubmit}
+                onSubmit={() => {}}
             >
                 <LinkModal
                     linkModalOpen={linkModalOpen}
                     handleClose={() => setLinkModalOpen(false)}
-                    handleChange={(e) => {
-                        setValidationError({ valid: true, error: null });
-                        dispatch(e);
-                    }}
+                    handleChange={dispatch}
                     userProfile={userProfile}
                 />
                 <Tab.Group
@@ -432,7 +406,7 @@ const ProfileForm = ({
                                         <h1 className="loading-normal ml-0 transition-all duration-150">
                                             ...
                                         </h1>
-                                    ) : formErrors.handle !== null ? (
+                                    ) : formErrors.handle ? (
                                         <Alert
                                             severity="error"
                                             className={
@@ -523,11 +497,7 @@ const ProfileForm = ({
                             <div className="m-0 w-3/4 p-0">
                                 <Transition
                                     nodeRef={null}
-                                    in={
-                                        !validationError.valid &&
-                                        validationError.error ==
-                                            validations.link_count
-                                    }
+                                    in={formErrors.links}
                                     timeout={400}
                                     className="my-10"
                                 >
