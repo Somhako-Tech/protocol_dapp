@@ -44,7 +44,7 @@ const ProfilePreview = ({ userProfile }: { userProfile: ProfileWithImage }) => {
 
     return (
         <div className="relative" key={userProfile.id}>
-            <div className="shadow-normal bg-opacity-98 absolute inset-0 z-10 mb-6 flex h-[350px] flex-col justify-evenly rounded-[30px] border bg-white  py-6 px-16 pb-6 text-center opacity-0 shadow-slate-200 duration-300 hover:opacity-100 hover:shadow-2xl">
+            <div className="shadow-normal bg-opacity-98 absolute inset-0 z-10 mb-6 flex min-h-[350px] flex-col justify-evenly rounded-[30px] border bg-white  py-6 px-16 pb-6 text-center opacity-0 shadow-slate-200 duration-300 hover:opacity-100 hover:shadow-2xl">
                 <div className="my-2">
                     <label className="mb-2 inline-block text-lg font-medium leading-none">
                         Experience
@@ -62,7 +62,7 @@ const ProfilePreview = ({ userProfile }: { userProfile: ProfileWithImage }) => {
                     {"More >"}
                 </Link>
             </div>
-            <div className="shadow-normal mb-6 flex h-[350px] flex-col justify-start rounded-[30px] border bg-white py-6 px-16 pb-6 text-center shadow-slate-200 hover:shadow-2xl">
+            <div className="shadow-normal mb-6 flex min-h-[350px] flex-col justify-start rounded-[30px] border bg-white py-6 px-16 pb-6 text-center shadow-slate-200 hover:shadow-2xl">
                 <div className="flex-col items-center justify-between">
                     <div className="mb-3 flex justify-center pb-2">
                         {userProfile.user.image ? (
