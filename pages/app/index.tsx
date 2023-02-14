@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useReducer } from "react";
 import "@rainbow-me/rainbowkit/styles.css";
 import { useAccount } from "wagmi";
 import ProfileForm from "../../components/ProfileForm";
@@ -56,15 +56,6 @@ export default function AppPage() {
 
     const [setHandle] = useProfileStore((state: any) => [state.setHandle]);
 
-    useEffect(() => {
-        if (isConnected) {
-            setUserProfile((prevData) => ({
-                ...prevData,
-                address: address || "",
-            }));
-        }
-    }, [isConnected, address]);
-
     //Minted accounts should go to profile page
     useEffect(() => {
         if (!isQueryLoading && Profile)
@@ -73,26 +64,6 @@ export default function AppPage() {
                 setIsRouteLoading(true);
             } else setQueryInMintQueue(true);
     }, [Profile, isQueryLoading, isRouteLoading, router]);
-
-    const [userProfile, setUserProfile] = useState<Profile>({
-        id: 0,
-        minted: false,
-        handle: "",
-        title: "",
-        summary: "",
-        job_type: "",
-        pref_location: "",
-        salary: "",
-        years_of_exp: "",
-        link: { Twitter: "", Github: "", LinkedIn: "" },
-        skills: [],
-        education: [{ institution: "", year: "", title: "" }],
-        experience: [
-            { organization: "", startYear: "", endYear: "", title: "" },
-        ],
-        address: "",
-        user_id: "",
-    });
 
     async function saveProfile(profile: Profile) {
         console.log({ id: user.id as string, profile });
@@ -131,19 +102,17 @@ export default function AppPage() {
         }
     }
 
-    const handleChange = (e: {
-        target: {
-            id: any;
-            name: any;
-            value: any;
-        };
-    }) => {
-        setUserProfile({ ...userProfile, [e.target.id]: e.target.value });
-    };
+    // const handleChange = (e: {
+    //     target: {
+    //         id: any;
+    //         name: any;
+    //         value: any;
+    //     };
+    // }) => {
+    //     updateUserProfile({ ...userProfile, [e.target.id]: e.target.value });
+    // };
 
-    async function handleSubmit(e: any) {
-        e.preventDefault();
-
+    async function handleSubmit(userProfile: Profile) {
         await saveProfile(userProfile);
         setIsProfileCreating(false);
     }
@@ -189,8 +158,6 @@ export default function AppPage() {
                     {!Profile ? (
                         <div className="flex-col items-center">
                             <ProfileForm
-                                handleChange={handleChange}
-                                userProfile={userProfile}
                                 address={address}
                                 handleSubmit={handleSubmit}
                             />
