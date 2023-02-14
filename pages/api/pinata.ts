@@ -10,43 +10,47 @@ export const config = {
 
 import { parseForm, FormidableError } from "../../lib/parse-form";
 
+var FormData = require("form-data");
+var fs = require("fs");
+
+function reconstructData(parsedData: any) {
+    let newData = new FormData();
+
+    Object.entries(parsedData.fields).forEach((element) => {
+        newData.append(element[0], element[1]);
+    });
+
+    Object.entries(parsedData.files).forEach((element: any) => {
+        newData.append(
+            element[0],
+            fs.createReadStream(element[1].filepath),
+            element[1].originalFilename
+        );
+    });
+
+    return newData;
+}
+
 export default async function handler(req: NextApiRequest, res: any) {
     // Just after the "Method Not Allowed" code
     try {
-        const { fields, files } = await parseForm(req);
+        const parsedData = await parseForm(req);
 
-        const file: any = files.file;
-        const metadata = JSON.stringify({
-            name: "test",
-        });
+        const reconstructedData = await reconstructData(parsedData);
 
-        const options = JSON.stringify({
-            cidVersion: 0,
-        });
+        const response = await (
+            await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
+                method: "POST",
+                headers: {
+                    Authorization: JWT,
+                },
+                body: reconstructedData,
+            })
+        ).json();
 
-        if (file === null) return null;
-        try {
-            const pinataRes = await fetch(
-                "https://api.pinata.cloud/pinning/pinFileToIPFS",
-                {
-                    body: file,
-                    method: "POST",
-                    headers: {
-                        Authorization: JWT,
-                    },
-                }
-            );
-            console.log(await pinataRes.json());
-        } catch (error) {
-            console.log({ error });
-        }
+        console.log({ response });
 
-        res.status(200).json({
-            data: {
-                url: "/uploaded-file-url",
-            },
-            error: null,
-        });
+        return res.json({ ...response, success: true });
     } catch (e) {
         if (e instanceof FormidableError) {
             res.status(e.httpCode || 400).json({
@@ -57,10 +61,10 @@ export default async function handler(req: NextApiRequest, res: any) {
             console.error(e);
             res.status(500).json({
                 data: null,
-                error: "Internal Server Error",
+                error: e,
             });
         }
     }
 
-    // res.status(200).end(req.body);
+    return res.status(200).end(req.body);
 }
