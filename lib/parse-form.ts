@@ -7,7 +7,7 @@ export const parseForm = async (
     req: NextApiRequest
 ): Promise<{ fields: formidable.Fields; files: formidable.Files }> => {
     return new Promise(async (resolve, reject) => {
-        const form = formidable();
+        const form = formidable({ keepExtensions: true });
         form.parse(req, function (err, fields, files) {
             if (err) reject({ err });
             else resolve({ fields, files });
