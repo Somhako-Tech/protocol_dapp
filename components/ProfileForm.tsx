@@ -1,5 +1,5 @@
 import { Tab } from "@headlessui/react";
-import { Fragment, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Profile } from "@prisma/client";
 import Modal from "@mui/material/Modal";
 import LinkModal from "./LinkModal";
@@ -10,36 +10,146 @@ import SkillsField from "./FormFields/SkillsField";
 import ExperienceFields from "./FormFields/ExperienceFields";
 import Alert from "@mui/material/Alert";
 import { Transition } from "react-transition-group";
-import { useRef } from "react";
+import { useReducer } from "react";
 import { getProfileByHandleIdQuery } from "../graphql/graphqlQueries";
 import LocationField from "./FormFields/LocationField";
 import Link from "next/link";
 import Avatar, { genConfig, AvatarConfig } from "react-nice-avatar";
 import AvatarEditor from "./AvatarEditor";
+import debounce from "lodash.debounce";
+import { singleFieldValidation } from "../lib/validator";
+import { useClient } from "wagmi";
 
 const tabs = ["bio", "background", "resume", "mint"] as const;
 
 type TabType = (typeof tabs)[number];
 
 const ProfileForm = ({
-    handleChange,
-    userProfile,
     address,
     handleSubmit,
 }: {
-    handleChange: (e: any) => void;
-    handleSubmit: (e: any) => void;
-    userProfile: Profile;
+    handleSubmit: (userProfile: Profile) => void;
     address: any;
 }) => {
+    function updateUserProfile(
+        prevState: Profile,
+        event: { target: { id: keyof Profile | string; value: any } }
+    ) {
+        const { id: key, value } = event.target;
+
+        debounceSingleFieldValidation({ key, value });
+        switch (key) {
+            case "link": {
+                console.log({ [key]: value });
+            }
+        }
+
+        return { ...prevState, [event.target.id]: event.target.value };
+    }
+
+    const debounceSingleFieldValidation = debounce(async ({ key, value }) => {
+        const { isValid, errors } = singleFieldValidation({ key, value });
+        console.log({ isValid, errors });
+        if (!isValid) {
+            setFormErrors((prevErr: any) => ({
+                ...prevErr,
+                [key]: errors[key],
+            }));
+        } else {
+            setFormErrors((prevErr: any) => ({ ...prevErr, [key]: null }));
+        }
+    }, 500);
+
+    const [userProfile, dispatch] = useReducer(updateUserProfile, {
+        id: 0,
+        minted: false,
+        handle: "",
+        title: "",
+        summary: "",
+        job_type: "",
+        pref_location: "",
+        salary: "",
+        years_of_exp: "",
+        link: { Twitter: "", Github: "", LinkedIn: "" },
+        skills: [],
+        education: [{ institution: "", year: "", title: "" }],
+        experience: [
+            { organization: "", startYear: "", endYear: "", title: "" },
+        ],
+        address: "",
+        user_id: "",
+    });
+
     const [avatarConfig, setAvatarConfig] = useState(genConfig("somhakohr"));
 
     const [selectTab, setSelectTab] = useState<TabType>("bio");
+
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     const [linkModalOpen, setLinkModalOpen] = useState(false);
 
+    const [handleSearching, setHandleSearching] = useState(false);
+
+    const [formErrors, setFormErrors] = useState<any>({});
+
     const [resume, setResume] = useState<any>();
+
+    // const checkHandleExists = useCallback(async () => {
+    //     // Make an API call to check if the handle already exists
+    //     console.log(userProfile.handle);
+    //     const data = await getProfileByHandleIdQuery(userProfile.handle);
+    //     console.log({ data });
+    //     if (data !== null) {
+    //         setFormErrors((prevErr: any) => ({
+    //             ...prevErr,
+    //             handle: ["Handle is already taken."],
+    //         }));
+    //     } else setFormErrors((prevErr: any) => ({ ...prevErr, handle: null }));
+    //     setHandleSearching(false);
+    // }, [userProfile.handle]);
+
+    // const debouncedEventHandler = useMemo(
+    //     () =>
+    //         debounce(async () => {
+    //             // Make an API call to check if the handle already exists
+    //             console.log(userProfile.handle);
+    //             const data = await getProfileByHandleIdQuery(
+    //                 userProfile.handle
+    //             );
+    //             console.log({ data });
+    //             if (data !== null) {
+    //                 setFormErrors((prevErr: any) => ({
+    //                     ...prevErr,
+    //                     handle: ["Handle is already taken."],
+    //                 }));
+    //             } else
+    //                 setFormErrors((prevErr: any) => ({
+    //                     ...prevErr,
+    //                     handle: null,
+    //                 }));
+    //             setHandleSearching(false);
+    //         }, 300),
+    //     [userProfile.handle]
+    // );
+
+    useEffect(() => {
+        const checkUserName = async () => {
+            if (userProfile.handle.length < 5) {
+                setHandleSearching(false);
+                return;
+            }
+            const data = await getProfileByHandleIdQuery(userProfile.handle);
+            console.log({ data });
+            if (data !== null) {
+                setFormErrors((prevErr: any) => ({
+                    ...prevErr,
+                    handle: ["Handle is already taken."],
+                }));
+            }
+            setHandleSearching(false);
+        };
+        checkUserName();
+    }, [userProfile.handle]);
 
     //Track tab
     useEffect(() => {
@@ -102,9 +212,6 @@ const ProfileForm = ({
             );
     };
 
-    //TODO Improve validation
-    const [showHandleAlert, setShowHandleAlert] = useState(false);
-
     const [validationError, setValidationError] = useState<{
         valid: boolean;
         error: string | null;
@@ -130,19 +237,6 @@ const ProfileForm = ({
         return { valid: true, error: null };
     };
 
-    async function doesHandleExist(e?: { preventDefault: () => void }) {
-        e?.preventDefault();
-        // Make an API call to check if the handle already exists
-        const data = await getProfileByHandleIdQuery(userProfile.handle);
-        if (data !== null) {
-            setShowHandleAlert(true);
-            return true;
-        }
-
-        setShowHandleAlert(false);
-        return false;
-    }
-
     const checkSubmit = async (e: {
         preventDefault: () => void;
         target: any;
@@ -164,13 +258,12 @@ const ProfileForm = ({
         if (selectedIndex == 3 && selectTab == "mint") {
             const ProfileExists = await doesHandleExist();
 
-            if (!ProfileExists) handleSubmit(e);
+            if (!ProfileExists) handleSubmit(userProfile);
         }
     };
 
-    const addLink = () => setLinkModalOpen(true);
-
     const getFullUrl = (linkType: string, username: string) => {
+        console.log({ linkType });
         if (linkType == "LinkedIn")
             return "https://linkedin.com/in/" + username;
         else if (linkType == "Github") return "https://github.com/" + username;
@@ -191,7 +284,7 @@ const ProfileForm = ({
                     <Link
                         href={
                             links[link] != ""
-                                ? getFullUrl(links, links[link])
+                                ? getFullUrl(link, links[link])
                                 : "/"
                         }
                         target="_blank"
@@ -217,7 +310,7 @@ const ProfileForm = ({
                     handleClose={() => setLinkModalOpen(false)}
                     handleChange={(e) => {
                         setValidationError({ valid: true, error: null });
-                        handleChange(e);
+                        dispatch(e);
                     }}
                     userProfile={userProfile}
                 />
@@ -270,23 +363,23 @@ const ProfileForm = ({
                     </Tab.List>
                     <Tab.Panels>
                         <Tab.Panel className="my-4 flex w-[700px] flex-col items-stretch justify-center rounded-[30px] border bg-gradient-to-r from-slate-50 to-slate-200 p-10 shadow-2xl shadow-slate-200">
-                            <div className="flex flex-row justify-between">
-                                <div className="my-6 flex-row items-center justify-between">
+                            <div className="flex flex-row items-center justify-between">
+                                <div className="flex w-1/2 flex-row items-center justify-start">
                                     <label
-                                        htmlFor="handle"
+                                        htmlFor="title"
                                         className="mb-2 inline-block font-semibold leading-none"
                                     >
-                                        Handle
+                                        Title
                                     </label>
                                     <input
                                         required
                                         type="text"
-                                        id="handle"
-                                        name="handle"
-                                        className="mx-4 ml-6 w-auto rounded-full border border-slate-500 p-1 pl-2"
-                                        value={userProfile.handle}
-                                        onChange={handleChange}
-                                        onBlur={doesHandleExist}
+                                        id="title"
+                                        value={userProfile.title}
+                                        onChange={dispatch}
+                                        onBlur={dispatch}
+                                        placeholder="Ex: Web Developer"
+                                        className="ml-auto mr-6 w-auto rounded-full border border-slate-500 p-1 pl-2"
                                     />
                                 </div>
 
@@ -311,43 +404,54 @@ const ProfileForm = ({
                                 </div>
                             </div>
                             {/* TODO: Change this into a search bar */}
-                            <Transition
-                                nodeRef={null}
-                                in={showHandleAlert}
-                                timeout={400}
-                            >
-                                {(state) => (
-                                    <div ref={null}>
+
+                            <div className="flex flex-row items-center justify-start">
+                                <div className="flex w-1/2 flex-row items-center justify-start">
+                                    <label
+                                        htmlFor="handle"
+                                        className="mb-2 inline-block p-1 font-semibold leading-none "
+                                    >
+                                        Handle
+                                    </label>
+                                    <input
+                                        required
+                                        type="text"
+                                        id="handle"
+                                        name="handle"
+                                        className="ml-auto mr-6 w-auto rounded-full border border-slate-500 p-1 pl-2"
+                                        value={userProfile.handle}
+                                        onChange={(e) => {
+                                            dispatch(e);
+                                            setHandleSearching(true);
+                                        }}
+                                        onBlur={dispatch}
+                                    />
+                                </div>
+                                <div className="relative">
+                                    {handleSearching ? (
+                                        <h1 className="loading-normal ml-0 transition-all duration-150">
+                                            ...
+                                        </h1>
+                                    ) : formErrors.handle !== null ? (
                                         <Alert
                                             severity="error"
                                             className={
-                                                state == "exited"
-                                                    ? "400ms h-0 w-1/3 opacity-0 transition-all"
-                                                    : "400ms w-1/2 opacity-100 transition-all"
+                                                "absolute top-0 mt-0 ml-0 w-[250px] -translate-y-5 opacity-100 transition-all duration-150"
                                             }
                                         >
-                                            Handle is already taken!
+                                            {formErrors.handle}
                                         </Alert>
-                                    </div>
-                                )}
-                            </Transition>
-                            <div className="flex flex-row items-center justify-start gap-11">
-                                <label
-                                    htmlFor="title"
-                                    className="mb-2 inline-block justify-self-start font-medium leading-none"
-                                >
-                                    Title
-                                </label>
-                                <input
-                                    required
-                                    type="text"
-                                    id="title"
-                                    value={userProfile.title}
-                                    onChange={handleChange}
-                                    onBlur={handleChange}
-                                    placeholder="Ex: Web Developer"
-                                    className="rounded-full border border-slate-500 p-1 pl-2"
-                                />
+                                    ) : (
+                                        <Alert
+                                            severity="success"
+                                            className={
+                                                "absolute top-0 mt-0 ml-0 w-[250px] -translate-y-5 opacity-100 transition-all duration-150"
+                                            }
+                                        >
+                                            All set!
+                                        </Alert>
+                                    )}
+                                </div>
                             </div>
 
                             <div className="my-6">
@@ -364,8 +468,8 @@ const ProfileForm = ({
                                         placeholder="Something about yourself..."
                                         className="h-[150px] w-full  min-w-[100px]  resize-none rounded-sm border border-slate-500 p-1 pb-6 pl-2"
                                         value={userProfile.summary}
-                                        onChange={handleChange}
-                                        onBlur={handleChange}
+                                        onChange={dispatch}
+                                        onBlur={dispatch}
                                     ></textarea>
                                     {userProfile.summary.length < 120 && (
                                         <span className="absolute right-3 bottom-3 text-gray-500">
@@ -407,7 +511,7 @@ const ProfileForm = ({
                                 <button
                                     type="button"
                                     className="rounded-full border border-[#6D27F9] py-1 px-8 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white"
-                                    onClick={() => addLink()}
+                                    onClick={() => setLinkModalOpen(true)}
                                 >
                                     Add
                                 </button>
@@ -455,7 +559,7 @@ const ProfileForm = ({
                                         id="job_type"
                                         className="mx-4 ml-6 w-1/2 rounded-full border border-slate-500 p-1 pl-3"
                                         value={userProfile.job_type}
-                                        onChange={handleChange}
+                                        onChange={dispatch}
                                     >
                                         <option value="Not sure">
                                             Not sure
@@ -470,7 +574,7 @@ const ProfileForm = ({
                                 </div>
                                 <LocationField
                                     userProfile={userProfile}
-                                    handleChange={handleChange}
+                                    handleChange={dispatch}
                                 />
                                 <div className="mb-10 flex flex-row items-center justify-between">
                                     <label
@@ -485,8 +589,8 @@ const ProfileForm = ({
                                         type="number"
                                         placeholder="In USD"
                                         value={userProfile.salary}
-                                        onChange={handleChange}
-                                        onBlur={handleChange}
+                                        onChange={dispatch}
+                                        onBlur={dispatch}
                                         className="mx-4 ml-6 w-1/2 rounded-full border border-slate-500 p-1 pl-3"
                                     />
                                 </div>
@@ -502,7 +606,7 @@ const ProfileForm = ({
                                         id="years_of_exp"
                                         className="mx-4 ml-6 w-1/2 rounded-full border border-slate-500 p-1 pl-3"
                                         value={userProfile.years_of_exp}
-                                        onChange={handleChange}
+                                        onChange={dispatch}
                                     >
                                         <option value="">
                                             Select Year Of Exp
@@ -524,11 +628,11 @@ const ProfileForm = ({
                             </div>
 
                             <EducationFields
-                                handleChange={handleChange}
+                                handleChange={dispatch}
                                 userProfile={userProfile}
                             />
                             <SkillsField
-                                handleChange={handleChange}
+                                handleChange={dispatch}
                                 userProfile={userProfile}
                             />
                             <div className="mb-6">
@@ -569,7 +673,7 @@ const ProfileForm = ({
                         </Tab.Panel>
                         <Tab.Panel className="my-4 flex w-auto min-w-[700px] flex-col items-stretch justify-center rounded-[30px] border bg-gradient-to-r from-slate-50 to-slate-200 p-10 shadow-2xl shadow-slate-200">
                             <ExperienceFields
-                                handleChange={handleChange}
+                                handleChange={dispatch}
                                 userProfile={userProfile}
                             />
                         </Tab.Panel>
