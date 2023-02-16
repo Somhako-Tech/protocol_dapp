@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Profile } from "../constants/types";
+import { Profile } from "@prisma/client";
 import * as changeCase from "change-case";
 import { ProfileFormSkeleton } from "./skeletons";
 import styles from "./components.module.css";
+import { BigClipLoader } from "./Loader";
 
 export default function ProfileSummary({
     profile,
@@ -16,7 +17,7 @@ export default function ProfileSummary({
     const [handlingSubmit, setHandlingSubmit] = useState(false);
 
     const getExperience = (profile: Profile) =>
-        profile.experience.map((experience, key) => (
+        profile.experience.map((experience: any, key) => (
             <div key={key} className="my-2">
                 <label className="mb-2 inline-block  text-lg font-bold leading-none">
                     Experience #{key + 1}
@@ -93,7 +94,7 @@ export default function ProfileSummary({
         ));
 
     const getEducation = (profile: Profile) =>
-        profile.education.map((education, key) => (
+        profile.education.map((education: any, key) => (
             <div key={key} className="my-2">
                 <label className="my-6 mb-2 inline-block text-lg font-bold leading-none">
                     Education #{key + 1}
@@ -171,12 +172,19 @@ export default function ProfileSummary({
                 </div>
             </div>
         ));
+
     const ProfileInfo = profile ? (
         Object.keys(profile).map((key) => {
             if (key === "experience") return getExperience(profile);
             if (key === "education") return getEducation(profile);
             if (key === "skills") return getSkills(profile);
-            if (key === "user_id" || key === "minted" || key === "key") return;
+            if (
+                key === "user_id" ||
+                key === "minted" ||
+                key === "key" ||
+                key === "user"
+            )
+                return;
 
             if (key === "link") {
                 const links = profile.link as any;
@@ -205,7 +213,11 @@ export default function ProfileSummary({
             }
 
             let label: string = changeCase.sentenceCase(key);
-            const value: string = profile[key as keyof Profile].toString();
+            const value: string | undefined =
+                profile[key as keyof Profile]?.toString();
+
+            console.log({ key, value });
+            if (!value) return;
             if (key === "pref_location") label = "Preferred Location";
 
             return (
@@ -229,15 +241,23 @@ export default function ProfileSummary({
     if (handlingSubmit)
         return (
             <div className="w-full">
-                <div className="shadow-normal mx-auto my-10 w-full max-w-[1000px] rounded-[25px] border border-slate-700 bg-white p-8 md:py-14 md:px-20 ">
-                    <ProfileFormSkeleton />
+                <div className="my-4 mx-auto flex max-w-[700px] flex-col items-center justify-center rounded-[30px] border bg-gradient-to-r from-slate-50 to-slate-200 p-10 shadow-2xl shadow-slate-200">
+                    <h2 className="mb-4 text-lg font-semibold md:text-3xl">
+                        Minting Profile{" "}
+                        <span className="font-thin italic">
+                            {" "}
+                            ID: {profile.user_id}
+                        </span>
+                    </h2>
+                    <BigClipLoader />
                 </div>
             </div>
         );
 
     return (
         <div className="w-full">
-            <div className="shadow-normal mx-auto my-10 flex w-full max-w-[1000px] flex-col items-center justify-center rounded-[25px] border border-slate-700 bg-white p-8 md:py-14 md:px-20">
+            <div className="my-4 mx-auto flex max-w-[700px] flex-col items-center justify-center rounded-[30px] border bg-gradient-to-r from-slate-50 to-slate-200 p-10 shadow-2xl shadow-slate-200">
+                {/* className="shadow-normal mx-auto my-10 flex w-full max-w-[1000px] flex-col items-center justify-center rounded-[25px] border border-slate-700 bg-white p-8 md:py-14 md:px-20"> */}
                 <h2 className="mb-4 text-lg font-semibold md:text-3xl">
                     Profile Summary{" "}
                     <span className="font-thin italic">
