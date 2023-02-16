@@ -8,8 +8,6 @@ import { useEffect, useState } from "react";
 import { Profile } from "@prisma/client";
 
 export default function Layout({ children }: { children: any }) {
-    const { data: session } = useSession();
-
     const router = useRouter();
 
     if (router.asPath === "/" || router.asPath === "/join")

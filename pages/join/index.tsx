@@ -252,11 +252,9 @@ export default function LogIn({ providers }: { providers: any }) {
 
 export async function getServerSideProps(context: any) {
     const providers = await getProviders();
-    const csrfToken = await getCsrfToken(context);
     return {
         props: {
             providers,
-            csrfToken,
         },
     };
 }

@@ -28,7 +28,7 @@ export const authOptions = {
         maxAge: 15 * 24 * 60 * 60, // the session will last 15 days
     },
     pages: {
-        signIn: "/",
+        signIn: "/join",
         error: "/",
         newUser: "/home",
     },
