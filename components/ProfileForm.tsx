@@ -17,8 +17,12 @@ import Link from "next/link";
 import Avatar, { genConfig, AvatarConfig } from "react-nice-avatar";
 import AvatarEditor from "./AvatarEditor";
 import debounce from "lodash.debounce";
-import { singleFieldValidation } from "../lib/validator";
-import { useClient } from "wagmi";
+import { singleFieldValidation, allFieldsValidation } from "../lib/validator";
+import Snackbar from "@mui/material/Snackbar";
+
+import DomToImage from "dom-to-image";
+import { buffer } from "stream/consumers";
+import { useSession } from "next-auth/react";
 
 const tabs = ["bio", "background", "resume", "mint"] as const;
 
@@ -31,6 +35,13 @@ const ProfileForm = ({
     handleSubmit: (userProfile: Profile) => void;
     address: any;
 }) => {
+    const { data: session } = useSession();
+
+    const user = useMemo(
+        () => (session?.user ? session.user : { id: null, email: null }),
+        [session]
+    );
+
     function updateUserProfile(
         prevState: Profile,
         event: { target: { id: keyof Profile | string; value: any } }
@@ -38,18 +49,12 @@ const ProfileForm = ({
         const { id: key, value } = event.target;
 
         debounceSingleFieldValidation({ key, value });
-        switch (key) {
-            case "link": {
-                console.log({ [key]: value });
-            }
-        }
 
         return { ...prevState, [event.target.id]: event.target.value };
     }
 
     const debounceSingleFieldValidation = debounce(async ({ key, value }) => {
         const { isValid, errors } = singleFieldValidation({ key, value });
-        console.log({ isValid, errors });
         if (!isValid) {
             setFormErrors((prevErr: any) => ({
                 ...prevErr,
@@ -60,6 +65,62 @@ const ProfileForm = ({
             setFormErrors((prevErr: any) => ({ ...prevErr, [key]: null }));
         }
     }, 500);
+
+    const saveAvatarToIpfs = async (): Promise<{
+        IpfsHash: string;
+        PinSize: number;
+        Timestamp: string;
+    } | null> => {
+        const node = document.getElementById("avatarId");
+        const scale = 2;
+        if (node) {
+            const nodeWidth = node.offsetWidth - 10;
+            const nodeHeight = node.offsetHeight - 10;
+
+            const blob = await DomToImage.toBlob(node, {
+                height: node.offsetHeight * scale,
+                style: {
+                    transform: `scale(${scale}) translate(${
+                        nodeWidth / 2 / scale
+                    }px, ${nodeHeight / 2 / scale}px)`,
+                    "border-radius": 0,
+                },
+                width: node.offsetWidth * scale,
+            });
+
+            const formData = new FormData();
+
+            formData.append("file", blob);
+
+            const response = await fetch("/api/pinata", {
+                body: formData,
+                method: "POST",
+            }).catch((err) => console.log({ err }));
+
+            return response ? await response?.json() : null;
+        } else return null;
+    };
+
+    const checkSubmit = async (e: { preventDefault: () => void }) => {
+        e.preventDefault();
+
+        if (userProfile.ipfs_hash === "") {
+            const avatar = await saveAvatarToIpfs();
+            if (avatar) {
+                dispatch({
+                    target: { id: "ipfs_hash", value: avatar.IpfsHash },
+                });
+            }
+        }
+
+        const { isValid, errors } = await allFieldsValidation(userProfile);
+
+        if (isValid) handleSubmit(userProfile);
+        else {
+            console.log(errors);
+            return;
+        }
+    };
 
     const [userProfile, dispatch] = useReducer(updateUserProfile, {
         id: 0,
@@ -78,10 +139,11 @@ const ProfileForm = ({
             { organization: "", startYear: "", endYear: "", title: "" },
         ],
         address: "",
+        ipfs_hash: "",
         user_id: "",
     });
 
-    const [avatarConfig, setAvatarConfig] = useState(genConfig("somhakohr"));
+    const [avatarConfig, setAvatarConfig] = useState(genConfig("somhako"));
 
     const [selectTab, setSelectTab] = useState<TabType>("bio");
 
@@ -93,46 +155,11 @@ const ProfileForm = ({
 
     const [formErrors, setFormErrors] = useState<any>({});
 
+    const [showValidationErrors, setShowValidationErrors] = useState(false);
+
     const [resume, setResume] = useState<any>();
 
-    // const checkHandleExists = useCallback(async () => {
-    //     // Make an API call to check if the handle already exists
-    //     console.log(userProfile.handle);
-    //     const data = await getProfileByHandleIdQuery(userProfile.handle);
-    //     console.log({ data });
-    //     if (data !== null) {
-    //         setFormErrors((prevErr: any) => ({
-    //             ...prevErr,
-    //             handle: ["Handle is already taken."],
-    //         }));
-    //     } else setFormErrors((prevErr: any) => ({ ...prevErr, handle: null }));
-    //     setHandleSearching(false);
-    // }, [userProfile.handle]);
-
-    // const debouncedEventHandler = useMemo(
-    //     () =>
-    //         debounce(async () => {
-    //             // Make an API call to check if the handle already exists
-    //             console.log(userProfile.handle);
-    //             const data = await getProfileByHandleIdQuery(
-    //                 userProfile.handle
-    //             );
-    //             console.log({ data });
-    //             if (data !== null) {
-    //                 setFormErrors((prevErr: any) => ({
-    //                     ...prevErr,
-    //                     handle: ["Handle is already taken."],
-    //                 }));
-    //             } else
-    //                 setFormErrors((prevErr: any) => ({
-    //                     ...prevErr,
-    //                     handle: null,
-    //                 }));
-    //             setHandleSearching(false);
-    //         }, 300),
-    //     [userProfile.handle]
-    // );
-
+    //Check handle
     useEffect(() => {
         const checkUserName = async () => {
             if (userProfile.handle.length < 5) {
@@ -140,7 +167,6 @@ const ProfileForm = ({
                 return;
             }
             const data = await getProfileByHandleIdQuery(userProfile.handle);
-            console.log({ data });
             if (data !== null) {
                 setFormErrors((prevErr: any) => ({
                     ...prevErr,
@@ -152,6 +178,11 @@ const ProfileForm = ({
         };
         checkUserName();
     }, [userProfile.handle]);
+
+    useEffect(() => {
+        dispatch({ target: { id: "address", value: address } });
+        dispatch({ target: { id: "user_id", value: user.id } });
+    }, [address, user]);
 
     //Track tab
     useEffect(() => {
@@ -166,6 +197,13 @@ const ProfileForm = ({
             // addResume(formData)
         }
     }, [resume]);
+
+    const getFullUrl = (linkType: string, username: string) => {
+        if (linkType == "LinkedIn")
+            return "https://linkedin.com/in/" + username;
+        else if (linkType == "Github") return "https://github.com/" + username;
+        else return "https://twitter.com/" + username;
+    };
 
     const FormButton = ({ selectTab }: { selectTab: TabType }) => {
         if (selectTab == "mint")
@@ -214,39 +252,6 @@ const ProfileForm = ({
             );
     };
 
-    // const checkSubmit = async (e: {
-    //     preventDefault: () => void;
-    //     target: any;
-    // }) => {
-    //     e.preventDefault();
-    //     const form = e.target;
-    //     const formValid = form.reportValidity();
-
-    //     if (!formValid) return;
-
-    //     const validity = validateValues();
-
-    //     console.log(validity);
-
-    //     if (!validity.valid) {
-    //         setValidationError(validity);
-    //         return;
-    //     }
-    //     if (selectedIndex == 3 && selectTab == "mint") {
-    //         const ProfileExists = await doesHandleExist();
-
-    //         if (!ProfileExists) handleSubmit(userProfile);
-    //     }
-    // };
-
-    const getFullUrl = (linkType: string, username: string) => {
-        console.log({ linkType });
-        if (linkType == "LinkedIn")
-            return "https://linkedin.com/in/" + username;
-        else if (linkType == "Github") return "https://github.com/" + username;
-        else return "https://twitter.com/" + username;
-    };
-
     const links = Object.keys(userProfile.link as Object).map(
         (link: string, i) => {
             const links = userProfile.link as any;
@@ -276,11 +281,13 @@ const ProfileForm = ({
         }
     );
 
+    const validationErrors = 
+
     return (
         <div className="w-full flex-col items-center ">
             <form
                 className="flex flex-col items-center justify-evenly p-5"
-                onSubmit={() => {}}
+                onSubmit={checkSubmit}
             >
                 <LinkModal
                     linkModalOpen={linkModalOpen}
@@ -401,31 +408,33 @@ const ProfileForm = ({
                                         onBlur={dispatch}
                                     />
                                 </div>
-                                <div className="relative">
-                                    {handleSearching ? (
-                                        <h1 className="loading-normal ml-0 transition-all duration-150">
-                                            ...
-                                        </h1>
-                                    ) : formErrors.handle ? (
-                                        <Alert
-                                            severity="error"
-                                            className={
-                                                "absolute top-0 mt-0 ml-0 w-[250px] -translate-y-5 opacity-100 transition-all duration-150"
-                                            }
-                                        >
-                                            {formErrors.handle}
-                                        </Alert>
-                                    ) : (
-                                        <Alert
-                                            severity="success"
-                                            className={
-                                                "absolute top-0 mt-0 ml-0 w-[250px] -translate-y-5 opacity-100 transition-all duration-150"
-                                            }
-                                        >
-                                            All set!
-                                        </Alert>
-                                    )}
-                                </div>
+                                {userProfile.handle !== "" && (
+                                    <div className="relative">
+                                        {handleSearching ? (
+                                            <h1 className="loading-normal ml-0 transition-all duration-150">
+                                                ...
+                                            </h1>
+                                        ) : formErrors.handle ? (
+                                            <Alert
+                                                severity="error"
+                                                className={
+                                                    "absolute top-0 mt-0 ml-0 w-[250px] -translate-y-5 opacity-100 transition-all duration-150"
+                                                }
+                                            >
+                                                {formErrors.handle}
+                                            </Alert>
+                                        ) : (
+                                            <Alert
+                                                severity="success"
+                                                className={
+                                                    "absolute top-0 mt-0 ml-0 w-[250px] -translate-y-5 opacity-100 transition-all duration-150"
+                                                }
+                                            >
+                                                All set!
+                                            </Alert>
+                                        )}
+                                    </div>
+                                )}
                             </div>
 
                             <div className="my-6">
@@ -647,7 +656,7 @@ const ProfileForm = ({
                                 userProfile={userProfile}
                             />
                         </Tab.Panel>
-                        <Tab.Panel className="my-4 flex w-auto min-w-[700px] flex-col items-stretch justify-center rounded-[30px] border bg-gradient-to-r from-slate-50 to-slate-200 p-10 shadow-2xl shadow-slate-200">
+                        <Tab.Panel className="my-4 flex w-auto min-w-[700px] flex-col items-center justify-center rounded-[30px] border bg-gradient-to-r from-slate-50 to-slate-200 p-10 shadow-2xl shadow-slate-200">
                             <AvatarEditor
                                 setAvatarConfig={setAvatarConfig}
                                 avatarConfig={avatarConfig}
