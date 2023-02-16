@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import "@rainbow-me/rainbowkit/styles.css";
 import "ethers";
-import { Profile } from "../../constants/types";
+import { Profile } from "@prisma/client";
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -17,28 +17,18 @@ import { getProfilesQuery } from "../../graphql/graphqlQueries";
 import { updateProfileMintingMutation } from "../../graphql/graphqlMutations";
 import { useQueryClient } from "@tanstack/react-query";
 import emails from "../../constants/email";
+import { BigClipLoader } from "../../components/Loader";
 export default function Home() {
-    const router = useRouter();
     const queryClient = useQueryClient();
-
-    const { data: session } = useSession();
 
     const {
         isLoading: isProfilesLoading,
         isError: profileListError,
-        data: Profiles,
+        data: profiles,
     } = useQuery(["getProfiles"], async () => getProfilesQuery());
 
     if (isProfilesLoading) {
-        return (
-            <section className="flex w-full flex-wrap ">
-                <div className=" h-full w-full">
-                    <div className="shadow-normal mx-auto w-full	 rounded-[25px] bg-white  p-8 text-black md:py-14 md:px-20">
-                        <ProfileFormSkeleton />
-                    </div>
-                </div>
-            </section>
-        );
+        return <BigClipLoader />;
     }
     let profileList = <></>;
 
@@ -49,7 +39,10 @@ export default function Home() {
         const response = await axiosContractInstance.post("/contract", {
             handle,
             address,
-            id: profile.user_id,
+            user_id: profile.user_id,
+            ipfs_hash: profile.ipfs_hash,
+            education: profile.education,
+            experience: profile.experience,
         });
 
         if (response.data.success) {
@@ -71,10 +64,10 @@ export default function Home() {
     };
     const handleRejection = (profile: Profile) => console.log(profile);
 
-    if (!isProfilesLoading && !profileListError && Profiles) {
+    if (!isProfilesLoading && !profileListError && profiles) {
         profileList = (
             <>
-                {Profiles?.map((profile: any) =>
+                {profiles?.map((profile: any) =>
                     profile.minted ? (
                         <></>
                     ) : (
@@ -93,12 +86,14 @@ export default function Home() {
     return (
         <section className="flex w-full flex-wrap ">
             <div className="h-full w-full">
-                <div className="shadow-normal mx-auto w-full max-w-5xl	 rounded-[25px] bg-white  p-8 text-black md:py-14 md:px-20">
-                    <h1 className={" mb-4 py-5 text-center text-4xl font-bold"}>
-                        Profiles In Queue
-                    </h1>
-                    {profileList}
-                </div>
+                <h1
+                    className={
+                        " mb-4 py-5 text-center text-4xl font-bold text-white"
+                    }
+                >
+                    Profiles In Queue
+                </h1>
+                {profileList}
             </div>
         </section>
     );
@@ -107,7 +102,6 @@ export default function Home() {
 import { authOptions } from "../api/auth/[...nextauth]";
 import { getServerSession } from "next-auth/next";
 import { getUserQuery } from "../../graphql/graphqlQueries";
-import { Session, SessionStrategy } from "next-auth/core/types";
 
 export async function getServerSideProps(context: any) {
     const session: any = await getServerSession(

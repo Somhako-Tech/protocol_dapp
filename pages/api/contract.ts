@@ -13,7 +13,14 @@ export default async function handler(req: NextApiRequest, res: any) {
         process.env.RPC_PROVIDER as string
     );
 
-    const { address: owner, id, handle } = req.body;
+    const {
+        address: owner,
+        user_id,
+        handle,
+        ipfs_hash,
+        education,
+        experience,
+    } = req.body;
 
     console.log(
         `minting: ${JSON.stringify(req.body)} @ ${process.env.RPC_PROVIDER}`
@@ -37,11 +44,16 @@ export default async function handler(req: NextApiRequest, res: any) {
 
         const profileManagerWithSigner = profileManagerContract.connect(signer);
 
-        const txReceipt = await profileManagerWithSigner.safeMint({
-            owner: user_address,
-            id: id,
-            handle: handle,
-        });
+        const txReceipt = await profileManagerWithSigner.safeMint(
+            {
+                owner: user_address,
+                id: user_id,
+                handle: handle,
+                image_location_hash: ipfs_hash,
+            },
+            education,
+            experience
+        );
 
         await txReceipt.wait();
 
