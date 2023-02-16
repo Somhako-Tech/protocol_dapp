@@ -85,6 +85,11 @@ export class ProfileOrderByWithRelationInput {
   })
   user_id?: "asc" | "desc" | undefined;
 
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  ipfs_hash?: "asc" | "desc" | undefined;
+
   @TypeGraphQL.Field(_type => MintOrderByWithRelationInput, {
     nullable: true
   })

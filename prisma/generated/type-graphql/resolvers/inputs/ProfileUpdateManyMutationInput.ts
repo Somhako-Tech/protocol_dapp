@@ -76,4 +76,9 @@ export class ProfileUpdateManyMutationInput {
     nullable: true
   })
   minted?: BoolFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  ipfs_hash?: StringFieldUpdateOperationsInput | undefined;
 }

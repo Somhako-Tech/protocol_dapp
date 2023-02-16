@@ -35,5 +35,5 @@ export class FindManyProfileArgs {
   @TypeGraphQL.Field(_type => [ProfileScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"id" | "handle" | "title" | "summary" | "job_type" | "pref_location" | "salary" | "years_of_exp" | "link" | "address" | "skills" | "education" | "experience" | "minted" | "user_id"> | undefined;
+  distinct?: Array<"id" | "handle" | "title" | "summary" | "job_type" | "pref_location" | "salary" | "years_of_exp" | "link" | "address" | "skills" | "education" | "experience" | "minted" | "user_id" | "ipfs_hash"> | undefined;
 }

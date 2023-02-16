@@ -84,6 +84,11 @@ export class Profile {
   })
   user_id!: string;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  ipfs_hash!: string;
+
   mint?: Mint | null;
 
   user?: User;

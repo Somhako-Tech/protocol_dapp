@@ -105,6 +105,11 @@ export class ProfileWhereInput {
   })
   user_id?: StringFilter | undefined;
 
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true
+  })
+  ipfs_hash?: StringFilter | undefined;
+
   @TypeGraphQL.Field(_type => MintRelationFilter, {
     nullable: true
   })

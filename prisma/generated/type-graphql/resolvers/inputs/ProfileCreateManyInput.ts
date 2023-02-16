@@ -84,4 +84,9 @@ export class ProfileCreateManyInput {
     nullable: false
   })
   user_id!: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  ipfs_hash!: string;
 }

@@ -61,4 +61,9 @@ export class ProfileMaxAggregate {
     nullable: true
   })
   user_id!: string | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  ipfs_hash!: string | null;
 }

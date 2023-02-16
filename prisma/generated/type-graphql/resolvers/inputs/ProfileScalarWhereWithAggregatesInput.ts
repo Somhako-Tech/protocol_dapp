@@ -102,4 +102,9 @@ export class ProfileScalarWhereWithAggregatesInput {
     nullable: true
   })
   user_id?: StringWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
+    nullable: true
+  })
+  ipfs_hash?: StringWithAggregatesFilter | undefined;
 }

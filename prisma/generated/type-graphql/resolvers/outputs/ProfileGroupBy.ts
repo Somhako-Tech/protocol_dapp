@@ -87,6 +87,11 @@ export class ProfileGroupBy {
   })
   user_id!: string;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  ipfs_hash!: string;
+
   @TypeGraphQL.Field(_type => ProfileCountAggregate, {
     nullable: true
   })

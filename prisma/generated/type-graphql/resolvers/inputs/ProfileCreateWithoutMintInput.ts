@@ -76,6 +76,11 @@ export class ProfileCreateWithoutMintInput {
   })
   minted!: boolean;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  ipfs_hash!: string;
+
   @TypeGraphQL.Field(_type => UserCreateNestedOneWithoutProfileInput, {
     nullable: false
   })
