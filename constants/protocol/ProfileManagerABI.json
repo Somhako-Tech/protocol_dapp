@@ -215,12 +215,12 @@
     {
         "inputs": [
             {
-                "internalType": "address",
-                "name": "userAddress",
-                "type": "address"
+                "internalType": "uint256",
+                "name": "tokenId",
+                "type": "uint256"
             }
         ],
-        "name": "getProfileFromAddress",
+        "name": "getProfileFromToken",
         "outputs": [
             {
                 "components": [
@@ -238,11 +238,65 @@
                         "internalType": "address",
                         "name": "owner",
                         "type": "address"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "image_location_hash",
+                        "type": "string"
                     }
                 ],
-                "internalType": "struct ProfileManagerV1.Profile",
+                "internalType": "struct ProfileManagerV2.Profile",
                 "name": "",
                 "type": "tuple"
+            },
+            {
+                "components": [
+                    {
+                        "internalType": "string",
+                        "name": "institution",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "year",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "title",
+                        "type": "string"
+                    }
+                ],
+                "internalType": "struct ProfileManagerV2.Education[]",
+                "name": "",
+                "type": "tuple[]"
+            },
+            {
+                "components": [
+                    {
+                        "internalType": "string",
+                        "name": "organization",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "startYear",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "endYear",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "title",
+                        "type": "string"
+                    }
+                ],
+                "internalType": "struct ProfileManagerV2.Experience[]",
+                "name": "",
+                "type": "tuple[]"
             }
         ],
         "stateMutability": "view",
@@ -373,11 +427,65 @@
                         "internalType": "address",
                         "name": "owner",
                         "type": "address"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "image_location_hash",
+                        "type": "string"
                     }
                 ],
-                "internalType": "struct ProfileManagerV1.Profile",
+                "internalType": "struct ProfileManagerV2.Profile",
                 "name": "profile",
                 "type": "tuple"
+            },
+            {
+                "components": [
+                    {
+                        "internalType": "string",
+                        "name": "institution",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "year",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "title",
+                        "type": "string"
+                    }
+                ],
+                "internalType": "struct ProfileManagerV2.Education[]",
+                "name": "education",
+                "type": "tuple[]"
+            },
+            {
+                "components": [
+                    {
+                        "internalType": "string",
+                        "name": "organization",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "startYear",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "endYear",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "title",
+                        "type": "string"
+                    }
+                ],
+                "internalType": "struct ProfileManagerV2.Experience[]",
+                "name": "experience",
+                "type": "tuple[]"
             }
         ],
         "name": "safeMint",
