@@ -101,23 +101,27 @@ const ProfileForm = ({
         } else return null;
     };
 
+    const [formErrors, setFormErrors] = useState<any>({});
+
     const checkSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
-        if (userProfile.ipfs_hash === "") {
-            const avatar = await saveAvatarToIpfs();
-            if (avatar) {
-                dispatch({
-                    target: { id: "ipfs_hash", value: avatar.IpfsHash },
-                });
-            }
-        }
+        // if (userProfile.ipfs_hash === "") {
+        //     const avatar = await saveAvatarToIpfs();
+        //     if (avatar) {
+        //         dispatch({
+        //             target: { id: "ipfs_hash", value: avatar.IpfsHash },
+        //         });
+        //     }
+        // }
 
         const { isValid, errors } = await allFieldsValidation(userProfile);
 
         if (isValid) handleSubmit(userProfile);
         else {
             console.log(errors);
+            setFormErrors(errors);
+            setShowValidationErrors(true);
             return;
         }
     };
@@ -153,8 +157,6 @@ const ProfileForm = ({
 
     const [handleSearching, setHandleSearching] = useState(false);
 
-    const [formErrors, setFormErrors] = useState<any>({});
-
     const [showValidationErrors, setShowValidationErrors] = useState(false);
 
     const [resume, setResume] = useState<any>();
@@ -184,6 +186,9 @@ const ProfileForm = ({
         dispatch({ target: { id: "user_id", value: user.id } });
     }, [address, user]);
 
+    useEffect(() => {
+        setShowValidationErrors(false);
+    }, [userProfile]);
     //Track tab
     useEffect(() => {
         setSelectTab(tabs[selectedIndex]);
@@ -281,7 +286,16 @@ const ProfileForm = ({
         }
     );
 
-    const validationErrors = 
+    const validationErrors = Object.keys(formErrors)
+        .map((errorKey) => (
+            <Snackbar
+                key={errorKey}
+                open={true}
+                autoHideDuration={6000}
+                message={formErrors[errorKey]}
+            />
+        ))
+        .slice(1);
 
     return (
         <div className="w-full flex-col items-center ">
@@ -289,6 +303,11 @@ const ProfileForm = ({
                 className="flex flex-col items-center justify-evenly p-5"
                 onSubmit={checkSubmit}
             >
+                {showValidationErrors && (
+                    <div className="flex flex-col items-center justify-evenly">
+                        {validationErrors}
+                    </div>
+                )}
                 <LinkModal
                     linkModalOpen={linkModalOpen}
                     handleClose={() => setLinkModalOpen(false)}
