@@ -456,6 +456,15 @@ export type AggregateAccount = {
   _sum?: Maybe<AccountSumAggregate>;
 };
 
+export type AggregateCredit = {
+  __typename?: 'AggregateCredit';
+  _avg?: Maybe<CreditAvgAggregate>;
+  _count?: Maybe<CreditCountAggregate>;
+  _max?: Maybe<CreditMaxAggregate>;
+  _min?: Maybe<CreditMinAggregate>;
+  _sum?: Maybe<CreditSumAggregate>;
+};
+
 export type AggregateMint = {
   __typename?: 'AggregateMint';
   _avg?: Maybe<MintAvgAggregate>;
@@ -532,6 +541,149 @@ export type BoolWithAggregatesFilter = {
   _min?: InputMaybe<NestedBoolFilter>;
   equals?: InputMaybe<Scalars['Boolean']>;
   not?: InputMaybe<NestedBoolWithAggregatesFilter>;
+};
+
+export type Credit = {
+  __typename?: 'Credit';
+  id: Scalars['Int'];
+  orefid: Scalars['String'];
+  profile_id: Scalars['String'];
+};
+
+export type CreditAvgAggregate = {
+  __typename?: 'CreditAvgAggregate';
+  id?: Maybe<Scalars['Float']>;
+};
+
+export type CreditAvgOrderByAggregateInput = {
+  id?: InputMaybe<SortOrder>;
+};
+
+export type CreditCountAggregate = {
+  __typename?: 'CreditCountAggregate';
+  _all: Scalars['Int'];
+  id: Scalars['Int'];
+  orefid: Scalars['Int'];
+  profile_id: Scalars['Int'];
+};
+
+export type CreditCountOrderByAggregateInput = {
+  id?: InputMaybe<SortOrder>;
+  orefid?: InputMaybe<SortOrder>;
+  profile_id?: InputMaybe<SortOrder>;
+};
+
+export type CreditCreateInput = {
+  orefid: Scalars['String'];
+  profile_id: Scalars['String'];
+};
+
+export type CreditCreateManyInput = {
+  id?: InputMaybe<Scalars['Int']>;
+  orefid: Scalars['String'];
+  profile_id: Scalars['String'];
+};
+
+export type CreditGroupBy = {
+  __typename?: 'CreditGroupBy';
+  _avg?: Maybe<CreditAvgAggregate>;
+  _count?: Maybe<CreditCountAggregate>;
+  _max?: Maybe<CreditMaxAggregate>;
+  _min?: Maybe<CreditMinAggregate>;
+  _sum?: Maybe<CreditSumAggregate>;
+  id: Scalars['Int'];
+  orefid: Scalars['String'];
+  profile_id: Scalars['String'];
+};
+
+export type CreditMaxAggregate = {
+  __typename?: 'CreditMaxAggregate';
+  id?: Maybe<Scalars['Int']>;
+  orefid?: Maybe<Scalars['String']>;
+  profile_id?: Maybe<Scalars['String']>;
+};
+
+export type CreditMaxOrderByAggregateInput = {
+  id?: InputMaybe<SortOrder>;
+  orefid?: InputMaybe<SortOrder>;
+  profile_id?: InputMaybe<SortOrder>;
+};
+
+export type CreditMinAggregate = {
+  __typename?: 'CreditMinAggregate';
+  id?: Maybe<Scalars['Int']>;
+  orefid?: Maybe<Scalars['String']>;
+  profile_id?: Maybe<Scalars['String']>;
+};
+
+export type CreditMinOrderByAggregateInput = {
+  id?: InputMaybe<SortOrder>;
+  orefid?: InputMaybe<SortOrder>;
+  profile_id?: InputMaybe<SortOrder>;
+};
+
+export type CreditOrderByWithAggregationInput = {
+  _avg?: InputMaybe<CreditAvgOrderByAggregateInput>;
+  _count?: InputMaybe<CreditCountOrderByAggregateInput>;
+  _max?: InputMaybe<CreditMaxOrderByAggregateInput>;
+  _min?: InputMaybe<CreditMinOrderByAggregateInput>;
+  _sum?: InputMaybe<CreditSumOrderByAggregateInput>;
+  id?: InputMaybe<SortOrder>;
+  orefid?: InputMaybe<SortOrder>;
+  profile_id?: InputMaybe<SortOrder>;
+};
+
+export type CreditOrderByWithRelationInput = {
+  id?: InputMaybe<SortOrder>;
+  orefid?: InputMaybe<SortOrder>;
+  profile_id?: InputMaybe<SortOrder>;
+};
+
+export enum CreditScalarFieldEnum {
+  Id = 'id',
+  Orefid = 'orefid',
+  ProfileId = 'profile_id'
+}
+
+export type CreditScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<CreditScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<CreditScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<CreditScalarWhereWithAggregatesInput>>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  orefid?: InputMaybe<StringWithAggregatesFilter>;
+  profile_id?: InputMaybe<StringWithAggregatesFilter>;
+};
+
+export type CreditSumAggregate = {
+  __typename?: 'CreditSumAggregate';
+  id?: Maybe<Scalars['Int']>;
+};
+
+export type CreditSumOrderByAggregateInput = {
+  id?: InputMaybe<SortOrder>;
+};
+
+export type CreditUpdateInput = {
+  orefid?: InputMaybe<StringFieldUpdateOperationsInput>;
+  profile_id?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type CreditUpdateManyMutationInput = {
+  orefid?: InputMaybe<StringFieldUpdateOperationsInput>;
+  profile_id?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type CreditWhereInput = {
+  AND?: InputMaybe<Array<CreditWhereInput>>;
+  NOT?: InputMaybe<Array<CreditWhereInput>>;
+  OR?: InputMaybe<Array<CreditWhereInput>>;
+  id?: InputMaybe<IntFilter>;
+  orefid?: InputMaybe<StringFilter>;
+  profile_id?: InputMaybe<StringFilter>;
+};
+
+export type CreditWhereUniqueInput = {
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -981,6 +1133,7 @@ export type MintWhereUniqueInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createManyAccount: AffectedRowsOutput;
+  createManyCredit: AffectedRowsOutput;
   createManyMint: AffectedRowsOutput;
   createManyProfile: AffectedRowsOutput;
   createManyReferral: AffectedRowsOutput;
@@ -988,6 +1141,7 @@ export type Mutation = {
   createManyUser: AffectedRowsOutput;
   createManyVerificationToken: AffectedRowsOutput;
   createOneAccount: Account;
+  createOneCredit: Credit;
   createOneMint: Mint;
   createOneProfile: Profile;
   createOneReferral: Referral;
@@ -995,6 +1149,7 @@ export type Mutation = {
   createOneUser: User;
   createOneVerificationToken: VerificationToken;
   deleteManyAccount: AffectedRowsOutput;
+  deleteManyCredit: AffectedRowsOutput;
   deleteManyMint: AffectedRowsOutput;
   deleteManyProfile: AffectedRowsOutput;
   deleteManyReferral: AffectedRowsOutput;
@@ -1002,6 +1157,7 @@ export type Mutation = {
   deleteManyUser: AffectedRowsOutput;
   deleteManyVerificationToken: AffectedRowsOutput;
   deleteOneAccount?: Maybe<Account>;
+  deleteOneCredit?: Maybe<Credit>;
   deleteOneMint?: Maybe<Mint>;
   deleteOneProfile?: Maybe<Profile>;
   deleteOneReferral?: Maybe<Referral>;
@@ -1009,6 +1165,7 @@ export type Mutation = {
   deleteOneUser?: Maybe<User>;
   deleteOneVerificationToken?: Maybe<VerificationToken>;
   updateManyAccount: AffectedRowsOutput;
+  updateManyCredit: AffectedRowsOutput;
   updateManyMint: AffectedRowsOutput;
   updateManyProfile: AffectedRowsOutput;
   updateManyReferral: AffectedRowsOutput;
@@ -1016,6 +1173,7 @@ export type Mutation = {
   updateManyUser: AffectedRowsOutput;
   updateManyVerificationToken: AffectedRowsOutput;
   updateOneAccount?: Maybe<Account>;
+  updateOneCredit?: Maybe<Credit>;
   updateOneMint?: Maybe<Mint>;
   updateOneProfile?: Maybe<Profile>;
   updateOneReferral?: Maybe<Referral>;
@@ -1023,6 +1181,7 @@ export type Mutation = {
   updateOneUser?: Maybe<User>;
   updateOneVerificationToken?: Maybe<VerificationToken>;
   upsertOneAccount: Account;
+  upsertOneCredit: Credit;
   upsertOneMint: Mint;
   upsertOneProfile: Profile;
   upsertOneReferral: Referral;
@@ -1034,6 +1193,12 @@ export type Mutation = {
 
 export type MutationCreateManyAccountArgs = {
   data: Array<AccountCreateManyInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+export type MutationCreateManyCreditArgs = {
+  data: Array<CreditCreateManyInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -1079,6 +1244,11 @@ export type MutationCreateOneAccountArgs = {
 };
 
 
+export type MutationCreateOneCreditArgs = {
+  data: CreditCreateInput;
+};
+
+
 export type MutationCreateOneMintArgs = {
   data: MintCreateInput;
 };
@@ -1111,6 +1281,11 @@ export type MutationCreateOneVerificationTokenArgs = {
 
 export type MutationDeleteManyAccountArgs = {
   where?: InputMaybe<AccountWhereInput>;
+};
+
+
+export type MutationDeleteManyCreditArgs = {
+  where?: InputMaybe<CreditWhereInput>;
 };
 
 
@@ -1149,6 +1324,11 @@ export type MutationDeleteOneAccountArgs = {
 };
 
 
+export type MutationDeleteOneCreditArgs = {
+  where: CreditWhereUniqueInput;
+};
+
+
 export type MutationDeleteOneMintArgs = {
   where: MintWhereUniqueInput;
 };
@@ -1182,6 +1362,12 @@ export type MutationDeleteOneVerificationTokenArgs = {
 export type MutationUpdateManyAccountArgs = {
   data: AccountUpdateManyMutationInput;
   where?: InputMaybe<AccountWhereInput>;
+};
+
+
+export type MutationUpdateManyCreditArgs = {
+  data: CreditUpdateManyMutationInput;
+  where?: InputMaybe<CreditWhereInput>;
 };
 
 
@@ -1227,6 +1413,12 @@ export type MutationUpdateOneAccountArgs = {
 };
 
 
+export type MutationUpdateOneCreditArgs = {
+  data: CreditUpdateInput;
+  where: CreditWhereUniqueInput;
+};
+
+
 export type MutationUpdateOneMintArgs = {
   data: MintUpdateInput;
   where: MintWhereUniqueInput;
@@ -1267,6 +1459,13 @@ export type MutationUpsertOneAccountArgs = {
   create: AccountCreateInput;
   update: AccountUpdateInput;
   where: AccountWhereUniqueInput;
+};
+
+
+export type MutationUpsertOneCreditArgs = {
+  create: CreditCreateInput;
+  update: CreditUpdateInput;
+  where: CreditWhereUniqueInput;
 };
 
 
@@ -1568,6 +1767,7 @@ export type Profile = {
   experience: Array<Scalars['JSON']>;
   handle: Scalars['String'];
   id: Scalars['Int'];
+  ipfs_hash: Scalars['String'];
   job_type: Scalars['String'];
   link: Scalars['JSON'];
   mint?: Maybe<Mint>;
@@ -1599,6 +1799,7 @@ export type ProfileCountAggregate = {
   experience: Scalars['Int'];
   handle: Scalars['Int'];
   id: Scalars['Int'];
+  ipfs_hash: Scalars['Int'];
   job_type: Scalars['Int'];
   link: Scalars['Int'];
   minted: Scalars['Int'];
@@ -1617,6 +1818,7 @@ export type ProfileCountOrderByAggregateInput = {
   experience?: InputMaybe<SortOrder>;
   handle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  ipfs_hash?: InputMaybe<SortOrder>;
   job_type?: InputMaybe<SortOrder>;
   link?: InputMaybe<SortOrder>;
   minted?: InputMaybe<SortOrder>;
@@ -1634,6 +1836,7 @@ export type ProfileCreateInput = {
   education?: InputMaybe<ProfileCreateeducationInput>;
   experience?: InputMaybe<ProfileCreateexperienceInput>;
   handle: Scalars['String'];
+  ipfs_hash: Scalars['String'];
   job_type: Scalars['String'];
   link: Scalars['JSON'];
   mint?: InputMaybe<MintCreateNestedOneWithoutProfileInput>;
@@ -1653,6 +1856,7 @@ export type ProfileCreateManyInput = {
   experience?: InputMaybe<ProfileCreateexperienceInput>;
   handle: Scalars['String'];
   id?: InputMaybe<Scalars['Int']>;
+  ipfs_hash: Scalars['String'];
   job_type: Scalars['String'];
   link: Scalars['JSON'];
   minted: Scalars['Boolean'];
@@ -1692,6 +1896,7 @@ export type ProfileCreateWithoutMintInput = {
   education?: InputMaybe<ProfileCreateeducationInput>;
   experience?: InputMaybe<ProfileCreateexperienceInput>;
   handle: Scalars['String'];
+  ipfs_hash: Scalars['String'];
   job_type: Scalars['String'];
   link: Scalars['JSON'];
   minted: Scalars['Boolean'];
@@ -1709,6 +1914,7 @@ export type ProfileCreateWithoutUserInput = {
   education?: InputMaybe<ProfileCreateeducationInput>;
   experience?: InputMaybe<ProfileCreateexperienceInput>;
   handle: Scalars['String'];
+  ipfs_hash: Scalars['String'];
   job_type: Scalars['String'];
   link: Scalars['JSON'];
   mint?: InputMaybe<MintCreateNestedOneWithoutProfileInput>;
@@ -1745,6 +1951,7 @@ export type ProfileGroupBy = {
   experience?: Maybe<Array<Scalars['JSON']>>;
   handle: Scalars['String'];
   id: Scalars['Int'];
+  ipfs_hash: Scalars['String'];
   job_type: Scalars['String'];
   link: Scalars['JSON'];
   minted: Scalars['Boolean'];
@@ -1762,6 +1969,7 @@ export type ProfileMaxAggregate = {
   address?: Maybe<Scalars['String']>;
   handle?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
+  ipfs_hash?: Maybe<Scalars['String']>;
   job_type?: Maybe<Scalars['String']>;
   minted?: Maybe<Scalars['Boolean']>;
   pref_location?: Maybe<Scalars['String']>;
@@ -1776,6 +1984,7 @@ export type ProfileMaxOrderByAggregateInput = {
   address?: InputMaybe<SortOrder>;
   handle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  ipfs_hash?: InputMaybe<SortOrder>;
   job_type?: InputMaybe<SortOrder>;
   minted?: InputMaybe<SortOrder>;
   pref_location?: InputMaybe<SortOrder>;
@@ -1791,6 +2000,7 @@ export type ProfileMinAggregate = {
   address?: Maybe<Scalars['String']>;
   handle?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
+  ipfs_hash?: Maybe<Scalars['String']>;
   job_type?: Maybe<Scalars['String']>;
   minted?: Maybe<Scalars['Boolean']>;
   pref_location?: Maybe<Scalars['String']>;
@@ -1805,6 +2015,7 @@ export type ProfileMinOrderByAggregateInput = {
   address?: InputMaybe<SortOrder>;
   handle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  ipfs_hash?: InputMaybe<SortOrder>;
   job_type?: InputMaybe<SortOrder>;
   minted?: InputMaybe<SortOrder>;
   pref_location?: InputMaybe<SortOrder>;
@@ -1826,6 +2037,7 @@ export type ProfileOrderByWithAggregationInput = {
   experience?: InputMaybe<SortOrder>;
   handle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  ipfs_hash?: InputMaybe<SortOrder>;
   job_type?: InputMaybe<SortOrder>;
   link?: InputMaybe<SortOrder>;
   minted?: InputMaybe<SortOrder>;
@@ -1844,6 +2056,7 @@ export type ProfileOrderByWithRelationInput = {
   experience?: InputMaybe<SortOrder>;
   handle?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  ipfs_hash?: InputMaybe<SortOrder>;
   job_type?: InputMaybe<SortOrder>;
   link?: InputMaybe<SortOrder>;
   mint?: InputMaybe<MintOrderByWithRelationInput>;
@@ -1869,6 +2082,7 @@ export enum ProfileScalarFieldEnum {
   Experience = 'experience',
   Handle = 'handle',
   Id = 'id',
+  IpfsHash = 'ipfs_hash',
   JobType = 'job_type',
   Link = 'link',
   Minted = 'minted',
@@ -1890,6 +2104,7 @@ export type ProfileScalarWhereWithAggregatesInput = {
   experience?: InputMaybe<JsonNullableListFilter>;
   handle?: InputMaybe<StringWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
+  ipfs_hash?: InputMaybe<StringWithAggregatesFilter>;
   job_type?: InputMaybe<StringWithAggregatesFilter>;
   link?: InputMaybe<JsonWithAggregatesFilter>;
   minted?: InputMaybe<BoolWithAggregatesFilter>;
@@ -1916,6 +2131,7 @@ export type ProfileUpdateInput = {
   education?: InputMaybe<ProfileUpdateeducationInput>;
   experience?: InputMaybe<ProfileUpdateexperienceInput>;
   handle?: InputMaybe<StringFieldUpdateOperationsInput>;
+  ipfs_hash?: InputMaybe<StringFieldUpdateOperationsInput>;
   job_type?: InputMaybe<StringFieldUpdateOperationsInput>;
   link?: InputMaybe<Scalars['JSON']>;
   mint?: InputMaybe<MintUpdateOneWithoutProfileNestedInput>;
@@ -1934,6 +2150,7 @@ export type ProfileUpdateManyMutationInput = {
   education?: InputMaybe<ProfileUpdateeducationInput>;
   experience?: InputMaybe<ProfileUpdateexperienceInput>;
   handle?: InputMaybe<StringFieldUpdateOperationsInput>;
+  ipfs_hash?: InputMaybe<StringFieldUpdateOperationsInput>;
   job_type?: InputMaybe<StringFieldUpdateOperationsInput>;
   link?: InputMaybe<Scalars['JSON']>;
   minted?: InputMaybe<BoolFieldUpdateOperationsInput>;
@@ -1968,6 +2185,7 @@ export type ProfileUpdateWithoutMintInput = {
   education?: InputMaybe<ProfileUpdateeducationInput>;
   experience?: InputMaybe<ProfileUpdateexperienceInput>;
   handle?: InputMaybe<StringFieldUpdateOperationsInput>;
+  ipfs_hash?: InputMaybe<StringFieldUpdateOperationsInput>;
   job_type?: InputMaybe<StringFieldUpdateOperationsInput>;
   link?: InputMaybe<Scalars['JSON']>;
   minted?: InputMaybe<BoolFieldUpdateOperationsInput>;
@@ -1985,6 +2203,7 @@ export type ProfileUpdateWithoutUserInput = {
   education?: InputMaybe<ProfileUpdateeducationInput>;
   experience?: InputMaybe<ProfileUpdateexperienceInput>;
   handle?: InputMaybe<StringFieldUpdateOperationsInput>;
+  ipfs_hash?: InputMaybe<StringFieldUpdateOperationsInput>;
   job_type?: InputMaybe<StringFieldUpdateOperationsInput>;
   link?: InputMaybe<Scalars['JSON']>;
   mint?: InputMaybe<MintUpdateOneWithoutProfileNestedInput>;
@@ -2031,6 +2250,7 @@ export type ProfileWhereInput = {
   experience?: InputMaybe<JsonNullableListFilter>;
   handle?: InputMaybe<StringFilter>;
   id?: InputMaybe<IntFilter>;
+  ipfs_hash?: InputMaybe<StringFilter>;
   job_type?: InputMaybe<StringFilter>;
   link?: InputMaybe<JsonFilter>;
   mint?: InputMaybe<MintRelationFilter>;
@@ -2056,14 +2276,19 @@ export type Query = {
   account?: Maybe<Account>;
   accounts: Array<Account>;
   aggregateAccount: AggregateAccount;
+  aggregateCredit: AggregateCredit;
   aggregateMint: AggregateMint;
   aggregateProfile: AggregateProfile;
   aggregateReferral: AggregateReferral;
   aggregateSession: AggregateSession;
   aggregateUser: AggregateUser;
   aggregateVerificationToken: AggregateVerificationToken;
+  credit?: Maybe<Credit>;
+  credits: Array<Credit>;
   findFirstAccount?: Maybe<Account>;
   findFirstAccountOrThrow?: Maybe<Account>;
+  findFirstCredit?: Maybe<Credit>;
+  findFirstCreditOrThrow?: Maybe<Credit>;
   findFirstMint?: Maybe<Mint>;
   findFirstMintOrThrow?: Maybe<Mint>;
   findFirstProfile?: Maybe<Profile>;
@@ -2077,6 +2302,7 @@ export type Query = {
   findFirstVerificationToken?: Maybe<VerificationToken>;
   findFirstVerificationTokenOrThrow?: Maybe<VerificationToken>;
   getAccount?: Maybe<Account>;
+  getCredit?: Maybe<Credit>;
   getMint?: Maybe<Mint>;
   getProfile?: Maybe<Profile>;
   getReferral?: Maybe<Referral>;
@@ -2084,6 +2310,7 @@ export type Query = {
   getUser?: Maybe<User>;
   getVerificationToken?: Maybe<VerificationToken>;
   groupByAccount: Array<AccountGroupBy>;
+  groupByCredit: Array<CreditGroupBy>;
   groupByMint: Array<MintGroupBy>;
   groupByProfile: Array<ProfileGroupBy>;
   groupByReferral: Array<ReferralGroupBy>;
@@ -2126,6 +2353,15 @@ export type QueryAggregateAccountArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<AccountWhereInput>;
+};
+
+
+export type QueryAggregateCreditArgs = {
+  cursor?: InputMaybe<CreditWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<CreditOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CreditWhereInput>;
 };
 
 
@@ -2183,6 +2419,21 @@ export type QueryAggregateVerificationTokenArgs = {
 };
 
 
+export type QueryCreditArgs = {
+  where: CreditWhereUniqueInput;
+};
+
+
+export type QueryCreditsArgs = {
+  cursor?: InputMaybe<CreditWhereUniqueInput>;
+  distinct?: InputMaybe<Array<CreditScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<CreditOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CreditWhereInput>;
+};
+
+
 export type QueryFindFirstAccountArgs = {
   cursor?: InputMaybe<AccountWhereUniqueInput>;
   distinct?: InputMaybe<Array<AccountScalarFieldEnum>>;
@@ -2200,6 +2451,26 @@ export type QueryFindFirstAccountOrThrowArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<AccountWhereInput>;
+};
+
+
+export type QueryFindFirstCreditArgs = {
+  cursor?: InputMaybe<CreditWhereUniqueInput>;
+  distinct?: InputMaybe<Array<CreditScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<CreditOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CreditWhereInput>;
+};
+
+
+export type QueryFindFirstCreditOrThrowArgs = {
+  cursor?: InputMaybe<CreditWhereUniqueInput>;
+  distinct?: InputMaybe<Array<CreditScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<CreditOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CreditWhereInput>;
 };
 
 
@@ -2328,6 +2599,11 @@ export type QueryGetAccountArgs = {
 };
 
 
+export type QueryGetCreditArgs = {
+  where: CreditWhereUniqueInput;
+};
+
+
 export type QueryGetMintArgs = {
   where: MintWhereUniqueInput;
 };
@@ -2365,6 +2641,16 @@ export type QueryGroupByAccountArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<AccountWhereInput>;
+};
+
+
+export type QueryGroupByCreditArgs = {
+  by: Array<CreditScalarFieldEnum>;
+  having?: InputMaybe<CreditScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<CreditOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CreditWhereInput>;
 };
 
 
@@ -3768,6 +4054,7 @@ export type CreateProfileMutationMutationVariables = Exact<{
   address: Scalars['String'];
   education: Array<Scalars['JSON']> | Scalars['JSON'];
   experience: Array<Scalars['JSON']> | Scalars['JSON'];
+  ipfs_hash: Scalars['String'];
   user_id: Scalars['String'];
 }>;
 
@@ -3794,7 +4081,7 @@ export type GetProfileByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetProfileByIdQuery = { __typename?: 'Query', getProfile?: { __typename?: 'Profile', id: number, handle: string, title: string, summary: string, job_type: string, pref_location: string, salary: string, years_of_exp: string, skills: Array<string>, experience: Array<any>, education: Array<any>, address: string, link: any, minted: boolean, user_id: string } | null };
+export type GetProfileByIdQuery = { __typename?: 'Query', getProfile?: { __typename?: 'Profile', id: number, handle: string, title: string, summary: string, job_type: string, pref_location: string, salary: string, years_of_exp: string, skills: Array<string>, experience: Array<any>, education: Array<any>, address: string, link: any, minted: boolean, ipfs_hash: string, user_id: string } | null };
 
 export type GetUserByIdQueryVariables = Exact<{
   id: Scalars['String'];
@@ -3813,12 +4100,12 @@ export type GetUserByEmailQuery = { __typename?: 'Query', getUser?: { __typename
 export type GetProfilesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProfilesQuery = { __typename?: 'Query', profiles: Array<{ __typename?: 'Profile', address: string, education: Array<any>, experience: Array<any>, handle: string, id: number, job_type: string, link: any, minted: boolean, pref_location: string, salary: string, skills: Array<string>, summary: string, title: string, user_id: string, years_of_exp: string, user: { __typename?: 'User', image?: string | null } }> };
+export type GetProfilesQuery = { __typename?: 'Query', profiles: Array<{ __typename?: 'Profile', address: string, education: Array<any>, experience: Array<any>, handle: string, id: number, job_type: string, link: any, minted: boolean, pref_location: string, salary: string, skills: Array<string>, summary: string, title: string, ipfs_hash: string, user_id: string, years_of_exp: string, user: { __typename?: 'User', image?: string | null } }> };
 
 export type GetMintedProfilesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMintedProfilesQuery = { __typename?: 'Query', profiles: Array<{ __typename?: 'Profile', address: string, education: Array<any>, experience: Array<any>, handle: string, id: number, job_type: string, link: any, minted: boolean, pref_location: string, salary: string, skills: Array<string>, summary: string, title: string, user_id: string, years_of_exp: string, user: { __typename?: 'User', image?: string | null } }> };
+export type GetMintedProfilesQuery = { __typename?: 'Query', profiles: Array<{ __typename?: 'Profile', address: string, education: Array<any>, experience: Array<any>, handle: string, id: number, job_type: string, link: any, minted: boolean, pref_location: string, salary: string, skills: Array<string>, summary: string, title: string, ipfs_hash: string, user_id: string, years_of_exp: string, user: { __typename?: 'User', image?: string | null } }> };
 
 export type GetReferralCountQueryVariables = Exact<{
   user_id: Scalars['String'];
@@ -3829,12 +4116,12 @@ export type GetReferralCountQuery = { __typename?: 'Query', aggregateReferral: {
 
 
 export const CreateOneReferralDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createOneReferral"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"user_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createOneReferral"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"user"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"connect"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"user_id"}}}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateOneReferralMutation, CreateOneReferralMutationVariables>;
-export const CreateProfileMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateProfileMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"handle"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"title"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"summary"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"job_type"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pref_location"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"salary"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"years_of_exp"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"link"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"JSON"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"address"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"education"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"JSON"}}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"experience"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"JSON"}}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"user_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createOneProfile"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"handle"},"value":{"kind":"Variable","name":{"kind":"Name","value":"handle"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"title"},"value":{"kind":"Variable","name":{"kind":"Name","value":"title"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"summary"},"value":{"kind":"Variable","name":{"kind":"Name","value":"summary"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"job_type"},"value":{"kind":"Variable","name":{"kind":"Name","value":"job_type"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"pref_location"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pref_location"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"salary"},"value":{"kind":"Variable","name":{"kind":"Name","value":"salary"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"years_of_exp"},"value":{"kind":"Variable","name":{"kind":"Name","value":"years_of_exp"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"link"},"value":{"kind":"Variable","name":{"kind":"Name","value":"link"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"address"},"value":{"kind":"Variable","name":{"kind":"Name","value":"address"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"education"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"set"},"value":{"kind":"Variable","name":{"kind":"Name","value":"education"}}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"experience"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"set"},"value":{"kind":"Variable","name":{"kind":"Name","value":"experience"}}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"minted"},"value":{"kind":"BooleanValue","value":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"user"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"connect"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"user_id"}}}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}}]}}]}}]} as unknown as DocumentNode<CreateProfileMutationMutation, CreateProfileMutationMutationVariables>;
+export const CreateProfileMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateProfileMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"handle"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"title"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"summary"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"job_type"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pref_location"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"salary"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"years_of_exp"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"link"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"JSON"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"address"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"education"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"JSON"}}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"experience"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"JSON"}}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ipfs_hash"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"user_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createOneProfile"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"handle"},"value":{"kind":"Variable","name":{"kind":"Name","value":"handle"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"title"},"value":{"kind":"Variable","name":{"kind":"Name","value":"title"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"summary"},"value":{"kind":"Variable","name":{"kind":"Name","value":"summary"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"job_type"},"value":{"kind":"Variable","name":{"kind":"Name","value":"job_type"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"pref_location"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pref_location"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"salary"},"value":{"kind":"Variable","name":{"kind":"Name","value":"salary"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"years_of_exp"},"value":{"kind":"Variable","name":{"kind":"Name","value":"years_of_exp"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"link"},"value":{"kind":"Variable","name":{"kind":"Name","value":"link"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"address"},"value":{"kind":"Variable","name":{"kind":"Name","value":"address"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"education"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"set"},"value":{"kind":"Variable","name":{"kind":"Name","value":"education"}}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"experience"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"set"},"value":{"kind":"Variable","name":{"kind":"Name","value":"experience"}}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"minted"},"value":{"kind":"BooleanValue","value":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"ipfs_hash"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ipfs_hash"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"user"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"connect"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"user_id"}}}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}}]}}]}}]} as unknown as DocumentNode<CreateProfileMutationMutation, CreateProfileMutationMutationVariables>;
 export const UpdateProfileMintingMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateProfileMintingMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"user_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"minted"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateOneProfile"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"minted"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"set"},"value":{"kind":"Variable","name":{"kind":"Name","value":"minted"}}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"user_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"user_id"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]}}]} as unknown as DocumentNode<UpdateProfileMintingMutationMutation, UpdateProfileMintingMutationMutationVariables>;
 export const GetProfileByHandleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getProfileByHandle"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"handle"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getProfile"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"handle"},"value":{"kind":"Variable","name":{"kind":"Name","value":"handle"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"summary"}},{"kind":"Field","name":{"kind":"Name","value":"job_type"}},{"kind":"Field","name":{"kind":"Name","value":"pref_location"}},{"kind":"Field","name":{"kind":"Name","value":"salary"}},{"kind":"Field","name":{"kind":"Name","value":"years_of_exp"}},{"kind":"Field","name":{"kind":"Name","value":"skills"}},{"kind":"Field","name":{"kind":"Name","value":"experience"}},{"kind":"Field","name":{"kind":"Name","value":"education"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"minted"}}]}}]}}]} as unknown as DocumentNode<GetProfileByHandleQuery, GetProfileByHandleQueryVariables>;
-export const GetProfileByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getProfileById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"user_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getProfile"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"user_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"user_id"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"summary"}},{"kind":"Field","name":{"kind":"Name","value":"job_type"}},{"kind":"Field","name":{"kind":"Name","value":"pref_location"}},{"kind":"Field","name":{"kind":"Name","value":"salary"}},{"kind":"Field","name":{"kind":"Name","value":"years_of_exp"}},{"kind":"Field","name":{"kind":"Name","value":"skills"}},{"kind":"Field","name":{"kind":"Name","value":"experience"}},{"kind":"Field","name":{"kind":"Name","value":"education"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"minted"}},{"kind":"Field","name":{"kind":"Name","value":"user_id"}}]}}]}}]} as unknown as DocumentNode<GetProfileByIdQuery, GetProfileByIdQueryVariables>;
+export const GetProfileByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getProfileById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"user_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getProfile"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"user_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"user_id"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"summary"}},{"kind":"Field","name":{"kind":"Name","value":"job_type"}},{"kind":"Field","name":{"kind":"Name","value":"pref_location"}},{"kind":"Field","name":{"kind":"Name","value":"salary"}},{"kind":"Field","name":{"kind":"Name","value":"years_of_exp"}},{"kind":"Field","name":{"kind":"Name","value":"skills"}},{"kind":"Field","name":{"kind":"Name","value":"experience"}},{"kind":"Field","name":{"kind":"Name","value":"education"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"minted"}},{"kind":"Field","name":{"kind":"Name","value":"ipfs_hash"}},{"kind":"Field","name":{"kind":"Name","value":"user_id"}}]}}]}}]} as unknown as DocumentNode<GetProfileByIdQuery, GetProfileByIdQueryVariables>;
 export const GetUserByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getUserById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"emailVerified"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"is_admin"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}}]}}]} as unknown as DocumentNode<GetUserByIdQuery, GetUserByIdQueryVariables>;
 export const GetUserByEmailDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getUserByEmail"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"emailVerified"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"is_admin"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}}]}}]}}]} as unknown as DocumentNode<GetUserByEmailQuery, GetUserByEmailQueryVariables>;
-export const GetProfilesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getProfiles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"profiles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"education"}},{"kind":"Field","name":{"kind":"Name","value":"experience"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"job_type"}},{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"minted"}},{"kind":"Field","name":{"kind":"Name","value":"pref_location"}},{"kind":"Field","name":{"kind":"Name","value":"salary"}},{"kind":"Field","name":{"kind":"Name","value":"skills"}},{"kind":"Field","name":{"kind":"Name","value":"summary"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"user_id"}},{"kind":"Field","name":{"kind":"Name","value":"years_of_exp"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"image"}}]}}]}}]}}]} as unknown as DocumentNode<GetProfilesQuery, GetProfilesQueryVariables>;
-export const GetMintedProfilesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getMintedProfiles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"profiles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"minted"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equals"},"value":{"kind":"BooleanValue","value":true}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"education"}},{"kind":"Field","name":{"kind":"Name","value":"experience"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"job_type"}},{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"minted"}},{"kind":"Field","name":{"kind":"Name","value":"pref_location"}},{"kind":"Field","name":{"kind":"Name","value":"salary"}},{"kind":"Field","name":{"kind":"Name","value":"skills"}},{"kind":"Field","name":{"kind":"Name","value":"summary"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"user_id"}},{"kind":"Field","name":{"kind":"Name","value":"years_of_exp"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"image"}}]}}]}}]}}]} as unknown as DocumentNode<GetMintedProfilesQuery, GetMintedProfilesQueryVariables>;
+export const GetProfilesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getProfiles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"profiles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"education"}},{"kind":"Field","name":{"kind":"Name","value":"experience"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"job_type"}},{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"minted"}},{"kind":"Field","name":{"kind":"Name","value":"pref_location"}},{"kind":"Field","name":{"kind":"Name","value":"salary"}},{"kind":"Field","name":{"kind":"Name","value":"skills"}},{"kind":"Field","name":{"kind":"Name","value":"summary"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"ipfs_hash"}},{"kind":"Field","name":{"kind":"Name","value":"user_id"}},{"kind":"Field","name":{"kind":"Name","value":"years_of_exp"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"image"}}]}}]}}]}}]} as unknown as DocumentNode<GetProfilesQuery, GetProfilesQueryVariables>;
+export const GetMintedProfilesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getMintedProfiles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"profiles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"minted"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equals"},"value":{"kind":"BooleanValue","value":true}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"education"}},{"kind":"Field","name":{"kind":"Name","value":"experience"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"job_type"}},{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"minted"}},{"kind":"Field","name":{"kind":"Name","value":"pref_location"}},{"kind":"Field","name":{"kind":"Name","value":"salary"}},{"kind":"Field","name":{"kind":"Name","value":"skills"}},{"kind":"Field","name":{"kind":"Name","value":"summary"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"ipfs_hash"}},{"kind":"Field","name":{"kind":"Name","value":"user_id"}},{"kind":"Field","name":{"kind":"Name","value":"years_of_exp"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"image"}}]}}]}}]}}]} as unknown as DocumentNode<GetMintedProfilesQuery, GetMintedProfilesQueryVariables>;
 export const GetReferralCountDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getReferralCount"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"user_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aggregateReferral"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"user_id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equals"},"value":{"kind":"Variable","name":{"kind":"Name","value":"user_id"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_count"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user_id"}}]}}]}}]}}]} as unknown as DocumentNode<GetReferralCountQuery, GetReferralCountQueryVariables>;
