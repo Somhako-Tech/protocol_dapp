@@ -67,7 +67,10 @@ const ProfilePreview = ({ userProfile }: { userProfile: ProfileWithImage }) => {
                     <div className="mb-3 flex justify-center pb-2">
                         {userProfile.user.image ? (
                             <Image
-                                src={userProfile.user.image}
+                                src={
+                                    "https://gateway.pinata.cloud/ipfs/" +
+                                    userProfile.ipfs_hash
+                                }
                                 alt={userProfile.handle}
                                 className="rounded-full"
                                 width={100}
