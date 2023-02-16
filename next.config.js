@@ -5,7 +5,11 @@ const nextConfig = {
         return [{ source: "/docs", destination: "/index.html" }];
     },
     images: {
-        domains: ["lh3.googleusercontent.com", "avatars.githubusercontent.com"],
+        domains: [
+            "lh3.googleusercontent.com",
+            "avatars.githubusercontent.com",
+            "gateway.pinata.cloud",
+        ],
     },
 };
 
