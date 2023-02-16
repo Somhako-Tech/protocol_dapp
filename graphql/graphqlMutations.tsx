@@ -49,6 +49,7 @@ export const createProfileQueryDocument = graphql(`
         $address: String!
         $education: [JSON!]!
         $experience: [JSON!]!
+        $ipfs_hash: String!
         $user_id: String!
     ) {
         createOneProfile(
@@ -65,6 +66,7 @@ export const createProfileQueryDocument = graphql(`
                 education: { set: $education }
                 experience: { set: $experience }
                 minted: false
+                ipfs_hash: $ipfs_hash
                 user: { connect: { id: $user_id } }
             }
         ) {
@@ -90,6 +92,7 @@ export const createProfileQuery = async (user_id: string, profile: Profile) => {
             address: profile.address,
             education: profile.education,
             experience: profile.experience,
+            ipfs_hash: profile.ipfs_hash,
             user_id: user_id,
         }
     ).catch((err) => {

@@ -61,6 +61,7 @@ export const getProfileByUserIdQueryDocument = graphql(`
             address
             link
             minted
+            ipfs_hash
             user_id
         }
     }
@@ -148,6 +149,7 @@ export const getProfilesQueryDocument = graphql(`
             skills
             summary
             title
+            ipfs_hash
             user_id
             years_of_exp
             user {
@@ -184,6 +186,7 @@ export const getMintedProfilesQueryDocument = graphql(`
             skills
             summary
             title
+            ipfs_hash
             user_id
             years_of_exp
             user {
