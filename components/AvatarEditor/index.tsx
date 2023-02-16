@@ -64,48 +64,6 @@ const defaultOptions = {
 };
 
 export default function AvatarEditor({ avatarConfig, setAvatarConfig }: any) {
-    const saveAvatarToIpfs = async (
-        filename: string
-    ): Promise<{
-        IpfsHash: string;
-        PinSize: number;
-        Timestamp: string;
-    } | null> => {
-        const node = document.getElementById("avatarId");
-        const scale = 2;
-        if (node) {
-            const nodeWidth = node.offsetWidth - 10;
-            const nodeHeight = node.offsetHeight - 10;
-
-            const blob = await DomToImage.toBlob(node, {
-                height: node.offsetHeight * scale,
-                style: {
-                    transform: `scale(${scale}) translate(${
-                        nodeWidth / 2 / scale
-                    }px, ${nodeHeight / 2 / scale}px)`,
-                    "border-radius": 0,
-                },
-                width: node.offsetWidth * scale,
-            });
-            const formData = new FormData();
-
-            formData.append(filename, blob);
-
-            const response = await fetch("/api/pinata", {
-                body: formData,
-                method: "POST",
-            }).catch((err) => console.log(err));
-
-            return response ? await response.json() : null;
-        } else return null;
-    };
-
-    // const saveConfig = async (config: AvatarConfig) => {
-    //     const encryptedConfig = Buffer.from(config.toString(), "base64");
-    //     const decryptedConfig = encryptedConfig.toString("base64");
-    //     console.log({ config, encryptedConfig, decryptedConfig });
-    // };
-
     const switchConfig = (type: string | number) => {
         const currentOpt = avatarConfig[type];
         const opts = defaultOptions[type as keyof typeof defaultOptions];
@@ -168,15 +126,26 @@ export default function AvatarEditor({ avatarConfig, setAvatarConfig }: any) {
                 </div>
             </div>
 
-            <button
-                onClick={() => setAvatarConfig(genConfig())}
-                // onClick={() => saveAvatarFile()}
-                // onClick={() => saveConfig(avatarConfig)}
-                type="button"
-                className="rounded-full bg-somhakohr py-2.5 px-6 font-bold text-white transition-all hover:bg-somhakohr2  md:min-w-[150px]"
-            >
-                Randomize
-            </button>
+            <div>
+                <button
+                    onClick={() => setAvatarConfig(genConfig())}
+                    // onClick={() => saveAvatarFile()}
+                    // onClick={() => saveConfig(avatarConfig)}
+                    type="button"
+                    className="my-4 rounded-full bg-somhakohr py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:min-w-[150px]  md:max-w-[160px]"
+                >
+                    Randomize
+                </button>
+                <button
+                    type="button"
+                    className="my-4 ml-4 rounded-full bg-somhakohr py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:max-w-[160px]"
+                    onClick={() => {
+                        setAvatarConfig(genConfig("somhako"));
+                    }}
+                >
+                    {"Reset Avatar"}
+                </button>
+            </div>
         </div>
     );
 }
