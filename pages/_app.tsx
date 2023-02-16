@@ -4,7 +4,7 @@ import type { AppProps } from "next/app";
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
-import { mainnet, polygon, optimism, arbitrum } from "wagmi/chains";
+import { mainnet, polygon, polygonMumbai, arbitrum } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import { SessionProvider } from "next-auth/react";
@@ -21,7 +21,7 @@ export default function App({
     session: Session;
 }>) {
     const { chains, provider } = configureChains(
-        [mainnet, polygon],
+        [mainnet, polygon, polygonMumbai],
         [
             alchemyProvider({ apiKey: process.env.ALCHEMY_ID || " " }),
             publicProvider(),
