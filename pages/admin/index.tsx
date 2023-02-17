@@ -33,12 +33,9 @@ export default function Home() {
     let profileList = <></>;
 
     const handleMint = async (profile: Profile) => {
-        const { handle, address } = profile;
-
-        //TODO Test with contract
         const response = await axiosContractInstance.post("/contract", {
-            handle,
-            address,
+            handle: profile.handle,
+            address: profile.address,
             user_id: profile.user_id,
             ipfs_hash: profile.ipfs_hash,
             education: profile.education,
