@@ -110,9 +110,13 @@ const ProfileForm = ({
         setSubmittingForm(true);
         const avatar = await saveAvatarToIpfs();
 
+        if (!avatar) {
+            throw new Error("Cannot save to ipfs");
+            return;
+        }
         const { isValid, errors } = await allFieldsValidation({
             ...userProfile,
-            ipfs_hash: avatar ? avatar.IpfsHash : "",
+            ipfs_hash: avatar.IpfsHash,
         });
 
         if (isValid) handleSubmit(userProfile);
