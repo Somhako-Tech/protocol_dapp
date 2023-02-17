@@ -106,17 +106,12 @@ const ProfileForm = ({
     const checkSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
-        // if (userProfile.ipfs_hash === "") {
-        //     const avatar = await saveAvatarToIpfs();
-        //     if (avatar) {
-        //         dispatch({
-        //             target: { id: "ipfs_hash", value: avatar.IpfsHash },
-        //         });
-        //     }
-        // }
+        const avatar = await saveAvatarToIpfs();
 
-        const { isValid, errors } = await allFieldsValidation(userProfile);
-
+        const { isValid, errors } = await allFieldsValidation({
+            ...userProfile,
+            ipfs_hash: avatar?.IpfsHash as string,
+        });
         if (isValid) handleSubmit(userProfile);
         else {
             console.log(errors);
