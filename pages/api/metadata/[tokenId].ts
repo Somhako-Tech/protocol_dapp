@@ -5,6 +5,25 @@ import { getAddress } from "ethers/lib/utils";
 // This is an example of how to read a JSON Web Token from an API route
 // import { getToken } from "next-auth/jwt";
 
+const getProfile = (object: any) => ({
+    handle: object[0][1],
+    address: object[0][2],
+    image_location: "https://gateway.pinata.cloud/" + object[0][3],
+});
+
+const getEducation = (object: any) =>
+    object[1].map((education: any) => ({
+        institution: education[0],
+        year: education[1],
+        title: education[2],
+    }));
+const getExperience = (object: any) =>
+    object[2].map((experience: any) => ({
+        organization: experience[0],
+        startYear: experience[1],
+        endYear: experience[2],
+        title: experience[3],
+    }));
 export default async function handler(req: NextApiRequest, res: any) {
     if (req.method !== "GET")
         return res.status(405).send({ error: "Wrong method" });
@@ -14,8 +33,6 @@ export default async function handler(req: NextApiRequest, res: any) {
     );
 
     const { tokenId } = req.query;
-
-    console.log(`minting: ${tokenId} @ ${process.env.RPC_PROVIDER}`);
 
     const contractAddress = process.env.CONTRACT_ADDRESS as string;
 
@@ -27,13 +44,17 @@ export default async function handler(req: NextApiRequest, res: any) {
         );
 
         const profile = await profileManagerContract.getProfileFromToken(
-            ethers.BigNumber.from(tokenId)
+            tokenId
         );
 
-        console.log(profile);
+        const prof = getProfile(profile);
+        const edu = getEducation(profile);
+        const exp = getExperience(profile);
 
         res.setHeader("Access-Control-Allow-Origin", "*").send({
-            profile,
+            ...prof,
+            education: edu,
+            experience: exp,
         });
     } catch (error: any) {
         res.send({ success: false, error });
