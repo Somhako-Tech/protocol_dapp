@@ -67,19 +67,19 @@ export default function LinkModal({
                 >
                     <option
                         value="LinkedIn"
-                        className="hover:bg-somhakohr hover:text-white "
+                        className="hover:bg-somhako hover:text-white "
                     >
                         LinkedIn
                     </option>
                     <option
                         value="Github"
-                        className="hover:bg-somhakohr hover:text-white "
+                        className="hover:bg-somhako hover:text-white "
                     >
                         Github
                     </option>
                     <option
                         value="Twitter"
-                        className="hover:bg-somhakohr hover:text-white "
+                        className="hover:bg-somhako hover:text-white "
                     >
                         Twitter
                     </option>

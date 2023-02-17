@@ -57,7 +57,7 @@ const ProfilePreview = ({ userProfile }: { userProfile: ProfileWithImage }) => {
                 <div className="my-2">{education}</div>
                 <Link
                     href={`/u/${userProfile.handle}`}
-                    className="font-normal text-somhakohr"
+                    className="font-normal text-somhako"
                 >
                     {"More >"}
                 </Link>

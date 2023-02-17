@@ -30,7 +30,7 @@ export const authOptions = {
     pages: {
         signIn: "/join",
         error: "/",
-        newUser: "/home",
+        newUser: "/explore",
     },
     callbacks: {
         session: async ({

@@ -132,13 +132,13 @@ export default function AvatarEditor({ avatarConfig, setAvatarConfig }: any) {
                     // onClick={() => saveAvatarFile()}
                     // onClick={() => saveConfig(avatarConfig)}
                     type="button"
-                    className="my-4 rounded-full bg-somhakohr py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:min-w-[150px]  md:max-w-[160px]"
+                    className="my-4 rounded-full bg-somhako py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:min-w-[150px]  md:max-w-[160px]"
                 >
                     Randomize
                 </button>
                 <button
                     type="button"
-                    className="my-4 ml-4 rounded-full bg-somhakohr py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:max-w-[160px]"
+                    className="my-4 ml-4 rounded-full bg-somhako py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:max-w-[160px]"
                     onClick={() => {
                         setAvatarConfig(genConfig("somhako"));
                     }}
