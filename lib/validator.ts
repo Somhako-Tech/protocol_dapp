@@ -25,6 +25,7 @@ const profileFormRules: Rules = {
         title: "required",
     },
     address: "required",
+    ipfs_hash: "required",
     user_id: "required",
 };
 
