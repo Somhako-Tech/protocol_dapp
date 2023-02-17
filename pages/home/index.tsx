@@ -78,7 +78,13 @@ export default function Home() {
     return (
         <section className="mx-10 flex flex-wrap">
             <div className="flex w-full justify-center ">
-                <div className="400ms m-10 rounded-lg border-2 border-slate-400 py-4 px-4 transition-all hover:scale-105 hover:border-0 hover:bg-purple-300 hover:bg-gradient-to-r hover:from-slate-50 hover:to-slate-200 hover:shadow-md hover:shadow-white">
+                <div
+                    className={
+                        !isQueryLoading
+                            ? "m-10 rounded-lg border-2 border-slate-400 py-4 px-4 transition-all hover:scale-105 hover:border-0 hover:bg-purple-300 hover:bg-gradient-to-r hover:from-slate-50 hover:to-slate-200 hover:shadow-md hover:shadow-white"
+                            : " m-10 py-4 px-4 transition-all"
+                    }
+                >
                     <Link
                         href={!Profile ? "/app" : "/u"}
                         className={
