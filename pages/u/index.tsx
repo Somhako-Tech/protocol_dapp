@@ -130,7 +130,7 @@ export default function UserPage() {
                                 <div>
                                     <label
                                         id="referral"
-                                        className="mx-4 w-auto text-base font-medium text-somhakohr2"
+                                        className="mx-4 w-auto text-base font-medium text-somhako2"
                                     >
                                         {referralLink}{" "}
                                     </label>
@@ -147,7 +147,7 @@ export default function UserPage() {
                                     </label>
                                     <label
                                         id="referral"
-                                        className="mx-4 w-auto text-base font-medium text-somhakohr2"
+                                        className="mx-4 w-auto text-base font-medium text-somhako2"
                                     >
                                         {referralCount}{" "}
                                     </label>

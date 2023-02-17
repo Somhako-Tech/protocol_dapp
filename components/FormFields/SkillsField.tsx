@@ -64,7 +64,7 @@ export default function SkillsField({
                             {userProfile.skills.map((item: string) => (
                                 <button
                                     key={item}
-                                    className="m-2 rounded-md bg-somhakohr px-2 py-1 hover:bg-somhakohr2"
+                                    className="m-2 rounded-md bg-somhako px-2 py-1 hover:bg-somhako2"
                                     onClick={() => removeSkill(item)}
                                     type="button"
                                 >

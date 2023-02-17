@@ -114,7 +114,7 @@ export default function AppPage() {
                 <div className="h-full w-full">
                     <div className="flex-col items-center justify-center">
                         <div className=" shadow-normal mx-auto my-10 flex w-full max-w-[1000px] flex-col items-center justify-center rounded-[25px] bg-white p-8 py-10 shadow-md shadow-slate-400 md:py-14 md:px-20 ">
-                            <h1 className="mb-20 bg-somhakohr bg-clip-text pt-5 text-center text-4xl font-extrabold capitalize text-transparent">
+                            <h1 className="mb-20 bg-somhako bg-clip-text pt-5 text-center text-4xl font-extrabold capitalize text-transparent">
                                 Please connect your wallet to mint your profile
                             </h1>
                             <RiseLoader size={30} speedMultiplier={0.8} />
@@ -153,12 +153,12 @@ export default function AppPage() {
                                     onClick={async () => {
                                         if (!isRouteLoading) {
                                             setIsRouteLoading(true);
-                                            await router.push("/home");
+                                            await router.push("/explore");
                                         }
                                     }}
                                     className=" rounded-full bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] py-2.5 px-6 font-bold text-white transition-all hover:from-[#391188] hover:to-[#391188] md:min-w-[150px]"
                                 >
-                                    Home
+                                    explore
                                 </button>
                             </div>
                         </div>

@@ -19,7 +19,7 @@ export default function LogIn({ providers }: { providers: any }) {
     useEffect(() => {
         if (session && !isRouteLoading) {
             setIsRouteLoading(true);
-            router.push("/home");
+            router.push("/explore");
         }
     }, [session, router, isRouteLoading]);
 
@@ -49,7 +49,7 @@ export default function LogIn({ providers }: { providers: any }) {
         //                 <div className="p-6 mr-2 bg-gray-800 sm:rounded-lg">
         //                     <p className="text-normal text-lg sm:text-2xl font-medium text-gray-600 dark:text-gray-400 mt-2">
         //                         {referral &&
-        //                             `@${referral} has invited you to join Somhakohr\n`}
+        //                             `@${referral} has invited you to join somhako\n`}
         //                         Sign in to mint your account
         //                     </p>
 
@@ -132,7 +132,7 @@ export default function LogIn({ providers }: { providers: any }) {
                     <div className="flex max-w-md flex-1  flex-col justify-center space-y-5">
                         <div className="flex flex-col space-y-2 text-center">
                             {referral &&
-                                `@${referral} has invited you to join Somhakohr\n`}
+                                `@${referral} has invited you to join somhako\n`}
                             <h2 className="text-3xl font-bold md:text-4xl">
                                 Sign in to account
                             </h2>

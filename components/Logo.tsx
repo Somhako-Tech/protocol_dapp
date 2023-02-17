@@ -10,7 +10,7 @@ export default function Logo({
     return (
         <div className="max-h-[200px]  w-full">
             <Link
-                href="/home"
+                href="/explore"
                 className="inline-block w-full max-w-[200px] align-middle"
             >
                 <Image

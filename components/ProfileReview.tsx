@@ -216,7 +216,6 @@ export default function ProfileSummary({
             const value: string | undefined =
                 profile[key as keyof Profile]?.toString();
 
-            console.log({ key, value });
             if (!value) return;
             if (key === "pref_location") label = "Preferred Location";
 
@@ -272,7 +271,7 @@ export default function ProfileSummary({
                             handleRejection(profile);
                             setHandlingSubmit(true);
                         }}
-                        className=" rounded-full bg-gradient-to-r from-[#a85959] to-somhakohr py-2.5 px-6 font-bold text-white transition-all hover:from-[#391188] hover:to-[#391188] md:min-w-[150px]"
+                        className=" rounded-full bg-gradient-to-r from-[#a85959] to-somhako py-2.5 px-6 font-bold text-white transition-all hover:from-[#391188] hover:to-[#391188] md:min-w-[150px]"
                     >
                         Reject
                     </button>
@@ -281,7 +280,7 @@ export default function ProfileSummary({
                             handleMint(profile);
                             setHandlingSubmit(true);
                         }}
-                        className=" rounded-full bg-gradient-to-r from-[#6D27F9] to-somhakohr py-2.5 px-6 font-bold text-white transition-all hover:from-[#391188] hover:to-[#391188] md:min-w-[150px]"
+                        className=" rounded-full bg-gradient-to-r from-[#6D27F9] to-somhako py-2.5 px-6 font-bold text-white transition-all hover:from-[#391188] hover:to-[#391188] md:min-w-[150px]"
                     >
                         Approve
                     </button>

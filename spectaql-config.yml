@@ -393,13 +393,13 @@ info:
     #
     ##############################################
 
-    description: Somhakohr Graphql Endpoint
+    description: Somhako Graphql Endpoint
     version: 1.0.0
-    title: Somhakohr Graphql Endpoint
+    title: Somhako Graphql Endpoint
     # This is non-standard and optional. If omitted, will use "title". Also, only relevant
     # when building non-embedded.
-    x-htmlTitle: Somhakohr Graphql Endpoint
-    termsOfService: "https://protocol.somhakohr.com"
+    x-htmlTitle: Somhako Graphql Endpoint
+    termsOfService: "https://protocol.somhako.com"
 
     license:
         name: Apache 2.0

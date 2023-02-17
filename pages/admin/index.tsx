@@ -18,7 +18,7 @@ import { updateProfileMintingMutation } from "../../graphql/graphqlMutations";
 import { useQueryClient } from "@tanstack/react-query";
 import emails from "../../constants/email";
 import { BigClipLoader } from "../../components/Loader";
-export default function Home() {
+export default function Explore() {
     const queryClient = useQueryClient();
 
     const {
@@ -33,12 +33,9 @@ export default function Home() {
     let profileList = <></>;
 
     const handleMint = async (profile: Profile) => {
-        const { handle, address } = profile;
-
-        //TODO Test with contract
         const response = await axiosContractInstance.post("/contract", {
-            handle,
-            address,
+            handle: profile.handle,
+            address: profile.address,
             user_id: profile.user_id,
             ipfs_hash: profile.ipfs_hash,
             education: profile.education,
@@ -118,7 +115,7 @@ export async function getServerSideProps(context: any) {
     if (!loggedInUser?.is_admin)
         return {
             redirect: {
-                destination: "/home",
+                destination: "/explore",
                 permanent: false,
             },
         };

@@ -14,7 +14,7 @@ export default function Layout({ children }: { children: any }) {
         return (
             <main>
                 <Head>
-                    <title> Somhakohr Dapp </title>
+                    <title> somhako Dapp </title>
                 </Head>
                 {children}
             </main>
@@ -23,7 +23,7 @@ export default function Layout({ children }: { children: any }) {
     return (
         <main>
             <Head>
-                <title> Somhakohr Dapp </title>
+                <title> Somhako Protocol </title>
             </Head>
 
             <div className="h-full min-h-screen bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e]">

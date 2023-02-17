@@ -106,17 +106,12 @@ const ProfileForm = ({
     const checkSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
-        // if (userProfile.ipfs_hash === "") {
-        //     const avatar = await saveAvatarToIpfs();
-        //     if (avatar) {
-        //         dispatch({
-        //             target: { id: "ipfs_hash", value: avatar.IpfsHash },
-        //         });
-        //     }
-        // }
+        const avatar = await saveAvatarToIpfs();
 
-        const { isValid, errors } = await allFieldsValidation(userProfile);
-
+        const { isValid, errors } = await allFieldsValidation({
+            ...userProfile,
+            ipfs_hash: avatar?.IpfsHash as string,
+        });
         if (isValid) handleSubmit(userProfile);
         else {
             console.log(errors);
@@ -224,7 +219,7 @@ const ProfileForm = ({
             return (
                 <button
                     type="button"
-                    className="mx-4 rounded-full bg-somhakohr py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:min-w-[80px]"
+                    className="mx-4 rounded-full bg-somhako py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:min-w-[80px]"
                     onClick={() => {
                         setSelectedIndex((prev) => prev + 1);
                     }}
@@ -237,7 +232,7 @@ const ProfileForm = ({
                 <div>
                     <button
                         type="button"
-                        className="mx-4 rounded-full bg-somhakohr py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:min-w-[80px]"
+                        className="mx-4 rounded-full bg-somhako py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:min-w-[80px]"
                         onClick={() => {
                             setSelectedIndex((prev) => prev - 1);
                         }}
@@ -246,7 +241,7 @@ const ProfileForm = ({
                     </button>
                     <button
                         type="button"
-                        className="mx-4 rounded-full bg-somhakohr py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:min-w-[80px]"
+                        className="mx-4 rounded-full bg-somhako py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:min-w-[80px]"
                         onClick={() => {
                             setSelectedIndex((prev) => prev + 1);
                         }}
