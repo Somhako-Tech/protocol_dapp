@@ -138,7 +138,7 @@ export default function ProfileSummary({
     if (!userProfile) return <ProfileFormSkeleton />;
     return (
         <div className="w-full">
-            <div className="shadow-normal mx-auto my-10 flex w-full max-w-[1000px] flex-col items-center justify-center rounded-[25px] border border-slate-700 bg-white p-8 md:py-14 md:px-20">
+            <div className="shadow-normal mx-auto w-full max-w-[800px]	flex-col items-center justify-center rounded-[25px] bg-white  p-8 text-black md:py-14 md:px-20">
                 <h2 className="mb-4 text-lg font-semibold md:text-3xl">
                     @{userProfile.handle}
                 </h2>

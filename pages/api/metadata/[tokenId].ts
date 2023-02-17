@@ -10,7 +10,7 @@ const getProfile = (object: any) => ({
     external_url: "https://protocol.somhako.com/u/" + object[0][1],
     handle: object[0][1],
     address: object[0][2],
-    image: "https://gateway.pinata.cloud/" + object[0][3],
+    image: "https://gateway.pinata.cloud/ipfs/" + object[0][3],
 });
 
 const getEducation = (object: any) =>

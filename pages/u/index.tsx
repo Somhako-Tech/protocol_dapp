@@ -15,6 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { ProfileFormSkeleton } from "../../components/skeletons";
 import styles from "./u.module.css";
+import { BigClipLoader } from "../../components/Loader";
 
 export default function UserPage() {
     const router = useRouter();
@@ -94,6 +95,7 @@ export default function UserPage() {
             });
     };
 
+    if (isProfileQueryLoading) return <BigClipLoader />;
     return (
         <section className="flex w-full flex-wrap ">
             <Snackbar
@@ -102,60 +104,54 @@ export default function UserPage() {
                 message="Link copied"
             />
             <div className="h-full w-full">
-                <div className="shadow-normal mx-auto w-full max-w-[800px]	 rounded-[25px] bg-white  p-8 text-black md:py-14 md:px-20">
-                    <div className="flex-col items-center justify-center">
-                        <h1 className={" mb-4 text-center text-2xl font-bold"}>
-                            {/* TODO Add check for minting complete */}
-                            {isProfileQueryLoading
-                                ? "Profile loading"
-                                : Profile &&
-                                  (Profile?.minted
-                                      ? "Your account has been minted! Check your email for more information."
-                                      : "You're in the mint queue! We'll notify you as soon as your profile get minted!")}
-                        </h1>
-
-                        {isProfileQueryLoading ? (
-                            <ProfileFormSkeleton />
-                        ) : (
-                            <ProfileSummary userProfile={Profile} />
-                        )}
-                        {Profile && (
-                            <div className="shadow-normal mx-auto my-10 flex w-full max-w-[1000px] flex-col items-center justify-center rounded-[25px] border border-slate-700 bg-white p-8 md:py-14 md:px-20">
-                                <label
-                                    htmlFor="referral"
-                                    className={styles.profileLabel}
-                                >
-                                    Referral Link
-                                </label>
-                                <div>
-                                    <label
-                                        id="referral"
-                                        className="mx-4 w-auto text-base font-medium text-somhako2"
-                                    >
-                                        {referralLink}{" "}
-                                    </label>
-                                    <ContentCopyIcon
-                                        onClick={handleCopyClick}
-                                    />
-                                </div>
-                                <div>
-                                    <label
-                                        id="referral"
-                                        className="mx-4 w-auto text-base font-medium "
-                                    >
-                                        Referred Accounts :
-                                    </label>
-                                    <label
-                                        id="referral"
-                                        className="mx-4 w-auto text-base font-medium text-somhako2"
-                                    >
-                                        {referralCount}{" "}
-                                    </label>
-                                </div>
-                            </div>
-                        )}
-                    </div>
+                <div className="m-10 rounded-lg border-2 border-slate-400 py-4 px-4 transition-all hover:scale-105 hover:border-0 hover:bg-purple-300 hover:bg-gradient-to-r hover:from-slate-50 hover:to-slate-200 hover:shadow-md hover:shadow-white">
+                    <h1
+                        className={
+                            " z-0 bg-gradient-to-r from-purple-200 to-pink-300 bg-clip-text text-5xl font-extrabold text-transparent hover:bg-gradient-to-r hover:from-amber-600 hover:to-yellow-900"
+                        }
+                    >
+                        {/* TODO Add check for minting complete */}
+                        {Profile &&
+                            (Profile?.minted
+                                ? "Your account has been minted! Check your email for more information."
+                                : "You're in the mint queue! We'll notify you as soon as your profile get minted!")}
+                    </h1>
                 </div>
+
+                <ProfileSummary userProfile={Profile} />
+                {Profile && (
+                    <div className="shadow-normal mx-auto w-full max-w-[800px]	 rounded-[25px] bg-white  p-8 text-black md:py-14 md:px-20">
+                        <label
+                            htmlFor="referral"
+                            className={styles.profileLabel}
+                        >
+                            Referral Link
+                        </label>
+                        <div>
+                            <label
+                                id="referral"
+                                className="mx-4 w-auto text-base font-medium text-somhako2"
+                            >
+                                {referralLink}{" "}
+                            </label>
+                            <ContentCopyIcon onClick={handleCopyClick} />
+                        </div>
+                        <div>
+                            <label
+                                id="referral"
+                                className="mx-4 w-auto text-base font-medium "
+                            >
+                                Referred Accounts :
+                            </label>
+                            <label
+                                id="referral"
+                                className="mx-4 w-auto text-base font-medium text-somhako2"
+                            >
+                                {referralCount}{" "}
+                            </label>
+                        </div>
+                    </div>
+                )}
             </div>
         </section>
     );
