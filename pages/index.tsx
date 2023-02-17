@@ -485,7 +485,7 @@ const Index = () => {
     );
 };
 
-export default explore;
+export default Index;
 
 import { authOptions } from "./api/auth/[...nextauth]";
 import { getServerSession } from "next-auth/next";
