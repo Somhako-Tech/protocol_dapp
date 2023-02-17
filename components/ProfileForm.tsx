@@ -219,7 +219,7 @@ const ProfileForm = ({
             return (
                 <button
                     type="button"
-                    className="mx-4 rounded-full bg-somhakohr py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:min-w-[80px]"
+                    className="mx-4 rounded-full bg-somhako py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:min-w-[80px]"
                     onClick={() => {
                         setSelectedIndex((prev) => prev + 1);
                     }}
@@ -232,7 +232,7 @@ const ProfileForm = ({
                 <div>
                     <button
                         type="button"
-                        className="mx-4 rounded-full bg-somhakohr py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:min-w-[80px]"
+                        className="mx-4 rounded-full bg-somhako py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:min-w-[80px]"
                         onClick={() => {
                             setSelectedIndex((prev) => prev - 1);
                         }}
@@ -241,7 +241,7 @@ const ProfileForm = ({
                     </button>
                     <button
                         type="button"
-                        className="mx-4 rounded-full bg-somhakohr py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:min-w-[80px]"
+                        className="mx-4 rounded-full bg-somhako py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:min-w-[80px]"
                         onClick={() => {
                             setSelectedIndex((prev) => prev + 1);
                         }}
