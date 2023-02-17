@@ -216,7 +216,6 @@ export default function ProfileSummary({
             const value: string | undefined =
                 profile[key as keyof Profile]?.toString();
 
-            console.log({ key, value });
             if (!value) return;
             if (key === "pref_location") label = "Preferred Location";
 

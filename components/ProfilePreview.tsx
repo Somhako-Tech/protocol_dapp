@@ -43,7 +43,7 @@ const ProfilePreview = ({ userProfile }: { userProfile: ProfileWithImage }) => {
     );
 
     return (
-        <div className="relative" key={userProfile.id}>
+        <div className="relative" key={userProfile.user_id}>
             <div className="shadow-normal bg-opacity-98 absolute inset-0 z-10 mb-6 flex min-h-[350px] flex-col justify-evenly rounded-[30px] border bg-white  py-6 px-16 pb-6 text-center opacity-0 shadow-slate-200 duration-300 hover:opacity-100 hover:shadow-2xl">
                 <div className="my-2">
                     <label className="mb-2 inline-block text-lg font-medium leading-none">
