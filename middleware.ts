@@ -2,7 +2,7 @@ export { default } from "next-auth/middleware";
 
 //TODO Add graphql auth check
 export const config = {
-    matcher: ["/home", "/app", "/admin"],
+    matcher: ["/explore", "/app", "/admin"],
     pages: {
         signIn: "/",
     },

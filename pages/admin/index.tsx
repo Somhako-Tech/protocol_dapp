@@ -18,7 +18,7 @@ import { updateProfileMintingMutation } from "../../graphql/graphqlMutations";
 import { useQueryClient } from "@tanstack/react-query";
 import emails from "../../constants/email";
 import { BigClipLoader } from "../../components/Loader";
-export default function Home() {
+export default function Explore() {
     const queryClient = useQueryClient();
 
     const {
@@ -115,7 +115,7 @@ export async function getServerSideProps(context: any) {
     if (!loggedInUser?.is_admin)
         return {
             redirect: {
-                destination: "/home",
+                destination: "/explore",
                 permanent: false,
             },
         };

@@ -14,7 +14,7 @@ import Link from "next/link";
 import { Transition } from "react-transition-group";
 import { Profile } from "@prisma/client";
 
-export default function Home() {
+export default function Explore() {
     const router = useRouter();
     const { data: session } = useSession();
 

@@ -18,7 +18,7 @@ const navigation = [
     { name: "Documentation", href: "/docs" },
 ];
 
-const Home = () => {
+const Index = () => {
     const router = useRouter();
     const { data: session } = useSession();
 
@@ -485,7 +485,7 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default explore;
 
 import { authOptions } from "./api/auth/[...nextauth]";
 import { getServerSession } from "next-auth/next";
@@ -513,7 +513,7 @@ export async function getServerSideProps(context: any) {
     else
         return {
             redirect: {
-                destination: "/home",
+                destination: "/explore",
                 permanent: false,
             },
         };

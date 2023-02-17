@@ -8,8 +8,8 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                somhakohr: "#936CE0",
-                somhakohr2: "#7D45ED",
+                somhako: "#936CE0",
+                somhako2: "#7D45ED",
             },
         },
     },

@@ -11,8 +11,16 @@ export default function Header() {
             <div className="lg:max-w-80 w-full ">
                 <div className="shadow-normal center flex-col items-center justify-center  bg-white bg-gradient-to-r from-slate-50 to-slate-200 px-6 py-4 ">
                     <div className="flex items-center justify-between ">
-                        <div className="max-h-[200px] text-lg  font-semibold">
-                            <Logo width={200} height={200} />
+                        <div className="flex flex-row items-center justify-between">
+                            <div className="max-h-[200px] text-lg  font-semibold">
+                                <Logo width={200} height={200} />
+                            </div>
+                            <Link
+                                href="/explore"
+                                className="ml-10 rounded-md bg-somhako py-1 px-3 text-white"
+                            >
+                                Explore
+                            </Link>
                         </div>
 
                         <div className="flex items-center justify-center">
