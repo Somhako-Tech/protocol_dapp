@@ -59,6 +59,7 @@ export default function ExperienceFields({
                 onClick={onClick}
                 ref={ref}
                 value={value || ""}
+                defaultValue={""}
             />
         ));
 
