@@ -6,6 +6,7 @@ import { getProfileByUserIdQuery } from "../../graphql/graphqlQueries";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Profile } from "@prisma/client";
+import Footer from "../footer";
 
 export default function Layout({ children }: { children: any }) {
     const router = useRouter();
@@ -26,9 +27,10 @@ export default function Layout({ children }: { children: any }) {
                 <title> Somhako Protocol </title>
             </Head>
 
-            <div className="h-full min-h-screen bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e]">
+            <div className="min-h-screen">
                 <Header />
                 {children}
+                <Footer />
             </div>
         </main>
     );

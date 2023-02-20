@@ -9,7 +9,7 @@ export default function Header() {
     return (
         <section className="mt-0 flex max-h-[200px] w-full flex-wrap items-center justify-center ">
             <div className="lg:max-w-80 w-full ">
-                <div className="shadow-normal center flex-col items-center justify-center  bg-white bg-gradient-to-r from-slate-50 to-slate-200 px-6 py-4 ">
+                <div className="shadow-normal bg-white px-6 py-4 ">
                     <div className="flex items-center justify-between ">
                         <div className="flex flex-row items-center justify-between">
                             <div className="max-h-[200px] text-lg  font-semibold">
@@ -17,7 +17,7 @@ export default function Header() {
                             </div>
                             <Link
                                 href="/explore"
-                                className="ml-10 rounded-md bg-somhako py-1 px-3 text-white"
+                                className="ml-10 hover:text-[#6D27F9] inline-flex items-center font-medium"
                             >
                                 Explore
                             </Link>
