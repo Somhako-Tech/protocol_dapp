@@ -26,6 +26,7 @@ export const getProfileByHandleQueryDocument = graphql(`
             education
             address
             minted
+            ipfs_hash
         }
     }
 `);
