@@ -95,7 +95,7 @@ const Index = () => {
                                     <span className="sr-only">
                                         Your Company
                                     </span>
-                                    <img src="/images/logo.png" alt="Somhako" />{" "}
+                                    <img src="/images/logo.png" alt="Somhako" width={200} />{" "}
                                 </a>
                             </div>
                             <div className="flex lg:hidden">
@@ -145,11 +145,7 @@ const Index = () => {
                                             <span className="sr-only">
                                                 Your Company
                                             </span>
-                                            <img
-                                                className="h-8"
-                                                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                                                alt=""
-                                            />
+                                            <img src="/images/logo.png" alt="Somhako" width={200} />
                                         </a>
                                     </div>
                                     <div className="flex">
@@ -204,21 +200,21 @@ const Index = () => {
                                 <div className="hidden sm:mb-8 sm:flex sm:justify-center">
                                     <div className="relative overflow-hidden rounded-full py-1.5 px-4 text-sm leading-6 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
                                         {/* <span className="text-gray-600">
-        Announcing our next round of funding.{" "}
-        <a
-            href="#"
-            className="font-semibold text-indigo-600"
-        >
-            <span
-                className="absolute inset-0"
-                aria-hidden="true"
-            />
-            Read more{" "}
-            <span aria-hidden="true">
-                &rarr;
-            </span>
-        </a>
-    </span> */}
+                                            Announcing our next round of funding.{" "}
+                                            <a
+                                                href="#"
+                                                className="font-semibold text-indigo-600"
+                                            >
+                                                <span
+                                                    className="absolute inset-0"
+                                                    aria-hidden="true"
+                                                />
+                                                Read more{" "}
+                                                <span aria-hidden="true">
+                                                    &rarr;
+                                                </span>
+                                            </a>
+                                        </span> */}
                                     </div>
                                 </div>
                                 <div>

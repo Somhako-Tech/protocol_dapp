@@ -160,6 +160,11 @@ a {
         radial-gradient(at 84% 11%, rgb(186, 230, 253) 0, transparent 17%);
 }
 
+.connectBtn button {
+    font-size: 12px !important;
+    border-radius: 6px !important;
+}
+
 
 @media (min-width: 1000px) {
     .container {

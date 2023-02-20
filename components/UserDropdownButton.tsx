@@ -11,10 +11,10 @@ export default function UserDropdownButton({
     signOut: () => void;
 }) {
     return (
-        <div className="top-16 w-56 text-right">
+        <div className="">
             <Menu as="div" className="relative inline-block text-left">
                 <div>
-                    <Menu.Button className="mr-4 flex items-center justify-center rounded-full bg-somhako px-5 py-1.5 px-2 text-center text-lg font-medium text-white dark:bg-somhako">
+                    <Menu.Button className="flex items-center justify-center rounded bg-primary px-5 py-1.5 px-2 text-center text-lg font-medium text-white dark:bg-somhako">
                         <PersonIcon />
                     </Menu.Button>
                 </div>

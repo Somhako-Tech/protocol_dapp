@@ -8,7 +8,7 @@ export default function Logo({
     height: number;
 }) {
     return (
-        <div className="max-h-[200px]  w-full">
+        <div className="max-h-[200px] w-full">
             <Link
                 href="/explore"
                 className="inline-block w-full max-w-[200px] align-middle"

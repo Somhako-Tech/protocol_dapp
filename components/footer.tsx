@@ -55,7 +55,7 @@ export default function Footer() {
         <div className="py-3 bg-gradient-to-r from-[#A382E5] to-[#60C3E2]">
           <div className="container">
             <p className="text-white text-sm text-center">
-                © 2022, All Rights Reserved, Somhako Version 2.3
+                © 2023, All Rights Reserved, Somhako Version 2.3
             </p>
           </div>
         </div>
