@@ -84,18 +84,14 @@
 
 html,
 body {
-    max-width: 100vw;
-    overflow-x: hidden;
-}
-
-body {
-    color: rbg(--foreground-rgb);
-    background: linear-gradient(
-            to bottom,
-            transparent,
-            rgb(var(--background-start-rg))
-        )
-        rgb(var(--background-start-rgb));
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: Lexend;
+  color: #111;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 a {
