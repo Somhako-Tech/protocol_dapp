@@ -23,6 +23,7 @@ import Snackbar from "@mui/material/Snackbar";
 import DomToImage from "dom-to-image";
 import { buffer } from "stream/consumers";
 import { useSession } from "next-auth/react";
+import { ClipLoader } from "react-spinners";
 
 const tabs = ["bio", "background", "resume", "mint"] as const;
 
@@ -74,15 +75,15 @@ const ProfileForm = ({
         const node = document.getElementById("avatarId");
         const scale = 2;
         if (node) {
-            const nodeWidth = node.offsetWidth - 10;
-            const nodeHeight = node.offsetHeight - 10;
+            const nodeWidth = node.offsetWidth;
+            const nodeHeight = node.offsetHeight;
 
-            const blob = await DomToImage.toBlob(node, {
+            const avatar = await DomToImage.toBlob(node, {
                 height: node.offsetHeight * scale,
                 style: {
                     transform: `scale(${scale}) translate(${
-                        nodeWidth / 2 / scale
-                    }px, ${nodeHeight / 2 / scale}px)`,
+                        nodeWidth / 2 / scale - 25
+                    }px, ${nodeHeight / 2 / scale - 25}px)`,
                     "border-radius": 0,
                 },
                 width: node.offsetWidth * scale,
@@ -90,7 +91,7 @@ const ProfileForm = ({
 
             const formData = new FormData();
 
-            formData.append("file", blob);
+            formData.append("file", avatar);
 
             const response = await fetch("/api/pinata", {
                 body: formData,
@@ -106,17 +107,25 @@ const ProfileForm = ({
     const checkSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
+        setSubmittingForm(true);
         const avatar = await saveAvatarToIpfs();
 
+        if (!avatar) {
+            throw new Error("Cannot save to ipfs");
+            return;
+        }
         const { isValid, errors } = await allFieldsValidation({
             ...userProfile,
-            ipfs_hash: avatar?.IpfsHash as string,
+            ipfs_hash: avatar.IpfsHash,
         });
+
         if (isValid) handleSubmit(userProfile);
         else {
             console.log(errors);
             setFormErrors(errors);
             setShowValidationErrors(true);
+            setSubmittingForm(false);
+
             return;
         }
     };
@@ -153,6 +162,8 @@ const ProfileForm = ({
     const [handleSearching, setHandleSearching] = useState(false);
 
     const [showValidationErrors, setShowValidationErrors] = useState(false);
+
+    const [submittingForm, setSubmittingForm] = useState(false);
 
     const [resume, setResume] = useState<any>();
 
@@ -205,14 +216,24 @@ const ProfileForm = ({
         else return "https://twitter.com/" + username;
     };
 
-    const FormButton = ({ selectTab }: { selectTab: TabType }) => {
+    const FormButton = ({
+        selectTab,
+        submittingForm,
+    }: {
+        selectTab: TabType;
+        submittingForm: boolean;
+    }) => {
         if (selectTab == "mint")
             return (
                 <button
                     type="submit"
                     className="rounded-full bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] py-2.5 px-6 font-bold text-white shadow-md shadow-gray-500 transition-all hover:from-[#391188] hover:to-[#391188] md:min-w-[150px]"
                 >
-                    MINT
+                    {!submittingForm ? (
+                        "MINT"
+                    ) : (
+                        <ClipLoader color="white" size={20} />
+                    )}
                 </button>
             );
         else if (selectTab == "bio")
@@ -281,16 +302,54 @@ const ProfileForm = ({
         }
     );
 
-    const validationErrors = Object.keys(formErrors)
-        .map((errorKey) => (
+    const ValidationErrors = ({ formErrors, setSelectedIndex }: any) => {
+        let error = "Profile form is incomplete";
+
+        const errorList = Object.keys(formErrors).map(
+            (item) => item.split(".")[0]
+        );
+
+        const pageFields = {
+            handle: 0,
+            title: 0,
+            summary: 0,
+            link: 0,
+            job_type: 1,
+            pref_location: 1,
+            salary: 1,
+            years_of_exp: 1,
+            skills: 1,
+            education: 1,
+            experience: 2,
+        };
+
+        const errorPage = (pageFields as any)[
+            errorList.filter((item) =>
+                Object.keys(pageFields).includes(item)
+            )[0]
+        ];
+
+        errorPage !== undefined && setSelectedIndex(errorPage);
+
+        console.log({
+            errorPage,
+            valid: errorPage !== undefined && errorPage?.length > 0,
+        });
+        console.log({ errorList });
+
+        if (errorList.includes("skills"))
+            error = "At least 3 skills are required";
+        if (errorList.includes("link")) error = "At least 3 links are required";
+        return (
             <Snackbar
-                key={errorKey}
                 open={true}
                 autoHideDuration={6000}
-                message={formErrors[errorKey]}
-            />
-        ))
-        .slice(1);
+                onClose={() => setShowValidationErrors(false)}
+            >
+                <Alert severity="error">{error}</Alert>
+            </Snackbar>
+        );
+    };
 
     return (
         <div className="w-full flex-col items-center ">
@@ -300,7 +359,10 @@ const ProfileForm = ({
             >
                 {showValidationErrors && (
                     <div className="flex flex-col items-center justify-evenly">
-                        {validationErrors}
+                        <ValidationErrors
+                            formErrors={formErrors}
+                            setSelectedIndex={setSelectedIndex}
+                        />
                     </div>
                 )}
                 <LinkModal
@@ -678,7 +740,10 @@ const ProfileForm = ({
                         </Tab.Panel>
                     </Tab.Panels>
                 </Tab.Group>
-                <FormButton selectTab={selectTab} />
+                <FormButton
+                    selectTab={selectTab}
+                    submittingForm={submittingForm}
+                />
             </form>
         </div>
     );
