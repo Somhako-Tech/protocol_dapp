@@ -28,7 +28,7 @@ export default function Explore() {
     } = useQuery(["getProfiles"], async () => getProfilesQuery());
 
     if (isProfilesLoading) {
-        return <BigClipLoader />;
+        return <BigClipLoader color="tertiary" />;
     }
     let profileList = <></>;
 

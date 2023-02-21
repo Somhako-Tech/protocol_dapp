@@ -248,7 +248,7 @@ export default function ProfileSummary({
                             ID: {profile.user_id}
                         </span>
                     </h2>
-                    <BigClipLoader />
+                    <BigClipLoader color="tertiary" />
                 </div>
             </div>
         );

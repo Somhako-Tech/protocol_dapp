@@ -12,8 +12,6 @@ module.exports = {
         },
         extend: {
             colors: {
-                somhakohr: "#936CE0",
-                somhakohr2: "#7D45ED",
                 primary: '#5500FF',
                 secondary: '#6D27F9',
                 tertiary: '#9F09FB',

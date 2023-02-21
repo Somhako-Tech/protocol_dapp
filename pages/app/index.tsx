@@ -124,7 +124,7 @@ export default function AppPage() {
             </section>
         );
 
-    if (isQueryLoading || isProfileCreating) return <BigClipLoader color="#5500FF" />;
+    if (isQueryLoading || isProfileCreating) return <BigClipLoader color="tertiary" />;
 
     return (
         <section className="py-8">
