@@ -127,49 +127,45 @@ export default function AppPage() {
     if (isQueryLoading || isProfileCreating) return <BigClipLoader />;
 
     return (
-        <section className="flex w-full flex-wrap ">
-            <div className="h-full w-full ">
-                <div className="shadow-normal  bg-gradient-to-r from-[##a8c0ff] to-[##3f2b96] p-8 text-black  md:px-20">
-                    {!Profile ? (
-                        <div className="flex-col items-center">
-                            <ProfileForm
-                                address={address}
-                                handleSubmit={handleSubmit}
-                            />
-                        </div>
-                    ) : queryInMintQueue ? (
-                        <div className="flex-col items-center justify-center">
-                            <div className="shadow-normal mx-auto my-10 flex w-full max-w-[1000px] flex-col items-center justify-center rounded-[25px] border border-slate-700 bg-white p-8 md:py-14 md:px-20">
-                                <h1
-                                    className={
-                                        " mb-4 text-center text-2xl font-bold"
-                                    }
-                                >
-                                    You are in the mint queue! We let you know
-                                    as soon as your profile is minted!{" "}
-                                </h1>
+        <section className="py-8">
+            <div className="container">
+                {!Profile ? (
+                    <ProfileForm
+                        address={address}
+                        handleSubmit={handleSubmit}
+                    />
+                ) : queryInMintQueue ? (
+                    <div className="flex-col items-center justify-center">
+                        <div className="shadow-normal mx-auto my-10 flex w-full max-w-[1000px] flex-col items-center justify-center rounded-[25px] border border-slate-700 bg-white p-8 md:py-14 md:px-20">
+                            <h1
+                                className={
+                                    " mb-4 text-center text-2xl font-bold"
+                                }
+                            >
+                                You are in the mint queue! We let you know
+                                as soon as your profile is minted!{" "}
+                            </h1>
 
-                                <button
-                                    onClick={async () => {
-                                        if (!isRouteLoading) {
-                                            setIsRouteLoading(true);
-                                            await router.push("/explore");
-                                        }
-                                    }}
-                                    className=" rounded-full bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] py-2.5 px-6 font-bold text-white transition-all hover:from-[#391188] hover:to-[#391188] md:min-w-[150px]"
-                                >
-                                    explore
-                                </button>
-                            </div>
+                            <button
+                                onClick={async () => {
+                                    if (!isRouteLoading) {
+                                        setIsRouteLoading(true);
+                                        await router.push("/explore");
+                                    }
+                                }}
+                                className=" rounded-full bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] py-2.5 px-6 font-bold text-white transition-all hover:from-[#391188] hover:to-[#391188] md:min-w-[150px]"
+                            >
+                                explore
+                            </button>
                         </div>
-                    ) : (
-                        <div className="flex-col items-center justify-center">
-                            <div className="shadow-normal mx-auto my-10 w-full max-w-[1000px] rounded-[25px] border  p-8 md:py-14 md:px-20 ">
-                                <ProfileFormSkeleton />
-                            </div>
+                    </div>
+                ) : (
+                    <div className="flex-col items-center justify-center">
+                        <div className="shadow-normal mx-auto my-10 w-full max-w-[1000px] rounded-[25px] border  p-8 md:py-14 md:px-20 ">
+                            <ProfileFormSkeleton />
                         </div>
-                    )}
-                </div>
+                    </div>
+                )}
             </div>
         </section>
     );

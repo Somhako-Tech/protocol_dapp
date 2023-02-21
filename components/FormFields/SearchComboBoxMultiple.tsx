@@ -24,12 +24,12 @@ export default function SearchComboBox({
                         setSearchParams(e.target.value);
                         setOpen(true);
                     }}
-                    className="mx-4 ml-6 w-auto rounded-full border border-slate-500 p-1"
+                    className="w-full rounded-lg border-slate-300"
                     value={searchParams}
                     id="searchInput"
                 />
                 {open && (
-                    <Combobox.Options className="absolute mt-3 w-full rounded-md border bg-white shadow-md">
+                    <Combobox.Options className="absolute z-[99] right-0 top-[100%] w-full bg-white shadow-normal p-2 min-h-[20px] max-h-[300px] overflow-y-auto">
                         {data &&
                             data
                                 .filter((item) => !exclude.includes(item))
@@ -37,7 +37,7 @@ export default function SearchComboBox({
                                     <Combobox.Option
                                         key={item}
                                         value={item}
-                                        className="w-full rounded-md p-1 px-2 hover:bg-indigo-500 hover:text-white"
+                                        className="w-full text-sm rounded-md p-1 px-2 hover:bg-indigo-500 hover:text-white"
                                         onClick={() => {
                                             handleChange(item);
                                             setOpen(false);

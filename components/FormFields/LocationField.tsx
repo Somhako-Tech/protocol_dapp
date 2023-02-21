@@ -31,14 +31,13 @@ export default function LocationField({
     }, [searchParams]);
 
     return (
-        <div className="relative mb-10 flex flex-row items-center justify-between">
+        <div className="relative">
             <label
                 htmlFor="pref_location"
-                className="mb-2 inline-block font-semibold leading-none"
+                className="font-medium mb-2 leading-none inline-block"
             >
                 Preferred Location
             </label>
-
             <SearchComboBox
                 handleChange={(item) =>
                     handleChange({

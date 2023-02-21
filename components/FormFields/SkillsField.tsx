@@ -39,9 +39,11 @@ export default function SkillsField({
     }
 
     return (
-        <div className="flex flex-col items-stretch justify-center">
-            <div className="my-6 mx-6 flex flex-row items-center justify-between">
-                <label className=" mb-2 text-lg font-medium ">Key Skills</label>
+        <div className="bg-white dark:bg-gray-800 text-black dark:text-white shadow-normal border border-teal-400 rounded-[30px] p-8 mb-6">
+            <div className="mb-2">
+                <label className="font-medium leading-none inline-block">
+                Key Skills
+                </label>
                 <SearchComboBox
                     handleChange={(item) =>
                         handleChange({
@@ -57,22 +59,38 @@ export default function SkillsField({
                     exclude={userProfile.skills}
                 />
             </div>
-            <div className="my-2 flex items-center justify-start self-center rounded-md py-2  capitalize text-white">
+            <div>
                 {userProfile.skills &&
                     (userProfile.skills.length > 0 ? (
-                        <div className="grid max-w-full grid-cols-4 border-2 border-slate-400 ">
-                            {userProfile.skills.map((item: string) => (
-                                <button
+                        <div className="w-full rounded-lg border border-slate-300 p-6 min-h-[200px]">
+                            <div className="flex flex-wrap items-start">
+                                {userProfile.skills.map((item: string) => (
+                                    <p
+                                    className="relative bg-[#C9B3FF] dark:bg-gray-900 dark:text-white rounded-lg py-2 px-3 flex items-center text-[14px] mr-2 mb-3"
                                     key={item}
-                                    className="m-2 rounded-md bg-somhako px-2 py-1 hover:bg-somhako2"
-                                    onClick={() => removeSkill(item)}
-                                    type="button"
-                                >
+                                    >
                                     {item}
-                                </button>
-                            ))}
+                                    <span
+                                        className="pl-1 text-[10px] flex text-[#FEF401] mt-[2px]"
+                                    >
+                                        <i className="fa-solid fa-star ml-1"></i>
+                                        <i className="fa-solid fa-star ml-1"></i>
+                                        <i className="fa-solid fa-star ml-1"></i>
+                                    </span>
+                                    <button
+                                        type="button"
+                                        className="absolute right-[0] top-[-5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded"
+                                        onClick={() => removeSkill(item)}
+                                    >
+                                        <i className="fa-solid fa-xmark"></i>
+                                    </button>
+                                    </p>
+                                ))}
+                            </div>
                         </div>
-                    ) : (
+                    ) 
+                    : 
+                    (
                         <Transition
                             nodeRef={null}
                             in={userProfile.skills.length === 0}
@@ -93,7 +111,8 @@ export default function SkillsField({
                                 </div>
                             )}
                         </Transition>
-                    ))}
+                    )
+                )}
             </div>
         </div>
     );
