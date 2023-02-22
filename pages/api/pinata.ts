@@ -1,5 +1,5 @@
 import { NextApiRequest } from "next";
-import formidable from "formidable";
+import Jimp from "jimp";
 
 const JWT = "Bearer " + process.env.PINATA_JWT;
 export const config = {
@@ -11,22 +11,37 @@ export const config = {
 import { parseForm, FormidableError } from "../../lib/parse-form";
 
 var FormData = require("form-data");
-var fs = require("fs");
+import * as fs from "fs";
 
-function reconstructData(parsedData: any) {
+async function reconstructData(parsedData: any) {
     let newData = new FormData();
 
     Object.entries(parsedData.fields).forEach((element) => {
         newData.append(element[0], element[1]);
     });
 
-    Object.entries(parsedData.files).forEach((element: any) => {
-        newData.append(
-            element[0],
-            fs.createReadStream(element[1].filepath),
-            element[1].originalFilename
-        );
+    const newElement = parsedData.files.file;
+
+    const filepath = newElement.filepath;
+    await Jimp.read(filepath).then(async (image) => {
+        const image2 = (
+            await Jimp.read("./public/images/logo-small.png")
+        ).resize(100, 100);
+
+        await image
+            .composite(image2, 400, 10, {
+                mode: Jimp.BLEND_SOURCE_OVER,
+                opacityDest: 1,
+                opacitySource: 1,
+            })
+            .writeAsync(newElement.filepath);
     });
+
+    newData.append(
+        "file",
+        fs.createReadStream(newElement.filepath),
+        newElement.originalFilename
+    );
 
     return newData;
 }
