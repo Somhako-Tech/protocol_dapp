@@ -42,7 +42,7 @@ export default function UserPage() {
                                     "https://gateway.pinata.cloud/ipfs/" +
                                     userProfile?.ipfs_hash
                                 }
-                                alt="@Sam"
+                                alt={userProfile?.handle}
                                 width={115}
                                 height={115}
                                 className="mx-auto rounded-full"
