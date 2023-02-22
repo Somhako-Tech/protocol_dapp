@@ -37,11 +37,7 @@ async function reconstructData(parsedData: any) {
             .writeAsync(newElement.filepath);
     });
 
-    newData.append(
-        "file",
-        fs.createReadStream(newElement.filepath),
-        newElement.originalFilename
-    );
+    newData.append("file", fs.createReadStream(newElement.filepath), "avatar");
 
     return newData;
 }
