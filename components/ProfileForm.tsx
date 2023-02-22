@@ -227,7 +227,7 @@ const ProfileForm = ({
             return (
                 <button
                     type="submit"
-                    className="inline-block rounded bg-gradient-to-r from-secondary to-tertiary py-2 px-8 text-sm font-bold text-white transition-all hover:from-primary hover:to-primary m-2"
+                    className="m-2 inline-block rounded bg-gradient-to-r from-secondary to-tertiary py-2 px-8 text-sm font-bold text-white transition-all hover:from-primary hover:to-primary"
                 >
                     {!submittingForm ? (
                         "MINT"
@@ -240,7 +240,7 @@ const ProfileForm = ({
             return (
                 <button
                     type="button"
-                    className="inline-block rounded bg-gradient-to-r from-secondary to-tertiary py-2 px-8 text-sm font-bold text-white transition-all hover:from-primary hover:to-primary m-2"
+                    className="m-2 inline-block rounded bg-gradient-to-r from-secondary to-tertiary py-2 px-8 text-sm font-bold text-white transition-all hover:from-primary hover:to-primary"
                     onClick={() => {
                         setSelectedIndex((prev) => prev + 1);
                     }}
@@ -253,7 +253,7 @@ const ProfileForm = ({
                 <div>
                     <button
                         type="button"
-                        className="inline-block rounded bg-gradient-to-r from-secondary to-tertiary py-2 px-8 text-sm font-bold text-white transition-all hover:from-primary hover:to-primary m-2"
+                        className="m-2 inline-block rounded bg-gradient-to-r from-secondary to-tertiary py-2 px-8 text-sm font-bold text-white transition-all hover:from-primary hover:to-primary"
                         onClick={() => {
                             setSelectedIndex((prev) => prev - 1);
                         }}
@@ -262,7 +262,7 @@ const ProfileForm = ({
                     </button>
                     <button
                         type="button"
-                        className="inline-block rounded bg-gradient-to-r from-secondary to-tertiary py-2 px-8 text-sm font-bold text-white transition-all hover:from-primary hover:to-primary m-2"
+                        className="m-2 inline-block rounded bg-gradient-to-r from-secondary to-tertiary py-2 px-8 text-sm font-bold text-white transition-all hover:from-primary hover:to-primary"
                         onClick={() => {
                             setSelectedIndex((prev) => prev + 1);
                         }}
@@ -277,15 +277,24 @@ const ProfileForm = ({
         (link: string, i) => {
             const links = userProfile.link as any;
             return (
-                <div className="w-full lg:w-[47%] mb-6" key={i}>
-                    <Link className="iconGroup social delete" 
-                    href={links[link] != "" ? getFullUrl(link, links[link]) : "/"}
-                    target="_blank"
+                <div className="mb-6 w-full lg:w-[47%]" key={i}>
+                    <Link
+                        className="iconGroup social delete"
+                        href={
+                            links[link] != ""
+                                ? getFullUrl(link, links[link])
+                                : "/"
+                        }
+                        target="_blank"
                     >
                         <input
                             type="text"
-                            value={links[link] != ""? getFullUrl(link, links[link]) : "No link"}
-                            className="w-full rounded-lg border-slate-300 dark:bg-gray-800 focus:border-slate-300 focus:ring-0 focus:outline-0 focus:shadow-none"
+                            value={
+                                links[link] != ""
+                                    ? getFullUrl(link, links[link])
+                                    : "No link"
+                            }
+                            className="w-full rounded-lg border-slate-300 focus:border-slate-300 focus:shadow-none focus:outline-0 focus:ring-0 dark:bg-gray-800"
                             readOnly
                         />
                         {/* <i
@@ -353,7 +362,7 @@ const ProfileForm = ({
     };
 
     return (
-        <form onSubmit={checkSubmit} className="w-full max-w-[700px] mx-auto">
+        <form onSubmit={checkSubmit} className="mx-auto w-full max-w-[700px]">
             {showValidationErrors && (
                 <div className="flex flex-col items-center justify-evenly">
                     <ValidationErrors
@@ -370,14 +379,14 @@ const ProfileForm = ({
             />
             <Tab.Group
                 selectedIndex={selectedIndex}
-                onChange={setSelectedIndex} 
+                onChange={setSelectedIndex}
             >
-                <Tab.List className="overflow-x-auto flex items-center justify-between border border-slate-300 rounded-full text-center text-darkGray text-[14px] font-semibold mb-6">
+                <Tab.List className="mb-6 flex items-center justify-between overflow-x-auto rounded-full border border-slate-300 text-center text-[14px] font-semibold text-darkGray">
                     <Tab
                         className={
                             selectTab == "bio"
-                                ? "border-b-4 border-b-primary p-2 mx-8 text-primary"
-                                : "border-b-4 border-b-transparent p-2 mx-8"
+                                ? "mx-8 border-b-4 border-b-primary p-2 text-primary"
+                                : "mx-8 border-b-4 border-b-transparent p-2"
                         }
                         onClick={() => setSelectTab("bio")}
                     >
@@ -386,8 +395,8 @@ const ProfileForm = ({
                     <Tab
                         className={
                             selectTab == "background"
-                                ? "border-b-4 border-b-primary p-2 mx-8 text-primary"
-                                : "border-b-4 border-b-transparent p-2 mx-8"
+                                ? "mx-8 border-b-4 border-b-primary p-2 text-primary"
+                                : "mx-8 border-b-4 border-b-transparent p-2"
                         }
                         onClick={() => setSelectTab("background")}
                     >
@@ -396,8 +405,8 @@ const ProfileForm = ({
                     <Tab
                         className={
                             selectTab == "resume"
-                                ? "border-b-4 border-b-primary p-2 mx-8 text-primary"
-                                : "border-b-4 border-b-transparent p-2 mx-8"
+                                ? "mx-8 border-b-4 border-b-primary p-2 text-primary"
+                                : "mx-8 border-b-4 border-b-transparent p-2"
                         }
                         onClick={() => setSelectTab("resume")}
                     >
@@ -406,8 +415,8 @@ const ProfileForm = ({
                     <Tab
                         className={
                             selectTab == "mint"
-                                ? "border-b-4 border-b-primary p-2 mx-8 text-primary"
-                                : "border-b-4 border-b-transparent p-2 mx-8"
+                                ? "mx-8 border-b-4 border-b-primary p-2 text-primary"
+                                : "mx-8 border-b-4 border-b-transparent p-2"
                         }
                         onClick={() => setSelectTab("mint")}
                     >
@@ -416,11 +425,11 @@ const ProfileForm = ({
                 </Tab.List>
                 <Tab.Panels>
                     <Tab.Panel>
-                        <div className="bg-white dark:bg-gray-800 text-black dark:text-white shadow-normal border border-teal-400 rounded-[30px] p-8 mb-6">
+                        <div className="mb-6 rounded-[30px] border border-teal-400 bg-white p-8 text-black shadow-normal dark:bg-gray-800 dark:text-white">
                             <div className="mb-6">
                                 <label
                                     htmlFor="title"
-                                    className="font-medium mb-2 leading-none inline-block"
+                                    className="mb-2 inline-block font-medium leading-none"
                                 >
                                     Title
                                 </label>
@@ -438,27 +447,29 @@ const ProfileForm = ({
                             <div className="mb-6">
                                 <label
                                     htmlFor="address"
-                                    className="font-medium mb-2 leading-none inline-block"
+                                    className="mb-2 inline-block font-medium leading-none"
                                 >
                                     Address
                                 </label>
-                                <div id="address" className="w-full rounded-lg border border-slate-300 text-darkGray py-2 px-3">
+                                <div
+                                    id="address"
+                                    className="w-full rounded-lg border border-slate-300 py-2 px-3 text-darkGray"
+                                >
                                     {address &&
                                         address.slice(0, 10) +
-                                        "..." +
-                                        address.slice(
-                                        address.length - 8
-                                    )}
+                                            "..." +
+                                            address.slice(address.length - 8)}
                                 </div>
                             </div>
                             <div>
                                 <label
                                     htmlFor="handle"
-                                    className="font-medium mb-2 leading-none inline-block"
+                                    className="mb-2 inline-block font-medium leading-none"
                                 >
                                     Handle
                                 </label>
-                                <input required
+                                <input
+                                    required
                                     type="text"
                                     id="handle"
                                     name="handle"
@@ -475,20 +486,16 @@ const ProfileForm = ({
                                     <div className="mt-3">
                                         {handleSearching ? (
                                             <>
-                                                <div className="bg-indigo-200 py-2 px-3 rounded">
+                                                <div className="rounded bg-indigo-200 py-2 px-3">
                                                     <i className="fa-solid fa-rotate fa-spin"></i>
                                                 </div>
                                             </>
                                         ) : formErrors.handle ? (
-                                            <Alert
-                                                severity="error"
-                                            >
+                                            <Alert severity="error">
                                                 {formErrors.handle}
                                             </Alert>
                                         ) : (
-                                            <Alert
-                                                severity="success"
-                                            >
+                                            <Alert severity="success">
                                                 All set!
                                             </Alert>
                                         )}
@@ -496,25 +503,26 @@ const ProfileForm = ({
                                 )}
                             </div>
                         </div>
-                        <div className="bg-white dark:bg-gray-800 text-black dark:text-white shadow-normal border border-teal-400 rounded-[30px] p-8 mb-6">
+                        <div className="mb-6 rounded-[30px] border border-teal-400 bg-white p-8 text-black shadow-normal dark:bg-gray-800 dark:text-white">
                             <label
                                 htmlFor="summary"
-                                className="font-medium mb-2 leading-none inline-block"
+                                className="mb-2 inline-block font-medium leading-none"
                             >
                                 Summary
                             </label>
                             <div className="relative mb-2">
                                 <textarea
-                                id="summary"
-                                placeholder="Something about yourself..."
-                                className="w-full rounded-lg h-[120px] border-slate-300 resize-none pb-6"
-                                value={userProfile.summary}
-                                onChange={dispatch}
-                                onBlur={dispatch}
-                                ></textarea> 
+                                    id="summary"
+                                    placeholder="Something about yourself..."
+                                    className="h-[120px] w-full resize-none rounded-lg border-slate-300 pb-6"
+                                    value={userProfile.summary}
+                                    onChange={dispatch}
+                                    onBlur={dispatch}
+                                ></textarea>
                                 {userProfile.summary.length < 120 && (
                                     <span className="absolute right-3 bottom-3 text-sm text-gray-500">
-                                        {userProfile.summary.length < 120 && 120 - userProfile.summary.length}
+                                        {userProfile.summary.length < 120 &&
+                                            120 - userProfile.summary.length}
                                     </span>
                                 )}
                             </div>
@@ -539,18 +547,21 @@ const ProfileForm = ({
                                 )}
                             </Transition>
                         </div>
-                        <div className="bg-white dark:bg-gray-800 text-black dark:text-white shadow-normal border border-teal-400 rounded-[30px] p-8 mb-6">
-                            <div className="md:border border-slate-300 rounded-normal md:py-6 md:px-8">
-                                <div className="flex items-center justify-between mb-4">
+                        <div className="mb-6 rounded-[30px] border border-teal-400 bg-white p-8 text-black shadow-normal dark:bg-gray-800 dark:text-white">
+                            <div className="rounded-normal border-slate-300 md:border md:py-6 md:px-8">
+                                <div className="mb-4 flex items-center justify-between">
                                     <h4>
-                                    Social <span className="text-[#6D27F9]">Media</span>
+                                        Social{" "}
+                                        <span className="text-[#6D27F9]">
+                                            Media
+                                        </span>
                                     </h4>
                                     <button
-                                    type="button"
-                                    className="border border-[#6D27F9] rounded-lg py-1 px-4 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white"
-                                    onClick={() => setLinkModalOpen(true)}
+                                        type="button"
+                                        className="rounded-lg border border-[#6D27F9] py-1 px-4 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white"
+                                        onClick={() => setLinkModalOpen(true)}
                                     >
-                                    Add
+                                        Add
                                     </button>
                                 </div>
                                 <div className="flex flex-wrap justify-between">
@@ -578,12 +589,12 @@ const ProfileForm = ({
                                 )}
                             </Transition>
                         </div>
-                        <div className="bg-white dark:bg-gray-800 text-black dark:text-white shadow-normal border border-teal-400 rounded-[30px] p-8 mb-6">
+                        <div className="mb-6 rounded-[30px] border border-teal-400 bg-white p-8 text-black shadow-normal dark:bg-gray-800 dark:text-white">
                             <div className="flex flex-wrap justify-between">
-                                <div className="w-full lg:w-[47%] mb-6">
+                                <div className="mb-6 w-full lg:w-[47%]">
                                     <label
                                         htmlFor="job_type"
-                                        className="font-medium mb-2 leading-none inline-block"
+                                        className="mb-2 inline-block font-medium leading-none"
                                     >
                                         Preferred Job Type
                                     </label>
@@ -605,10 +616,10 @@ const ProfileForm = ({
                                         </option>
                                     </select>
                                 </div>
-                                <div className="w-full lg:w-[47%] mb-6">
+                                <div className="mb-6 w-full lg:w-[47%]">
                                     <label
                                         htmlFor="salary"
-                                        className="font-medium mb-2 leading-none inline-block"
+                                        className="mb-2 inline-block font-medium leading-none"
                                     >
                                         Salary
                                     </label>
@@ -625,16 +636,16 @@ const ProfileForm = ({
                                 </div>
                             </div>
                             <div className="flex flex-wrap justify-between">
-                                <div className="w-full lg:w-[47%] mb-6">
+                                <div className="mb-6 w-full lg:w-[47%]">
                                     <LocationField
                                         userProfile={userProfile}
                                         handleChange={dispatch}
                                     />
                                 </div>
-                                <div className="w-full lg:w-[47%] mb-6">
+                                <div className="mb-6 w-full lg:w-[47%]">
                                     <label
                                         htmlFor="years_of_exp"
-                                        className="font-medium mb-2 leading-none inline-block"
+                                        className="mb-2 inline-block font-medium leading-none"
                                     >
                                         Years of Experience
                                     </label>
@@ -680,7 +691,7 @@ const ProfileForm = ({
                         />
                     </Tab.Panel>
                     <Tab.Panel>
-                        <div className="bg-white dark:bg-gray-800 text-black dark:text-white shadow-normal border border-teal-400 rounded-[30px] p-8 mb-6">
+                        <div className="mb-6 rounded-[30px] border border-teal-400 bg-white p-8 text-black shadow-normal dark:bg-gray-800 dark:text-white">
                             <label className="mb-4 inline-block font-medium leading-none">
                                 Resume
                             </label>
@@ -690,9 +701,7 @@ const ProfileForm = ({
                                     className="mb-2 w-[150px] cursor-pointer rounded-md border border-dashed border-teal-500 p-2.5 px-4 text-center text-sm font-semibold "
                                 >
                                     <span>
-                                        {resume
-                                            ? "Uploaded"
-                                            : "Upload" + " "}
+                                        {resume ? "Uploaded" : "Upload" + " "}
                                         <i className="fa-solid fa-cloud-arrow-up ml-1 text-[#6D27F9]"></i>
                                     </span>
                                     <input
@@ -710,8 +719,8 @@ const ProfileForm = ({
                                     />
                                 </label>
                                 <span className="text-[12px] text-[#333] dark:text-white">
-                                    Supported Formats: doc, docx, rtf, pdf,
-                                    upto 2 MB
+                                    Supported Formats: doc, docx, rtf, pdf, upto
+                                    2 MB
                                 </span>
                             </div>
                         </div>
