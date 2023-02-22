@@ -57,19 +57,49 @@ export default function ExperienceFields({
             <input
                 className="w-full rounded-lg border border-slate-300 py-2 px-4"
                 onClick={onClick}
+                onChange={() => {}}
                 ref={ref}
                 value={value || ""}
-                defaultValue={""}
             />
         ));
 
+    const deleteExperience = (i: number) => {
+        if (userProfile.experience.length < 2) {
+            handleChange({
+                target: {
+                    id: "experience",
+                    value: [
+                        {
+                            organization: "",
+                            startYear: "",
+                            endYear: "",
+                            title: "",
+                        },
+                    ],
+                },
+            });
+        } else {
+            const exp = userProfile.experience;
+            exp.splice(i, 1);
+            handleChange({
+                target: {
+                    id: "experience",
+                    value: exp,
+                },
+            });
+        }
+    };
+
     const experience = userProfile.experience.map((experience: any, i) => (
-        <div className="w-full rounded-[20px] bg-[#FAF8FF] dark:bg-gray-900 text-black dark:text-white border border-slate-200 p-4 md:p-6 md:pr-[110px] pt-[35px] md:pt-6 mb-4 relative" key={i}>
+        <div
+            className="relative mb-4 w-full rounded-[20px] border border-slate-200 bg-[#FAF8FF] p-4 pt-[35px] text-black dark:bg-gray-900 dark:text-white md:p-6 md:pr-[110px] md:pt-6"
+            key={i}
+        >
             <article>
                 <div className="mb-6">
                     <label
                         htmlFor="organization"
-                        className="font-medium mb-2 leading-none inline-block"
+                        className="mb-2 inline-block font-medium leading-none"
                     >
                         Organization
                     </label>
@@ -86,7 +116,7 @@ export default function ExperienceFields({
                 <div className="mb-6">
                     <label
                         htmlFor="startYear"
-                        className="font-medium mb-2 leading-none inline-block"
+                        className="mb-2 inline-block font-medium leading-none"
                     >
                         Start Year
                     </label>
@@ -110,7 +140,7 @@ export default function ExperienceFields({
                 <div className="mb-6">
                     <label
                         htmlFor="endYear"
-                        className="font-medium mb-2 leading-none inline-block"
+                        className="mb-2 inline-block font-medium leading-none"
                     >
                         End Year
                     </label>
@@ -134,7 +164,7 @@ export default function ExperienceFields({
                 <div className="mb-6">
                     <label
                         htmlFor="title"
-                        className="font-medium mb-2 leading-none inline-block"
+                        className="mb-2 inline-block font-medium leading-none"
                     >
                         Title
                     </label>
@@ -149,11 +179,12 @@ export default function ExperienceFields({
                     />
                 </div>
             </article>
-            <div className="bg-white shadow-md rounded-tl-[20px] rounded-bl-[20px] absolute right-0 top-[0px] md:top-[15px] p-1.5 md:py-2.5 md:px-4 text-[12px] md:text-sm">
-                <button type="button" className="text-[#6D27F9] mx-2">
-                    <i className="fa-solid fa-pen-to-square"></i>
-                </button>
-                <button type="button" className="text-red-500 mx-2">
+            <div className="absolute right-0 top-[0px] rounded-tl-[20px] rounded-bl-[20px] bg-white p-1.5 text-[12px] shadow-md md:top-[15px] md:py-2.5 md:px-4 md:text-sm">
+                <button
+                    type="button"
+                    className="mx-2 text-red-500"
+                    onClick={() => deleteExperience(i)}
+                >
                     <i className="fa-solid fa-trash"></i>
                 </button>
             </div>
@@ -161,26 +192,24 @@ export default function ExperienceFields({
     ));
 
     return (
-        <div className="bg-white dark:bg-gray-800 text-black dark:text-white shadow-normal border border-teal-400 rounded-[30px] p-8 mb-6">
-            <div className="flex items-center justify-between mb-4">
-                <label className="font-medium leading-none inline-block">
-                Experience
+        <div className="mb-6 rounded-[30px] border border-teal-400 bg-white p-8 text-black shadow-normal dark:bg-gray-800 dark:text-white">
+            <div className="mb-4 flex items-center justify-between">
+                <label className="inline-block font-medium leading-none">
+                    Experience
                 </label>
                 <button
-                type="button"
-                className="border border-[#6D27F9] rounded-lg py-1 px-8 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white"
-                onClick={() => addExperience()}
+                    type="button"
+                    className="rounded-lg border border-[#6D27F9] py-1 px-8 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white"
+                    onClick={() => addExperience()}
                 >
-                Add
+                    Add
                 </button>
             </div>
             {experience.length > 0 ? (
-                <>
-                    {experience}
-                </>
+                <>{experience}</>
             ) : (
                 <>
-                    <p className="text-darkGray text-sm">Add Experience</p>
+                    <p className="text-sm text-darkGray">Add Experience</p>
                 </>
             )}
         </div>
