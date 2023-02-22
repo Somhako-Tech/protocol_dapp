@@ -441,7 +441,7 @@ const ProfileForm = ({
                                     onChange={dispatch}
                                     onBlur={dispatch}
                                     placeholder="Ex: Web Developer"
-                                    className="w-full rounded-lg border-slate-300"
+                                    className="w-full rounded-lg border-slate-300 dark:text-black"
                                 />
                             </div>
                             <div className="mb-6">
@@ -453,7 +453,7 @@ const ProfileForm = ({
                                 </label>
                                 <div
                                     id="address"
-                                    className="w-full rounded-lg border border-slate-300 py-2 px-3 text-darkGray"
+                                    className="w-full rounded-lg border border-slate-300 bg-white py-2 px-3 text-darkGray"
                                 >
                                     {address &&
                                         address.slice(0, 10) +
@@ -473,7 +473,7 @@ const ProfileForm = ({
                                     type="text"
                                     id="handle"
                                     name="handle"
-                                    className="w-full rounded-lg border-slate-300"
+                                    className="w-full rounded-lg border-slate-300 dark:text-black"
                                     value={userProfile.handle}
                                     onChange={(e) => {
                                         dispatch(e);
@@ -514,7 +514,7 @@ const ProfileForm = ({
                                 <textarea
                                     id="summary"
                                     placeholder="Something about yourself..."
-                                    className="h-[120px] w-full resize-none rounded-lg border-slate-300 pb-6"
+                                    className="h-[120px] w-full resize-none rounded-lg border-slate-300 pb-6 dark:text-black"
                                     value={userProfile.summary}
                                     onChange={dispatch}
                                     onBlur={dispatch}
@@ -601,7 +601,7 @@ const ProfileForm = ({
                                     <select
                                         required
                                         id="job_type"
-                                        className="w-full rounded-lg border-slate-300"
+                                        className="w-full rounded-lg border-slate-300 dark:text-black"
                                         value={userProfile.job_type}
                                         onChange={dispatch}
                                     >
@@ -631,7 +631,7 @@ const ProfileForm = ({
                                         value={userProfile.salary}
                                         onChange={dispatch}
                                         onBlur={dispatch}
-                                        className="w-full rounded-lg border-slate-300"
+                                        className="w-full rounded-lg border-slate-300 dark:text-black"
                                     />
                                 </div>
                             </div>
@@ -652,7 +652,7 @@ const ProfileForm = ({
                                     <select
                                         required
                                         id="years_of_exp"
-                                        className="w-full rounded-lg border-slate-300"
+                                        className="w-full rounded-lg border-slate-300 dark:text-black"
                                         value={userProfile.years_of_exp}
                                         onChange={dispatch}
                                     >

@@ -55,7 +55,7 @@ export default function ExperienceFields({
         // eslint-disable-next-line react/display-name
         forwardRef(({ value, onClick }: any, ref: any) => (
             <input
-                className="w-full rounded-lg border border-slate-300 py-2 px-4"
+                className="w-full rounded-lg bg-white dark:text-black border border-slate-300 py-2 px-4"
                 onClick={onClick}
                 onChange={() => {}}
                 ref={ref}
@@ -110,7 +110,7 @@ export default function ExperienceFields({
                         type="text"
                         onChange={(e) => updateExperience(e, i)}
                         value={experience.organization}
-                        className="w-full rounded-lg border-slate-300"
+                        className="w-full rounded-lg border-slate-300 dark:text-black"
                     />
                 </div>
                 <div className="mb-6">
@@ -175,7 +175,7 @@ export default function ExperienceFields({
                         type="text"
                         onChange={(e) => updateExperience(e, i)}
                         value={experience.title}
-                        className="w-full rounded-lg border-slate-300"
+                        className="w-full rounded-lg border-slate-300 dark:text-black"
                     />
                 </div>
             </article>

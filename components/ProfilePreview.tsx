@@ -53,7 +53,7 @@ const ProfilePreview = ({ userProfile }: { userProfile: ProfileWithImage }) => {
 
     return (
         <div
-            className="h-full rounded-lg border p-5 shadow-md"
+            className="h-full rounded-lg border bg-white dark:bg-gray-800 dark:border-gray-600 p-5 shadow-md"
             key={userProfile.user_id}
         >
             <div className="mb-3 flex flex-wrap items-center">
@@ -70,10 +70,10 @@ const ProfilePreview = ({ userProfile }: { userProfile: ProfileWithImage }) => {
                     />
                 </div>
                 <div className="w-full sm:max-w-[calc(100%-65px)] sm:pl-6">
-                    <h1 className="mb-2 font-semibold">
+                    <h1 className="mb-2 font-semibold dark:text-white">
                         @{userProfile.handle}
                     </h1>
-                    <h5 className="font-medium text-darkGray">
+                    <h5 className="font-medium text-darkGray dark:text-white">
                         {userProfile.title}
                     </h5>
                 </div>
@@ -82,7 +82,7 @@ const ProfilePreview = ({ userProfile }: { userProfile: ProfileWithImage }) => {
                 {skills}
             </ul>
 
-            <p className="my-2 mb-6 text-sm text-darkGray">
+            <p className="my-2 mb-6 text-sm text-darkGray dark:text-white">
                 Expectation - {userProfile.salary}
             </p>
             <Link

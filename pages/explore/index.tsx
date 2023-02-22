@@ -81,9 +81,9 @@ export default function Explore() {
     return (
         <section className="py-10">
             <div className="container">
-                <div className="rounded-normal bg-white p-4 shadow-normal md:p-10">
+                <div className="rounded-normal bg-white dark:bg-gray-700 p-4 shadow-normal md:p-10">
                     <div className="mb-4 flex flex-wrap items-center">
-                        <h1 className="mr-3 text-2xl font-bold">
+                        <h1 className="mr-3 text-2xl font-bold dark:text-white">
                             {!Profile ? (
                                 <>
                                     Create Your Profile and{" "}
@@ -105,7 +105,7 @@ export default function Explore() {
                             {!Profile ? "Mint Now" : "Mint Queue"}
                         </Link>
                     </div>
-                    <p className="mb-4 font-bold">Web 3 Profiles</p>
+                    <p className="mb-4 font-bold dark:text-white">Web 3 Profiles</p>
                     <div className="mx-[-15px] flex flex-wrap">
                         {mintedProfileList()}
                     </div>

@@ -33,39 +33,39 @@ export default function UserPage() {
     }
     return (
         <>
-            <div className="bg-white py-8">
+            <div className="py-8">
                 <div className="mx-auto w-full max-w-[920px] px-4">
-                    <div className="mb-6 flex flex-wrap items-center rounded-normal p-7 text-center shadow-normal sm:text-left">
+                    <div className="mb-6 bg-white dark:bg-gray-800 flex flex-wrap items-center rounded-normal p-7 text-center shadow-normal sm:text-left">
                         <div className="mb-6 w-full sm:mb-0 sm:max-w-[115px]">
                             <Image
                                 src={
                                     "https://gateway.pinata.cloud/ipfs/" +
                                     userProfile?.ipfs_hash
                                 }
-                                alt="@Sam"
+                                alt={userProfile?.handle}
                                 width={115}
                                 height={115}
                                 className="mx-auto rounded-full"
                             />
                         </div>
                         <div className="w-full sm:max-w-[calc(100%-115px)] sm:pl-6">
-                            <h1 className="mb-2 text-2xl font-semibold">
+                            <h1 className="mb-2 text-2xl font-semibold dark:text-white">
                                 @{userProfile?.handle}
                             </h1>
                             {/* <p className="mb-2 text-sm text-lightGray">
                                 ID:2135478894
                             </p> */}
                             <div className="flex flex-wrap items-center justify-center sm:justify-start">
-                                <h5 className="font-medium text-darkGray">
+                                <h5 className="font-medium text-darkGray dark:text-white">
                                     {userProfile?.title}
                                 </h5>
-                                <p className="text-lightGray">
-                                    | {userProfile?.address}
+                                <p className="text-lightGray dark:text-white">
+                                    &nbsp; | {userProfile?.address}
                                 </p>
                             </div>
                             {userProfile?.minted && (
                                 <div className="my-2">
-                                    <label className="mb-2 inline-block pr-3 text-base font-medium leading-none">
+                                    <label className="mb-2 inline-block pr-3 text-base dark:text-white font-medium leading-none">
                                         Minted
                                     </label>
                                     <VerifiedUserIcon color="success" />
@@ -73,13 +73,13 @@ export default function UserPage() {
                             )}
                         </div>
                     </div>
-                    <div className="mb-6 rounded-normal border border-teal-400 p-6 shadow-normal">
+                    <div className="mb-6 bg-white dark:bg-gray-800 dark:text-white rounded-normal border border-teal-400 p-6 shadow-normal">
                         <h3 className="mb-4 text-lg font-semibold">Summary</h3>
                         <div className="rounded-normal border p-6">
                             {userProfile?.summary}
                         </div>
                     </div>
-                    <div className="mb-6 rounded-normal border border-teal-400 p-6 shadow-normal">
+                    <div className="mb-6 bg-white dark:bg-gray-800 dark:text-white rounded-normal border border-teal-400 p-6 shadow-normal">
                         <h3 className="mb-4 text-lg font-semibold">Skills</h3>
                         <div className="flex flex-wrap items-start">
                             {userProfile?.skills.map((skill) => (
@@ -92,13 +92,13 @@ export default function UserPage() {
                             ))}
                         </div>
                     </div>
-                    <div className="mb-6 rounded-normal border border-teal-400 p-6 shadow-normal">
+                    <div className="mb-6 bg-white dark:bg-gray-800 dark:text-white rounded-normal border border-teal-400 p-6 shadow-normal">
                         <h3 className="mb-4 text-lg font-semibold">
                             Experience
                         </h3>
                         {userProfile?.experience.map((experience, i) => (
                             <div
-                                className="mb-4 rounded-normal border border-slate-200 bg-[#FAF8FF] p-4 md:p-6"
+                                className="mb-4 rounded-normal border border-slate-200 bg-[#FAF8FF] dark:bg-gray-700 p-4 md:p-6"
                                 key={i}
                             >
                                 <article>
@@ -118,13 +118,13 @@ export default function UserPage() {
                             </div>
                         ))}
                     </div>
-                    <div className="mb-6 rounded-normal border border-teal-400 p-6 shadow-normal">
+                    <div className="mb-6 bg-white dark:bg-gray-800 dark:text-white rounded-normal border border-teal-400 p-6 shadow-normal">
                         <h3 className="mb-4 text-lg font-semibold">
                             Education
                         </h3>
                         {userProfile?.education.map((education, i) => (
                             <div
-                                className="mb-4 rounded-normal border border-slate-200 bg-[#FAF8FF] p-4 md:p-6"
+                                className="mb-4 rounded-normal border border-slate-200 bg-[#FAF8FF] dark:bg-gray-700 p-4 md:p-6"
                                 key={i}
                             >
                                 <article>
