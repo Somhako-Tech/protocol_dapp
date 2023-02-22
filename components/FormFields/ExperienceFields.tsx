@@ -55,7 +55,7 @@ export default function ExperienceFields({
         // eslint-disable-next-line react/display-name
         forwardRef(({ value, onClick }: any, ref: any) => (
             <input
-                className="mx-4 ml-6 w-auto rounded-full border border-slate-500 p-1"
+                className="w-full rounded-lg border border-slate-300 py-2 px-4"
                 onClick={onClick}
                 ref={ref}
                 value={value || ""}
@@ -64,39 +64,32 @@ export default function ExperienceFields({
         ));
 
     const experience = userProfile.experience.map((experience: any, i) => (
-        <div key={i}>
-            <label className="text-md mb-2 inline-block leading-none">
-                Experience #{i + 1}
-            </label>
-            <div
-                className="my-6 mx-6 flex flex-row items-center justify-between"
-                key={i}
-            >
-                <label
-                    htmlFor="organization"
-                    className="mb-2 inline-block font-medium leading-none"
-                >
-                    Organization
-                </label>
-                <input
-                    required
-                    id="organization"
-                    name="organization"
-                    type="text"
-                    className="mx-4 ml-6 w-auto rounded-full border border-slate-500 p-1"
-                    onChange={(e) => updateExperience(e, i)}
-                    value={experience.organization}
-                />
-            </div>
-            <div
-                className="my-6 mx-6 flex flex-row items-center justify-between"
-                key={i}
-            >
-                <label htmlFor="startYear" className="mb-2 font-medium">
-                    Start Year
-                </label>
-
-                <div className="w-auto">
+        <div className="w-full rounded-[20px] bg-[#FAF8FF] dark:bg-gray-900 text-black dark:text-white border border-slate-200 p-4 md:p-6 md:pr-[110px] pt-[35px] md:pt-6 mb-4 relative" key={i}>
+            <article>
+                <div className="mb-6">
+                    <label
+                        htmlFor="organization"
+                        className="font-medium mb-2 leading-none inline-block"
+                    >
+                        Organization
+                    </label>
+                    <input
+                        required
+                        id="organization"
+                        name="organization"
+                        type="text"
+                        onChange={(e) => updateExperience(e, i)}
+                        value={experience.organization}
+                        className="w-full rounded-lg border-slate-300"
+                    />
+                </div>
+                <div className="mb-6">
+                    <label
+                        htmlFor="startYear"
+                        className="font-medium mb-2 leading-none inline-block"
+                    >
+                        Start Year
+                    </label>
                     <DatePicker
                         selected={experience.startYear}
                         customInput={<CustomDateInput />}
@@ -114,19 +107,13 @@ export default function ExperienceFields({
                         }
                     />
                 </div>
-            </div>
-
-            <div
-                className="my-6 mx-6 flex flex-row items-center justify-between"
-                key={i}
-            >
-                <label
-                    htmlFor="endYear"
-                    className="mb-2 inline-block font-medium leading-none"
-                >
-                    End Year
-                </label>
-                <div className="w-auto">
+                <div className="mb-6">
+                    <label
+                        htmlFor="endYear"
+                        className="font-medium mb-2 leading-none inline-block"
+                    >
+                        End Year
+                    </label>
                     <DatePicker
                         selected={experience.endYear}
                         customInput={<CustomDateInput />}
@@ -144,54 +131,58 @@ export default function ExperienceFields({
                         }
                     />
                 </div>
-            </div>
-            <div
-                className="my-6 mx-6 flex flex-row items-center justify-between"
-                key={i}
-            >
-                <label
-                    htmlFor="title"
-                    className="mb-2 inline-block font-medium leading-none"
-                >
-                    Title
-                </label>
-                <input
-                    required
-                    id="title"
-                    name="title"
-                    type="title"
-                    className="mx-4 ml-6 w-auto rounded-full border border-slate-500 p-1"
-                    onChange={(e) => updateExperience(e, i)}
-                    value={experience.title}
-                />
+                <div className="mb-6">
+                    <label
+                        htmlFor="title"
+                        className="font-medium mb-2 leading-none inline-block"
+                    >
+                        Title
+                    </label>
+                    <input
+                        required
+                        id="title"
+                        name="title"
+                        type="text"
+                        onChange={(e) => updateExperience(e, i)}
+                        value={experience.title}
+                        className="w-full rounded-lg border-slate-300"
+                    />
+                </div>
+            </article>
+            <div className="bg-white shadow-md rounded-tl-[20px] rounded-bl-[20px] absolute right-0 top-[0px] md:top-[15px] p-1.5 md:py-2.5 md:px-4 text-[12px] md:text-sm">
+                <button type="button" className="text-[#6D27F9] mx-2">
+                    <i className="fa-solid fa-pen-to-square"></i>
+                </button>
+                <button type="button" className="text-red-500 mx-2">
+                    <i className="fa-solid fa-trash"></i>
+                </button>
             </div>
         </div>
     ));
 
     return (
-        <>
-            <div className="my-6 mx-6 flex flex-row items-center justify-between">
-                <label className="mb-2 inline-block text-lg font-medium leading-none">
-                    Experience
+        <div className="bg-white dark:bg-gray-800 text-black dark:text-white shadow-normal border border-teal-400 rounded-[30px] p-8 mb-6">
+            <div className="flex items-center justify-between mb-4">
+                <label className="font-medium leading-none inline-block">
+                Experience
                 </label>
                 <button
-                    type="button"
-                    className="rounded-full border border-[#6D27F9] py-1 px-8 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white"
-                    onClick={() => addExperience()}
+                type="button"
+                className="border border-[#6D27F9] rounded-lg py-1 px-8 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white"
+                onClick={() => addExperience()}
                 >
-                    Add
+                Add
                 </button>
             </div>
-            <div className="mb-4 flex-col items-center justify-between">
-                {experience.length > 0 ? (
-                    <>
-                        {/* <p className="text-[#646464] mb-2">Skills</p> */}
-                        {experience}
-                    </>
-                ) : (
-                    <></>
-                )}
-            </div>
-        </>
+            {experience.length > 0 ? (
+                <>
+                    {experience}
+                </>
+            ) : (
+                <>
+                    <p className="text-darkGray text-sm">Add Experience</p>
+                </>
+            )}
+        </div>
     );
 }

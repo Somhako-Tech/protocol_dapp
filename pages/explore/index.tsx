@@ -72,7 +72,7 @@ export default function Explore() {
             });
 
             return mintedProfileList;
-        } else return <BigClipLoader color="purple" />;
+        } else return <BigClipLoader color="tertiary" />;
         /* return [...Array(4).keys()].map((i) => (
             <ProfilePreviewSkeleton key={i} />
         )); */

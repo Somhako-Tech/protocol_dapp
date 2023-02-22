@@ -20,20 +20,20 @@ export default function SearchComboBox({
                 onChange={(e) => {
                     setSearchParams(e.target.value);
                 }}
-                className="mx-4 ml-6 w-1/2 rounded-full border border-slate-500 p-1 pl-3"
+                className="w-full rounded-lg border-slate-300"
             />
-            {isQueryLoading && (
-                <div className="absolute right-8 top-2">
-                    <ClipLoader size={20} />
-                </div>
-            )}
             {data && (
-                <Combobox.Options className="absolute top-2/3 left-1/2  mt-3 w-1/2 flex-col justify-center rounded-md border bg-white shadow-md">
+                <Combobox.Options className="absolute z-[99] right-0 top-[100%] w-full bg-white shadow-normal p-2 min-h-[20px] max-h-[300px] overflow-y-auto">
+                    {isQueryLoading && (
+                        <div className="text-center p-4">
+                            <ClipLoader size={20} />
+                        </div>
+                    )}
                     {data.map((item: string) => (
                         <Combobox.Option
                             key={item}
                             value={item}
-                            className="w-full rounded-md p-1 px-2 hover:bg-indigo-500 hover:text-white"
+                            className="w-full text-sm rounded-md p-1 px-2 hover:bg-indigo-500 hover:text-white"
                             onClick={() => handleChange(item)}
                         >
                             {item}

@@ -95,7 +95,7 @@ export default function UserPage() {
             });
     };
 
-    if (isProfileQueryLoading) return <BigClipLoader />;
+    if (isProfileQueryLoading) return <BigClipLoader color="tertiary" />;
     return (
         <section className="flex w-full flex-wrap ">
             <Snackbar

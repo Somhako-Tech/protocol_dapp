@@ -14,7 +14,7 @@ export default function UserDropdownButton({
         <div className="">
             <Menu as="div" className="relative inline-block text-left">
                 <div>
-                    <Menu.Button className="flex items-center justify-center rounded bg-primary px-5 py-1.5 px-2 text-center text-lg font-medium text-white dark:bg-somhako">
+                    <Menu.Button className="flex items-center justify-center rounded bg-primary py-1.5 px-2 text-center text-lg font-medium text-white dark:bg-somhako">
                         <PersonIcon />
                     </Menu.Button>
                 </div>
@@ -35,7 +35,7 @@ export default function UserDropdownButton({
                                         href={"/u"}
                                         className={`${
                                             active
-                                                ? "bg-violet-500 text-white"
+                                                ? "bg-gray-600 text-white"
                                                 : "text-somhako2"
                                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                     >
@@ -48,7 +48,7 @@ export default function UserDropdownButton({
                                     <button
                                         className={`${
                                             active
-                                                ? "bg-violet-500 text-white"
+                                                ? "bg-red-500 text-white"
                                                 : "text-somhako2"
                                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                         onClick={signOut}

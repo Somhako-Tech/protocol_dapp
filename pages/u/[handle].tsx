@@ -25,7 +25,7 @@ export default function UserPage() {
         getProfileByHandleIdQuery((handle as string) || "default")
     );
 
-    if (isProfileQueryLoading) return <BigClipLoader color="somhako" />;
+    if (isProfileQueryLoading) return <BigClipLoader color="tertiary" />;
     if (!userProfile) {
         router.back();
 

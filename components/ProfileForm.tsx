@@ -227,12 +227,12 @@ const ProfileForm = ({
             return (
                 <button
                     type="submit"
-                    className="rounded-full bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] py-2.5 px-6 font-bold text-white shadow-md shadow-gray-500 transition-all hover:from-[#391188] hover:to-[#391188] md:min-w-[150px]"
+                    className="inline-block rounded bg-gradient-to-r from-secondary to-tertiary py-2 px-8 text-sm font-bold text-white transition-all hover:from-primary hover:to-primary m-2"
                 >
                     {!submittingForm ? (
                         "MINT"
                     ) : (
-                        <ClipLoader color="white" size={20} />
+                        <i className="fa-solid fa-rotate fa-spin"></i>
                     )}
                 </button>
             );
@@ -240,12 +240,12 @@ const ProfileForm = ({
             return (
                 <button
                     type="button"
-                    className="mx-4 rounded-full bg-somhako py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:min-w-[80px]"
+                    className="inline-block rounded bg-gradient-to-r from-secondary to-tertiary py-2 px-8 text-sm font-bold text-white transition-all hover:from-primary hover:to-primary m-2"
                     onClick={() => {
                         setSelectedIndex((prev) => prev + 1);
                     }}
                 >
-                    {">"}
+                    {"Next"}
                 </button>
             );
         else
@@ -253,21 +253,21 @@ const ProfileForm = ({
                 <div>
                     <button
                         type="button"
-                        className="mx-4 rounded-full bg-somhako py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:min-w-[80px]"
+                        className="inline-block rounded bg-gradient-to-r from-secondary to-tertiary py-2 px-8 text-sm font-bold text-white transition-all hover:from-primary hover:to-primary m-2"
                         onClick={() => {
                             setSelectedIndex((prev) => prev - 1);
                         }}
                     >
-                        {"<"}
+                        {"Prev"}
                     </button>
                     <button
                         type="button"
-                        className="mx-4 rounded-full bg-somhako py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:min-w-[80px]"
+                        className="inline-block rounded bg-gradient-to-r from-secondary to-tertiary py-2 px-8 text-sm font-bold text-white transition-all hover:from-primary hover:to-primary m-2"
                         onClick={() => {
                             setSelectedIndex((prev) => prev + 1);
                         }}
                     >
-                        {">"}
+                        {"Next"}
                     </button>
                 </div>
             );
@@ -277,25 +277,26 @@ const ProfileForm = ({
         (link: string, i) => {
             const links = userProfile.link as any;
             return (
-                <div
-                    key={i}
-                    className="flex w-full flex-row justify-between px-10"
-                >
-                    <label className="inline-blocks mb-2 font-medium leading-none">
-                        {link}
-                    </label>
-                    <Link
-                        href={
-                            links[link] != ""
-                                ? getFullUrl(link, links[link])
-                                : "/"
-                        }
-                        target="_blank"
-                        className="mb-2 ml-10 inline-block font-normal leading-none text-cyan-700"
+                <div className="w-full lg:w-[47%] mb-6" key={i}>
+                    <Link className="iconGroup social delete" 
+                    href={links[link] != "" ? getFullUrl(link, links[link]) : "/"}
+                    target="_blank"
                     >
-                        {links[link] != ""
-                            ? getFullUrl(link, links[link])
-                            : "No link"}
+                        <input
+                            type="text"
+                            value={links[link] != ""? getFullUrl(link, links[link]) : "No link"}
+                            className="w-full rounded-lg border-slate-300 dark:bg-gray-800 focus:border-slate-300 focus:ring-0 focus:outline-0 focus:shadow-none"
+                            readOnly
+                        />
+                        {/* <i
+                            className={`${geticon(
+                            link.title
+                            )} iconGroup__icon`}
+                        ></i>
+                        <i
+                            className="fa-solid fa-trash iconGroup__icon-delete"
+                            onClick={e => deleteLink(link.id)}
+                        ></i> */}
                     </Link>
                 </div>
             );
@@ -352,159 +353,141 @@ const ProfileForm = ({
     };
 
     return (
-        <div className="w-full flex-col items-center ">
-            <form
-                className="flex flex-col items-center justify-evenly p-5"
-                onSubmit={checkSubmit}
+        <form onSubmit={checkSubmit} className="w-full max-w-[700px] mx-auto">
+            {showValidationErrors && (
+                <div className="flex flex-col items-center justify-evenly">
+                    <ValidationErrors
+                        formErrors={formErrors}
+                        setSelectedIndex={setSelectedIndex}
+                    />
+                </div>
+            )}
+            <LinkModal
+                linkModalOpen={linkModalOpen}
+                handleClose={() => setLinkModalOpen(false)}
+                handleChange={dispatch}
+                userProfile={userProfile}
+            />
+            <Tab.Group
+                selectedIndex={selectedIndex}
+                onChange={setSelectedIndex} 
             >
-                {showValidationErrors && (
-                    <div className="flex flex-col items-center justify-evenly">
-                        <ValidationErrors
-                            formErrors={formErrors}
-                            setSelectedIndex={setSelectedIndex}
-                        />
-                    </div>
-                )}
-                <LinkModal
-                    linkModalOpen={linkModalOpen}
-                    handleClose={() => setLinkModalOpen(false)}
-                    handleChange={dispatch}
-                    userProfile={userProfile}
-                />
-                <Tab.Group
-                    selectedIndex={selectedIndex}
-                    onChange={setSelectedIndex}
-                >
-                    <Tab.List className="tabs my-0 flex max-w-md justify-center py-0 font-semibold text-white">
-                        <Tab
-                            className={
-                                selectTab == "bio"
-                                    ? "tab mx-10 border-b-2"
-                                    : "tab mx-10 "
-                            }
-                            onClick={() => setSelectTab("bio")}
-                        >
-                            Bio
-                        </Tab>
-                        <Tab
-                            className={
-                                selectTab == "background"
-                                    ? "tab mx-10 border-b-2"
-                                    : "tab mx-10 "
-                            }
-                            onClick={() => setSelectTab("background")}
-                        >
-                            Background
-                        </Tab>
-                        <Tab
-                            className={
-                                selectTab == "resume"
-                                    ? "tab mx-10 border-b-2"
-                                    : "tab mx-10 "
-                            }
-                            onClick={() => setSelectTab("resume")}
-                        >
-                            Resume
-                        </Tab>
-
-                        <Tab
-                            className={
-                                selectTab == "mint"
-                                    ? "tab mx-10 border-b-2"
-                                    : "tab mx-10 "
-                            }
-                            onClick={() => setSelectTab("mint")}
-                        >
-                            Mint
-                        </Tab>
-                    </Tab.List>
-                    <Tab.Panels>
-                        <Tab.Panel className="my-4 flex w-[700px] flex-col items-stretch justify-center rounded-[30px] border bg-gradient-to-r from-slate-50 to-slate-200 p-10 shadow-2xl shadow-slate-200">
-                            <div className="flex flex-row items-center justify-between">
-                                <div className="flex w-1/2 flex-row items-center justify-start">
-                                    <label
-                                        htmlFor="title"
-                                        className="mb-2 inline-block font-semibold leading-none"
-                                    >
-                                        Title
-                                    </label>
-                                    <input
-                                        required
-                                        type="text"
-                                        id="title"
-                                        value={userProfile.title}
-                                        onChange={dispatch}
-                                        onBlur={dispatch}
-                                        placeholder="Ex: Web Developer"
-                                        className="ml-auto mr-6 w-auto rounded-full border border-slate-500 p-1 pl-2"
-                                    />
-                                </div>
-
-                                <div className="my-6">
-                                    <label
-                                        htmlFor="address"
-                                        className="mb-2 inline-block font-medium leading-none"
-                                    >
-                                        Address
-                                    </label>
-                                    <label
-                                        id="address"
-                                        className="mx-4 w-auto  border-2 border-slate-300 p-2 font-mono"
-                                    >
-                                        {address &&
-                                            address.slice(0, 10) +
-                                                "..." +
-                                                address.slice(
-                                                    address.length - 8
-                                                )}
-                                    </label>
+                <Tab.List className="overflow-x-auto flex items-center justify-between border border-slate-300 rounded-full text-center text-darkGray text-[14px] font-semibold mb-6">
+                    <Tab
+                        className={
+                            selectTab == "bio"
+                                ? "border-b-4 border-b-primary p-2 mx-8 text-primary"
+                                : "border-b-4 border-b-transparent p-2 mx-8"
+                        }
+                        onClick={() => setSelectTab("bio")}
+                    >
+                        Bio
+                    </Tab>
+                    <Tab
+                        className={
+                            selectTab == "background"
+                                ? "border-b-4 border-b-primary p-2 mx-8 text-primary"
+                                : "border-b-4 border-b-transparent p-2 mx-8"
+                        }
+                        onClick={() => setSelectTab("background")}
+                    >
+                        Background
+                    </Tab>
+                    <Tab
+                        className={
+                            selectTab == "resume"
+                                ? "border-b-4 border-b-primary p-2 mx-8 text-primary"
+                                : "border-b-4 border-b-transparent p-2 mx-8"
+                        }
+                        onClick={() => setSelectTab("resume")}
+                    >
+                        Resume
+                    </Tab>
+                    <Tab
+                        className={
+                            selectTab == "mint"
+                                ? "border-b-4 border-b-primary p-2 mx-8 text-primary"
+                                : "border-b-4 border-b-transparent p-2 mx-8"
+                        }
+                        onClick={() => setSelectTab("mint")}
+                    >
+                        Mint
+                    </Tab>
+                </Tab.List>
+                <Tab.Panels>
+                    <Tab.Panel>
+                        <div className="bg-white dark:bg-gray-800 text-black dark:text-white shadow-normal border border-teal-400 rounded-[30px] p-8 mb-6">
+                            <div className="mb-6">
+                                <label
+                                    htmlFor="title"
+                                    className="font-medium mb-2 leading-none inline-block"
+                                >
+                                    Title
+                                </label>
+                                <input
+                                    required
+                                    type="text"
+                                    id="title"
+                                    value={userProfile.title}
+                                    onChange={dispatch}
+                                    onBlur={dispatch}
+                                    placeholder="Ex: Web Developer"
+                                    className="w-full rounded-lg border-slate-300"
+                                />
+                            </div>
+                            <div className="mb-6">
+                                <label
+                                    htmlFor="address"
+                                    className="font-medium mb-2 leading-none inline-block"
+                                >
+                                    Address
+                                </label>
+                                <div id="address" className="w-full rounded-lg border border-slate-300 text-darkGray py-2 px-3">
+                                    {address &&
+                                        address.slice(0, 10) +
+                                        "..." +
+                                        address.slice(
+                                        address.length - 8
+                                    )}
                                 </div>
                             </div>
-                            {/* TODO: Change this into a search bar */}
-
-                            <div className="flex flex-row items-center justify-start">
-                                <div className="flex w-1/2 flex-row items-center justify-start">
-                                    <label
-                                        htmlFor="handle"
-                                        className="mb-2 inline-block p-1 font-semibold leading-none "
-                                    >
-                                        Handle
-                                    </label>
-                                    <input
-                                        required
-                                        type="text"
-                                        id="handle"
-                                        name="handle"
-                                        className="ml-auto mr-6 w-auto rounded-full border border-slate-500 p-1 pl-2"
-                                        value={userProfile.handle}
-                                        onChange={(e) => {
-                                            dispatch(e);
-                                            setHandleSearching(true);
-                                        }}
-                                        onBlur={dispatch}
-                                    />
-                                </div>
+                            <div>
+                                <label
+                                    htmlFor="handle"
+                                    className="font-medium mb-2 leading-none inline-block"
+                                >
+                                    Handle
+                                </label>
+                                <input required
+                                    type="text"
+                                    id="handle"
+                                    name="handle"
+                                    className="w-full rounded-lg border-slate-300"
+                                    value={userProfile.handle}
+                                    onChange={(e) => {
+                                        dispatch(e);
+                                        setHandleSearching(true);
+                                    }}
+                                    onBlur={dispatch}
+                                    placeholder="Username"
+                                />
                                 {userProfile.handle !== "" && (
-                                    <div className="relative">
+                                    <div className="mt-3">
                                         {handleSearching ? (
-                                            <h1 className="loading-normal ml-0 transition-all duration-150">
-                                                ...
-                                            </h1>
+                                            <>
+                                                <div className="bg-indigo-200 py-2 px-3 rounded">
+                                                    <i className="fa-solid fa-rotate fa-spin"></i>
+                                                </div>
+                                            </>
                                         ) : formErrors.handle ? (
                                             <Alert
                                                 severity="error"
-                                                className={
-                                                    "absolute top-0 mt-0 ml-0 w-[250px] -translate-y-5 opacity-100 transition-all duration-150"
-                                                }
                                             >
                                                 {formErrors.handle}
                                             </Alert>
                                         ) : (
                                             <Alert
                                                 severity="success"
-                                                className={
-                                                    "absolute top-0 mt-0 ml-0 w-[250px] -translate-y-5 opacity-100 transition-all duration-150"
-                                                }
                                             >
                                                 All set!
                                             </Alert>
@@ -512,107 +495,102 @@ const ProfileForm = ({
                                     </div>
                                 )}
                             </div>
-
-                            <div className="my-6">
-                                <label
-                                    htmlFor="summary"
-                                    className="mb-2 inline-block font-medium leading-none"
-                                >
-                                    Summary
-                                </label>
-                                <div className="relative">
-                                    <textarea
-                                        required
-                                        id="summary"
-                                        placeholder="Something about yourself..."
-                                        className="h-[150px] w-full  min-w-[100px]  resize-none rounded-sm border border-slate-500 p-1 pb-6 pl-2"
-                                        value={userProfile.summary}
-                                        onChange={dispatch}
-                                        onBlur={dispatch}
-                                    ></textarea>
-                                    {userProfile.summary.length < 120 && (
-                                        <span className="absolute right-3 bottom-3 text-gray-500">
-                                            {userProfile.summary.length < 120 &&
-                                                120 -
-                                                    userProfile.summary.length}
-                                        </span>
-                                    )}
-                                </div>
-
-                                <Transition
-                                    nodeRef={null}
-                                    in={userProfile.summary.length < 120}
-                                    timeout={400}
-                                    className="my-10"
-                                >
-                                    {(state) => (
-                                        <div ref={null}>
-                                            <Alert
-                                                severity="error"
-                                                className={
-                                                    state == "exited"
-                                                        ? "400ms h-0 opacity-0 transition-all"
-                                                        : "400ms opacity-90 transition-all"
-                                                }
-                                            >
-                                                Summary has to be at least 120
-                                                chars
-                                            </Alert>
-                                        </div>
-                                    )}
-                                </Transition>
+                        </div>
+                        <div className="bg-white dark:bg-gray-800 text-black dark:text-white shadow-normal border border-teal-400 rounded-[30px] p-8 mb-6">
+                            <label
+                                htmlFor="summary"
+                                className="font-medium mb-2 leading-none inline-block"
+                            >
+                                Summary
+                            </label>
+                            <div className="relative mb-2">
+                                <textarea
+                                id="summary"
+                                placeholder="Something about yourself..."
+                                className="w-full rounded-lg h-[120px] border-slate-300 resize-none pb-6"
+                                value={userProfile.summary}
+                                onChange={dispatch}
+                                onBlur={dispatch}
+                                ></textarea> 
+                                {userProfile.summary.length < 120 && (
+                                    <span className="absolute right-3 bottom-3 text-sm text-gray-500">
+                                        {userProfile.summary.length < 120 && 120 - userProfile.summary.length}
+                                    </span>
+                                )}
                             </div>
-
-                            <div className="flex flex-row items-center justify-around">
-                                <label className=" mb-2 inline-block text-lg font-medium leading-none">
-                                    Links
-                                </label>
-                                <button
+                            <Transition
+                                nodeRef={null}
+                                in={userProfile.summary.length < 120}
+                                timeout={400}
+                            >
+                                {(state) => (
+                                    <div ref={null}>
+                                        <Alert
+                                            severity="error"
+                                            className={
+                                                state == "exited"
+                                                    ? "400ms h-0 opacity-0 transition-all"
+                                                    : "400ms opacity-90 transition-all"
+                                            }
+                                        >
+                                            Summary has to be at least 120 chars
+                                        </Alert>
+                                    </div>
+                                )}
+                            </Transition>
+                        </div>
+                        <div className="bg-white dark:bg-gray-800 text-black dark:text-white shadow-normal border border-teal-400 rounded-[30px] p-8 mb-6">
+                            <div className="md:border border-slate-300 rounded-normal md:py-6 md:px-8">
+                                <div className="flex items-center justify-between mb-4">
+                                    <h4>
+                                    Social <span className="text-[#6D27F9]">Media</span>
+                                    </h4>
+                                    <button
                                     type="button"
-                                    className="rounded-full border border-[#6D27F9] py-1 px-8 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white"
+                                    className="border border-[#6D27F9] rounded-lg py-1 px-4 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white"
                                     onClick={() => setLinkModalOpen(true)}
-                                >
+                                    >
                                     Add
-                                </button>
+                                    </button>
+                                </div>
+                                <div className="flex flex-wrap justify-between">
+                                    {links}
+                                </div>
                             </div>
-                            <div className="w-full px-20 py-10">{links}</div>
-                        </Tab.Panel>
-                        {/*Background page*/}
-                        <Tab.Panel className="my-4 flex w-[700px] flex-col items-stretch justify-center rounded-[30px] border bg-gradient-to-r from-slate-50 to-slate-200 p-10 shadow-2xl shadow-slate-200">
-                            <div className="m-0 w-3/4 p-0">
-                                <Transition
-                                    nodeRef={null}
-                                    in={formErrors.links}
-                                    timeout={400}
-                                    className="my-10"
-                                >
-                                    {(state) => (
-                                        <div ref={null}>
-                                            <Alert
-                                                severity="error"
-                                                className={
-                                                    state == "exited"
-                                                        ? "400ms my-2 h-0 opacity-0 transition-all"
-                                                        : "400ms my-2 opacity-90 transition-all"
-                                                }
-                                            >
-                                                You need at least 3 links.
-                                            </Alert>
-                                        </div>
-                                    )}
-                                </Transition>
-                                <div className="mb-10 flex flex-row items-center justify-between">
+                            <Transition
+                                nodeRef={null}
+                                in={formErrors.links}
+                                timeout={400}
+                            >
+                                {(state) => (
+                                    <div ref={null}>
+                                        <Alert
+                                            severity="error"
+                                            className={
+                                                state == "exited"
+                                                    ? "400ms my-2 h-0 opacity-0 transition-all"
+                                                    : "400ms my-2 opacity-90 transition-all"
+                                            }
+                                        >
+                                            You need at least 3 links.
+                                        </Alert>
+                                    </div>
+                                )}
+                            </Transition>
+                        </div>
+                        <div className="bg-white dark:bg-gray-800 text-black dark:text-white shadow-normal border border-teal-400 rounded-[30px] p-8 mb-6">
+                            <div className="flex flex-wrap justify-between">
+                                <div className="w-full lg:w-[47%] mb-6">
                                     <label
                                         htmlFor="job_type"
-                                        className="mb-2 inline-block font-semibold leading-none"
+                                        className="font-medium mb-2 leading-none inline-block"
                                     >
                                         Preferred Job Type
                                     </label>
-
                                     <select
                                         required
                                         id="job_type"
-                                        className="mx-4 ml-6 w-1/2 rounded-full border border-slate-500 p-1 pl-3"
+                                        className="w-full rounded-lg border-slate-300"
                                         value={userProfile.job_type}
                                         onChange={dispatch}
                                     >
@@ -627,14 +605,10 @@ const ProfileForm = ({
                                         </option>
                                     </select>
                                 </div>
-                                <LocationField
-                                    userProfile={userProfile}
-                                    handleChange={dispatch}
-                                />
-                                <div className="mb-10 flex flex-row items-center justify-between">
+                                <div className="w-full lg:w-[47%] mb-6">
                                     <label
                                         htmlFor="salary"
-                                        className="mb-2 inline-block font-semibold leading-none"
+                                        className="font-medium mb-2 leading-none inline-block"
                                     >
                                         Salary
                                     </label>
@@ -646,20 +620,28 @@ const ProfileForm = ({
                                         value={userProfile.salary}
                                         onChange={dispatch}
                                         onBlur={dispatch}
-                                        className="mx-4 ml-6 w-1/2 rounded-full border border-slate-500 p-1 pl-3"
+                                        className="w-full rounded-lg border-slate-300"
                                     />
                                 </div>
-                                <div className="mb-5 flex flex-row items-center justify-between">
+                            </div>
+                            <div className="flex flex-wrap justify-between">
+                                <div className="w-full lg:w-[47%] mb-6">
+                                    <LocationField
+                                        userProfile={userProfile}
+                                        handleChange={dispatch}
+                                    />
+                                </div>
+                                <div className="w-full lg:w-[47%] mb-6">
                                     <label
                                         htmlFor="years_of_exp"
-                                        className="mb-2 inline-block font-semibold leading-none"
+                                        className="font-medium mb-2 leading-none inline-block"
                                     >
                                         Years of Experience
                                     </label>
                                     <select
                                         required
                                         id="years_of_exp"
-                                        className="mx-4 ml-6 w-1/2 rounded-full border border-slate-500 p-1 pl-3"
+                                        className="w-full rounded-lg border-slate-300"
                                         value={userProfile.years_of_exp}
                                         onChange={dispatch}
                                     >
@@ -681,71 +663,74 @@ const ProfileForm = ({
                                     </select>
                                 </div>
                             </div>
-
-                            <EducationFields
-                                handleChange={dispatch}
-                                userProfile={userProfile}
-                            />
-                            <SkillsField
-                                handleChange={dispatch}
-                                userProfile={userProfile}
-                            />
-                            <div className="mb-6">
-                                <label className="mb-4 inline-block font-medium leading-none">
-                                    Resume
-                                </label>
-                                <div className="flex flex-col">
-                                    <label
-                                        htmlFor="uploadCV"
-                                        className="mb-2 w-[150px] cursor-pointer rounded-md border border-dashed border-teal-500 p-2.5 px-4 text-center text-sm font-semibold "
-                                    >
-                                        <span>
-                                            {resume
-                                                ? "Uploaded"
-                                                : "Upload" + " "}
-                                            <i className="fa-solid fa-cloud-arrow-up ml-1 text-[#6D27F9]"></i>
-                                        </span>
-                                        <input
-                                            type="file"
-                                            id="uploadCV"
-                                            accept="application/pdf,application/msword,.rtf"
-                                            className="hidden"
-                                            onChange={(e) =>
-                                                setResume(
-                                                    e.target.files
-                                                        ? e.target.files[0]
-                                                        : null
-                                                )
-                                            }
-                                        />
-                                    </label>
-                                    <span className="text-[12px] text-[#333] dark:text-white">
-                                        Supported Formats: doc, docx, rtf, pdf,
-                                        upto 2 MB
+                        </div>
+                        <SkillsField
+                            handleChange={dispatch}
+                            userProfile={userProfile}
+                        />
+                    </Tab.Panel>
+                    <Tab.Panel>
+                        <EducationFields
+                            handleChange={dispatch}
+                            userProfile={userProfile}
+                        />
+                        <ExperienceFields
+                            handleChange={dispatch}
+                            userProfile={userProfile}
+                        />
+                    </Tab.Panel>
+                    <Tab.Panel>
+                        <div className="bg-white dark:bg-gray-800 text-black dark:text-white shadow-normal border border-teal-400 rounded-[30px] p-8 mb-6">
+                            <label className="mb-4 inline-block font-medium leading-none">
+                                Resume
+                            </label>
+                            <div className="flex flex-col">
+                                <label
+                                    htmlFor="uploadCV"
+                                    className="mb-2 w-[150px] cursor-pointer rounded-md border border-dashed border-teal-500 p-2.5 px-4 text-center text-sm font-semibold "
+                                >
+                                    <span>
+                                        {resume
+                                            ? "Uploaded"
+                                            : "Upload" + " "}
+                                        <i className="fa-solid fa-cloud-arrow-up ml-1 text-[#6D27F9]"></i>
                                     </span>
-                                </div>
+                                    <input
+                                        type="file"
+                                        id="uploadCV"
+                                        accept="application/pdf,application/msword,.rtf"
+                                        className="hidden"
+                                        onChange={(e) =>
+                                            setResume(
+                                                e.target.files
+                                                    ? e.target.files[0]
+                                                    : null
+                                            )
+                                        }
+                                    />
+                                </label>
+                                <span className="text-[12px] text-[#333] dark:text-white">
+                                    Supported Formats: doc, docx, rtf, pdf,
+                                    upto 2 MB
+                                </span>
                             </div>
-                        </Tab.Panel>
-                        <Tab.Panel className="my-4 flex w-auto min-w-[700px] flex-col items-stretch justify-center rounded-[30px] border bg-gradient-to-r from-slate-50 to-slate-200 p-10 shadow-2xl shadow-slate-200">
-                            <ExperienceFields
-                                handleChange={dispatch}
-                                userProfile={userProfile}
-                            />
-                        </Tab.Panel>
-                        <Tab.Panel className="my-4 flex w-auto min-w-[700px] flex-col items-center justify-center rounded-[30px] border bg-gradient-to-r from-slate-50 to-slate-200 p-10 shadow-2xl shadow-slate-200">
-                            <AvatarEditor
-                                setAvatarConfig={setAvatarConfig}
-                                avatarConfig={avatarConfig}
-                            />
-                        </Tab.Panel>
-                    </Tab.Panels>
-                </Tab.Group>
+                        </div>
+                    </Tab.Panel>
+                    <Tab.Panel>
+                        <AvatarEditor
+                            setAvatarConfig={setAvatarConfig}
+                            avatarConfig={avatarConfig}
+                        />
+                    </Tab.Panel>
+                </Tab.Panels>
+            </Tab.Group>
+            <div className="text-center">
                 <FormButton
                     selectTab={selectTab}
                     submittingForm={submittingForm}
                 />
-            </form>
-        </div>
+            </div>
+        </form>
     );
 };
 

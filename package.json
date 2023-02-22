@@ -67,6 +67,7 @@
         "@graphql-codegen/client-preset": "1.2.5",
         "@graphql-codegen/import-types-preset": "^2.2.6",
         "@graphql-codegen/introspection": "2.2.3",
+        "@tailwindcss/forms": "^0.5.3",
         "@tanstack/react-query-devtools": "^4.20.9",
         "@types/dom-to-image": "^2.6.4",
         "@types/formidable": "^2.0.5",

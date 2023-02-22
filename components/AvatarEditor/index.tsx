@@ -101,19 +101,17 @@ export default function AvatarEditor({ avatarConfig, setAvatarConfig }: any) {
     };
 
     return (
-        <div className="flex flex-col items-center">
+        <div className="bg-white dark:bg-gray-800 text-black dark:text-white shadow-normal border border-teal-400 rounded-[30px] p-8 mb-6">
             <h1
-                className={
-                    "z-0 bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text pt-5 text-center text-5xl font-extrabold text-transparent"
-                }
+                className="text-2xl font-bold text-center"
             >
                 Customize Your Avatar!
             </h1>
-            <div className="my-16">
+            <div className="relative">
                 <div className={styles.circleContainer}>
                     <div>
                         <Avatar
-                            className={"m-10 h-64 w-64"}
+                            className={"m-10 h-[10rem] w-[10rem] md:h-[12rem] md:w-[12rem] lg:h-[16rem] lg:w-[16rem]"}
                             {...avatarConfig}
                             id="avatarId"
                         />
@@ -126,19 +124,19 @@ export default function AvatarEditor({ avatarConfig, setAvatarConfig }: any) {
                 </div>
             </div>
 
-            <div>
+            <div className="text-center">
                 <button
                     onClick={() => setAvatarConfig(genConfig())}
                     // onClick={() => saveAvatarFile()}
                     // onClick={() => saveConfig(avatarConfig)}
                     type="button"
-                    className="my-4 rounded-full bg-somhako py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:min-w-[150px]  md:max-w-[160px]"
+                    className="inline-block rounded bg-secondary py-2 px-8 text-sm font-bold text-white transition-all m-2"
                 >
                     Randomize
                 </button>
                 <button
                     type="button"
-                    className="my-4 ml-4 rounded-full bg-somhako py-2.5 px-6 font-bold text-white  shadow-md shadow-gray-500 hover:bg-[#391188] md:max-w-[160px]"
+                    className="inline-block rounded bg-tertiary py-2 px-8 text-sm font-bold text-white transition-all m-2"
                     onClick={() => {
                         setAvatarConfig(genConfig("somhako"));
                     }}

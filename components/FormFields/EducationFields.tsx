@@ -46,7 +46,7 @@ export default function EducationFields({
         // eslint-disable-next-line react/display-name
         forwardRef(({ value, onClick }: any, ref: any) => (
             <input
-                className="mx-4 ml-6 w-auto rounded-full border border-slate-500 p-1"
+                className="w-full rounded-lg border border-slate-300 py-2 px-4"
                 onClick={onClick}
                 onChange={() => {}}
                 ref={ref}
@@ -55,52 +55,53 @@ export default function EducationFields({
         ));
 
     const education = userProfile.education.map((education: any, i) => (
-        <div key={i} className="w-full">
-            <label className="text-md mb-2 inline-block leading-none">
-                Education #{i + 1}
-            </label>
-            <div className="my-6 mx-6 flex flex-row items-center justify-between">
-                <label
-                    htmlFor="institution"
-                    className="mb-2 inline-block font-medium leading-none"
-                >
-                    Institution
-                </label>
-                <input
-                    required
-                    id="institution"
-                    name="institution"
-                    type="text"
-                    className="mx-4 ml-6 w-auto rounded-full border border-slate-500 p-1"
-                    onChange={(e) => updateEducation(e, i)}
-                    value={education.institution}
-                />
-            </div>
-            <div className="my-6 mx-6 flex flex-row items-center justify-between">
-                <label
-                    htmlFor="title"
-                    className="mb-2 inline-block font-medium leading-none"
-                >
-                    Title
-                </label>
-                <input
-                    required
-                    id="title"
-                    name="title"
-                    type="text"
-                    className="mx-4 ml-6 w-auto rounded-full border border-slate-500 p-1 "
-                    onChange={(e) => updateEducation(e, i)}
-                    value={education.title}
-                />
-            </div>
-            <div className="my-6 mx-6 flex flex-row items-center justify-between">
-                <label
-                    htmlFor="year"
-                    className="mb-2 inline-block font-medium leading-none"
-                >
-                    Year
-                </label>
-                <div className="w-auto">
+        <>
+        <div
+            className="w-full rounded-[20px] bg-[#FAF8FF] dark:bg-gray-900 text-black dark:text-white border border-slate-200 p-4 md:p-6 md:pr-[110px] pt-[35px] md:pt-6 mb-4 relative"
+            key={i}
+        >
+            <article>
+                <div className="mb-6">
+                    <label
+                        htmlFor="institution"
+                        className="font-medium mb-2 leading-none inline-block"
+                    >
+                        Institution
+                    </label>
+                    <input
+                        required
+                        id="institution"
+                        name="institution"
+                        type="text"
+                        className="w-full rounded-lg border-slate-300"
+                        onChange={(e) => updateEducation(e, i)}
+                        value={education.institution}
+                    />
+                </div>
+                <div className="mb-6">
+                    <label
+                        htmlFor="title"
+                        className="font-medium mb-2 leading-none inline-block"
+                    >
+                        Title
+                    </label>
+                    <input
+                        required
+                        id="title"
+                        name="title"
+                        type="text"
+                        className="w-full rounded-lg border-slate-300"
+                        onChange={(e) => updateEducation(e, i)}
+                        value={education.title}
+                    />
+                </div>
+                <div className="mb-6">
+                    <label
+                        htmlFor="year"
+                        className="font-medium mb-2 leading-none inline-block"
+                    >
+                        Year
+                    </label>
                     <DatePicker
                         selected={education.year}
                         customInput={<CustomDateInput />}
@@ -119,21 +120,30 @@ export default function EducationFields({
                         id="year"
                     />
                 </div>
+            </article>
+            <div className="bg-white shadow-md rounded-tl-[20px] rounded-bl-[20px] absolute right-0 top-[0px] md:top-[15px] p-1.5 md:py-2.5 md:px-4 text-[12px] md:text-sm">
+                <button type="button" className="text-[#6D27F9] mx-2">
+                    <i className="fa-solid fa-pen-to-square"></i>
+                </button>
+                <button type="button" className="text-red-500 mx-2">
+                    <i className="fa-solid fa-trash"></i>
+                </button>
             </div>
         </div>
+        </>
     ));
     return (
-        <div className="w-full">
-            <div className="my-6 mx-6 flex flex-row items-center justify-between">
-                <label className="mb-2 inline-block text-lg font-medium leading-none">
-                    Education
+        <div className="bg-white dark:bg-gray-800 text-black dark:text-white shadow-normal border border-teal-400 rounded-[30px] p-8 mb-6">
+            <div className="flex items-center justify-between mb-4">
+                <label className="font-medium leading-none inline-block">
+                Education
                 </label>
                 <button
-                    type="button"
-                    className="rounded-full border border-[#6D27F9] py-1 px-8 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white"
-                    onClick={() => addEducation()}
+                type="button"
+                className="border border-[#6D27F9] rounded-lg py-1 px-8 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white"
+                onClick={() => addEducation()}
                 >
-                    Add
+                Add
                 </button>
             </div>
             {education.length > 0 && education}
