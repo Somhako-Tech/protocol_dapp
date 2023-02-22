@@ -144,7 +144,7 @@ export default function UserPage() {
                     </div>
                 </div>
             </div>
-            <section className="flex w-full flex-wrap ">
+            {/* <section className="flex w-full flex-wrap ">
                 <div className="h-full w-full">
                     <div className="mx-auto w-full max-w-[800px] rounded-[25px]	 bg-white p-8  text-black shadow-normal md:py-14 md:px-20">
                         <div className="flex-col items-center justify-center">
@@ -158,7 +158,7 @@ export default function UserPage() {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> */}
         </>
     );
 }
