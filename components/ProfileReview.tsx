@@ -191,25 +191,7 @@ export default function ProfileSummary({
 
                 const linkList = links;
 
-                return Object.keys(linkList).map(
-                    (item: string) =>
-                        linkList[item] !== "" && (
-                            <div className="my-2" key={item}>
-                                <label
-                                    htmlFor={key}
-                                    className={styles.profileLabel}
-                                >
-                                    {item}
-                                </label>
-                                <label
-                                    id={key}
-                                    className="mx-4 w-auto text-base font-medium "
-                                >
-                                    {linkList[item]}
-                                </label>
-                            </div>
-                        )
-                );
+                return <></>;
             }
 
             let label: string = changeCase.sentenceCase(key);
@@ -239,7 +221,7 @@ export default function ProfileSummary({
 
     if (handlingSubmit)
         return (
-            <div className="w-full">
+            <div className="w-full" key={profile.user_id}>
                 <div className="my-4 mx-auto flex max-w-[700px] flex-col items-center justify-center rounded-[30px] border bg-gradient-to-r from-slate-50 to-slate-200 p-10 shadow-2xl shadow-slate-200">
                     <h2 className="mb-4 text-lg font-semibold md:text-3xl">
                         Minting Profile{" "}
@@ -271,7 +253,7 @@ export default function ProfileSummary({
                             handleRejection(profile);
                             setHandlingSubmit(true);
                         }}
-                        className=" rounded-full bg-gradient-to-r from-[#a85959] to-somhako py-2.5 px-6 font-bold text-white transition-all hover:from-[#391188] hover:to-[#391188] md:min-w-[150px]"
+                        className=" to-somhako rounded-full bg-gradient-to-r from-[#a85959] py-2.5 px-6 font-bold text-white transition-all hover:from-[#391188] hover:to-[#391188] md:min-w-[150px]"
                     >
                         Reject
                     </button>
@@ -280,7 +262,7 @@ export default function ProfileSummary({
                             handleMint(profile);
                             setHandlingSubmit(true);
                         }}
-                        className=" rounded-full bg-gradient-to-r from-[#6D27F9] to-somhako py-2.5 px-6 font-bold text-white transition-all hover:from-[#391188] hover:to-[#391188] md:min-w-[150px]"
+                        className=" to-somhako rounded-full bg-gradient-to-r from-[#6D27F9] py-2.5 px-6 font-bold text-white transition-all hover:from-[#391188] hover:to-[#391188] md:min-w-[150px]"
                     >
                         Approve
                     </button>

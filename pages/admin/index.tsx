@@ -30,7 +30,7 @@ export default function Explore() {
     if (isProfilesLoading) {
         return <BigClipLoader color="tertiary" />;
     }
-    let profileList = <></>;
+    let profileList;
 
     const handleMint = async (profile: Profile) => {
         const response = await axiosContractInstance.post("/contract", {
@@ -62,21 +62,16 @@ export default function Explore() {
     const handleRejection = (profile: Profile) => console.log(profile);
 
     if (!isProfilesLoading && !profileListError && profiles) {
-        profileList = (
-            <>
-                {profiles?.map((profile: any) =>
-                    profile.minted ? (
-                        <></>
-                    ) : (
-                        <ProfileReview
-                            profile={profile}
-                            key={profile.handle}
-                            handleMint={handleMint}
-                            handleRejection={handleRejection}
-                        />
-                    )
-                )}
-            </>
+        profileList = profiles?.map(
+            (profile: any) =>
+                profile && (
+                    <ProfileReview
+                        profile={profile}
+                        key={profile.handle}
+                        handleMint={handleMint}
+                        handleRejection={handleRejection}
+                    />
+                )
         );
     }
 
