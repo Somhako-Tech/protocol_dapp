@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 export default function Logo({
     width = 200,
     height = 200,
@@ -7,6 +8,7 @@ export default function Logo({
     width: number;
     height: number;
 }) {
+    const { theme, setTheme } = useTheme();
     return (
         <div className="max-h-[200px] w-full">
             <Link
@@ -17,7 +19,7 @@ export default function Logo({
                     width={width || 200}
                     height={height || 200}
                     loading="eager"
-                    src="/images/logo.png"
+                    src={theme === "dark" ? "/images/logo-white.png" : "/images/logo.png"}
                     alt="Somhako"
                 />
             </Link>

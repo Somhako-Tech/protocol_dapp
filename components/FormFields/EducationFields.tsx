@@ -46,7 +46,7 @@ export default function EducationFields({
         // eslint-disable-next-line react/display-name
         forwardRef(({ value, onClick }: any, ref: any) => (
             <input
-                className="w-full rounded-lg border border-slate-300 py-2 px-4"
+                className="w-full rounded-lg bg-white dark:text-black border border-slate-300 py-2 px-4"
                 onClick={onClick}
                 onChange={() => {}}
                 ref={ref}
@@ -73,7 +73,7 @@ export default function EducationFields({
                         id="institution"
                         name="institution"
                         type="text"
-                        className="w-full rounded-lg border-slate-300"
+                        className="w-full rounded-lg border-slate-300 dark:text-black"
                         onChange={(e) => updateEducation(e, i)}
                         value={education.institution}
                     />
@@ -90,7 +90,7 @@ export default function EducationFields({
                         id="title"
                         name="title"
                         type="text"
-                        className="w-full rounded-lg border-slate-300"
+                        className="w-full rounded-lg border-slate-300 dark:text-black"
                         onChange={(e) => updateEducation(e, i)}
                         value={education.title}
                     />

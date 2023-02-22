@@ -21,7 +21,7 @@ export default function Footer() {
   ]
   return (
     <>
-      <div className="bg-white drop-shadow-[0_20px_20px_rgba(0,0,0,0.5)] dark:bg-gray-900 relative text-black dark:text-white">
+      <div className="bg-white dark:bg-gray-800 drop-shadow-[0_20px_20px_rgba(0,0,0,0.5)] dark:bg-gray-900 relative text-black dark:text-white">
         <div className="pt-7">
           <div className="container">
             <div className="w-full text-center mb-4">

@@ -285,7 +285,7 @@ const ProfileForm = ({
                         <input
                             type="text"
                             value={links[link] != ""? getFullUrl(link, links[link]) : "No link"}
-                            className="w-full rounded-lg border-slate-300 dark:bg-gray-800 focus:border-slate-300 focus:ring-0 focus:outline-0 focus:shadow-none"
+                            className="w-full rounded-lg border-slate-300 dark:text-black focus:border-slate-300 focus:ring-0 focus:outline-0 focus:shadow-none"
                             readOnly
                         />
                         {/* <i
@@ -372,7 +372,7 @@ const ProfileForm = ({
                 selectedIndex={selectedIndex}
                 onChange={setSelectedIndex} 
             >
-                <Tab.List className="overflow-x-auto flex items-center justify-between border border-slate-300 rounded-full text-center text-darkGray text-[14px] font-semibold mb-6">
+                <Tab.List className="overflow-x-auto flex items-center justify-between bg-white dark:bg-gray-800 border border-slate-300 rounded-full text-center text-darkGray dark:text-white text-[14px] font-semibold mb-6">
                     <Tab
                         className={
                             selectTab == "bio"
@@ -432,7 +432,7 @@ const ProfileForm = ({
                                     onChange={dispatch}
                                     onBlur={dispatch}
                                     placeholder="Ex: Web Developer"
-                                    className="w-full rounded-lg border-slate-300"
+                                    className="w-full rounded-lg border-slate-300 dark:text-black"
                                 />
                             </div>
                             <div className="mb-6">
@@ -442,7 +442,7 @@ const ProfileForm = ({
                                 >
                                     Address
                                 </label>
-                                <div id="address" className="w-full rounded-lg border border-slate-300 text-darkGray py-2 px-3">
+                                <div id="address" className="w-full rounded-lg bg-white border border-slate-300 text-darkGray py-2 px-3">
                                     {address &&
                                         address.slice(0, 10) +
                                         "..." +
@@ -462,7 +462,7 @@ const ProfileForm = ({
                                     type="text"
                                     id="handle"
                                     name="handle"
-                                    className="w-full rounded-lg border-slate-300"
+                                    className="w-full rounded-lg border-slate-300 dark:text-black"
                                     value={userProfile.handle}
                                     onChange={(e) => {
                                         dispatch(e);
@@ -507,7 +507,7 @@ const ProfileForm = ({
                                 <textarea
                                 id="summary"
                                 placeholder="Something about yourself..."
-                                className="w-full rounded-lg h-[120px] border-slate-300 resize-none pb-6"
+                                className="w-full rounded-lg h-[120px] dark:text-black border-slate-300 resize-none pb-6"
                                 value={userProfile.summary}
                                 onChange={dispatch}
                                 onBlur={dispatch}
@@ -590,7 +590,7 @@ const ProfileForm = ({
                                     <select
                                         required
                                         id="job_type"
-                                        className="w-full rounded-lg border-slate-300"
+                                        className="w-full rounded-lg border-slate-300 dark:text-black"
                                         value={userProfile.job_type}
                                         onChange={dispatch}
                                     >
@@ -620,7 +620,7 @@ const ProfileForm = ({
                                         value={userProfile.salary}
                                         onChange={dispatch}
                                         onBlur={dispatch}
-                                        className="w-full rounded-lg border-slate-300"
+                                        className="w-full rounded-lg border-slate-300 dark:text-black"
                                     />
                                 </div>
                             </div>
@@ -641,7 +641,7 @@ const ProfileForm = ({
                                     <select
                                         required
                                         id="years_of_exp"
-                                        className="w-full rounded-lg border-slate-300"
+                                        className="w-full rounded-lg border-slate-300 dark:text-black"
                                         value={userProfile.years_of_exp}
                                         onChange={dispatch}
                                     >

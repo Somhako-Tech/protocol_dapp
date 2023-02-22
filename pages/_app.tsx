@@ -11,6 +11,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Layout from "../components/Layout/Layout";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { Session } from "next-auth";
+import {ThemeProvider} from 'next-themes'
 
 const queryClient = new QueryClient();
 export default function App({
@@ -38,17 +39,19 @@ export default function App({
         provider,
     });
     return (
-        <WagmiConfig client={wagmiClient}>
-            <RainbowKitProvider chains={chains}>
-                <SessionProvider session={pageProps.session}>
-                    <QueryClientProvider client={queryClient}>
-                        <Layout>
-                            <Component {...pageProps} />
-                        </Layout>
-                        <ReactQueryDevtools initialIsOpen={true} />
-                    </QueryClientProvider>
-                </SessionProvider>
-            </RainbowKitProvider>
-        </WagmiConfig>
+        <ThemeProvider attribute="class">
+            <WagmiConfig client={wagmiClient}>
+                <RainbowKitProvider chains={chains}>
+                    <SessionProvider session={pageProps.session}>
+                        <QueryClientProvider client={queryClient}>
+                            <Layout>
+                                <Component {...pageProps} />
+                            </Layout>
+                            <ReactQueryDevtools initialIsOpen={true} />
+                        </QueryClientProvider>
+                    </SessionProvider>
+                </RainbowKitProvider>
+            </WagmiConfig>
+        </ThemeProvider>
     );
 }

@@ -18,7 +18,7 @@ export default function Document() {
                 referrerPolicy="no-referrer"
                 />
             </Head>
-            <body>
+            <body className="bg-white dark:bg-gray-900">
                 <Main />
                 <NextScript />
             </body>
