@@ -3,6 +3,7 @@ import path from "path";
 import { promises as fs } from "fs";
 import jwt from "jsonwebtoken";
 import emails from "../../../constants/email";
+import { getSession } from "next-auth/react";
 
 export default async function handler(req: NextApiRequest, res: any) {
     if (req.method !== "POST")
@@ -10,22 +11,23 @@ export default async function handler(req: NextApiRequest, res: any) {
 
     //TODO Finish auth
     const secret = process.env.NEXTAUTH_SECRET || "";
+    const session: any = await getSession({ req });
 
-    const token = req.headers["protocol-token"];
+    if (!session) {
+        const token = req.headers["protocol-token"];
 
-    const tokenDec = jwt.verify(
-        token as string,
-        secret,
-        (error, decodedToken) => {
-            if (error || !decodedToken) {
-                console.log({ error });
-                return null;
-            }
-            return decodedToken;
-        }
-    );
+        const tokenDec = await new Promise((resolve, reject) =>
+            jwt.verify(token as string, secret, (error, decodedToken) => {
+                if (error || !decodedToken) {
+                    console.log({ error });
+                    reject(error);
+                }
+                resolve(decodedToken);
+            })
+        );
 
-    if (!token) return res.json({ error: "Authentication failed" });
+        if (!tokenDec) return res.json({ error: "Authentication failed" });
+    }
     const sgMail = require("@sendgrid/mail");
 
     const { to, subject, html } = req.body;

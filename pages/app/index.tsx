@@ -69,7 +69,10 @@ export default function AppPage() {
     async function saveProfile(profile: Profile) {
         console.log({ id: user.id as string, profile });
         setIsProfileCreating(true);
-        await createProfileQuery((user.id as string) || "default", profile)
+        const data = await createProfileQuery(
+            (user.id as string) || "default",
+            profile
+        )
             .then((data) => {
                 if (data) {
                     setHandle(data.handle);
@@ -81,6 +84,9 @@ export default function AppPage() {
                 console.log(err);
                 throw new Error("Profile creation failed");
             });
+
+        if (!data) throw new Error("Profile creation failed");
+
         await axiosAPIInstance.post("/mail", {
             to: user.email,
             subject: emails.profileCreated.subject,
