@@ -13,93 +13,56 @@ export default function LinkModal({
     handleChange: (e: any) => void;
     userProfile: Profile;
 }) {
-    type LinkType = "LinkedIn" | "Github" | "Twitter";
 
-    const [currentLinkType, setCurrentLinkType] =
-        useState<LinkType>("LinkedIn");
+    const link = userProfile.link;
 
-    const link = { ...(userProfile.link as any) };
-
-    const [linkObj, setLinkObj] = useState<any>(link);
-
-    const handleLinkUpdate = (e: { target: { value: any } }) => {
-        console.log({ link, c: e.target.value });
-        console.log({ currentLinkType, currentVal: link[currentLinkType] });
-
-        setLinkObj((prev: any) => ({
-            ...prev,
-            [currentLinkType]: e.target.value.slice(1),
-        }));
-    };
+    const [currentLink, setCurrentLink] = useState("https://");
 
     const close = () => {
-        for (const key of Object.keys(linkObj)) {
-            if (linkObj[key] === "") {
-                setCurrentLinkType(key as LinkType);
-                return;
-            }
-        }
+        
         handleChange({
             target: {
                 id: "link",
-                value: { ...linkObj },
+                value: [...link, currentLink],
             },
         });
         handleClose();
+        setCurrentLink("https://")
     };
     return (
         <Modal open={linkModalOpen} onClose={handleClose}>
-            <div className="absolute top-1/2 left-1/2 my-4 flex w-auto min-w-[600px] -translate-x-1/2 -translate-y-1/2 flex-col items-stretch justify-center rounded-[30px] border bg-white p-10 shadow-md shadow-slate-200 transition-all duration-200">
-                <label
-                    htmlFor="link"
-                    className="mb-4 inline-block font-medium leading-none"
-                >
-                    Link for
-                </label>
-                <select
-                    required
-                    id="link"
-                    className="mx-4 ml-6 w-1/2 rounded-full border border-slate-500 p-1 pl-3 "
-                    value={currentLinkType}
-                    onChange={(e) =>
-                        setCurrentLinkType(e.target.value as LinkType)
-                    }
-                >
-                    <option
-                        value="LinkedIn"
-                        className="hover:bg-somhako hover:text-white "
+            <>
+                <div className="absolute top-1/2 left-1/2 my-4 flex w-auto min-w-[600px] -translate-x-1/2 -translate-y-1/2 flex-col items-stretch justify-center mb-6 rounded-[30px] border border-teal-400 bg-white  text-black  dark:bg-gray-800 dark:text-white p-10 shadow-md shadow-slate-200 transition-all duration-200">
+                    
+                    
+                    <label
+                        htmlFor="chooseLangProfeciency"
+                        className="mb-2 inline-block font-medium leading-none"
                     >
-                        LinkedIn
-                    </option>
-                    <option
-                        value="Github"
-                        className="hover:bg-somhako hover:text-white "
-                    >
-                        Github
-                    </option>
-                    <option
-                        value="Twitter"
-                        className="hover:bg-somhako hover:text-white "
-                    >
-                        Twitter
-                    </option>
-                </select>
-                <div className="my-6">
+                        Enter a link to a social account <span className="mb-2 inline-block font-medium text-gray-500">
+                            
+                            (At least three are required)
+                            </span>
+                    </label>
                     <input
-                        required
                         type="text"
-                        id="link"
-                        name="link"
-                        value={"@" + linkObj[currentLinkType]}
-                        placeholder={"@dev"}
-                        className="mx-4 ml-6 w-auto rounded-full border border border-slate-500 p-1"
-                        onChange={handleLinkUpdate}
+                        placeholder="https//www.facebook.com"
+                        className="w-full rounded-lg border-slate-300 dark:text-black"
+                        defaultValue={"https://"}
+                        value={currentLink}
+                        onChange={e => setCurrentLink(e.target.value)}
                     />
+                <div className="text-center mt-5">
+                    <button
+                        type="button"
+                        className="disabled:cursor-normal rounded-lg bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] py-2.5 px-6 font-bold text-white transition-all hover:from-[#391188] hover:to-[#391188] disabled:opacity-30 md:min-w-[200px]"
+                        onClick={e => close()}
+                    >   
+                        Save
+                    </button>
                 </div>
-                <button onClick={close} type="button">
-                    Save
-                </button>
-            </div>
+                </div>
+            </>
         </Modal>
     );
 }
