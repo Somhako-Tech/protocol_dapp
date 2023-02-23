@@ -1,9 +1,7 @@
 import { Tab } from "@headlessui/react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Profile } from "@prisma/client";
-import Modal from "@mui/material/Modal";
 import LinkModal from "./LinkModal";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import EducationFields from "./FormFields/EducationFields";
 import SkillsField from "./FormFields/SkillsField";
@@ -14,17 +12,15 @@ import { useReducer } from "react";
 import { getProfileByHandleIdQuery } from "../graphql/graphqlQueries";
 import LocationField from "./FormFields/LocationField";
 import Link from "next/link";
-import Avatar, { genConfig, AvatarConfig } from "react-nice-avatar";
+import { genConfig } from "react-nice-avatar";
 import AvatarEditor from "./AvatarEditor";
 import debounce from "lodash.debounce";
 import { singleFieldValidation, allFieldsValidation } from "../lib/validator";
 import Snackbar from "@mui/material/Snackbar";
 
 import DomToImage from "dom-to-image";
-import { buffer } from "stream/consumers";
 import { useSession } from "next-auth/react";
-import { ClipLoader } from "react-spinners";
-
+import axios from "axios";
 const tabs = ["bio", "background", "resume", "mint"] as const;
 
 type TabType = (typeof tabs)[number];
@@ -114,12 +110,13 @@ const ProfileForm = ({
             throw new Error("Cannot save to ipfs");
             return;
         }
-        const { isValid, errors } = await allFieldsValidation({
+        const finalUserProfile = {
             ...userProfile,
             ipfs_hash: avatar.IpfsHash,
-        });
+        };
+        const { isValid, errors } = await allFieldsValidation(finalUserProfile);
 
-        if (isValid) handleSubmit(userProfile);
+        if (isValid) handleSubmit(finalUserProfile);
         else {
             console.log(errors);
             setFormErrors(errors);
@@ -166,7 +163,9 @@ const ProfileForm = ({
 
     const [submittingForm, setSubmittingForm] = useState(false);
 
-    const [resume, setResume] = useState<any>();
+    const [resume, setResume] = useState<any>(false);
+
+    const [resumeLoading, setResumeLoading] = useState(false);
 
     //Check handle
     useEffect(() => {
@@ -188,14 +187,17 @@ const ProfileForm = ({
         checkUserName();
     }, [userProfile.handle]);
 
+    // Update address and user id
     useEffect(() => {
         dispatch({ target: { id: "address", value: address } });
         dispatch({ target: { id: "user_id", value: user.id } });
     }, [address, user]);
 
+    // Set to unchecked on change
     useEffect(() => {
         setShowValidationErrors(false);
     }, [userProfile]);
+
     //Track tab
     useEffect(() => {
         setSelectTab(tabs[selectedIndex]);
@@ -203,12 +205,30 @@ const ProfileForm = ({
 
     //save resume
     useEffect(() => {
+        const uploadFile = async () => {
+            let { data } = await axios.post("/api/s3/uploadFile", {
+                name: userProfile.user_id + "_resume",
+                type: resume.type,
+            });
+
+            const url = data.url;
+            await axios.put(url, resume, {
+                headers: {
+                    "Content-type": resume.type,
+                    "Access-Control-Allow-Origin": "*",
+                },
+            });
+
+            dispatch({ target: { id: "resume", value: url.split("?")[0] } });
+
+            setResume(true);
+            setResumeLoading(false);
+        };
+
         if (resume) {
-            const formData = new FormData();
-            formData.append("file", resume);
-            // addResume(formData)
+            uploadFile();
         }
-    }, [resume]);
+    }, [resume, userProfile.user_id]);
 
     const getFullUrl = (linkType: string, username: string) => {
         if (linkType == "LinkedIn")
@@ -701,22 +721,41 @@ const ProfileForm = ({
                                     htmlFor="uploadCV"
                                     className="mb-2 w-[150px] cursor-pointer rounded-md border border-dashed border-teal-500 p-2.5 px-4 text-center text-sm font-semibold "
                                 >
-                                    <span>
-                                        {resume ? "Uploaded" : "Upload" + " "}
-                                        <i className="fa-solid fa-cloud-arrow-up ml-1 text-[#6D27F9]"></i>
-                                    </span>
+                                    {resumeLoading ? (
+                                        <>
+                                            <div className="rounded bg-indigo-200 py-2 px-3">
+                                                <i className="fa-solid fa-rotate fa-spin"></i>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <span>
+                                            {resume === true ? (
+                                                <>
+                                                    {"Uploaded" + " "}
+                                                    <i className="fa-solid fa-square-check text-green-400"></i>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    {"Upload" + " "}
+                                                    <i className="fa-solid fa-cloud-arrow-up ml-1 text-[#6D27F9]"></i>
+                                                </>
+                                            )}
+                                        </span>
+                                    )}
                                     <input
                                         type="file"
                                         id="uploadCV"
                                         accept="application/pdf,application/msword,.rtf"
                                         className="hidden"
-                                        onChange={(e) =>
+                                        onChange={(e) => {
+                                            setResumeLoading(true);
+
                                             setResume(
                                                 e.target.files
                                                     ? e.target.files[0]
                                                     : null
-                                            )
-                                        }
+                                            );
+                                        }}
                                     />
                                 </label>
                                 <span className="text-[12px] text-[#333] dark:text-white">
