@@ -45,7 +45,8 @@ export const createProfileQueryDocument = graphql(`
         $pref_location: String!
         $salary: String!
         $years_of_exp: String!
-        $link: JSON!
+        $skills: [String!]!
+        $link: [String!]!
         $address: String!
         $education: [JSON!]!
         $experience: [JSON!]!
@@ -62,7 +63,8 @@ export const createProfileQueryDocument = graphql(`
                 pref_location: $pref_location
                 salary: $salary
                 years_of_exp: $years_of_exp
-                link: $link
+                skills: {set: $skills}
+                link: {set: $link}
                 address: $address
                 education: { set: $education }
                 experience: { set: $experience }
@@ -79,6 +81,8 @@ export const createProfileQueryDocument = graphql(`
 `);
 
 export const createProfileQuery = async (user_id: string, profile: Profile) => {
+
+    console.log({user_id, profile})
     const { createOneProfile } = await request(
         API_URL,
         createProfileQueryDocument,
@@ -90,6 +94,7 @@ export const createProfileQuery = async (user_id: string, profile: Profile) => {
             pref_location: profile.pref_location,
             salary: profile.salary,
             years_of_exp: profile.years_of_exp,
+            skills: profile.skills,
             link: profile.link,
             address: profile.address,
             education: profile.education,
@@ -98,6 +103,8 @@ export const createProfileQuery = async (user_id: string, profile: Profile) => {
             resume: profile.resume,
             user_id: user_id,
         }
+        
+        
     ).catch((err) => {
         console.log(err);
         return { createOneProfile: null };
