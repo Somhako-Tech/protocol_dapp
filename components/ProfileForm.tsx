@@ -148,6 +148,7 @@ const ProfileForm = ({
         ],
         address: "",
         ipfs_hash: "",
+        resume: "",
         user_id: "",
     });
 
