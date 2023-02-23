@@ -113,8 +113,8 @@ export default function AppPage() {
             <section className="flex w-full flex-wrap">
                 <div className="h-full w-full">
                     <div className="flex-col items-center justify-center">
-                        <div className=" shadow-normal mx-auto my-10 flex w-full max-w-[1000px] flex-col items-center justify-center rounded-[25px] bg-white p-8 py-10 shadow-md shadow-slate-400 md:py-14 md:px-20 ">
-                            <h1 className="mb-20 bg-somhako bg-clip-text pt-5 text-center text-4xl font-extrabold capitalize text-transparent">
+                        <div className=" mx-auto my-10 flex w-full max-w-[1000px] flex-col items-center justify-center rounded-[25px] bg-white p-8 py-10 shadow-md shadow-slate-400 md:py-14 md:px-20 ">
+                            <h1 className="bg-somhako mb-20 bg-clip-text pt-5 text-center text-4xl font-extrabold capitalize text-transparent text-white">
                                 Please connect your wallet to mint your profile
                             </h1>
                             <RiseLoader size={30} speedMultiplier={0.8} />
@@ -124,7 +124,8 @@ export default function AppPage() {
             </section>
         );
 
-    if (isQueryLoading || isProfileCreating) return <BigClipLoader color="tertiary" />;
+    if (isQueryLoading || isProfileCreating)
+        return <BigClipLoader color="tertiary" />;
 
     return (
         <section className="py-8">
@@ -136,14 +137,14 @@ export default function AppPage() {
                     />
                 ) : queryInMintQueue ? (
                     <div className="flex-col items-center justify-center">
-                        <div className="shadow-normal mx-auto my-10 flex w-full max-w-[1000px] flex-col items-center justify-center rounded-[25px] border border-slate-700 bg-white p-8 md:py-14 md:px-20">
+                        <div className="mx-auto my-10 flex w-full max-w-[1000px] flex-col items-center justify-center rounded-[25px] border border-slate-700 bg-white p-8 shadow-normal md:py-14 md:px-20">
                             <h1
                                 className={
                                     " mb-4 text-center text-2xl font-bold"
                                 }
                             >
-                                You are in the mint queue! We let you know
-                                as soon as your profile is minted!{" "}
+                                You are in the mint queue! We let you know as
+                                soon as your profile is minted!{" "}
                             </h1>
 
                             <button
@@ -161,7 +162,7 @@ export default function AppPage() {
                     </div>
                 ) : (
                     <div className="flex-col items-center justify-center">
-                        <div className="shadow-normal mx-auto my-10 w-full max-w-[1000px] rounded-[25px] border  p-8 md:py-14 md:px-20 ">
+                        <div className="mx-auto my-10 w-full max-w-[1000px] rounded-[25px] border p-8  shadow-normal md:py-14 md:px-20 ">
                             <ProfileFormSkeleton />
                         </div>
                     </div>
