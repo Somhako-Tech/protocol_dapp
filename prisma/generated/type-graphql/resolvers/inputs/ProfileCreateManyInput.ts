@@ -89,4 +89,9 @@ export class ProfileCreateManyInput {
     nullable: false
   })
   ipfs_hash!: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  resume?: string | undefined;
 }

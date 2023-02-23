@@ -87,4 +87,9 @@ export class ProfileCountOrderByAggregateInput {
     nullable: true
   })
   ipfs_hash?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  resume?: "asc" | "desc" | undefined;
 }

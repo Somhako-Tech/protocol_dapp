@@ -16,7 +16,8 @@ export enum ProfileScalarFieldEnum {
   experience = "experience",
   minted = "minted",
   user_id = "user_id",
-  ipfs_hash = "ipfs_hash"
+  ipfs_hash = "ipfs_hash",
+  resume = "resume"
 }
 TypeGraphQL.registerEnumType(ProfileScalarFieldEnum, {
   name: "ProfileScalarFieldEnum",

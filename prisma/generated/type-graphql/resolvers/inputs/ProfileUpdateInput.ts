@@ -84,6 +84,11 @@ export class ProfileUpdateInput {
   })
   ipfs_hash?: StringFieldUpdateOperationsInput | undefined;
 
+  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  resume?: StringFieldUpdateOperationsInput | undefined;
+
   @TypeGraphQL.Field(_type => MintUpdateOneWithoutProfileNestedInput, {
     nullable: true
   })

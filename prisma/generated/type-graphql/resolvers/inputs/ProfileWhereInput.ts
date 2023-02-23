@@ -110,6 +110,11 @@ export class ProfileWhereInput {
   })
   ipfs_hash?: StringFilter | undefined;
 
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true
+  })
+  resume?: StringFilter | undefined;
+
   @TypeGraphQL.Field(_type => MintRelationFilter, {
     nullable: true
   })
