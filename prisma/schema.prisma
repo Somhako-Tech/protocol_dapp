@@ -89,6 +89,7 @@ model Profile {
   minted        Boolean
   user_id       String   @unique(map: "user_unique")
   ipfs_hash     String
+  resume        String   @default("")
   mint          Mint?
   user          User     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user_id")
 }
