@@ -63,6 +63,7 @@ export const getProfileByUserIdQueryDocument = graphql(`
             link
             minted
             ipfs_hash
+            resume
             user_id
         }
     }

@@ -1773,6 +1773,7 @@ export type Profile = {
   mint?: Maybe<Mint>;
   minted: Scalars['Boolean'];
   pref_location: Scalars['String'];
+  resume: Scalars['String'];
   salary: Scalars['String'];
   skills: Array<Scalars['String']>;
   summary: Scalars['String'];
@@ -1804,6 +1805,7 @@ export type ProfileCountAggregate = {
   link: Scalars['Int'];
   minted: Scalars['Int'];
   pref_location: Scalars['Int'];
+  resume: Scalars['Int'];
   salary: Scalars['Int'];
   skills: Scalars['Int'];
   summary: Scalars['Int'];
@@ -1823,6 +1825,7 @@ export type ProfileCountOrderByAggregateInput = {
   link?: InputMaybe<SortOrder>;
   minted?: InputMaybe<SortOrder>;
   pref_location?: InputMaybe<SortOrder>;
+  resume?: InputMaybe<SortOrder>;
   salary?: InputMaybe<SortOrder>;
   skills?: InputMaybe<SortOrder>;
   summary?: InputMaybe<SortOrder>;
@@ -1842,6 +1845,7 @@ export type ProfileCreateInput = {
   mint?: InputMaybe<MintCreateNestedOneWithoutProfileInput>;
   minted: Scalars['Boolean'];
   pref_location: Scalars['String'];
+  resume?: InputMaybe<Scalars['String']>;
   salary: Scalars['String'];
   skills?: InputMaybe<ProfileCreateskillsInput>;
   summary: Scalars['String'];
@@ -1861,6 +1865,7 @@ export type ProfileCreateManyInput = {
   link: Scalars['JSON'];
   minted: Scalars['Boolean'];
   pref_location: Scalars['String'];
+  resume?: InputMaybe<Scalars['String']>;
   salary: Scalars['String'];
   skills?: InputMaybe<ProfileCreateskillsInput>;
   summary: Scalars['String'];
@@ -1901,6 +1906,7 @@ export type ProfileCreateWithoutMintInput = {
   link: Scalars['JSON'];
   minted: Scalars['Boolean'];
   pref_location: Scalars['String'];
+  resume?: InputMaybe<Scalars['String']>;
   salary: Scalars['String'];
   skills?: InputMaybe<ProfileCreateskillsInput>;
   summary: Scalars['String'];
@@ -1920,6 +1926,7 @@ export type ProfileCreateWithoutUserInput = {
   mint?: InputMaybe<MintCreateNestedOneWithoutProfileInput>;
   minted: Scalars['Boolean'];
   pref_location: Scalars['String'];
+  resume?: InputMaybe<Scalars['String']>;
   salary: Scalars['String'];
   skills?: InputMaybe<ProfileCreateskillsInput>;
   summary: Scalars['String'];
@@ -1956,6 +1963,7 @@ export type ProfileGroupBy = {
   link: Scalars['JSON'];
   minted: Scalars['Boolean'];
   pref_location: Scalars['String'];
+  resume: Scalars['String'];
   salary: Scalars['String'];
   skills?: Maybe<Array<Scalars['String']>>;
   summary: Scalars['String'];
@@ -1973,6 +1981,7 @@ export type ProfileMaxAggregate = {
   job_type?: Maybe<Scalars['String']>;
   minted?: Maybe<Scalars['Boolean']>;
   pref_location?: Maybe<Scalars['String']>;
+  resume?: Maybe<Scalars['String']>;
   salary?: Maybe<Scalars['String']>;
   summary?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
@@ -1988,6 +1997,7 @@ export type ProfileMaxOrderByAggregateInput = {
   job_type?: InputMaybe<SortOrder>;
   minted?: InputMaybe<SortOrder>;
   pref_location?: InputMaybe<SortOrder>;
+  resume?: InputMaybe<SortOrder>;
   salary?: InputMaybe<SortOrder>;
   summary?: InputMaybe<SortOrder>;
   title?: InputMaybe<SortOrder>;
@@ -2004,6 +2014,7 @@ export type ProfileMinAggregate = {
   job_type?: Maybe<Scalars['String']>;
   minted?: Maybe<Scalars['Boolean']>;
   pref_location?: Maybe<Scalars['String']>;
+  resume?: Maybe<Scalars['String']>;
   salary?: Maybe<Scalars['String']>;
   summary?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
@@ -2019,6 +2030,7 @@ export type ProfileMinOrderByAggregateInput = {
   job_type?: InputMaybe<SortOrder>;
   minted?: InputMaybe<SortOrder>;
   pref_location?: InputMaybe<SortOrder>;
+  resume?: InputMaybe<SortOrder>;
   salary?: InputMaybe<SortOrder>;
   summary?: InputMaybe<SortOrder>;
   title?: InputMaybe<SortOrder>;
@@ -2042,6 +2054,7 @@ export type ProfileOrderByWithAggregationInput = {
   link?: InputMaybe<SortOrder>;
   minted?: InputMaybe<SortOrder>;
   pref_location?: InputMaybe<SortOrder>;
+  resume?: InputMaybe<SortOrder>;
   salary?: InputMaybe<SortOrder>;
   skills?: InputMaybe<SortOrder>;
   summary?: InputMaybe<SortOrder>;
@@ -2062,6 +2075,7 @@ export type ProfileOrderByWithRelationInput = {
   mint?: InputMaybe<MintOrderByWithRelationInput>;
   minted?: InputMaybe<SortOrder>;
   pref_location?: InputMaybe<SortOrder>;
+  resume?: InputMaybe<SortOrder>;
   salary?: InputMaybe<SortOrder>;
   skills?: InputMaybe<SortOrder>;
   summary?: InputMaybe<SortOrder>;
@@ -2087,6 +2101,7 @@ export enum ProfileScalarFieldEnum {
   Link = 'link',
   Minted = 'minted',
   PrefLocation = 'pref_location',
+  Resume = 'resume',
   Salary = 'salary',
   Skills = 'skills',
   Summary = 'summary',
@@ -2109,6 +2124,7 @@ export type ProfileScalarWhereWithAggregatesInput = {
   link?: InputMaybe<JsonWithAggregatesFilter>;
   minted?: InputMaybe<BoolWithAggregatesFilter>;
   pref_location?: InputMaybe<StringWithAggregatesFilter>;
+  resume?: InputMaybe<StringWithAggregatesFilter>;
   salary?: InputMaybe<StringWithAggregatesFilter>;
   skills?: InputMaybe<StringNullableListFilter>;
   summary?: InputMaybe<StringWithAggregatesFilter>;
@@ -2137,6 +2153,7 @@ export type ProfileUpdateInput = {
   mint?: InputMaybe<MintUpdateOneWithoutProfileNestedInput>;
   minted?: InputMaybe<BoolFieldUpdateOperationsInput>;
   pref_location?: InputMaybe<StringFieldUpdateOperationsInput>;
+  resume?: InputMaybe<StringFieldUpdateOperationsInput>;
   salary?: InputMaybe<StringFieldUpdateOperationsInput>;
   skills?: InputMaybe<ProfileUpdateskillsInput>;
   summary?: InputMaybe<StringFieldUpdateOperationsInput>;
@@ -2155,6 +2172,7 @@ export type ProfileUpdateManyMutationInput = {
   link?: InputMaybe<Scalars['JSON']>;
   minted?: InputMaybe<BoolFieldUpdateOperationsInput>;
   pref_location?: InputMaybe<StringFieldUpdateOperationsInput>;
+  resume?: InputMaybe<StringFieldUpdateOperationsInput>;
   salary?: InputMaybe<StringFieldUpdateOperationsInput>;
   skills?: InputMaybe<ProfileUpdateskillsInput>;
   summary?: InputMaybe<StringFieldUpdateOperationsInput>;
@@ -2190,6 +2208,7 @@ export type ProfileUpdateWithoutMintInput = {
   link?: InputMaybe<Scalars['JSON']>;
   minted?: InputMaybe<BoolFieldUpdateOperationsInput>;
   pref_location?: InputMaybe<StringFieldUpdateOperationsInput>;
+  resume?: InputMaybe<StringFieldUpdateOperationsInput>;
   salary?: InputMaybe<StringFieldUpdateOperationsInput>;
   skills?: InputMaybe<ProfileUpdateskillsInput>;
   summary?: InputMaybe<StringFieldUpdateOperationsInput>;
@@ -2209,6 +2228,7 @@ export type ProfileUpdateWithoutUserInput = {
   mint?: InputMaybe<MintUpdateOneWithoutProfileNestedInput>;
   minted?: InputMaybe<BoolFieldUpdateOperationsInput>;
   pref_location?: InputMaybe<StringFieldUpdateOperationsInput>;
+  resume?: InputMaybe<StringFieldUpdateOperationsInput>;
   salary?: InputMaybe<StringFieldUpdateOperationsInput>;
   skills?: InputMaybe<ProfileUpdateskillsInput>;
   summary?: InputMaybe<StringFieldUpdateOperationsInput>;
@@ -2256,6 +2276,7 @@ export type ProfileWhereInput = {
   mint?: InputMaybe<MintRelationFilter>;
   minted?: InputMaybe<BoolFilter>;
   pref_location?: InputMaybe<StringFilter>;
+  resume?: InputMaybe<StringFilter>;
   salary?: InputMaybe<StringFilter>;
   skills?: InputMaybe<StringNullableListFilter>;
   summary?: InputMaybe<StringFilter>;
