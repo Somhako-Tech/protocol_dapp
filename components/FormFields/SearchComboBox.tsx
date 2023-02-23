@@ -20,7 +20,7 @@ export default function SearchComboBox({
                 onChange={(e) => {
                     setSearchParams(e.target.value);
                 }}
-                className="w-full rounded-lg border-slate-300"
+                className="w-full rounded-lg border-slate-300 text-black"
             />
             {data && (
                 <Combobox.Options className="absolute z-[99] right-0 top-[100%] w-full bg-white shadow-normal p-2 min-h-[20px] max-h-[300px] overflow-y-auto">
@@ -33,7 +33,7 @@ export default function SearchComboBox({
                         <Combobox.Option
                             key={item}
                             value={item}
-                            className="w-full text-sm rounded-md p-1 px-2 hover:bg-indigo-500 hover:text-white"
+                            className="w-full text-sm rounded-md p-1 px-2 hover:bg-indigo-500 hover:text-white text-black"
                             onClick={() => handleChange(item)}
                         >
                             {item}

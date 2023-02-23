@@ -14,31 +14,32 @@ export default function ProfileSummary({
         Object.keys(userProfile).map((key) => {
             if (key === "id" || key === "handle" || key === "skills") return;
 
-            if (key === "link") {
-                const links = userProfile.link as any;
+            //TODO Update links
+            // if (key === "link") {
+            //     const links = userProfile.link as any;
 
-                const linkList = links;
+            //     const linkList = links;
 
-                return Object.keys(linkList).map(
-                    (item: string) =>
-                        linkList[item] !== "" && (
-                            <div className="my-2" key={item}>
-                                <label
-                                    htmlFor={key}
-                                    className={styles.profileLabel}
-                                >
-                                    {item}
-                                </label>
-                                <label
-                                    id={key}
-                                    className="mx-4 w-auto text-base font-medium "
-                                >
-                                    {linkList[item]}
-                                </label>
-                            </div>
-                        )
-                );
-            }
+            //     return Object.keys(linkList).map(
+            //         (item: string) =>
+            //             linkList[item] !== "" && (
+            //                 <div className="my-2" key={item}>
+            //                     <label
+            //                         htmlFor={key}
+            //                         className={styles.profileLabel}
+            //                     >
+            //                         {item}
+            //                     </label>
+            //                     <label
+            //                         id={key}
+            //                         className="mx-4 w-auto text-base font-medium "
+            //                     >
+            //                         {linkList[item]}
+            //                     </label>
+            //                 </div>
+            //             )
+            //     );
+            // }
 
             if (key === "education")
                 return (

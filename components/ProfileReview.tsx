@@ -186,6 +186,8 @@ export default function ProfileSummary({
             )
                 return;
 
+            //TODO Update links
+
             if (key === "link") {
                 const links = profile.link as any;
 

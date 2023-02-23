@@ -31,7 +31,7 @@ export default function LocationField({
     }, [searchParams]);
 
     return (
-        <div className="relative">
+        <div className="relative ">
             <label
                 htmlFor="pref_location"
                 className="font-medium mb-2 leading-none inline-block"
