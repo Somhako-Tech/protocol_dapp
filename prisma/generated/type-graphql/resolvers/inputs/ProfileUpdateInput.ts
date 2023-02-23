@@ -6,6 +6,7 @@ import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperati
 import { MintUpdateOneWithoutProfileNestedInput } from "../inputs/MintUpdateOneWithoutProfileNestedInput";
 import { ProfileUpdateeducationInput } from "../inputs/ProfileUpdateeducationInput";
 import { ProfileUpdateexperienceInput } from "../inputs/ProfileUpdateexperienceInput";
+import { ProfileUpdatelinkInput } from "../inputs/ProfileUpdatelinkInput";
 import { ProfileUpdateskillsInput } from "../inputs/ProfileUpdateskillsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 import { UserUpdateOneRequiredWithoutProfileNestedInput } from "../inputs/UserUpdateOneRequiredWithoutProfileNestedInput";
@@ -49,10 +50,10 @@ export class ProfileUpdateInput {
   })
   years_of_exp?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => GraphQLScalars.JSONResolver, {
+  @TypeGraphQL.Field(_type => ProfileUpdatelinkInput, {
     nullable: true
   })
-  link?: Prisma.InputJsonValue | undefined;
+  link?: ProfileUpdatelinkInput | undefined;
 
   @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true

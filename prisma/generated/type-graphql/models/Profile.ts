@@ -49,10 +49,10 @@ export class Profile {
   })
   years_of_exp!: string;
 
-  @TypeGraphQL.Field(_type => GraphQLScalars.JSONResolver, {
+  @TypeGraphQL.Field(_type => [String], {
     nullable: false
   })
-  link!: Prisma.JsonValue;
+  link!: string[];
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false

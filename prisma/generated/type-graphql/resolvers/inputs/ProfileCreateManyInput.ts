@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { ProfileCreateeducationInput } from "../inputs/ProfileCreateeducationInput";
 import { ProfileCreateexperienceInput } from "../inputs/ProfileCreateexperienceInput";
+import { ProfileCreatelinkInput } from "../inputs/ProfileCreatelinkInput";
 import { ProfileCreateskillsInput } from "../inputs/ProfileCreateskillsInput";
 
 @TypeGraphQL.InputType("ProfileCreateManyInput", {
@@ -50,10 +51,10 @@ export class ProfileCreateManyInput {
   })
   years_of_exp!: string;
 
-  @TypeGraphQL.Field(_type => GraphQLScalars.JSONResolver, {
-    nullable: false
+  @TypeGraphQL.Field(_type => ProfileCreatelinkInput, {
+    nullable: true
   })
-  link!: Prisma.InputJsonValue;
+  link?: ProfileCreatelinkInput | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false
