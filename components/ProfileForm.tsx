@@ -137,7 +137,7 @@ const ProfileForm = ({
         pref_location: "",
         salary: "",
         years_of_exp: "",
-        link: { Twitter: "", Github: "", LinkedIn: "" },
+        link: [],
         skills: [],
         education: [{ institution: "", year: "", title: "" }],
         experience: [
@@ -219,6 +219,7 @@ const ProfileForm = ({
                 },
             });
 
+            console.log(url);
             dispatch({ target: { id: "resume", value: url.split("?")[0] } });
 
             setResume(true);
@@ -230,12 +231,6 @@ const ProfileForm = ({
         }
     }, [resume, userProfile.user_id]);
 
-    const getFullUrl = (linkType: string, username: string) => {
-        if (linkType == "LinkedIn")
-            return "https://linkedin.com/in/" + username;
-        else if (linkType == "Github") return "https://github.com/" + username;
-        else return "https://twitter.com/" + username;
-    };
 
     const FormButton = ({
         selectTab,
@@ -294,44 +289,33 @@ const ProfileForm = ({
             );
     };
 
-    const links = Object.keys(userProfile.link as Object).map(
-        (link: string, i) => {
-            const links = userProfile.link as any;
-            return (
-                <div className="mb-6 w-full lg:w-[47%]" key={i}>
-                    <Link
-                        className="iconGroup social delete"
-                        href={
-                            links[link] != ""
-                                ? getFullUrl(link, links[link])
-                                : "/"
-                        }
-                        target="_blank"
-                    >
-                        <input
-                            type="text"
-                            value={
-                                links[link] != ""
-                                    ? getFullUrl(link, links[link])
-                                    : "No link"
-                            }
-                            className="w-full rounded-lg border-slate-300 focus:border-slate-300 focus:shadow-none focus:outline-0 focus:ring-0 dark:bg-gray-800"
-                            readOnly
-                        />
-                        {/* <i
-                            className={`${geticon(
-                            link.title
-                            )} iconGroup__icon`}
-                        ></i>
-                        <i
-                            className="fa-solid fa-trash iconGroup__icon-delete"
-                            onClick={e => deleteLink(link.id)}
-                        ></i> */}
-                    </Link>
-                </div>
-            );
-        }
-    );
+    const deleteLink = (index: number) => {
+        const links = userProfile.link;
+        links.splice(index, 1);
+        dispatch({ target: { id: "link", value: links } });
+    };
+
+    const links = userProfile.link.map((link: string, i) => {
+        return (
+            <div className="relative mb-6 w-full lg:w-[47%]" key={i}>
+                <Link
+                    className="iconGroup social delete"
+                    href={link}
+                    target="_blank"
+                >
+                    <input
+                        type="text"
+                        value={link}
+                        className="w-full rounded-lg border-slate-300 focus:border-slate-300 focus:shadow-none focus:outline-0 focus:ring-0 dark:bg-gray-800"
+                        readOnly
+                    />
+                </Link>
+                <button type="button" onClick={(e) => deleteLink(i)}>
+                    <i className="fa-solid fa-trash iconGroup__icon-delete absolute top-0 right-0 rounded-md bg-slate-200 p-1 text-[red]"></i>
+                </button>
+            </div>
+        );
+    });
 
     const ValidationErrors = ({ formErrors, setSelectedIndex }: any) => {
         let error = "Profile form is incomplete";

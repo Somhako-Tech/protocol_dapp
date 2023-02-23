@@ -11,8 +11,8 @@ const profileFormRules: Rules = {
     pref_location: "required",
     salary: "required",
     years_of_exp: "required",
-    link: { Twitter: "required", Github: "required", LinkedIn: "required" },
-    skills: "array|min:3",
+    link: "required|array|min:3",
+    skills: "required|array|min:3",
     "education.*": {
         institution: "required",
         year: "required|date",
