@@ -116,18 +116,20 @@ export default function AppPage() {
 
     if (!isConnected)
         return (
-            <section className="flex w-full flex-wrap">
-                <div className="h-full w-full">
-                    <div className="flex-col items-center justify-center">
-                        <div className=" mx-auto my-10 flex w-full max-w-[1000px] flex-col items-center justify-center rounded-[25px] bg-white p-8 py-10 shadow-md shadow-slate-400 md:py-14 md:px-20 ">
-                            <h1 className="bg-somhako mb-20 bg-clip-text pt-5 text-center text-4xl font-extrabold capitalize text-transparent text-white">
-                                Please connect your wallet to mint your profile
-                            </h1>
-                            <RiseLoader size={30} speedMultiplier={0.8} />
+            <>
+                <section className="py-8 w-full">
+                    <div className="container">
+                        <div className="w-full flex items-center justify-center min-h-[50vh] p-16 rounded-normal shadow-normal bg-white dark:bg-gray-700">
+                            <div className="text-center">
+                                <h1 className="font-bold mb-16 text-2xl lg:text-4xl text-red-500">
+                                    Please connect your wallet <br /> to mint your profile
+                                </h1>
+                                <RiseLoader size={30} speedMultiplier={0.8} />
+                            </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </>
         );
 
     if (isQueryLoading || isProfileCreating)
