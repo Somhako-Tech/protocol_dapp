@@ -88,7 +88,7 @@ export const createProfileQuery = async (user_id: string, profile: Profile) => {
         createProfileQueryDocument,
         {
             handle: profile.handle,
-            title: profile.handle,
+            title: profile.title,
             summary: profile.summary,
             job_type: profile.job_type,
             pref_location: profile.pref_location,
