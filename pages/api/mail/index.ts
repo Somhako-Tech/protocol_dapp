@@ -1,15 +1,12 @@
 import { NextApiRequest } from "next";
-import path from "path";
-import { promises as fs } from "fs";
 import jwt from "jsonwebtoken";
-import emails from "../../../constants/email";
 import { getSession } from "next-auth/react";
+import emails from "../../../constants/email";
 
 export default async function handler(req: NextApiRequest, res: any) {
     if (req.method !== "POST")
         return res.status(405).send("Failed to authenticate");
 
-    //TODO Finish auth
     const secret = process.env.NEXTAUTH_SECRET || "";
     const session: any = await getSession({ req });
 

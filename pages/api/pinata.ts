@@ -1,6 +1,9 @@
 import { NextApiRequest } from "next";
 import Jimp from "jimp";
 
+import jwt from "jsonwebtoken";
+import { getSession } from "next-auth/react";
+
 const JWT = "Bearer " + process.env.PINATA_JWT;
 export const config = {
     api: {
@@ -43,6 +46,26 @@ async function reconstructData(parsedData: any) {
 }
 
 export default async function handler(req: NextApiRequest, res: any) {
+
+    const secret = process.env.NEXTAUTH_SECRET || "";
+    const session: any = await getSession({ req });
+
+    if (!session) {
+        const token = req.headers["protocol-token"];
+
+        const tokenDec = await new Promise((resolve, reject) =>
+            jwt.verify(token as string, secret, (error, decodedToken) => {
+                if (error || !decodedToken) {
+                    console.log({ error });
+                    reject(error);
+                }
+                resolve(decodedToken);
+            })
+        );
+
+        if (!tokenDec) return res.json({ error: "Authentication failed" });
+    }
+
     // Just after the "Method Not Allowed" code
     try {
         const parsedData = await parseForm(req);
