@@ -65,6 +65,9 @@ export const getProfileByUserIdQueryDocument = graphql(`
             ipfs_hash
             resume
             user_id
+            user {
+                email
+            }
         }
     }
 `);
