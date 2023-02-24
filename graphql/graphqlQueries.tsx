@@ -154,8 +154,10 @@ export const getProfilesQueryDocument = graphql(`
             ipfs_hash
             user_id
             years_of_exp
+            resume
             user {
                 image
+                email
             }
         }
     }
@@ -190,6 +192,7 @@ export const getMintedProfilesQueryDocument = graphql(`
             title
             ipfs_hash
             user_id
+            resume
             years_of_exp
             user {
                 image
