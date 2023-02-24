@@ -15,7 +15,7 @@ export default function Layout({ children }: { children: any }) {
         return (
             <main>
                 <Head>
-                    <title> somhako Dapp </title>
+                    <title> Somhako Protocol </title>
                 </Head>
                 {children}
             </main>
