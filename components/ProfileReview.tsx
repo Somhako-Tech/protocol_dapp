@@ -4,272 +4,273 @@ import * as changeCase from "change-case";
 import { ProfileFormSkeleton } from "./skeletons";
 import styles from "./components.module.css";
 import { BigClipLoader } from "./Loader";
+import Link from "next/link";
+import Image from "next/image";
+
+interface ProfileFromQuery extends Profile {
+    user: {
+        email: string;
+    };
+}
+
+type Education = { institution: string; year: string; title: string };
+type Experience = {
+    organization: string;
+    startYear: string;
+    endYear: string;
+    title: string;
+};
 
 export default function ProfileSummary({
-    profile,
+    profile: userProfile,
     handleMint,
     handleRejection,
 }: {
-    profile: Profile;
+    profile: ProfileFromQuery;
     handleMint: (profile: Profile) => void;
     handleRejection: (profile: Profile) => void;
 }) {
     const [handlingSubmit, setHandlingSubmit] = useState(false);
 
-    const getExperience = (profile: Profile) =>
-        profile.experience.map((experience: any, key) => (
-            <div key={key} className="my-2">
-                <label className="mb-2 inline-block  text-lg font-bold leading-none">
-                    Experience #{key + 1}
-                </label>
-                <div
-                    className="my-6  flex items-center justify-between"
-                    key={key}
-                >
-                    <label
-                        htmlFor="organization"
-                        className="mb-2 inline-block font-medium leading-none"
-                    >
-                        Organization
-                    </label>
-                    <label
-                        id={key.toString()}
-                        className="mx-4 w-auto text-base font-medium "
-                    >
-                        {experience.organization}
-                    </label>
-                </div>
-                <div
-                    className="my-6 flex items-center justify-between"
-                    key={key}
-                >
-                    <label
-                        htmlFor="startYear"
-                        className="mb-2 inline-block font-medium leading-none"
-                    >
-                        Start Year
-                    </label>
-                    <label
-                        id={key.toString()}
-                        className="mx-4 w-auto text-base font-medium "
-                    >
-                        {experience.startYear}
-                    </label>
-                </div>
-                <div
-                    className="my-6  flex items-center justify-between"
-                    key={key}
-                >
-                    <label
-                        htmlFor="endYear"
-                        className="mb-2 inline-block font-medium leading-none"
-                    >
-                        End Year
-                    </label>
-                    <label
-                        id={key.toString()}
-                        className="mx-4 w-auto text-base font-medium "
-                    >
-                        {experience.endYear}
-                    </label>
-                </div>
-                <div
-                    className="my-6  flex items-center justify-between"
-                    key={key}
-                >
-                    <label
-                        htmlFor="title"
-                        className="mb-2 inline-block font-medium leading-none"
-                    >
-                        Title
-                    </label>
-                    <label
-                        id={key.toString()}
-                        className="mx-4 w-auto text-base font-medium "
-                    >
-                        {experience.title}
-                    </label>
-                </div>
-            </div>
-        ));
 
-    const getEducation = (profile: Profile) =>
-        profile.education.map((education: any, key) => (
-            <div key={key} className="my-2">
-                <label className="my-6 mb-2 inline-block text-lg font-bold leading-none">
-                    Education #{key + 1}
-                </label>
-                <div
-                    className="my-6 flex items-center justify-between"
-                    key={key}
-                >
-                    <label
-                        htmlFor="institution"
-                        className="mb-2 inline-block font-medium leading-none"
-                    >
-                        Institution
-                    </label>
-                    <label
-                        id={key.toString()}
-                        className="mx-4 w-auto text-base font-medium "
-                    >
-                        {education.institution}
-                    </label>
-                </div>
-                <div
-                    className="my-6 flex items-center justify-between"
-                    key={key}
-                >
-                    <label
-                        htmlFor="title"
-                        className="mb-2 inline-block font-medium leading-none"
-                    >
-                        Title
-                    </label>
-                    <label
-                        id={key.toString()}
-                        className="mx-4 w-auto text-base font-medium "
-                    >
-                        {education.title}
-                    </label>
-                </div>
-                <div
-                    className="my-6  flex items-center justify-between"
-                    key={key}
-                >
-                    <label
-                        htmlFor="year"
-                        className="mb-2 inline-block font-medium leading-none"
-                    >
-                        Year
-                    </label>
-                    <label
-                        id={key.toString()}
-                        className="mx-4 w-auto text-base font-medium "
-                    >
-                        {education.year}
-                    </label>
-                </div>
-            </div>
-        ));
-
-    const getSkills = (profile: Profile) =>
-        profile.skills.map((skill, key) => (
-            <div key={key}>
-                <div className="my-1">
-                    <label
-                        htmlFor={key.toString()}
-                        className="mb-2 inline-block font-medium leading-none"
-                    >
-                        Skill #{key + 1}
-                    </label>
-                    <label
-                        id={key.toString()}
-                        className="mx-4 w-auto text-base font-medium "
-                    >
-                        {skill}
-                    </label>
-                </div>
-            </div>
-        ));
-
-    const ProfileInfo = profile ? (
-        Object.keys(profile).map((key) => {
-            if (key === "experience") return getExperience(profile);
-            if (key === "education") return getEducation(profile);
-            if (key === "skills") return getSkills(profile);
-            if (
-                key === "user_id" ||
-                key === "minted" ||
-                key === "key" ||
-                key === "user"
-            )
-                return;
-
-            //TODO Update links
-
-            if (key === "link") {
-                const links = profile.link as any;
-
-                const linkList = links;
-
-                return <></>;
-            }
-
-            let label: string = changeCase.sentenceCase(key);
-            const value: string | undefined =
-                profile[key as keyof Profile]?.toString();
-
-            if (!value) return;
-            if (key === "pref_location") label = "Preferred Location";
-
-            return (
-                <div className="my-2" key={key}>
-                    <label htmlFor={key} className={styles.profileLabel}>
-                        {label}
-                    </label>
-                    <label
-                        id={key}
-                        className="mx-4 w-auto text-base font-medium "
-                    >
-                        {value}
-                    </label>
-                </div>
-            );
-        })
-    ) : (
-        <ProfileFormSkeleton />
-    );
+    function geticon(param1: string) {
+        if (param1.toLowerCase().includes("facebook")) {
+            return "fa-brands fa-facebook";
+        } else if (param1.toLowerCase().includes("twitter")) {
+            return "fa-brands fa-twitter";
+        } else if (param1.toLowerCase().includes("instagram")) {
+            return "fa-brands fa-instagram";
+        } else if (param1.toLowerCase().includes("linkedin")) {
+            return "fa-brands fa-linkedin";
+        } else if (param1.toLowerCase().includes("github")) {
+            return "fa-brands fa-github";
+        } else if (param1.toLowerCase().includes("discord")) {
+            return "fa-brands fa-discord";
+        } else if (param1.toLowerCase().includes("youtube")) {
+            return "fa-brands fa-youtube";
+        } else if (param1.toLowerCase().includes("behance")) {
+            return "fa-brands fa-behance";
+        } else if (param1.toLowerCase().includes("behance")) {
+            return "fa-brands fa-behance";
+        } else {
+            return "fa-solid fa-link";
+        }
+    }
 
     if (handlingSubmit)
         return (
-            <div className="w-full" key={profile.user_id}>
-                <div className="my-4 mx-auto flex max-w-[700px] flex-col items-center justify-center rounded-[30px] border bg-gradient-to-r from-slate-50 to-slate-200 p-10 shadow-2xl shadow-slate-200">
-                    <h2 className="mb-4 text-lg font-semibold md:text-3xl">
-                        Minting Profile{" "}
-                        <span className="font-thin italic">
-                            {" "}
-                            ID: {profile.user_id}
-                        </span>
-                    </h2>
-                    <BigClipLoader color="tertiary" />
-                </div>
+            <div className="w-full">
+                <>
+                    <div className="py-8">
+                        <div className="mx-auto w-full max-w-[920px] px-4">
+                            <div className="rounded-normal border border-teal-300 bg-white p-6 shadow-normal dark:bg-gray-800">
+                                <h2 className="mb-4 text-lg font-semibold md:text-3xl text-center text-white">
+                                    Minting Profile{" "}
+                                    <span className="font-thin italic">
+                                        {" "}
+                                        ID: {userProfile.user_id}
+                                    </span>
+                                </h2>
+                                <BigClipLoader color="tertiary" />
+                            </div>
+                        </div>
+                    </div>
+                </>
             </div>
         );
 
     return (
         <div className="w-full">
-            <div className="my-4 mx-auto flex max-w-[700px] flex-col items-center justify-center rounded-[30px] border bg-gradient-to-r from-slate-50 to-slate-200 p-10 shadow-2xl shadow-slate-200">
-                {/* className="shadow-normal mx-auto my-10 flex w-full max-w-[1000px] flex-col items-center justify-center rounded-[25px] border border-slate-700 bg-white p-8 md:py-14 md:px-20"> */}
-                <h2 className="mb-4 text-lg font-semibold md:text-3xl">
-                    Profile Summary{" "}
-                    <span className="font-thin italic">
-                        {" "}
-                        ID: {profile.user_id}
-                    </span>
-                </h2>
-                <div className="grid">{ProfileInfo}</div>
-                <div className="grid grid-cols-2 gap-20 pt-11">
-                    <button
-                        onClick={() => {
-                            handleRejection(profile);
-                            setHandlingSubmit(true);
-                        }}
-                        className=" to-somhako rounded-full bg-gradient-to-r from-[#a85959] py-2.5 px-6 font-bold text-white transition-all hover:from-[#391188] hover:to-[#391188] md:min-w-[150px]"
-                    >
-                        Reject
-                    </button>
-                    <button
-                        onClick={() => {
-                            handleMint(profile);
-                            setHandlingSubmit(true);
-                        }}
-                        className=" to-somhako rounded-full bg-gradient-to-r from-[#6D27F9] py-2.5 px-6 font-bold text-white transition-all hover:from-[#391188] hover:to-[#391188] md:min-w-[150px]"
-                    >
-                        Approve
-                    </button>
+            <>
+                <div className="py-8">
+                    <div className="mx-auto w-full max-w-[920px] px-4">
+                        <div className="rounded-normal border border-teal-300 bg-white p-6 shadow-normal dark:bg-gray-800">
+                            <div className="flex flex-wrap items-center border-b pb-6">
+                                <div className="mb-6 w-full sm:mb-0 sm:max-w-[115px]">
+                                    <Image
+                                        src={
+                                            "https://gateway.pinata.cloud/ipfs/" +
+                                            userProfile.ipfs_hash
+                                        }
+                                        alt="@Sam"
+                                        width={115}
+                                        height={115}
+                                        className="rounded-full"
+                                    />
+                                </div>
+                                <div className="w-full sm:max-w-[calc(100%-115px)] sm:pl-6">
+                                    <h1 className="mb-2 text-2xl font-semibold dark:text-white">
+                                        @{userProfile.handle}
+                                    </h1>
+                                    <p className="mb-2 text-sm text-lightGray">
+                                        ID:{userProfile.user_id}
+                                    </p>
+                                    <div className="flex flex-wrap items-center">
+                                        <h5 className="font-medium text-darkGray dark:text-white">
+                                            {userProfile.title} | &nbsp;
+                                        </h5>
+                                        <p className="break-all text-lightGray dark:text-white">
+                                            {userProfile.address}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="border-b py-6">
+                                <div className="mb-3 flex flex-wrap items-center justify-between">
+                                    <ul className="mr-4 flex items-center rounded-lg border border-slate-300 py-2 px-3 text-2xl dark:bg-gray-700 dark:text-white">
+                                        {userProfile.link.map((link) => (
+                                            <li className="m-2" key={link}>
+                                                <Link
+                                                    href={link}
+                                                    target="_blank"
+                                                    className="hover:text-primary"
+                                                >
+                                                    <i
+                                                        className={`${geticon(
+                                                            link
+                                                        )} iconGroup__icon`}
+                                                    ></i>
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <Link
+                                        href={userProfile.resume}
+                                        target="_blank"
+                                        className="my-2 inline-block rounded-lg bg-primary py-3 px-6 text-center text-white hover:bg-secondary"
+                                    >
+                                        Resume{" "}
+                                        <i className="fa-solid fa-download ml-2"></i>
+                                    </Link>
+                                </div>
+                                <div className="rounded-lg bg-[#FAF8FF] p-6 dark:bg-gray-700">
+                                    <ul className="flex flex-wrap text-darkGray dark:text-white">
+                                        <li className="mb-3 flex w-full items-center break-all pr-1 font-light sm:max-w-[50%] lg:max-w-[33.33%]">
+                                            <i className="fa-solid fa-envelope mr-3"></i>
+                                            <span className="mr-2">:</span>
+                                            <p>{userProfile.user.email}</p>
+                                        </li>
+                                        <li className="mb-3 flex w-full items-center pr-1 font-light sm:max-w-[50%] lg:max-w-[33.33%]">
+                                            <i className="fa-solid fa-wallet mr-3"></i>
+                                            <span className="mr-2">:</span>
+                                            <p>$ {userProfile.salary}</p>
+                                        </li>
+                                        <li className="mb-3 flex w-full items-center pr-1 font-light sm:max-w-[50%] lg:max-w-[33.33%]">
+                                            <i className="fa-solid fa-briefcase mr-3"></i>
+                                            <span className="mr-2">:</span>
+                                            <p>{userProfile.job_type}</p>
+                                        </li>
+                                        <li className="mb-3 flex w-full items-center pr-1 font-light sm:max-w-[50%] lg:max-w-[33.33%]">
+                                            <i className="fa-solid fa-location-dot mr-3"></i>
+                                            <span className="mr-2">:</span>
+                                            <p>{userProfile.pref_location}</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="border-b py-6 dark:text-white">
+                                <h3 className="mb-4 text-lg font-semibold">
+                                    Summary
+                                </h3>
+                                <div className="rounded-normal border p-6 dark:bg-gray-700">
+                                    {userProfile.summary}
+                                </div>
+                            </div>
+                            <div className="border-b py-6 dark:text-white">
+                                <h3 className="mb-4 text-lg font-semibold">
+                                    Skills
+                                </h3>
+                                <div className="flex flex-wrap items-start">
+                                    {userProfile.skills.map((skill) => (
+                                        <p
+                                            className="mr-2 mb-3 flex items-center rounded-lg bg-[#C9B3FF] py-2 px-3 text-[14px] dark:bg-gray-700 dark:text-white"
+                                            key={skill}
+                                        >
+                                            {skill}
+                                        </p>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="border-b py-6 dark:text-white">
+                                <h3 className="mb-4 text-lg font-semibold">
+                                    Experience
+                                </h3>
+                                {userProfile.experience.map(
+                                    (experience: any | Experience, i) => (
+                                        <div
+                                            className="mb-4 rounded-normal border border-slate-200 bg-[#FAF8FF] p-4 dark:bg-gray-700 md:p-6"
+                                            key={i}
+                                        >
+                                            <article>
+                                                <h4 className="mb-1 text-lg font-semibold">
+                                                    {experience.title}
+                                                </h4>
+                                                <p className="mb-2 font-medium text-[#6D27F9]">
+                                                    {experience?.organization}
+                                                </p>
+                                                <p className="mb-2 text-sm font-light text-[#333] dark:text-white">
+                                                    Started Date:-{" "}
+                                                    {experience?.startYear}
+                                                    <br /> End Date:-{" "}
+                                                    {experience?.endYear}
+                                                </p>
+                                            </article>
+                                        </div>
+                                    )
+                                )}
+                            </div>
+                            <div className="border-b py-6 dark:text-white">
+                                <h3 className="mb-4 text-lg font-semibold">
+                                    Education
+                                </h3>
+                                {userProfile.education.map(
+                                    (education: any | Education, i) => (
+                                        <div
+                                            className="mb-4 rounded-normal border border-slate-200 bg-[#FAF8FF] p-4 dark:bg-gray-700 md:p-6"
+                                            key={i}
+                                        >
+                                            <article>
+                                                <h4 className="mb-1 text-lg font-semibold">
+                                                    {education.title}
+                                                </h4>
+                                                <p className="mb-2 font-medium text-[#6D27F9]">
+                                                    {education.institution}
+                                                </p>
+                                                <p className="mb-2 text-sm font-light text-[#333] dark:text-white">
+                                                    Graduation Date:-{" "}
+                                                    {education.year}
+                                                </p>
+                                            </article>
+                                        </div>
+                                    )
+                                )}
+                            </div>
+                            <div className="mt-8 flex flex-row items-center justify-center gap-10">
+                                <button
+                                    onClick={() => {
+                                        handleRejection(userProfile);
+                                        setHandlingSubmit(true);
+                                    }}
+                                    className="w-[200px] rounded-full bg-red-500 py-2.5 px-6 font-bold text-white transition-all md:min-w-[150px]"
+                                >
+                                    Reject
+                                    <i className="fa-solid fa-thumbs-down ml-3"></i>
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        handleMint(userProfile);
+                                        setHandlingSubmit(true);
+                                    }}
+                                    className="w-[200px] rounded-full bg-green-300 py-2.5 px-6 font-bold transition-all hover:bg-green-500 md:min-w-[150px]"
+                                >
+                                    Approve
+                                    <i className="fa-solid fa-thumbs-up ml-3"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </>
         </div>
     );
 }
