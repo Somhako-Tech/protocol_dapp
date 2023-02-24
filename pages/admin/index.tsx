@@ -1,13 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "@rainbow-me/rainbowkit/styles.css";
 import "ethers";
 import { Profile } from "@prisma/client";
 
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import Header from "../../components/Header";
 import { useQuery } from "@tanstack/react-query";
-import { ProfileFormSkeleton } from "../../components/skeletons";
 import {
     axiosAPIInstance,
     axiosContractInstance,
@@ -18,6 +14,8 @@ import { updateProfileMintingMutation } from "../../graphql/graphqlMutations";
 import { useQueryClient } from "@tanstack/react-query";
 import emails from "../../constants/email";
 import { BigClipLoader } from "../../components/Loader";
+import ReactPaginate from "react-paginate";
+
 export default function Explore() {
     const queryClient = useQueryClient();
 
@@ -26,11 +24,6 @@ export default function Explore() {
         isError: profileListError,
         data: profiles,
     } = useQuery(["getProfiles"], async () => getProfilesQuery());
-
-    if (isProfilesLoading) {
-        return <BigClipLoader color="tertiary" />;
-    }
-    let profileList;
 
     const handleMint = async (profile: Profile) => {
         const response = await axiosContractInstance.post("/contract", {
@@ -61,10 +54,13 @@ export default function Explore() {
     };
     const handleRejection = (profile: Profile) => console.log(profile);
 
+    let profileList: any[] = [];
+    // Here we use item offsets; we could also use page offsets
+    // following the API or data you're working with.
     if (!isProfilesLoading && !profileListError && profiles) {
         profileList = profiles?.map(
             (profile: any) =>
-                profile && (
+                profile && !profile.minted && (
                     <ProfileReview
                         profile={profile}
                         key={profile.handle}
@@ -73,6 +69,30 @@ export default function Explore() {
                     />
                 )
         );
+    }
+
+    const [itemOffset, setItemOffset] = useState(0);
+
+    const itemsPerPage = 5;
+    const endOffset = itemOffset + itemsPerPage;
+    const currentList = profileList?.slice(itemOffset, endOffset);
+    const [pageCount, setPageCount] = useState(1)
+
+    useEffect(() => {
+        setPageCount(profileList.length / itemsPerPage);
+    }, [profileList.length])
+
+
+    const handlePageClick = (event: any) => {
+        const newOffset = (event.selected * itemsPerPage) % profileList.length;
+
+        setItemOffset(newOffset);
+        window.scrollTo(0, 0)
+
+    };
+
+    if (isProfilesLoading) {
+        return <BigClipLoader color="tertiary" />;
     }
 
     return (
@@ -85,7 +105,22 @@ export default function Explore() {
                 >
                     Profiles In Queue
                 </h1>
-                {profileList}
+                {currentList}
+                <div className="p-10">
+                    <ReactPaginate
+                        activeClassName="px-4 py-2 rounded-full bg-secondary text-white"
+                        breakLabel="..."
+                        nextLabel=">"
+                        nextClassName="px-4 py-2 bg-white rounded-full font-bold shadow-md mx-5"
+                        previousLabel="<"
+                        previousClassName="px-4 py-2 bg-white rounded-full font-bold shadow-md mx-5"
+                        onPageChange={handlePageClick}
+                        pageRangeDisplayed={5}
+                        pageCount={pageCount}
+                        pageClassName="mx-2 text-white"
+                        containerClassName="w-max-[500px] flex flex-row items-center justify-center"
+                    />
+                </div>
             </div>
         </section>
     );
